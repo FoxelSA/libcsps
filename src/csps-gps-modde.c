@@ -230,9 +230,6 @@
                                 /* Memorize current timestemp */
                                 cspsTimestamp = cspsDEVsyn[cspsIndex];
 
-                                fprintf( stdout, "%lu.%lu  ", csps_timestamp_sec( csps_timestamp( ( csps_Void_t * ) cspsRec ) ), csps_timestamp_usec( csps_timestamp( ( csps_Void_t * ) cspsRec ) ) );
-                                fprintf( stdout, "%lu.%lu\n", csps_timestamp_sec( cspsDEVsyn[cspsIndex] ), csps_timestamp_usec( cspsDEVsyn[cspsIndex] ) );
-
                                 /* Update reading index */
                                 cspsIndex += csps_Size_s( 1 );
 

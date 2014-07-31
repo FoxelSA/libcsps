@@ -102,105 +102,110 @@
             /* Search signal loss range */
             while ( csps_qbf_threshold( cspsDEVqbf[cspsParse] ) != CSPS_FALSE ) cspsParse++;
 
-            /* Verify if loss range is present */
-            if ( ( cspsLoss -- ) != cspsParse ) {
+            /* Check boundaries */
+            if ( cspsLoss < ( cspsSize - CSPS_GPS_MODRS_BOUND ) ) {
 
-                /* Reset derivative variables */
-                cspsDR1cnt = csps_Size_s(   0 );
-                cspsDR2cnt = csps_Size_s(   0 );
-                cspsDR1lat = csps_Real_s( 0.0 );
-                cspsDR2lat = csps_Real_s( 0.0 );
-                cspsDR1lon = csps_Real_s( 0.0 );
-                cspsDR2lon = csps_Real_s( 0.0 );
-                cspsDR1alt = csps_Real_s( 0.0 );
-                cspsDR2alt = csps_Real_s( 0.0 );
+                /* Verify if loss range is present */
+                if ( ( cspsLoss -- ) != cspsParse ) {
 
-                /* Computation of the derivatives */
-                for ( cspsIndex = csps_Size_s( 1 ) ; cspsIndex <= CSPS_GPS_MODRS_BOUND - csps_Size_s( 1 ) ; cspsIndex ++ ) {
+                    /* Reset derivative variables */
+                    cspsDR1cnt = csps_Size_s(   0 );
+                    cspsDR2cnt = csps_Size_s(   0 );
+                    cspsDR1lat = csps_Real_s( 0.0 );
+                    cspsDR2lat = csps_Real_s( 0.0 );
+                    cspsDR1lon = csps_Real_s( 0.0 );
+                    cspsDR2lon = csps_Real_s( 0.0 );
+                    cspsDR1alt = csps_Real_s( 0.0 );
+                    cspsDR2alt = csps_Real_s( 0.0 );
 
-                    /* Verify signal quality */
-                    if ( ( csps_qbf_threshold( cspsDEVqbf[cspsLoss - cspsIndex] ) == CSPS_FALSE ) || ( cspsIndex == 1 ) ) {
+                    /* Computation of the derivatives */
+                    for ( cspsIndex = csps_Size_s( 1 ) ; cspsIndex <= CSPS_GPS_MODRS_BOUND - csps_Size_s( 1 ) ; cspsIndex ++ ) {
 
-                        /* Compute left bound derivative */
-                        cspsDR1lat += ( cspsDEVlat[cspsLoss] - cspsDEVlat[cspsLoss - cspsIndex] ) /
-                                      ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss], cspsDEVsyn[cspsLoss - cspsIndex] ) ) );
-                        cspsDR1lon += ( cspsDEVlon[cspsLoss] - cspsDEVlon[cspsLoss - cspsIndex] ) /
-                                      ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss], cspsDEVsyn[cspsLoss - cspsIndex] ) ) );
-                        cspsDR1alt += ( cspsDEValt[cspsLoss] - cspsDEValt[cspsLoss - cspsIndex] ) /
-                                      ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss], cspsDEVsyn[cspsLoss - cspsIndex] ) ) );
+                        /* Verify signal quality */
+                        if ( ( csps_qbf_threshold( cspsDEVqbf[cspsLoss - cspsIndex] ) == CSPS_FALSE ) || ( cspsIndex == 1 ) ) {
 
-                        /* Update derivative count */
-                        cspsDR1cnt += csps_Size_s( 1 );
+                            /* Compute left bound derivative */
+                            cspsDR1lat += ( cspsDEVlat[cspsLoss] - cspsDEVlat[cspsLoss - cspsIndex] ) /
+                                          ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss], cspsDEVsyn[cspsLoss - cspsIndex] ) ) );
+                            cspsDR1lon += ( cspsDEVlon[cspsLoss] - cspsDEVlon[cspsLoss - cspsIndex] ) /
+                                          ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss], cspsDEVsyn[cspsLoss - cspsIndex] ) ) );
+                            cspsDR1alt += ( cspsDEValt[cspsLoss] - cspsDEValt[cspsLoss - cspsIndex] ) /
+                                          ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss], cspsDEVsyn[cspsLoss - cspsIndex] ) ) );
+
+                            /* Update derivative count */
+                            cspsDR1cnt += csps_Size_s( 1 );
+
+                        }
+
+                        /* Verify signal quality */
+                        if ( ( csps_qbf_threshold( cspsDEVqbf[cspsParse + cspsIndex] ) == CSPS_FALSE ) || ( cspsIndex == 1 ) ) {
+
+                            /* Compute right bound derivative */
+                            cspsDR2lat += ( cspsDEVlat[cspsParse + cspsIndex] - cspsDEVlat[cspsParse] ) /
+                                          ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse + cspsIndex], cspsDEVsyn[cspsParse] ) ) );
+                            cspsDR2lon += ( cspsDEVlon[cspsParse + cspsIndex] - cspsDEVlon[cspsParse] ) /
+                                          ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse + cspsIndex], cspsDEVsyn[cspsParse] ) ) );
+                            cspsDR2alt += ( cspsDEValt[cspsParse + cspsIndex] - cspsDEValt[cspsParse] ) /
+                                          ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse + cspsIndex], cspsDEVsyn[cspsParse] ) ) );
+
+                            /* Update derivative count */
+                            cspsDR2cnt += csps_Size_s( 1 );
+
+                        }
 
                     }
 
-                    /* Verify signal quality */
-                    if ( ( csps_qbf_threshold( cspsDEVqbf[cspsParse + cspsIndex] ) == CSPS_FALSE ) || ( cspsIndex == 1 ) ) {
+                    /* Compute derivative mean */
+                    cspsDR1lat /= ( csps_Real_t ) cspsDR1cnt;
+                    cspsDR2lat /= ( csps_Real_t ) cspsDR2cnt;
+                    cspsDR1lon /= ( csps_Real_t ) cspsDR1cnt;
+                    cspsDR2lon /= ( csps_Real_t ) cspsDR2cnt;
+                    cspsDR1alt /= ( csps_Real_t ) cspsDR1cnt;
+                    cspsDR2alt /= ( csps_Real_t ) cspsDR2cnt;
 
-                        /* Compute right bound derivative */
-                        cspsDR2lat += ( cspsDEVlat[cspsParse + cspsIndex] - cspsDEVlat[cspsParse] ) /
-                                      ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse + cspsIndex], cspsDEVsyn[cspsParse] ) ) );
-                        cspsDR2lon += ( cspsDEVlon[cspsParse + cspsIndex] - cspsDEVlon[cspsParse] ) /
-                                      ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse + cspsIndex], cspsDEVsyn[cspsParse] ) ) );
-                        cspsDR2alt += ( cspsDEValt[cspsParse + cspsIndex] - cspsDEValt[cspsParse] ) /
-                                      ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse + cspsIndex], cspsDEVsyn[cspsParse] ) ) );
+                    /* Signal rebuilding loop */
+                    for ( cspsIndex = cspsLoss ; cspsIndex < cspsParse ; cspsIndex ++ ) {
 
-                        /* Update derivative count */
-                        cspsDR2cnt += csps_Size_s( 1 );
+                        /* Signal rebuilding by spline */
+                        cspsDEVlat[cspsIndex] = csps_math_spline_czero( CSPS_MATH_SPLINE_RESET,
+
+                            csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsIndex], cspsDEVsyn[cspsLoss] ) ),
+                            csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss ], cspsDEVsyn[cspsLoss] ) ),
+                            csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse], cspsDEVsyn[cspsLoss] ) ),
+                            cspsDEVlat[cspsLoss ],
+                            cspsDEVlat[cspsParse],
+                            cspsDR1lat,
+                            cspsDR2lat
+
+                        );
+
+                        /* Signal rebuilding by spline */
+                        cspsDEVlon[cspsIndex] = csps_math_spline_czero( CSPS_MATH_SPLINE_RESET,
+
+                            csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsIndex], cspsDEVsyn[cspsLoss] ) ),
+                            csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss ], cspsDEVsyn[cspsLoss] ) ),
+                            csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse], cspsDEVsyn[cspsLoss] ) ),
+                            cspsDEVlon[cspsLoss ],
+                            cspsDEVlon[cspsParse],
+                            cspsDR1lon,
+                            cspsDR2lon
+
+                        );
+
+                        /* Signal rebuilding by spline */
+                        cspsDEValt[cspsIndex] = csps_math_spline_czero( CSPS_MATH_SPLINE_RESET,
+
+                            csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsIndex], cspsDEVsyn[cspsLoss] ) ),
+                            csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss ], cspsDEVsyn[cspsLoss] ) ),
+                            csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse], cspsDEVsyn[cspsLoss] ) ),
+                            cspsDEValt[cspsLoss ],
+                            cspsDEValt[cspsParse],
+                            cspsDR1alt,
+                            cspsDR2alt
+
+                        );
 
                     }
-
-                }
-
-                /* Compute derivative mean */
-                cspsDR1lat /= ( csps_Real_t ) cspsDR1cnt;
-                cspsDR2lat /= ( csps_Real_t ) cspsDR2cnt;
-                cspsDR1lon /= ( csps_Real_t ) cspsDR1cnt;
-                cspsDR2lon /= ( csps_Real_t ) cspsDR2cnt;
-                cspsDR1alt /= ( csps_Real_t ) cspsDR1cnt;
-                cspsDR2alt /= ( csps_Real_t ) cspsDR2cnt;
-
-                /* Signal rebuilding loop */
-                for ( cspsIndex = cspsLoss ; cspsIndex < cspsParse ; cspsIndex ++ ) {
-
-                    /* Signal rebuilding by spline */
-                    cspsDEVlat[cspsIndex] = csps_math_spline_czero( CSPS_MATH_SPLINE_RESET,
-
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsIndex], cspsDEVsyn[cspsLoss] ) ),
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss ], cspsDEVsyn[cspsLoss] ) ),
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse], cspsDEVsyn[cspsLoss] ) ),
-                        cspsDEVlat[cspsLoss ],
-                        cspsDEVlat[cspsParse],
-                        cspsDR1lat,
-                        cspsDR2lat
-
-                    );
-
-                    /* Signal rebuilding by spline */
-                    cspsDEVlon[cspsIndex] = csps_math_spline_czero( CSPS_MATH_SPLINE_RESET,
-
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsIndex], cspsDEVsyn[cspsLoss] ) ),
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss ], cspsDEVsyn[cspsLoss] ) ),
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse], cspsDEVsyn[cspsLoss] ) ),
-                        cspsDEVlon[cspsLoss ],
-                        cspsDEVlon[cspsParse],
-                        cspsDR1lon,
-                        cspsDR2lon
-
-                    );
-
-                    /* Signal rebuilding by spline */
-                    cspsDEValt[cspsIndex] = csps_math_spline_czero( CSPS_MATH_SPLINE_RESET,
-
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsIndex], cspsDEVsyn[cspsLoss] ) ),
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss ], cspsDEVsyn[cspsLoss] ) ),
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse], cspsDEVsyn[cspsLoss] ) ),
-                        cspsDEValt[cspsLoss ],
-                        cspsDEValt[cspsParse],
-                        cspsDR1alt,
-                        cspsDR2alt
-
-                    );
 
                 }
 
