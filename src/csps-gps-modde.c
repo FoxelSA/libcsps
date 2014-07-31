@@ -87,6 +87,10 @@
 
         /* Timestamp buffer value */
         csps_Time_t cspsTimestamp = csps_Time_s( 0 );
+        csps_Time_t cspsInitBreak = csps_Time_s( 0 );
+
+        /* FPGA GPS event logger microsecond rebuilding variable */
+        csps_Size_t cspsModShift = csps_Size_s( 0 );
 
         /* Paths string buffer */
         csps_Char_t cspsDEVlogp[CSPS_STR_LEN] = CSPS_STR_INI;
@@ -157,41 +161,85 @@
                         /* Read GPS NMEA sentence and retrieve type */
                         cspsSentenceType = csps_nmea_sentence( cspsRec + csps_Size_s( 8 ), cspsSentence );
 
-                        /* GPS NMEA GGA sentence process */
+                        /* GPS NMEA GGA sentence filter */
                         if ( cspsSentenceType == CSPS_NMEA_IDENT_GGA ) {
 
-                            /* Decompose NMEA GGA sentence */
-                            csps_nmea_gga( cspsSentence, NULL,
+                            /* GPS NMEA GGA sentence validation */
+                            if ( csps_nmea_gga_validate( cspsSentence ) == CSPS_TRUE ) {
 
-                                /* Sending data buffers to decomposer */
-                                cspsDEVlat + cspsIndex,
-                                cspsDEVlon + cspsIndex,
-                                cspsDEValt + cspsIndex,
-                                cspsDEVqbf + cspsIndex
+                                /* Decompose NMEA GGA sentence */
+                                csps_nmea_gga( cspsSentence, NULL,
 
-                            );
+                                    /* Sending data buffers to decomposer */
+                                    cspsDEVlat + cspsIndex,
+                                    cspsDEVlon + cspsIndex,
+                                    cspsDEValt + cspsIndex,
+                                    cspsDEVqbf + cspsIndex
 
-                            /* Retrieve FGPA timestamp - Rebuilding process */
-                            if ( cspsParse == csps_Size_s( 0 ) ) {
+                                );
 
-                                /* Set initial timestamp */
-                                cspsDEVsyn[cspsIndex] = csps_timestamp( ( csps_Void_t * ) cspsRec );
+                                /* Check rebuilding mode */
+                                if ( cspsModShift == csps_Size_s( 0 ) ) {
 
-                            } else {
+                                    /* Rebuild FPGA timestamp based on 1pps trigger */
+                                    if ( cspsParse == csps_Size_s( 0 ) ) {
 
-                                /* Timestamp rebuilding process */
-                                cspsDEVsyn[cspsIndex] = csps_timestamp_add( cspsTimestamp, csps_Time_s( 200000 ) );
+                                        /* Consider FPGA initial timestamp for first segment reconstruction */
+                                        cspsDEVsyn[cspsIndex] = csps_timestamp( ( csps_Void_t * ) cspsRec );
+
+                                        /* Memorize initial unix timestamp second */
+                                        cspsInitBreak = csps_timestamp_sec( cspsDEVsyn[cspsIndex] );
+
+                                    } else {
+
+                                        /* Search for initial complete second range */
+                                        if ( csps_timestamp_sec( csps_timestamp( ( csps_Void_t * ) cspsRec ) ) == cspsInitBreak ) {
+
+                                            /* Build current timestamp based on previous */
+                                            cspsDEVsyn[cspsIndex] = csps_timestamp_add( cspsTimestamp, csps_Time_s( 200000 ) );
+
+                                        } else {
+
+                                            /* Consider FPGA timestamp for initial reset */
+                                            cspsDEVsyn[cspsIndex] = csps_timestamp( ( csps_Void_t * ) cspsRec );
+
+                                            /* Set the modular shift parameter */
+                                            cspsModShift = cspsParse;
+
+                                        }
+
+                                    }
+
+                                } else {
+
+                                    /* Verify congurence reset condition */
+                                    if ( ( ( cspsParse - cspsModShift ) % cspsDevice.dvifreq ) == 0 ) {
+
+                                        /* Consider FPGA timestamp for periodic reset */
+                                        cspsDEVsyn[cspsIndex] = csps_timestamp( ( csps_Void_t * ) cspsRec );
+
+                                    } else {
+
+                                        /* Build current timestamp based on previous */
+                                        cspsDEVsyn[cspsIndex] = csps_timestamp_add( cspsTimestamp, csps_Time_s( 200000 ) );
+
+                                    }
+
+                                }
+
+                                /* Memorize current timestemp */
+                                cspsTimestamp = cspsDEVsyn[cspsIndex];
+
+                                fprintf( stdout, "%lu.%lu  ", csps_timestamp_sec( csps_timestamp( ( csps_Void_t * ) cspsRec ) ), csps_timestamp_usec( csps_timestamp( ( csps_Void_t * ) cspsRec ) ) );
+                                fprintf( stdout, "%lu.%lu\n", csps_timestamp_sec( cspsDEVsyn[cspsIndex] ), csps_timestamp_usec( cspsDEVsyn[cspsIndex] ) );
+
+                                /* Update reading index */
+                                cspsIndex += csps_Size_s( 1 );
+
+                                /* Update overall parse index */
+                                cspsParse += csps_Size_s( 1 );
 
                             }
-
-                            /* Save previous timestamp */
-                            cspsTimestamp = cspsDEVsyn[cspsIndex];
-
-                            /* Update reading index */
-                            cspsIndex += csps_Size_s( 1 );
-
-                            /* Update overall parse index */
-                            cspsParse += csps_Size_s( 1 );
 
                         }
 

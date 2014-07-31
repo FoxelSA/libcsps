@@ -64,8 +64,8 @@
  */
 
     /* Define relative root paths */
-    # define CSPS_PATH_CSPS     "cstream_CSPS"
-    # define CSPS_PATH_FGPA     "cstream_Logs"
+    # define CSPS_PATH_CSPS     "stream_CSPS"
+    # define CSPS_PATH_FGPA     "stream_Logs"
 
 /*
     Header - Preprocessor macros

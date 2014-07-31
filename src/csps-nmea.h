@@ -112,6 +112,12 @@
 
     );
 
+    csps_Enum_t csps_nmea_gga_validate( 
+
+        const csps_Char_t * const cspsSentence
+
+    );
+
     csps_Enum_t csps_nmea_sentence(
 
         const csps_Byte_t * const cspsRec,

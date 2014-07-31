@@ -206,6 +206,54 @@
     }
 
 /*
+    Source - GPS NMEA sentence validation
+ */
+
+    csps_Enum_t csps_nmea_gga_validate( const csps_Char_t * const cspsSentence ) {
+
+        /* Parse variables */
+        csps_Size_t cspsIndex = csps_Size_s( 0 );
+
+        /* Validation stack */
+        csps_Size_t cspsStack = csps_Size_s( 0 );
+
+        /* Sentence lenght */
+        csps_Size_t cspsLength = strlen( cspsSentence );
+
+        /* Parse NMEA/GGA sentence */
+        while ( ( cspsStack < 11 ) && ( cspsIndex < cspsLength ) ) {
+
+            /* Check for commas characters */
+            if ( * ( cspsSentence + ( cspsIndex ++ ) ) == ',' ) cspsStack ++;
+
+        }
+
+        /* End of string reached too early */
+        if ( ( cspsIndex == cspsLength ) && ( cspsStack != 11 ) ) {
+
+            /* Unvalidate sentence */
+            return( CSPS_FALSE );
+
+        } else {
+
+            /* Check for GGA specific format */
+            if ( * ( cspsSentence + cspsIndex ) == 'M' ) {
+
+                /* Validate sentence */
+                return( CSPS_TRUE );
+
+            } else {
+
+                /* Unvalidate sentence */
+                return( CSPS_FALSE );
+
+            }
+
+        }
+
+    }
+
+/*
     Source - GPS NMEA sentence reader
  */
 
