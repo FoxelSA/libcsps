@@ -66,12 +66,18 @@
         csps_Real_t cspsACCacx = csps_Real_s( 0.0 );
         csps_Real_t cspsACCacy = csps_Real_s( 0.0 );
         csps_Real_t cspsACCacz = csps_Real_s( 0.0 );
+        csps_Real_t cspsACCgrx = csps_Real_s( 0.0 );
+        csps_Real_t cspsACCgry = csps_Real_s( 0.0 );
+        csps_Real_t cspsACCgrz = csps_Real_s( 0.0 );
         csps_Real_t cspsACCnrm = csps_Real_s( 0.0 );
 
         /* Data buffers */
         csps_Real_t * cspsDEVacx = NULL;
         csps_Real_t * cspsDEVacy = NULL;
         csps_Real_t * cspsDEVacz = NULL;
+        csps_Real_t * cspsDEVgrx = NULL;
+        csps_Real_t * cspsDEVgry = NULL;
+        csps_Real_t * cspsDEVgrz = NULL;
         csps_Time_t * cspsDEVsyn = NULL;
 
         /* Obtain stream size */
@@ -81,22 +87,30 @@
         cspsDEVacx = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "acx", sizeof( csps_Real_t ) * cspsSize );
         cspsDEVacy = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "acy", sizeof( csps_Real_t ) * cspsSize );
         cspsDEVacz = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "acz", sizeof( csps_Real_t ) * cspsSize );
+        cspsDEVgrx = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "grx", sizeof( csps_Real_t ) * cspsSize );
+        cspsDEVgry = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "gry", sizeof( csps_Real_t ) * cspsSize );
+        cspsDEVgrz = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "grz", sizeof( csps_Real_t ) * cspsSize );
         cspsDEVsyn = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "syn", sizeof( csps_Time_t ) * cspsSize );
 
         /* Downsampling procedure */
         while ( cspsParse < ( csps_Size_s( 5 ) * cspsDevice.dvdfreq ) ) {
 
-            /* Acceleration accumulation */
+            /* Accelerometer signal accumulation */
             cspsACCacx += cspsDEVacx[cspsParse];
             cspsACCacy += cspsDEVacy[cspsParse];
             cspsACCacz += cspsDEVacz[cspsParse];
+
+            /* Gyroscope signal accumulation */
+            cspsACCgrx += cspsDEVgrx[cspsParse];
+            cspsACCgry += cspsDEVgry[cspsParse];
+            cspsACCgrz += cspsDEVgrz[cspsParse];
 
             /* Update parse index */
             cspsParse += csps_Size_s( 1 );
 
         }
 
-        /* Acceleration accumulation average */
+        /* Accelerometer accumulation average */
         cspsACCacx /= cspsParse;
         cspsACCacy /= cspsParse;
         cspsACCacz /= cspsParse;
@@ -104,33 +118,46 @@
         /* Compute average acceleration norm */
         cspsACCnrm = sqrt( cspsACCacx * cspsACCacx + cspsACCacy * cspsACCacy + cspsACCacz * cspsACCacz );
 
-        /* Initial frame generate - z-vector */
-        cspsDevice.dvfzx = + cspsACCacx / cspsACCnrm;
-        cspsDevice.dvfzy = + cspsACCacy / cspsACCnrm;
-        cspsDevice.dvfzz = + cspsACCacz / cspsACCnrm;
+        /* Normalize acceleration vector */
+        cspsACCacx /= cspsACCnrm;
+        cspsACCacy /= cspsACCnrm;
+        cspsACCacz /= cspsACCnrm;
 
-        /* Initial frame generate - x-vector */
-        cspsDevice.dvfxx = + cspsDevice.dvfzy;
-        cspsDevice.dvfxy = - cspsDevice.dvfzx;
-        cspsDevice.dvfxz = + csps_Real_s( 0.0 );
+        /* Gyroscope accumulation average */
+        cspsACCgrx /= cspsParse;
+        cspsACCgry /= cspsParse;
+        cspsACCgrz /= cspsParse;
 
-        /* Vector renormalization x-vector */
-        cspsACCnrm = sqrt( cspsDevice.dvfxx * cspsDevice.dvfxx + cspsDevice.dvfxy * cspsDevice.dvfxy + cspsDevice.dvfxz * cspsDevice.dvfxz );
+        /* Compute average acceleration norm */
+        cspsACCnrm = sqrt( cspsACCgrx * cspsACCgrx + cspsACCgry * cspsACCgry + cspsACCgrz * cspsACCgrz );
 
-        /* Vector renormalization x-vector */
-        cspsDevice.dvfxx /= cspsACCnrm;
-        cspsDevice.dvfxy /= cspsACCnrm;
-        cspsDevice.dvfxz /= cspsACCnrm;
+        /* Normalize acceleration vector */
+        cspsACCgrx /= cspsACCnrm;
+        cspsACCgry /= cspsACCnrm;
+        cspsACCgrz /= cspsACCnrm;
 
-        /* Initial frame generate - y-vector */
-        cspsDevice.dvfyx = cspsDevice.dvfzy * cspsDevice.dvfxz - cspsDevice.dvfzz * cspsDevice.dvfxy;
-        cspsDevice.dvfyy = cspsDevice.dvfzz * cspsDevice.dvfxx - cspsDevice.dvfzx * cspsDevice.dvfxz;
-        cspsDevice.dvfyz = cspsDevice.dvfzx * cspsDevice.dvfxy - cspsDevice.dvfzy * cspsDevice.dvfxx;
+        /* Align z-vector to gravity reaction */
+        cspsDevice.dvfzx = + cspsACCacx;
+        cspsDevice.dvfzy = + cspsACCacy;
+        cspsDevice.dvfzz = + cspsACCacz;
+
+        /* Align x-vector to gravity/earth rate normal */
+        cspsDevice.dvfyx = - cspsACCacy * cspsACCgrz + cspsACCacz * cspsACCgry;
+        cspsDevice.dvfyy = - cspsACCacz * cspsACCgrx + cspsACCacx * cspsACCgrz;
+        cspsDevice.dvfyz = - cspsACCacx * cspsACCgry + cspsACCacy * cspsACCgrx;
+
+        /* Align y-vector to x-z crossed product */
+        cspsDevice.dvfxx = - cspsDevice.dvfyy * cspsDevice.dvfzz + cspsDevice.dvfyz * cspsDevice.dvfzy;
+        cspsDevice.dvfxy = - cspsDevice.dvfyz * cspsDevice.dvfzx + cspsDevice.dvfyx * cspsDevice.dvfzz;
+        cspsDevice.dvfxz = - cspsDevice.dvfyx * cspsDevice.dvfzy + cspsDevice.dvfyy * cspsDevice.dvfzx;
 
         /* Unallocate buffer memory */
         free( cspsDEVacx );
         free( cspsDEVacy );
         free( cspsDEVacz );
+        free( cspsDEVgrx );
+        free( cspsDEVgry );
+        free( cspsDEVgrz );
         free( cspsDEVsyn );
 
         /* Return device descriptor */
