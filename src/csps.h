@@ -113,11 +113,11 @@
     typedef FILE *  csps_File_t;
 
     /* Define literal suffix */
-    # define csps_Size_s(x)     INT64_C(x)
-    # define csps_Enum_s(x)     INT64_C(x)
-    # define csps_Real_s(x)     x
-    # define csps_Byte_s(x)     UINT8_C(x)
-    # define csps_Char_s(x)     x
+    # define csps_Size_s( x )   INT64_C( x )
+    # define csps_Enum_s( x )   INT64_C( x )
+    # define csps_Real_s( x )   ( x )
+    # define csps_Byte_s( x )   UINT8_C( x )
+    # define csps_Char_s( x )   ( x )
 
     /* Define formated output specifiers */
     # define csps_Size_p        PRId64
@@ -134,7 +134,7 @@
     # define csps_Char_i        "c"
 
     /* Define floating point operator */
-    # define csps_trunc(x)      trunc(x)
+    # define csps_trunc( x )    trunc( x )
 
 /*
     Header - Structures

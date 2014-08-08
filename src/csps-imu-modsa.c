@@ -41,13 +41,13 @@
     Source - Includes
  */
 
-    # include "csps-imu-modga.h"
+    # include "csps-imu-modsa.h"
 
 /*
     Source - Gravity alignment procedure
  */
 
-    csps_IMU csps_imu_modga(
+    csps_IMU csps_imu_modsa(
 
         const csps_Char_t * const cspsPath,
         csps_IMU cspsDevice,

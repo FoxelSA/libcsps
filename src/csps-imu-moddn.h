@@ -41,39 +41,34 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_ALL__
-    # define __LIBCSPS_CSPS_ALL__
+    # ifndef __LIBCSPS_CSPS_IMU_MODDN__
+    # define __LIBCSPS_CSPS_IMU_MODDN__
 
 /*
     Header - C/C++ compatibility
  */
 
+    # ifdef __cplusplus
+    extern "C" {
+    # endif
+
 /*
     Header - Includes
  */
 
-    # include "csps-cam-modde.h"
+    # include "csps.h"
     # include "csps-device.h"
-    # include "csps-gps-modde.h"
-    # include "csps-gps-modrs.h"
-    # include "csps-imu-modaa.h"
-    # include "csps-imu-modde.h"
-    # include "csps-imu-moddn.h"
-    # include "csps-imu-modfi.h"
-    # include "csps-imu-modrd.h"
-    # include "csps-imu-modsa.h"
-    # include "csps-math.h"
-    # include "csps-nmea.h"
     # include "csps-path.h"
-    # include "csps-qbf.h"
-    # include "csps-query.h"
     # include "csps-stream.h"
-    # include "csps-system.h"
     # include "csps-timestamp.h"
 
 /*
     Header - Preprocessor definitions
  */
+
+    /* CSPS module identification */
+    # define CSPS_IMU_MODDN_DEV "imu"
+    # define CSPS_IMU_MODDN_MOD "moddn"
 
 /*
     Header - Preprocessor macros
@@ -91,9 +86,31 @@
     Header - Function prototypes
  */
 
+    csps_IMU csps_imu_moddn(
+
+        const csps_Char_t * const cspsPath,
+        csps_IMU cspsDevice,
+        const csps_Char_t * const cspsName,
+        const csps_Char_t * const cspsPS__
+
+    );
+
+    csps_Real_t * csps_imu_moddn_tvic(
+
+        const csps_Real_t * const cspsSignal,
+        csps_Size_t cspsSize,
+        csps_Size_t cspsRegularity,
+        csps_Size_t cspsIteration
+
+    );
+
 /*
     Header - C/C++ compatibility
  */
+
+    # ifdef __cplusplus
+    }
+    # endif
 
 /*
     Header - Include guard

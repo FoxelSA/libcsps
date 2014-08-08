@@ -62,9 +62,10 @@
     # include "csps-gps-modde.h"
     # include "csps-gps-modrs.h"
     # include "csps-imu-modde.h"
+    # include "csps-imu-moddn.h"
     # include "csps-imu-modrd.h"
     # include "csps-imu-modfi.h"
-    # include "csps-imu-modga.h"
+    # include "csps-imu-modsa.h"
     # include "csps-imu-modaa.h"
 
 /*

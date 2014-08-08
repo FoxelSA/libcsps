@@ -69,9 +69,10 @@
 
         /* CSPS IMU process line */
         cspsADIS = csps_imu_modrd( cspsPath, cspsADIS, "adis16375", "modde" );
-        cspsADIS = csps_imu_modga( cspsPath, cspsADIS, "adis16375", "modrd" );
-        cspsADIS = csps_imu_modfi( cspsPath, cspsADIS, "adis16375", "modrd" );
-        cspsADIS = csps_imu_modaa( cspsPath, cspsADIS, "adis16375", "modrd", "modfi" );
+        cspsADIS = csps_imu_moddn( cspsPath, cspsADIS, "adis16375", "modrd" );
+        cspsADIS = csps_imu_modsa( cspsPath, cspsADIS, "adis16375", "moddn" );
+        cspsADIS = csps_imu_modfi( cspsPath, cspsADIS, "adis16375", "moddn" );
+        cspsADIS = csps_imu_modaa( cspsPath, cspsADIS, "adis16375", "moddn", "modfi" );
 
     }
 

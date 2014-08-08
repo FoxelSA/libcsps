@@ -86,7 +86,7 @@
     Header - Function prototypes
  */
 
-    csps_IMU csps_imu_modga(
+    csps_IMU csps_imu_modsa(
 
         const csps_Char_t * const cspsPath,
         csps_IMU cspsDevice,
