@@ -67,9 +67,6 @@
     Header - Preprocessor definitions
  */
 
-    /* Define debuging marker */
-    //# define CSPS_DEBUG(s) { fprintf( stdout, "DEVPOINT(%d,%s,%s)\n", __LINE__, __FILE__, s ); }
-
     /* Define default truth values */
     # define CSPS_FALSE             csps_Enum_s( 0 )
     # define CSPS_TRUE              csps_Enum_s( 1 )
@@ -78,7 +75,7 @@
     # define CSPS_STR_LEN           csps_Size_s( 256 )
 
     /* Define default initializer */
-    # define CSPS_STR_INI           ""
+    # define CSPS_STR_INI           { '\0' }
 
     /* Declare mathematical constants */
     # define CSPS_PI                csps_Real_s( 3.14159265358979323846264338327 )
@@ -135,6 +132,9 @@
 
     /* Define floating point operator */
     # define csps_trunc( x )    trunc( x )
+    # define csps_floor( x )    floor( x )
+    # define csps_ceil ( x )    ceil ( x )
+    # define csps_fabs ( x )    fabs ( x )
 
 /*
     Header - Structures

@@ -67,7 +67,7 @@
 
     /* CSPS module identification */
     # define CSPS_CAM_MODDE_DEV "cam"
-    # define CSPS_CAM_MODDE_MOD "modde"
+    # define CSPS_CAM_MODDE_MOD "modde" //extra
 
 /*
     Header - Preprocessor macros
