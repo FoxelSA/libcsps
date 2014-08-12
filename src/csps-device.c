@@ -89,9 +89,9 @@
             cspsDevice.dvGYRz = ( csps_Real_s( 0.013108 ) / csps_Real_s( 65536.0 ) ) * ( CSPS_PI / csps_Real_s( 180.0 ) );
 
             /* Assign configuration - Accelerometre */
-            cspsDevice.dvACCx = ( csps_Real_s( 0.8192 ) * csps_Real_s( 9.8 ) ) / ( csps_Real_s( 65536000.0 ) );
-            cspsDevice.dvACCy = ( csps_Real_s( 0.8192 ) * csps_Real_s( 9.8 ) ) / ( csps_Real_s( 65536000.0 ) );
-            cspsDevice.dvACCz = ( csps_Real_s( 0.8192 ) * csps_Real_s( 9.8 ) ) / ( csps_Real_s( 65536000.0 ) );
+            cspsDevice.dvACCx = ( csps_Real_s( 0.8192 ) * csps_Real_s( 9.80665 ) ) / ( csps_Real_s( 65536000.0 ) );
+            cspsDevice.dvACCy = ( csps_Real_s( 0.8192 ) * csps_Real_s( 9.80665 ) ) / ( csps_Real_s( 65536000.0 ) );
+            cspsDevice.dvACCz = ( csps_Real_s( 0.8192 ) * csps_Real_s( 9.80665 ) ) / ( csps_Real_s( 65536000.0 ) );
 
             /* Assign configuration - Default initial frame */
             cspsDevice.dvfxx = csps_Real_s( 1.0 );

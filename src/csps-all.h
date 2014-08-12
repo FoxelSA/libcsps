@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_ALL__
-    # define __LIBCSPS_CSPS_ALL__
+    # ifndef __LP_ALL__
+    # define __LP_ALL__
 
 /*
     Header - C/C++ compatibility

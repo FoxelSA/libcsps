@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_DEVICE__
-    # define __LIBCSPS_CSPS_DEVICE__
+    # ifndef __LP_DEVICE__
+    # define __LP_DEVICE__
 
 /*
     Header - C/C++ compatibility
@@ -65,6 +65,12 @@
     /* Define camera device name */
     # define CSPS_DEVICE_CAM_EYESIS4PI          "EYESIS4PI"
 
+    /* Define IMU device name */
+    # define CSPS_DEVICE_IMU_ADIS16375          "ADIS16375"
+
+    /* Define GPS device name */
+    # define CSPS_DEVICE_GPS_LS20031            "LS20031"
+
     /* Define eyesis4pi fpga log record size */
     # define CSPS_DEVICE_CAM_EYESIS4PI_RECLEN   csps_Size_s( 64 )
 
@@ -72,12 +78,6 @@
     # define CSPS_DEVICE_CAM_EYESIS4PI_IMUEVT   csps_Enum_s(  0 )
     # define CSPS_DEVICE_CAM_EYESIS4PI_GPSEVT   csps_Enum_s(  1 )
     # define CSPS_DEVICE_CAM_EYESIS4PI_MASEVT   csps_Enum_s(  2 )
-
-    /* Define IMU device name */
-    # define CSPS_DEVICE_IMU_ADIS16375          "ADIS16375"
-
-    /* Define GPS device name */
-    # define CSPS_DEVICE_GPS_LS20031            "LS20031"
 
 /*
     Header - Preprocessor macros
