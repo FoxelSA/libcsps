@@ -36,6 +36,10 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    //! @file   csps-device.h
+    //! @author Nils Hamel (n.hamel@foxel.ch)
+    //! 
+    //! CSPS device descriptor structures
 
 /*
     Header - Include guard

@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_NMEA__
-    # define __LIBCSPS_CSPS_NMEA__
+    # ifndef __LP_NMEA__
+    # define __LP_NMEA__
 
 /*
     Header - C/C++ compatibility

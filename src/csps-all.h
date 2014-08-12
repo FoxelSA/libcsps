@@ -36,6 +36,10 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    //! @file   csps-all.h
+    //! @author Nils Hamel (n.hamel@foxel.ch)
+    //! 
+    //! Library general includer
 
 /*
     Header - Include guard
