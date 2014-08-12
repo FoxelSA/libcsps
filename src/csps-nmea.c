@@ -257,10 +257,17 @@
     Source - GPS NMEA sentence reader
  */
 
-    csps_Enum_t csps_nmea_sentence( const csps_Byte_t * const cspsRec, csps_Char_t * const cspsSentence ) {
+    csps_Enum_t csps_nmea_sentence( const csps_Byte_t * const cspsRec, const csps_Size_t cspsSize, csps_Char_t * const cspsSentence ) {
 
         /* Sentence element models */
-        const csps_Char_t * const cspsModel[CSPS_NMEA_IDENT_MAX] = { CSPS_NMEA_MODEL_RMC, CSPS_NMEA_MODEL_GGA, CSPS_NMEA_MODEL_GSA, CSPS_NMEA_MODEL_VTG };
+        const csps_Char_t * const cspsModel[CSPS_NMEA_IDENT_MAX] = { 
+
+            CSPS_NMEA_MODEL_RMC,
+            CSPS_NMEA_MODEL_GGA, 
+            CSPS_NMEA_MODEL_GSA, 
+            CSPS_NMEA_MODEL_VTG 
+
+        };
 
         /* Reading variables */
         csps_Size_t cspsOffset = csps_Size_s( 0 );
@@ -292,7 +299,7 @@
                 if ( cspsModel[cspsType][cspsParse] == 'Q' ) {
 
                     /* Read elements of type quartet */
-                    while ( ( cspsElement != csps_Char_s( 0x0F ) ) && ( cspsPointer < CSPS_DEVICE_FPGA_RECLEN ) ) {
+                    while ( ( cspsElement != csps_Char_s( 0x0F ) ) && ( cspsPointer < cspsSize ) ) {
 
                         /* Obtain element */
                         cspsElement = csps_nmea_quartet( cspsRec, cspsOffset ++ );
@@ -315,7 +322,7 @@
                 } else {
 
                     /* Read Elements of type byte */
-                    while ( ( ( cspsElement & csps_Char_s( 0x80 ) ) == csps_Char_s( 0 ) ) && ( cspsPointer < CSPS_DEVICE_FPGA_RECLEN ) ) {
+                    while ( ( ( cspsElement & csps_Char_s( 0x80 ) ) == csps_Char_s( 0 ) ) && ( cspsPointer < cspsSize ) ) {
 
                         /* Obtain element */
                         cspsElement = csps_nmea_quartet( cspsRec, cspsOffset ) | ( csps_nmea_quartet( cspsRec, cspsOffset + csps_Size_s( 1 ) ) << csps_Size_s( 4 ) );
@@ -341,7 +348,7 @@
             }
 
             /* NMEA sentence failure verification */
-            if ( cspsPointer != CSPS_DEVICE_FPGA_RECLEN ) {
+            if ( cspsPointer != cspsSize ) {
 
                 /* Complete string sentence with null character */
                 cspsSentence[cspsPointer] = '\0';

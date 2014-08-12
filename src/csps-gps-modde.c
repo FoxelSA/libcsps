@@ -71,7 +71,7 @@
     csps_GPS csps_gps_LS20031( const csps_Char_t * const cspsPath, csps_GPS cspsDevice, const csps_Char_t * const cspsName ) {
 
         /* FPGA record buffer */
-        csps_Byte_t cspsRec[CSPS_DEVICE_FPGA_RECLEN];
+        csps_Byte_t cspsRec[CSPS_DEVICE_CAM_EYESIS4PI_RECLEN];
 
         /* GPS NMEA sentence buffer */
         csps_Char_t cspsSentence[CSPS_STR_LEN] = CSPS_STR_INI;
@@ -150,16 +150,16 @@
             while ( ( cspsReading == CSPS_TRUE ) && ( cspsIndex < cspsDevice.dvBlock ) ) {
 
                 /* Read FPGA record */
-                cspsReaded = fread( cspsRec, 1, CSPS_DEVICE_FPGA_RECLEN, cspsDEVlogf );
+                cspsReaded = fread( cspsRec, 1, CSPS_DEVICE_CAM_EYESIS4PI_RECLEN, cspsDEVlogf );
 
                 /* Verify FPGA record reading */
-                if ( cspsReaded == CSPS_DEVICE_FPGA_RECLEN ) {
+                if ( cspsReaded == CSPS_DEVICE_CAM_EYESIS4PI_RECLEN ) {
 
                     /* GPS signal filter */
-                    if ( ( cspsRec[3] & csps_Byte_s( 0x0F ) ) == CSPS_DEVICE_FPGA_EVENT_GPS ) {
+                    if ( ( cspsRec[3] & csps_Byte_s( 0x0F ) ) == CSPS_DEVICE_CAM_EYESIS4PI_GPSEVT ) {
 
                         /* Read GPS NMEA sentence and retrieve type */
-                        cspsSentenceType = csps_nmea_sentence( cspsRec + csps_Size_s( 8 ), cspsSentence );
+                        cspsSentenceType = csps_nmea_sentence( cspsRec + csps_Size_s( 8 ), ( CSPS_DEVICE_CAM_EYESIS4PI_RECLEN - csps_Size_s( 8 ) ) << 1, cspsSentence );
 
                         /* GPS NMEA GGA sentence filter */
                         if ( cspsSentenceType == CSPS_NMEA_IDENT_GGA ) {

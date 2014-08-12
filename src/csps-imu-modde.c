@@ -71,7 +71,7 @@
     csps_IMU csps_imu_ADIS16375( const csps_Char_t * const cspsPath, csps_IMU cspsDevice, const csps_Char_t * const cspsName ) {
 
         /* FPGA record buffer */
-        csps_Byte_t cspsRec[CSPS_DEVICE_FPGA_RECLEN];
+        csps_Byte_t cspsRec[CSPS_DEVICE_CAM_EYESIS4PI_RECLEN];
 
         /* Reading variables */
         csps_Enum_t cspsReading = CSPS_TRUE;
@@ -148,13 +148,13 @@
             while ( ( cspsReading == CSPS_TRUE ) && ( cspsIndex < cspsDevice.dvBlock ) ) {
 
                 /* Read FPGA record */
-                cspsReaded = fread( cspsRec, 1, CSPS_DEVICE_FPGA_RECLEN, cspsDEVlogf );
+                cspsReaded = fread( cspsRec, 1, CSPS_DEVICE_CAM_EYESIS4PI_RECLEN, cspsDEVlogf );
 
                 /* Verify FPGA record reading */
-                if ( cspsReaded == CSPS_DEVICE_FPGA_RECLEN ) {
+                if ( cspsReaded == CSPS_DEVICE_CAM_EYESIS4PI_RECLEN ) {
 
                     /* IMU signal filter */
-                    if ( ( cspsRec[3] & csps_Byte_s( 0x0F ) ) == CSPS_DEVICE_FPGA_EVENT_IMU ) {
+                    if ( ( cspsRec[3] & csps_Byte_s( 0x0F ) ) == CSPS_DEVICE_CAM_EYESIS4PI_IMUEVT ) {
 
                         /* Assign readed data */
                         cspsDEVgrx[cspsIndex] = ( ( csps_Real_t ) ( ( int32_t * ) cspsRec )[2] ) * cspsDevice.dvGYRx;

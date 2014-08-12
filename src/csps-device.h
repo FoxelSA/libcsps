@@ -63,22 +63,21 @@
  */
 
     /* Define camera device name */
-    # define CSPS_DEVICE_CAM_EYESIS4PI      "EYESIS4PI"
+    # define CSPS_DEVICE_CAM_EYESIS4PI          "EYESIS4PI"
+
+    /* Define eyesis4pi fpga log record size */
+    # define CSPS_DEVICE_CAM_EYESIS4PI_RECLEN   csps_Size_s( 64 )
+
+    /* Define eyesis4pi event flags */
+    # define CSPS_DEVICE_CAM_EYESIS4PI_IMUEVT   csps_Enum_s(  0 )
+    # define CSPS_DEVICE_CAM_EYESIS4PI_GPSEVT   csps_Enum_s(  1 )
+    # define CSPS_DEVICE_CAM_EYESIS4PI_MASEVT   csps_Enum_s(  2 )
 
     /* Define IMU device name */
-    # define CSPS_DEVICE_IMU_ADIS16375      "ADIS16375"
+    # define CSPS_DEVICE_IMU_ADIS16375          "ADIS16375"
 
     /* Define GPS device name */
-    # define CSPS_DEVICE_GPS_LS20031        "LS20031"
-
-    /* Define FPGA record size */
-    # define CSPS_DEVICE_FPGA_RECLEN        csps_Size_s( 64 )
-
-    /* Define FPGA events type */
-    # define CSPS_DEVICE_FPGA_EVENT_IMU     csps_Enum_s( 0 )
-    # define CSPS_DEVICE_FPGA_EVENT_GPS     csps_Enum_s( 1 )
-    # define CSPS_DEVICE_FPGA_EVENT_MAS     csps_Enum_s( 2 )
-
+    # define CSPS_DEVICE_GPS_LS20031            "LS20031"
 
 /*
     Header - Preprocessor macros

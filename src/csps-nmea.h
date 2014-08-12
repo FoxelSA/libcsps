@@ -118,9 +118,10 @@
 
     );
 
-    csps_Enum_t csps_nmea_sentence(
+    csps_Enum_t csps_nmea_sentence( 
 
-        const csps_Byte_t * const cspsRec,
+        const csps_Byte_t * const cspsRec, 
+        const csps_Size_t cspsSize, 
         csps_Char_t * const cspsSentence
 
     );
