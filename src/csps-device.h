@@ -36,10 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    //! @file   csps-device.h
-    //! @author Nils Hamel (n.hamel@foxel.ch)
-    //! 
-    //! CSPS device descriptor structures
+    /*! \file   csps-device.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  CSPS device descriptor structures
+     */
 
 /*
     Header - Include guard
@@ -95,6 +96,18 @@
     Header - Structures
  */
 
+    /*! \struct csps_CAM_struct
+     *  \brief Camera descriptor structure
+     *
+     *  The structure stores the description of a camera device engaged
+     *  in the CSPS.
+     *
+     *  \var csps_CAM_struct::dvName 
+     *  Stores the device name
+     *  \var csps_CAM_struct::dvBlock 
+     *  Stores the importation block size
+     */ 
+
     typedef struct csps_CAM_struct {
 
         /* Device name */
@@ -105,6 +118,51 @@
 
     } csps_CAM;
 
+    /*! \struct csps_IMU_struct
+     *  \brief IMU descriptor structure
+     *
+     *  The structure stores the description of an IMU device engaged
+     *  in the CSPS.
+     *
+     *  \var csps_IMU_struct::dvName 
+     *  Stores the device name
+     *  \var csps_IMU_struct::dvGYRx 
+     *  Gyroscope factory scale factor for x component
+     *  \var csps_IMU_struct::dvGYRy
+     *  Gyroscope factory scale factor for y component
+     *  \var csps_IMU_struct::dvGYRz 
+     *  Gyroscope factory scale factor for z component
+     *  \var csps_IMU_struct::dvACCx 
+     *  Accelerometer factory scale factor for x component
+     *  \var csps_IMU_struct::dvACCy
+     *  Accelerometer factory scale factor for y component
+     *  \var csps_IMU_struct::dvACCz
+     *  Accelerometer factory scale factor for z component
+     *  \var csps_IMU_struct::dvfxx
+     *  IMU frame x-component of x-vector 
+     *  \var csps_IMU_struct::dvfxy
+     *  IMU frame y-component of x-vector 
+     *  \var csps_IMU_struct::dvfxz
+     *  IMU frame z-component of x-vector 
+     *  \var csps_IMU_struct::dvfyx
+     *  IMU frame x-component of y-vector 
+     *  \var csps_IMU_struct::dvfyy
+     *  IMU frame y-component of y-vector 
+     *  \var csps_IMU_struct::dvfyz
+     *  IMU frame z-component of y-vector 
+     *  \var csps_IMU_struct::dvfzx
+     *  IMU frame x-component of z-vector 
+     *  \var csps_IMU_struct::dvfzy
+     *  IMU frame y-component of z-vector 
+     *  \var csps_IMU_struct::dvfzz
+     *  IMU frame z-component of z-vector 
+     *  \var csps_IMU_struct::dvifreq 
+     *  Device output sampling frequency
+     *  \var csps_IMU_struct::dvdfreq 
+     *  Output sampling reduced frequency
+     *  \var csps_IMU_struct::dvBlock 
+     *  Stores the importation block size
+     */ 
 
     typedef struct csps_IMU_struct {
 
@@ -133,13 +191,27 @@
         csps_Real_t dvfzz;
 
         /* IMU frequencies */
-        csps_Size_t dvifreq; /* Device frequency */
-        csps_Size_t dvdfreq; /* Downsampled frequency */
+        csps_Size_t dvifreq;
+        csps_Size_t dvdfreq;
 
         /* Size of importation block */
         csps_Size_t dvBlock;
 
     } csps_IMU;
+
+    /*! \struct csps_GPS_struct
+     *  \brief GPS descriptor structure
+     *
+     *  The structure stores the description of a GPS device engaged
+     *  in the CSPS.
+     *
+     *  \var csps_GPS_struct::dvName 
+     *  Stores the device name
+     *  \var csps_GPS_struct::dvifreq 
+     *  Device output sampling frequency
+     *  \var csps_GPS_struct::dvBlock 
+     *  Stores the importation block size
+     */ 
 
     typedef struct csps_GPS_struct {
 
