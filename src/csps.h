@@ -105,55 +105,60 @@
  */
 
     /* Define default truth values */
-    # define LP_FALSE             lp_Enum_s( 0 )
-    # define LP_TRUE              lp_Enum_s( 1 )
+    # define LP_FALSE           lp_Enum_s( 0 )
+    # define LP_TRUE            lp_Enum_s( 1 )
 
     /* Define default string length */
-    # define LP_STR_LEN           lp_Size_s( 256 )
+    # define LP_STR_LEN         lp_Size_s( 256 )
 
     /* Define default initializer */
-    # define LP_STR_INI           { '\0' }
+    # define LP_STR_INI         { '\0' }
 
     /* Declare mathematical constants */
-    # define LP_PI                lp_Real_s( 3.14159265358979323846264338327 )
+    # define LP_PI              lp_Real_s( 3.14159265358979323846264338327 )
 
 /*
     Header - Preprocessor macros
  */
 
     /* Define casting macro */
-    # define lp_Size_c( x )   ( ( lp_Size_t ) x )
-    # define lp_Enum_c( x )   ( ( lp_Enum_t ) x )
-    # define lp_Real_c( x )   ( ( lp_Real_t ) x )
-    # define lp_Byte_c( x )   ( ( lp_Byte_t ) x )
-    # define lp_Char_c( x )   ( ( lp_Char_t ) x )
+    # define lp_Size_c( x )     ( ( lp_Size_t ) x )
+    # define lp_Enum_c( x )     ( ( lp_Enum_t ) x )
+    # define lp_Real_c( x )     ( ( lp_Real_t ) x )
+    # define lp_Byte_c( x )     ( ( lp_Byte_t ) x )
+    # define lp_Char_c( x )     ( ( lp_Char_t ) x )
 
     /* Define litteral suffix */
-    # define lp_Size_s( x )   INT64_C( x )
-    # define lp_Enum_s( x )   INT64_C( x )
-    # define lp_Real_s( x )   ( x )
-    # define lp_Byte_s( x )   UINT8_C( x )
-    # define lp_Char_s( x )   ( x )
+    # define lp_Size_s( x )     INT64_C( x )
+    # define lp_Enum_s( x )     INT64_C( x )
+    # define lp_Real_s( x )     ( x )
+    # define lp_Byte_s( x )     UINT8_C( x )
+    # define lp_Char_s( x )     ( x )
 
     /* Define formated output specifiers */
-    # define lp_Size_p        PRId64
-    # define lp_Enum_p        PRId64
-    # define lp_Real_p        "lf"
-    # define lp_Byte_p        PRIu8
-    # define lp_Char_p        "c"
+    # define lp_Size_p          PRId64
+    # define lp_Enum_p          PRId64
+    # define lp_Real_p          "lf"
+    # define lp_Byte_p          PRIu8
+    # define lp_Char_p          "c"
 
     /* Define formated input specifiers */
-    # define lp_Size_i        SCNu64
-    # define lp_Enum_i        SCNu64
-    # define lp_Real_i        "lf"
-    # define lp_Byte_i        SCNu8
-    # define lp_Char_i        "c"
+    # define lp_Size_i          SCNu64
+    # define lp_Enum_i          SCNu64
+    # define lp_Real_i          "lf"
+    # define lp_Byte_i          SCNu8
+    # define lp_Char_i          "c"
 
     /* Define floating point operator */
-    # define lp_trunc( x )    trunc( x )
-    # define lp_floor( x )    floor( x )
-    # define lp_ceil ( x )    ceil ( x )
-    # define lp_fabs ( x )    fabs ( x )
+    # define lp_trunc( x )      trunc( x )
+    # define lp_floor( x )      floor( x )
+    # define lp_ceil ( x )      ceil ( x )
+    # define lp_fabs ( x )      fabs ( x )
+
+    /* Define mathematic operator */
+    # define LP_MAX( x, y )     ( ( x > y ) ? x : y )
+    # define LP_MIN( x, y )     ( ( x < y ) ? x : y )
+    # define LP_RNG( x, y, z )  LP_MAX( LP_MIN( x, z ), y )
 
 /*
     Header - Typedefs

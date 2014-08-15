@@ -66,7 +66,6 @@
     # include "csps-imu-modfi.h"
     # include "csps-imu-modrd.h"
     # include "csps-imu-modsa.h"
-    # include "csps-math.h"
     # include "csps-nmea.h"
     # include "csps-path.h"
     # include "csps-qbf.h"

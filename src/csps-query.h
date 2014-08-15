@@ -57,7 +57,6 @@
  */
 
     # include "csps.h"
-    # include "csps-math.h"
     # include "csps-stream.h"
     # include "csps-timestamp.h"
     # include "inter-all.h"
@@ -99,6 +98,9 @@
     } lp_QueryPosition;
 
     typedef struct lp_QueryOrientation_struct {
+
+        /* Query status */
+        lp_Enum_t qrStatus;
 
         /* Orientation descriptor */
         lp_Real_t qrfxx;

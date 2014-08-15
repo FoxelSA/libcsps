@@ -97,26 +97,31 @@
 
     ) {
 
+        /* Returned structure */
+        lp_QueryPosition lpPosition;
+
         /* Query variables */
         lp_Size_t lpParse = lp_Size_s( 0 );
 
         /* Files size */
         lp_Size_t lpSize = lp_Size_s( 0 );
 
-        /* Interpolation parameters */
-        lp_Size_t lpShift0 = lp_Size_s( 0 );
-        lp_Size_t lpShift1 = lp_Size_s( 0 );
-        lp_Size_t lpShift2 = lp_Size_s( 0 );
-        lp_Size_t lpShift3 = lp_Size_s( 0 );
+        /* Interpolation sampling nodes */
+        lp_Size_t lpSample0 = lp_Size_s( 0 );
+        lp_Size_t lpSample1 = lp_Size_s( 0 );
+        lp_Size_t lpSample2 = lp_Size_s( 0 );
+        lp_Size_t lpSample3 = lp_Size_s( 0 );
+
+        /* Interpolation time */
+        lp_Real_t lpTimeI = lp_Real_s( 0.0 );
+        lp_Real_t lpTime1 = lp_Real_s( 0.0 );
+        lp_Real_t lpTime2 = lp_Real_s( 0.0 );
 
         /* Data buffers */
         lp_Real_t * lpVPDlat = NULL;
         lp_Real_t * lpVPDlon = NULL;
         lp_Real_t * lpVPDalt = NULL;
         lp_Time_t * lpVPDsyn = NULL;
-
-        /* Returned structure */
-        lp_QueryPosition lpPosition;
 
         /* Obtain stream size */
         lpSize = lp_stream_size( lpPath, lpTag, lpName, lpPS__, "syn" ) / sizeof( lp_Time_t );
@@ -133,75 +138,43 @@
             /* Search position by timestamp */
             while ( lp_timestamp_ge( lpTimestamp, lpVPDsyn[++lpParse] ) == LP_TRUE );
 
-            /* Create interpolation parameters */
-            if ( lpParse == lp_Size_s( 0 ) ) {
+            /* Compute quantity interpolation sampling nodes */
+            lpSample0 = LP_RNG( lpParse - 2, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample1 = LP_RNG( lpParse - 1, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample2 = LP_RNG( lpParse    , 0, lpSize - lp_Size_s( 1 ) );
+            lpSample3 = LP_RNG( lpParse + 1, 0, lpSize - lp_Size_s( 1 ) );
 
-                /* Left boundary correction */
-                lpShift0 = lp_Size_s( 0 );
-                lpShift1 = lp_Size_s( 0 );
-                lpShift2 = lp_Size_s( 1 );
-                lpShift3 = lp_Size_s( 2 );
+            /* Compute time interpolation variable */
+            lpTimeI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpVPDsyn[lpSample0] ) );
 
-            } else if ( lpParse == ( lpSize - lp_Size_s( 1 ) ) ) {
-
-                /* Right boundary correction */
-                lpShift0 = lpSize - lp_Size_s( 3 );
-                lpShift1 = lpSize - lp_Size_s( 2 );
-                lpShift2 = lpSize - lp_Size_s( 1 );
-                lpShift3 = lpSize - lp_Size_s( 1 );
-
-            } else {
-
-                /* Usual range parameters */
-                lpShift0 = lpParse - lp_Size_s( 2 );
-                lpShift1 = lpParse - lp_Size_s( 1 );
-                lpShift2 = lpParse;
-                lpShift3 = lpParse + lp_Size_s( 1 );
-
-            }
+            /* Compute time interpolation sample */
+            lpTime1 = lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpSample1], lpVPDsyn[lpSample0] ) );
+            lpTime2 = lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpSample2], lpVPDsyn[lpSample0] ) );
 
             /* Compute interpolation values - Latitude */
-            lpPosition.qrLatitude = lp_math_spline( LP_MATH_SPLINE_RESET,
+            lpPosition.qrLatitude = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpVPDlat[lpSample0], lpVPDlat[lpSample2],
 
-                lp_timestamp_float( lp_timestamp_diff( lpTimestamp       , lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
-                lpVPDlat[lpShift0],
-                lpVPDlat[lpShift1],
-                lpVPDlat[lpShift2],
-                lpVPDlat[lpShift3]
+                /* Standard derivatives */
+                lpVPDlat[lpSample2] - lpVPDlat[lpSample0],
+                lpVPDlat[lpSample3] - lpVPDlat[lpSample1]
 
             );
 
             /* Compute interpolation values - Longitude */
-            lpPosition.qrLongitude = lp_math_spline( LP_MATH_SPLINE_RESET,
+            lpPosition.qrLongitude = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpVPDlon[lpSample1], lpVPDlon[lpSample2],
 
-                lp_timestamp_float( lp_timestamp_diff( lpTimestamp       , lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
-                lpVPDlon[lpShift0],
-                lpVPDlon[lpShift1],
-                lpVPDlon[lpShift2],
-                lpVPDlon[lpShift3]
+                /* Standard derivatives */
+                lpVPDlon[lpSample2] - lpVPDlon[lpSample0],
+                lpVPDlon[lpSample3] - lpVPDlon[lpSample1]
 
             );
 
             /* Compute interpolation values - Altitude */
-            lpPosition.qrAltitude = lp_math_spline( LP_MATH_SPLINE_RESET,
+            lpPosition.qrAltitude = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpVPDalt[lpSample1], lpVPDalt[lpSample2],
 
-                lp_timestamp_float( lp_timestamp_diff( lpTimestamp       , lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
-                lpVPDalt[lpShift0],
-                lpVPDalt[lpShift1],
-                lpVPDalt[lpShift2],
-                lpVPDalt[lpShift3]
+                /* Standard derivatives */
+                lpVPDalt[lpSample2] - lpVPDalt[lpSample0],
+                lpVPDalt[lpSample3] - lpVPDalt[lpSample1]
 
             );
 
@@ -240,17 +213,25 @@
 
     ) {
 
+        /* Returned structure */
+        lp_QueryOrientation lpOrientation;
+
         /* Query variables */
         lp_Size_t lpParse = lp_Size_s( 0 );
 
         /* Files size */
         lp_Size_t lpSize = lp_Size_s( 0 );
 
-        /* Interpolation parameters */
-        lp_Size_t lpShift0 = lp_Size_s( 0 );
-        lp_Size_t lpShift1 = lp_Size_s( 0 );
-        lp_Size_t lpShift2 = lp_Size_s( 0 );
-        lp_Size_t lpShift3 = lp_Size_s( 0 );
+        /* Interpolation sampling nodes */
+        lp_Size_t lpSample0 = lp_Size_s( 0 );
+        lp_Size_t lpSample1 = lp_Size_s( 0 );
+        lp_Size_t lpSample2 = lp_Size_s( 0 );
+        lp_Size_t lpSample3 = lp_Size_s( 0 );
+
+        /* Interpolation time */
+        lp_Real_t lpTimeI = lp_Real_s( 0.0 );
+        lp_Real_t lpTime1 = lp_Real_s( 0.0 );
+        lp_Real_t lpTime2 = lp_Real_s( 0.0 );
 
         /* Data buffers */
         lp_Real_t * lpVPDfxx = NULL;
@@ -263,9 +244,6 @@
         lp_Real_t * lpVPDfzy = NULL;
         lp_Real_t * lpVPDfzz = NULL;
         lp_Time_t * lpVPDsyn = NULL;
-
-        /* Returned structure */
-        lp_QueryOrientation lpOrientation;
 
         /* Obtain stream size */
         lpSize = lp_stream_size( lpPath, lpTag, lpName, lpPS__, "syn" ) / sizeof( lp_Time_t );
@@ -288,167 +266,107 @@
             /* Search position by timestamp */
             while ( lp_timestamp_ge( lpTimestamp, lpVPDsyn[++lpParse] ) == LP_TRUE );
 
-            /* Create interpolation parameters */
-            if ( lpParse == lp_Size_s( 0 ) ) {
+            /* Compute quantity interpolation sampling nodes */
+            lpSample0 = LP_RNG( lpParse - 2, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample1 = LP_RNG( lpParse - 1, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample2 = LP_RNG( lpParse    , 0, lpSize - lp_Size_s( 1 ) );
+            lpSample3 = LP_RNG( lpParse + 1, 0, lpSize - lp_Size_s( 1 ) );
 
-                /* Left boundary correction */
-                lpShift0 = lp_Size_s( 0 );
-                lpShift1 = lp_Size_s( 0 );
-                lpShift2 = lp_Size_s( 1 );
-                lpShift3 = lp_Size_s( 2 );
+            /* Compute time interpolation variable */
+            lpTimeI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpVPDsyn[lpSample0] ) );
 
-            } else if ( lpParse == ( lpSize - lp_Size_s( 1 ) ) ) {
-
-                /* Right boundary correction */
-                lpShift0 = lpSize - lp_Size_s( 3 );
-                lpShift1 = lpSize - lp_Size_s( 2 );
-                lpShift2 = lpSize - lp_Size_s( 1 );
-                lpShift3 = lpSize - lp_Size_s( 1 );
-
-            } else {
-
-                /* Usual range parameters */
-                lpShift0 = lpParse - lp_Size_s( 2 );
-                lpShift1 = lpParse - lp_Size_s( 1 );
-                lpShift2 = lpParse;
-                lpShift3 = lpParse + lp_Size_s( 1 );
-
-            }
+            /* Compute time interpolation sample */
+            lpTime1 = lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpSample1], lpVPDsyn[lpSample0] ) );
+            lpTime2 = lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpSample2], lpVPDsyn[lpSample0] ) );
 
             /* Compute interpolation values - Frame x-component x-vector */
-            lpOrientation.qrfxx = lp_math_spline( LP_MATH_SPLINE_RESET,
+            lpOrientation.qrfxx = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpVPDfxx[lpSample1], lpVPDfxx[lpSample2],
 
-                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
-                lpVPDfxx[lpShift0],
-                lpVPDfxx[lpShift1],
-                lpVPDfxx[lpShift2],
-                lpVPDfxx[lpShift3]
+                /* Standard derivatives */
+                lpVPDfxx[lpSample2] - lpVPDfxx[lpSample0],
+                lpVPDfxx[lpSample3] - lpVPDfxx[lpSample1]
 
             );
 
             /* Compute interpolation values - Frame y-component x-vector */
-            lpOrientation.qrfxy = lp_math_spline( LP_MATH_SPLINE_RESET,
+            lpOrientation.qrfxy = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpVPDfxy[lpSample1], lpVPDfxy[lpSample2],
 
-                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
-                lpVPDfxy[lpShift0],
-                lpVPDfxy[lpShift1],
-                lpVPDfxy[lpShift2],
-                lpVPDfxy[lpShift3]
+                /* Standard derivatives */
+                lpVPDfxy[lpSample2] - lpVPDfxy[lpSample0],
+                lpVPDfxy[lpSample3] - lpVPDfxy[lpSample1]
 
             );
 
             /* Compute interpolation values - Frame z-component x-vector */
-            lpOrientation.qrfxz = lp_math_spline( LP_MATH_SPLINE_RESET,
+            lpOrientation.qrfxz = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpVPDfxz[lpSample1], lpVPDfxz[lpSample2],
 
-                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
-                lpVPDfxz[lpShift0],
-                lpVPDfxz[lpShift1],
-                lpVPDfxz[lpShift2],
-                lpVPDfxz[lpShift3]
+                /* Standard derivatives */
+                lpVPDfxz[lpSample2] - lpVPDfxz[lpSample0],
+                lpVPDfxz[lpSample3] - lpVPDfxz[lpSample1]
 
             );
 
             /* Compute interpolation values - Frame x-component y-vector */
-            lpOrientation.qrfyx = lp_math_spline( LP_MATH_SPLINE_RESET,
+            lpOrientation.qrfyx = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpVPDfyx[lpSample1], lpVPDfyx[lpSample2],
 
-                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
-                lpVPDfyx[lpShift0],
-                lpVPDfyx[lpShift1],
-                lpVPDfyx[lpShift2],
-                lpVPDfyx[lpShift3]
+                /* Standard derivatives */
+                lpVPDfyx[lpSample2] - lpVPDfyx[lpSample0],
+                lpVPDfyx[lpSample3] - lpVPDfyx[lpSample1]
 
             );
 
             /* Compute interpolation values - Frame y-component y-vector */
-            lpOrientation.qrfyy = lp_math_spline( LP_MATH_SPLINE_RESET,
+            lpOrientation.qrfyy = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpVPDfyy[lpSample1], lpVPDfyy[lpSample2],
 
-                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
-                lpVPDfyy[lpShift0],
-                lpVPDfyy[lpShift1],
-                lpVPDfyy[lpShift2],
-                lpVPDfyy[lpShift3]
+                /* Standard derivatives */
+                lpVPDfyy[lpSample2] - lpVPDfyy[lpSample0],
+                lpVPDfyy[lpSample3] - lpVPDfyy[lpSample1]
 
             );
 
             /* Compute interpolation values - Frame z-component y-vector */
-            lpOrientation.qrfyz = lp_math_spline( LP_MATH_SPLINE_RESET,
+            lpOrientation.qrfyz = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpVPDfyz[lpSample1], lpVPDfyz[lpSample2],
 
-                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
-                lpVPDfyz[lpShift0],
-                lpVPDfyz[lpShift1],
-                lpVPDfyz[lpShift2],
-                lpVPDfyz[lpShift3]
+                /* Standard derivatives */
+                lpVPDfyz[lpSample2] - lpVPDfyz[lpSample0],
+                lpVPDfyz[lpSample3] - lpVPDfyz[lpSample1]
 
             );
 
             /* Compute interpolation values - Frame x-component z-vector */
-            lpOrientation.qrfzx = lp_math_spline( LP_MATH_SPLINE_RESET,
+            lpOrientation.qrfzx = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpVPDfzx[lpSample1], lpVPDfzx[lpSample2],
 
-                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
-                lpVPDfzx[lpShift0],
-                lpVPDfzx[lpShift1],
-                lpVPDfzx[lpShift2],
-                lpVPDfzx[lpShift3]
+                /* Standard derivatives */
+                lpVPDfzx[lpSample2] - lpVPDfzx[lpSample0],
+                lpVPDfzx[lpSample3] - lpVPDfzx[lpSample1]
 
             );
 
             /* Compute interpolation values - Frame y-component z-vector */
-            lpOrientation.qrfzy = lp_math_spline( LP_MATH_SPLINE_RESET,
+            lpOrientation.qrfzy = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpVPDfzy[lpSample1], lpVPDfzy[lpSample2],
 
-                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
-                lpVPDfzy[lpShift0],
-                lpVPDfzy[lpShift1],
-                lpVPDfzy[lpShift2],
-                lpVPDfzy[lpShift3]
+                /* Standard derivatives */
+                lpVPDfzy[lpSample2] - lpVPDfzy[lpSample0],
+                lpVPDfzy[lpSample3] - lpVPDfzy[lpSample1]
 
             );
 
             /* Compute interpolation values - Frame z-component z-vector */
-            lpOrientation.qrfzz = lp_math_spline( LP_MATH_SPLINE_RESET,
+            lpOrientation.qrfzz = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpVPDfzz[lpSample1], lpVPDfzz[lpSample2],
 
-                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
-                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
-                lpVPDfzz[lpShift0],
-                lpVPDfzz[lpShift1],
-                lpVPDfzz[lpShift2],
-                lpVPDfzz[lpShift3]
+                /* Standard derivatives */
+                lpVPDfzz[lpSample2] - lpVPDfzz[lpSample0],
+                lpVPDfzz[lpSample3] - lpVPDfzz[lpSample1]
 
             );
+
+            /* Update query status */
+            lpOrientation.qrStatus = LP_TRUE;
+
+        } else {
+
+            /* Update query status */
+            lpOrientation.qrStatus = LP_FALSE;
 
         }
 
