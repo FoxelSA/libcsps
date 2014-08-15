@@ -87,6 +87,24 @@
     }
 
 /*
+    Source - Stream create
+ */
+
+    lp_Void_t * lp_stream_create(
+
+        lp_Size_t lpSize
+
+    ) {
+
+        /* Stream buffer */
+        lp_Void_t * lpStream = malloc( lpSize );
+
+        /* Return pointer */
+        return( lpStream );
+
+    }
+
+/*
     Source - Stream reader
  */
 

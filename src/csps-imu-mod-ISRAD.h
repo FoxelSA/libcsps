@@ -36,48 +36,40 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    //! @file   csps-all.h
-    //! @author Nils Hamel (n.hamel@foxel.ch)
-    //! 
-    //! Library general includer
 
 /*
     Header - Include guard
  */
 
-    # ifndef __LP_ALL__
-    # define __LP_ALL__
+    # ifndef __LP_IMU_MODISRAD__
+    # define __LP_IMU_MODISRAD__
 
 /*
     Header - C/C++ compatibility
  */
 
+    # ifdef __cplusplus
+    extern "C" {
+    # endif
+
 /*
     Header - Includes
  */
 
-    # include "csps-cam-modde.h"
+    # include "csps.h"
     # include "csps-device.h"
-    # include "csps-gps-modde.h"
-    # include "csps-gps-modrs.h"
-    # include "csps-imu-modaa.h"
-    # include "csps-imu-modde.h"
-    # include "csps-imu-moddn.h"
-    # include "csps-imu-modfi.h"
-    # include "csps-imu-modrd.h"
-    # include "csps-imu-modsa.h"
-    # include "csps-imu-mod-ISRAD.h"
-    # include "csps-nmea.h"
     # include "csps-path.h"
-    # include "csps-qbf.h"
-    # include "csps-query.h"
     # include "csps-stream.h"
-    # include "csps-system.h"
     # include "csps-timestamp.h"
 
 /*
     Header - Preprocessor definitions
  */
+
+    /* CSPS module identification */
+    # define LP_IMU_MODISRAD_DEV "imu"
+    # define LP_IMU_MODISRAD_MOD "mod-ISRAD"
+    # define LP_IMU_MODISRAD_DES "Inertial Still Range Automatic Detection"
 
 /*
     Header - Preprocessor macros
@@ -95,9 +87,21 @@
     Header - Function prototypes
  */
 
+    lp_IMU lp_imu_mod_ISRAD(
+
+        const lp_Char_t * const lpPath,
+        lp_IMU                  lpDevice,
+        const lp_Char_t * const lpPSgr
+
+    );
+
 /*
     Header - C/C++ compatibility
  */
+
+    # ifdef __cplusplus
+    }
+    # endif
 
 /*
     Header - Include guard

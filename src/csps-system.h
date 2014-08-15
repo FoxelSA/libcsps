@@ -67,6 +67,7 @@
     # include "csps-imu-modfi.h"
     # include "csps-imu-modsa.h"
     # include "csps-imu-modaa.h"
+    # include "csps-imu-mod-ISRAD.h"
 
 /*
     Header - Preprocessor definitions

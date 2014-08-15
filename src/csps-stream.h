@@ -89,6 +89,12 @@
 
     );
 
+    lp_Void_t * lp_stream_create(
+
+        lp_Size_t lpSize
+
+    );
+
     lp_Void_t * lp_stream_read(
 
         const lp_Char_t * const lpPath,

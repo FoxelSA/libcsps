@@ -69,7 +69,8 @@
 
         /* CSPS IMU process line */
         lpADIS = lp_imu_modrd( lpPath, lpADIS, "modde" );
-        lpADIS = lp_imu_moddn( lpPath, lpADIS, "modrd" );
+        lpADIS = lp_imu_mod_ISRAD( lpPath, lpADIS, "modrd" );
+        lpADIS = lp_imu_moddn( lpPath, lpADIS, "mod-ISRAD" );
         lpADIS = lp_imu_modsa( lpPath, lpADIS, "moddn" );
         lpADIS = lp_imu_modfi( lpPath, lpADIS, "moddn" );
         lpADIS = lp_imu_modaa( lpPath, lpADIS, "moddn", "modfi" );
