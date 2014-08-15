@@ -103,15 +103,20 @@
      *  in the CSPS.
      *
      *  \var lp_CAM_struct::dvName 
-     *  Stores the device name
+     *  Stores the device model name
+     *  \var lp_CAM_struct::dvTag 
+     *  Stores the device name to differentiate multiple usage of the same model
      *  \var lp_CAM_struct::dvBlock 
      *  Stores the importation block size
      */ 
 
     typedef struct lp_CAM_struct {
 
-        /* Device name */
+        /* Device model name */
         lp_Char_t dvName[LP_STR_LEN];
+
+        /* Device name */
+        lp_Char_t dvTag[LP_STR_LEN];
 
         /* Size of importation block */
         lp_Size_t dvBlock;
@@ -126,6 +131,8 @@
      *
      *  \var lp_IMU_struct::dvName 
      *  Stores the device name
+     *  \var lp_IMU_struct::dvTag 
+     *  Stores the device name to differentiate multiple usage of the same model
      *  \var lp_IMU_struct::dvGYRx 
      *  Gyroscope factory scale factor for x component
      *  \var lp_IMU_struct::dvGYRy
@@ -166,8 +173,11 @@
 
     typedef struct lp_IMU_struct {
 
-        /* Device name */
+        /* Device model name */
         lp_Char_t dvName[LP_STR_LEN];
+
+        /* Device name */
+        lp_Char_t dvTag[LP_STR_LEN];
 
         /* Gyroscope factory factors */
         lp_Real_t dvGYRx;
@@ -207,6 +217,8 @@
      *
      *  \var lp_GPS_struct::dvName 
      *  Stores the device name
+     *  \var lp_GPS_struct::dvTag 
+     *  Stores the device name to differentiate multiple usage of the same model
      *  \var lp_GPS_struct::dvifreq 
      *  Device output sampling frequency
      *  \var lp_GPS_struct::dvBlock 
@@ -215,8 +227,11 @@
 
     typedef struct lp_GPS_struct {
 
-        /* Device name */
+        /* Device model name */
         lp_Char_t dvName[LP_STR_LEN];
+
+        /* Device name */
+        lp_Char_t dvTag[LP_STR_LEN];
 
         /* GPS frequency */
         lp_Size_t dvifreq;
@@ -239,7 +254,8 @@
 
     lp_CAM lp_device_CAM(
 
-        const lp_Char_t * const lpName
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpTag
 
     );
 
@@ -252,7 +268,8 @@
 
     lp_IMU lp_device_IMU(
 
-        const lp_Char_t * const lpName
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpTag
 
     );
 
@@ -265,7 +282,8 @@
 
     lp_GPS lp_device_GPS(
 
-        const lp_Char_t * const lpName
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpTag
 
     );
 

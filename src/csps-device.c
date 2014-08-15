@@ -47,7 +47,7 @@
     Source - CAM device builder
  */
 
-    lp_CAM lp_device_CAM( const lp_Char_t * const lpName ) {
+    lp_CAM lp_device_CAM( const lp_Char_t * const lpName, const lp_Char_t * const lpTag ) {
 
         /* CAM device structure */
         lp_CAM lpDevice;
@@ -55,8 +55,11 @@
         /* Detect type of camera */
         if ( strcmp( lpName, LP_DEVICE_CAM_EYESIS4PI ) == 0 ) {
 
-            /* Assign device name */
+            /* Assign device model name */
             sprintf( lpDevice.dvName, "%s", LP_DEVICE_CAM_EYESIS4PI );
+
+            /* Assign device name */
+            sprintf( lpDevice.dvTag, "%s", lpTag );
 
             /* Assign configuration - Importation block size */
             lpDevice.dvBlock = lp_Size_s( 1024 );
@@ -72,7 +75,7 @@
     Source - IMU device builder
  */
 
-    lp_IMU lp_device_IMU( const lp_Char_t * const lpName ) {
+    lp_IMU lp_device_IMU( const lp_Char_t * const lpName, const lp_Char_t * const lpTag ) {
 
         /* IMU device structure */
         lp_IMU lpDevice;
@@ -80,8 +83,11 @@
         /* Detect type of IMU */
         if ( strcmp( lpName, LP_DEVICE_IMU_ADIS16375 ) == 0 ) {
 
-            /* Assign device name */
+            /* Assign device model name */
             sprintf( lpDevice.dvName, "%s", LP_DEVICE_IMU_ADIS16375 );
+
+            /* Assign device name */
+            sprintf( lpDevice.dvTag, "%s", lpTag );
 
             /* Assign configuration - Gyroscope */
             lpDevice.dvGYRx = ( lp_Real_s( 0.013108 ) / lp_Real_s( 65536.0 ) ) * ( LP_PI / lp_Real_s( 180.0 ) );
@@ -122,7 +128,7 @@
     Source - GPS device builder
  */
 
-    lp_GPS lp_device_GPS( const lp_Char_t * const lpName ) {
+    lp_GPS lp_device_GPS( const lp_Char_t * const lpName, const lp_Char_t * const lpTag ) {
 
         /* GPS device structure */
         lp_GPS lpDevice;
@@ -130,8 +136,11 @@
         /* Detect type of GPS */
         if ( strcmp( lpName, LP_DEVICE_GPS_LS20031 ) == 0 ) {
 
-            /* Assign device name */
+            /* Assign device model name */
             sprintf( lpDevice.dvName, "%s", LP_DEVICE_GPS_LS20031 );
+
+            /* Assign device name */
+            sprintf( lpDevice.dvTag, "%s", lpTag );
 
             /* Assign configuration - Frequency */
             lpDevice.dvifreq = lp_Size_s( 5 );

@@ -55,9 +55,9 @@
         lp_GPS lpLS;
 
         /* CSPS create devices */
-        lpCAM  = lp_device_CAM( LP_DEVICE_CAM_EYESIS4PI );
-        lpADIS = lp_device_IMU( LP_DEVICE_IMU_ADIS16375 );
-        lpLS   = lp_device_GPS( LP_DEVICE_GPS_LS20031   );
+        lpCAM  = lp_device_CAM( LP_DEVICE_CAM_EYESIS4PI, "cam-a" );
+        lpADIS = lp_device_IMU( LP_DEVICE_IMU_ADIS16375, "imu-a" );
+        lpLS   = lp_device_GPS( LP_DEVICE_GPS_LS20031  , "gps-a"   );
 
         /* CSPS data extractors */
         lpCAM  = lp_cam_modde( lpPath, lpCAM , "eyesis4pi" );
