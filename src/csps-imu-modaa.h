@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_IMU_MODAA__
-    # define __LIBCSPS_CSPS_IMU_MODAA__
+    # ifndef __LP_IMU_MODAA__
+    # define __LP_IMU_MODAA__
 
 /*
     Header - C/C++ compatibility
@@ -67,8 +67,8 @@
  */
 
     /* CSPS module identification */
-    # define CSPS_IMU_MODAA_DEV "imu"
-    # define CSPS_IMU_MODAA_MOD "modaa"
+    # define LP_IMU_MODAA_DEV "imu"
+    # define LP_IMU_MODAA_MOD "modaa"
 
 /*
     Header - Preprocessor macros
@@ -86,13 +86,13 @@
     Header - Function prototypes
  */
 
-    csps_IMU csps_imu_modaa(
+    lp_IMU lp_imu_modaa(
 
-        const csps_Char_t * const cspsPath,
-        csps_IMU cspsDevice,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPSac,
-        const csps_Char_t * const cspsPSf_
+        const lp_Char_t * const lpPath,
+        lp_IMU lpDevice,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPSac,
+        const lp_Char_t * const lpPSf_
 
     );
 

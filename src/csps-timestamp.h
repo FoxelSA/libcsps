@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_TIMESTAMP__
-    # define __LIBCSPS_CSPS_TIMESTAMP__
+    # ifndef __LP_TIMESTAMP__
+    # define __LP_TIMESTAMP__
 
 /*
     Header - C/C++ compatibility
@@ -63,12 +63,12 @@
  */
 
     /* Define timezone designation */
-    # define CSPS_TIMESTAMP_ZONE_WET    "WET"
-    # define CSPS_TIMESTAMP_ZONE_WEST   "WEST"
-    # define CSPS_TIMESTAMP_ZONE_CET    "CET"
-    # define CSPS_TIMESTAMP_ZONE_CEST   "CEST"
-    # define CSPS_TIMESTAMP_ZONE_EET    "EET"
-    # define CSPS_TIMESTAMP_ZONE_EEST   "EEST"
+    # define LP_TIMESTAMP_ZONE_WET    "WET"
+    # define LP_TIMESTAMP_ZONE_WEST   "WEST"
+    # define LP_TIMESTAMP_ZONE_CET    "CET"
+    # define LP_TIMESTAMP_ZONE_CEST   "CEST"
+    # define LP_TIMESTAMP_ZONE_EET    "EET"
+    # define LP_TIMESTAMP_ZONE_EEST   "EEST"
 
 /*
     Header - Preprocessor macros
@@ -79,20 +79,20 @@
  */
 
     /* Define gps signal quality buffer type */
-    typedef uint64_t            csps_Time_t;
-    typedef int64_t             csps_Diff_t;
+    typedef uint64_t            lp_Time_t;
+    typedef int64_t             lp_Diff_t;
 
     /* Define literal suffix */
-    # define csps_Time_s(x)     UINT64_C(x)
-    # define csps_Diff_s(x)     INT64_C(x)
+    # define lp_Time_s(x)     UINT64_C(x)
+    # define lp_Diff_s(x)     INT64_C(x)
 
     /* Define formated output specifiers */
-    # define csps_Time_p        PRIu64
-    # define csps_Diff_p        PRId64
+    # define lp_Time_p        PRIu64
+    # define lp_Diff_p        PRId64
 
     /* Define formated input specifiers */
-    # define csps_Time_i        SCNu64
-    # define csps_Diff_i        SCNd64
+    # define lp_Time_i        SCNu64
+    # define lp_Diff_i        SCNd64
 
 /*
     Header - Structures
@@ -102,69 +102,69 @@
     Header - Function prototypes
  */
 
-    csps_Time_t csps_timestamp(
+    lp_Time_t lp_timestamp(
 
-        const csps_Void_t * const cspsRec
-
-    );
-
-    csps_Time_t csps_timestamp_compose(
-
-        csps_Time_t cspsSec,
-        csps_Time_t cspsUsec
+        const lp_Void_t * const lpRec
 
     );
 
-    csps_Time_t csps_timestamp_sec(
+    lp_Time_t lp_timestamp_compose(
 
-        csps_Time_t cspsT
-
-    );
-
-    csps_Time_t csps_timestamp_usec(
-
-        csps_Time_t cspsT
+        lp_Time_t lpSec,
+        lp_Time_t lpUsec
 
     );
 
-    csps_Enum_t csps_timestamp_eq(
+    lp_Time_t lp_timestamp_sec(
 
-        csps_Time_t cspsTa,
-        csps_Time_t cspsTb
-
-    );
-
-    csps_Enum_t csps_timestamp_ge(
-
-        csps_Time_t cspsTa,
-        csps_Time_t cspsTb
+        lp_Time_t lpT
 
     );
 
-    uint64_t csps_timestamp_add(
+    lp_Time_t lp_timestamp_usec(
 
-        csps_Time_t cspsTa,
-        csps_Time_t cspsTb
-
-    );
-
-    uint64_t csps_timestamp_diff(
-
-        csps_Time_t cspsTa,
-        csps_Time_t cspsTb
+        lp_Time_t lpT
 
     );
 
-    csps_Real_t csps_timestamp_float(
+    lp_Enum_t lp_timestamp_eq(
 
-        csps_Time_t cspsT
+        lp_Time_t lpTa,
+        lp_Time_t lpTb
 
     );
 
-    csps_Time_t csps_timestamp_local(
+    lp_Enum_t lp_timestamp_ge(
 
-        const csps_Char_t * const cspsZone,
-        csps_Time_t cspsUTC
+        lp_Time_t lpTa,
+        lp_Time_t lpTb
+
+    );
+
+    uint64_t lp_timestamp_add(
+
+        lp_Time_t lpTa,
+        lp_Time_t lpTb
+
+    );
+
+    uint64_t lp_timestamp_diff(
+
+        lp_Time_t lpTa,
+        lp_Time_t lpTb
+
+    );
+
+    lp_Real_t lp_timestamp_float(
+
+        lp_Time_t lpT
+
+    );
+
+    lp_Time_t lp_timestamp_local(
+
+        const lp_Char_t * const lpZone,
+        lp_Time_t lpUTC
 
     );
 

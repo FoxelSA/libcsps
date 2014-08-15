@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_IMU_MODDE__
-    # define __LIBCSPS_CSPS_IMU_MODDE__
+    # ifndef __LP_IMU_MODDE__
+    # define __LP_IMU_MODDE__
 
 /*
     Header - C/C++ compatibility
@@ -66,8 +66,8 @@
  */
 
     /* CSPS module identification */
-    # define CSPS_IMU_MODDE_DEV "imu"
-    # define CSPS_IMU_MODDE_MOD "modde"
+    # define LP_IMU_MODDE_DEV "imu"
+    # define LP_IMU_MODDE_MOD "modde"
 
 /*
     Header - Preprocessor macros
@@ -85,19 +85,19 @@
     Header - Function prototypes
  */
 
-    csps_IMU csps_imu_modde(
+    lp_IMU lp_imu_modde(
 
-        const csps_Char_t * const cspsPath,
-        csps_IMU cspsDevice,
-        const csps_Char_t * const cspsName
+        const lp_Char_t * const lpPath,
+        lp_IMU lpDevice,
+        const lp_Char_t * const lpName
 
     );
 
-    csps_IMU csps_imu_ADIS16375(
+    lp_IMU lp_imu_ADIS16375(
 
-        const csps_Char_t * const cspsPath,
-        csps_IMU cspsDevice,
-        const csps_Char_t * const cspsName
+        const lp_Char_t * const lpPath,
+        lp_IMU cspsDevice,
+        const lp_Char_t * const lpName
 
     );
 

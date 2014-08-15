@@ -65,28 +65,28 @@
  */
 
     /* Define NMEA sentence model */
-    # define CSPS_NMEA_MODEL_RMC  "QBQBQBQQQQB"
-    # define CSPS_NMEA_MODEL_GGA  "QQBQBQQQQBQBBB"
-    # define CSPS_NMEA_MODEL_GSA  "BQQQQQQQQQQQQQQQQ"
-    # define CSPS_NMEA_MODEL_VTG  "QBQBQBQB"
+    # define LP_NMEA_MODEL_RMC  "QBQBQBQQQQB"
+    # define LP_NMEA_MODEL_GGA  "QQBQBQQQQBQBBB"
+    # define LP_NMEA_MODEL_GSA  "BQQQQQQQQQQQQQQQQ"
+    # define LP_NMEA_MODEL_VTG  "QBQBQBQB"
 
     /* Define NMEA sentence type */
-    # define CSPS_NMEA_IDENT_RMC  csps_Enum_s(  0 )
-    # define CSPS_NMEA_IDENT_GGA  csps_Enum_s(  1 )
-    # define CSPS_NMEA_IDENT_GSA  csps_Enum_s(  2 )
-    # define CSPS_NMEA_IDENT_VTG  csps_Enum_s(  3 )
-    # define CSPS_NMEA_IDENT_MAX  csps_Enum_s(  4 )
-    # define CSPS_NMEA_IDENT_FAI  csps_Enum_s( 63 )
+    # define LP_NMEA_IDENT_RMC  lp_Enum_s(  0 )
+    # define LP_NMEA_IDENT_GGA  lp_Enum_s(  1 )
+    # define LP_NMEA_IDENT_GSA  lp_Enum_s(  2 )
+    # define LP_NMEA_IDENT_VTG  lp_Enum_s(  3 )
+    # define LP_NMEA_IDENT_MAX  lp_Enum_s(  4 )
+    # define LP_NMEA_IDENT_FAI  lp_Enum_s( 63 )
 
 /*
     Header - Preprocessor macros
  */
 
     /* Define sexagesimal to floating degree */
-    # define CSPS_NMEA_S2D(x)   ((\
-                                csps_trunc((x)/csps_Real_s(100.0))\
+    # define LP_NMEA_S2D(x)   ((\
+                                lp_trunc((x)/lp_Real_s(100.0))\
                                 )+(\
-                                ((x)-csps_Real_s(100.0)*csps_trunc((x)/csps_Real_s(100.0)))/csps_Real_s(60.0)\
+                                ((x)-lp_Real_s(100.0)*lp_trunc((x)/lp_Real_s(100.0)))/lp_Real_s(60.0)\
                                 ))
 
 /*
@@ -101,35 +101,35 @@
     Header - Function prototypes
  */
 
-    csps_Void_t csps_nmea_gga(
+    lp_Void_t lp_nmea_gga(
 
-        const csps_Char_t * const cspsSentence,
-        csps_Real_t * const cspsUTC,
-        csps_Real_t * const cspsLat,
-        csps_Real_t * const cspsLon,
-        csps_Real_t * const cspsAlt,
-        csps_SQBF_t * const cspsQBF
-
-    );
-
-    csps_Enum_t csps_nmea_gga_validate( 
-
-        const csps_Char_t * const cspsSentence
+        const lp_Char_t * const lpSentence,
+        lp_Real_t * const lpUTC,
+        lp_Real_t * const lpLat,
+        lp_Real_t * const lpLon,
+        lp_Real_t * const lpAlt,
+        lp_SQBF_t * const lpQBF
 
     );
 
-    csps_Enum_t csps_nmea_sentence( 
+    lp_Enum_t lp_nmea_gga_validate( 
 
-        const csps_Byte_t * const cspsRec, 
-        const csps_Size_t cspsSize, 
-        csps_Char_t * const cspsSentence
+        const lp_Char_t * const lpSentence
 
     );
 
-    csps_Byte_t csps_nmea_quartet(
+    lp_Enum_t lp_nmea_sentence( 
 
-        const csps_Byte_t * const cspsRec,
-        csps_Size_t cspsOffset
+        const lp_Byte_t * const lpRec, 
+        const lp_Size_t lpSize, 
+        lp_Char_t * const lpSentence
+
+    );
+
+    lp_Byte_t lp_nmea_quartet(
+
+        const lp_Byte_t * const lpRec,
+        lp_Size_t lpOffset
 
     );
 

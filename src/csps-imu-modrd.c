@@ -47,111 +47,111 @@
     Source - IMU relative quantities downsampling module
  */
 
-    csps_IMU csps_imu_modrd(
+    lp_IMU lp_imu_modrd(
 
-        const csps_Char_t * const cspsPath,
-        csps_IMU cspsDevice,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__
+        const lp_Char_t * const lpPath,
+        lp_IMU lpDevice,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__
 
     ) {
 
         /* Downsampling variables */
-        csps_Size_t cspsParse = csps_Size_s( 0 );
-        csps_Size_t cspsIndex = csps_Size_s( 0 );
-        csps_Size_t cspsShift = csps_Size_s( 0 );
-        csps_Size_t cspsReduce = csps_Size_s( 0 );
+        lp_Size_t lpParse = lp_Size_s( 0 );
+        lp_Size_t lpIndex = lp_Size_s( 0 );
+        lp_Size_t lpShift = lp_Size_s( 0 );
+        lp_Size_t lpReduce = lp_Size_s( 0 );
 
         /* Files size */
-        csps_Size_t cspsSize = csps_Size_s( 0 );
+        lp_Size_t lpSize = lp_Size_s( 0 );
 
         /* Data buffers */
-        csps_Real_t * cspsDEVgrx = NULL;
-        csps_Real_t * cspsDEVgry = NULL;
-        csps_Real_t * cspsDEVgrz = NULL;
-        csps_Real_t * cspsDEVacx = NULL;
-        csps_Real_t * cspsDEVacy = NULL;
-        csps_Real_t * cspsDEVacz = NULL;
-        csps_Time_t * cspsDEVsyn = NULL;
+        lp_Real_t * lpDEVgrx = NULL;
+        lp_Real_t * lpDEVgry = NULL;
+        lp_Real_t * lpDEVgrz = NULL;
+        lp_Real_t * lpDEVacx = NULL;
+        lp_Real_t * lpDEVacy = NULL;
+        lp_Real_t * lpDEVacz = NULL;
+        lp_Time_t * lpDEVsyn = NULL;
 
         /* Obtain stream size */
-        cspsSize = csps_stream_size( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, cspsPS__, "syn" ) / sizeof( csps_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_MODRD_DEV, lpName, lpPS__, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        cspsDEVgrx = csps_stream_read( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, cspsPS__, "grx", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVgry = csps_stream_read( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, cspsPS__, "gry", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVgrz = csps_stream_read( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, cspsPS__, "grz", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVacx = csps_stream_read( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, cspsPS__, "acx", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVacy = csps_stream_read( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, cspsPS__, "acy", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVacz = csps_stream_read( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, cspsPS__, "acz", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVsyn = csps_stream_read( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, cspsPS__, "syn", sizeof( csps_Time_t ) * cspsSize );
+        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_MODRD_DEV, lpName, lpPS__, "grx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgry = lp_stream_read( lpPath, LP_IMU_MODRD_DEV, lpName, lpPS__, "gry", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_MODRD_DEV, lpName, lpPS__, "grz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacx = lp_stream_read( lpPath, LP_IMU_MODRD_DEV, lpName, lpPS__, "acx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacy = lp_stream_read( lpPath, LP_IMU_MODRD_DEV, lpName, lpPS__, "acy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacz = lp_stream_read( lpPath, LP_IMU_MODRD_DEV, lpName, lpPS__, "acz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODRD_DEV, lpName, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Compute downsampling reduction factor */
-        cspsReduce = cspsDevice.dvifreq / cspsDevice.dvdfreq;
+        lpReduce = lpDevice.dvifreq / lpDevice.dvdfreq;
 
-        /* Set file size to last cspsReduce multiple */
-        cspsSize = ( cspsSize / cspsReduce ) * cspsReduce;
+        /* Set file size to last lpReduce multiple */
+        lpSize = ( lpSize / lpReduce ) * lpReduce;
 
         /* Downsampling procedure */
-        while ( cspsParse < cspsSize ) {
+        while ( lpParse < lpSize ) {
 
             /* Downsampling accumulation */
-            for ( cspsIndex = csps_Size_s( 1 ) ; cspsIndex < cspsReduce ; cspsIndex ++ ) {
+            for ( lpIndex = lp_Size_s( 1 ) ; lpIndex < lpReduce ; lpIndex ++ ) {
 
                 /* Sampling accumulation */
-                cspsDEVgrx[cspsParse] += cspsDEVgrx[cspsParse + cspsIndex];
-                cspsDEVgry[cspsParse] += cspsDEVgry[cspsParse + cspsIndex];
-                cspsDEVgrz[cspsParse] += cspsDEVgrz[cspsParse + cspsIndex];
-                cspsDEVacx[cspsParse] += cspsDEVacx[cspsParse + cspsIndex];
-                cspsDEVacy[cspsParse] += cspsDEVacy[cspsParse + cspsIndex];
-                cspsDEVacz[cspsParse] += cspsDEVacz[cspsParse + cspsIndex];
+                lpDEVgrx[lpParse] += lpDEVgrx[lpParse + lpIndex];
+                lpDEVgry[lpParse] += lpDEVgry[lpParse + lpIndex];
+                lpDEVgrz[lpParse] += lpDEVgrz[lpParse + lpIndex];
+                lpDEVacx[lpParse] += lpDEVacx[lpParse + lpIndex];
+                lpDEVacy[lpParse] += lpDEVacy[lpParse + lpIndex];
+                lpDEVacz[lpParse] += lpDEVacz[lpParse + lpIndex];
 
             }
 
             /* Downsampling mean computation */
-            cspsDEVgrx[cspsParse] /= cspsReduce;
-            cspsDEVgry[cspsParse] /= cspsReduce;
-            cspsDEVgrz[cspsParse] /= cspsReduce;
-            cspsDEVacx[cspsParse] /= cspsReduce;
-            cspsDEVacy[cspsParse] /= cspsReduce;
-            cspsDEVacz[cspsParse] /= cspsReduce;
+            lpDEVgrx[lpParse] /= lpReduce;
+            lpDEVgry[lpParse] /= lpReduce;
+            lpDEVgrz[lpParse] /= lpReduce;
+            lpDEVacx[lpParse] /= lpReduce;
+            lpDEVacy[lpParse] /= lpReduce;
+            lpDEVacz[lpParse] /= lpReduce;
 
             /* Downsampling reindexation */
-            cspsDEVgrx[cspsShift] = cspsDEVgrx[cspsParse];
-            cspsDEVgry[cspsShift] = cspsDEVgry[cspsParse];
-            cspsDEVgrz[cspsShift] = cspsDEVgrz[cspsParse];
-            cspsDEVacx[cspsShift] = cspsDEVacx[cspsParse];
-            cspsDEVacy[cspsShift] = cspsDEVacy[cspsParse];
-            cspsDEVacz[cspsShift] = cspsDEVacz[cspsParse];
+            lpDEVgrx[lpShift] = lpDEVgrx[lpParse];
+            lpDEVgry[lpShift] = lpDEVgry[lpParse];
+            lpDEVgrz[lpShift] = lpDEVgrz[lpParse];
+            lpDEVacx[lpShift] = lpDEVacx[lpParse];
+            lpDEVacy[lpShift] = lpDEVacy[lpParse];
+            lpDEVacz[lpShift] = lpDEVacz[lpParse];
 
             /* Timestamp specific downsampling */
-            cspsDEVsyn[cspsShift++] = cspsDEVsyn[cspsParse + cspsIndex - 1];
+            lpDEVsyn[lpShift++] = lpDEVsyn[lpParse + lpIndex - 1];
 
             /* Update donwsampling parser */
-            cspsParse += cspsReduce;
+            lpParse += lpReduce;
 
         }
 
         /* Write stream data */
-        csps_stream_write( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, CSPS_IMU_MODRD_MOD, "grx", cspsDEVgrx, sizeof( csps_Real_t ) * cspsShift );
-        csps_stream_write( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, CSPS_IMU_MODRD_MOD, "gry", cspsDEVgry, sizeof( csps_Real_t ) * cspsShift );
-        csps_stream_write( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, CSPS_IMU_MODRD_MOD, "grz", cspsDEVgrz, sizeof( csps_Real_t ) * cspsShift );
-        csps_stream_write( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, CSPS_IMU_MODRD_MOD, "acx", cspsDEVacx, sizeof( csps_Real_t ) * cspsShift );
-        csps_stream_write( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, CSPS_IMU_MODRD_MOD, "acy", cspsDEVacy, sizeof( csps_Real_t ) * cspsShift );
-        csps_stream_write( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, CSPS_IMU_MODRD_MOD, "acz", cspsDEVacz, sizeof( csps_Real_t ) * cspsShift );
-        csps_stream_write( cspsPath, CSPS_IMU_MODRD_DEV, cspsName, CSPS_IMU_MODRD_MOD, "syn", cspsDEVsyn, sizeof( csps_Time_t ) * cspsShift );
+        lp_stream_write( lpPath, LP_IMU_MODRD_DEV, lpName, LP_IMU_MODRD_MOD, "grx", lpDEVgrx, sizeof( lp_Real_t ) * lpShift );
+        lp_stream_write( lpPath, LP_IMU_MODRD_DEV, lpName, LP_IMU_MODRD_MOD, "gry", lpDEVgry, sizeof( lp_Real_t ) * lpShift );
+        lp_stream_write( lpPath, LP_IMU_MODRD_DEV, lpName, LP_IMU_MODRD_MOD, "grz", lpDEVgrz, sizeof( lp_Real_t ) * lpShift );
+        lp_stream_write( lpPath, LP_IMU_MODRD_DEV, lpName, LP_IMU_MODRD_MOD, "acx", lpDEVacx, sizeof( lp_Real_t ) * lpShift );
+        lp_stream_write( lpPath, LP_IMU_MODRD_DEV, lpName, LP_IMU_MODRD_MOD, "acy", lpDEVacy, sizeof( lp_Real_t ) * lpShift );
+        lp_stream_write( lpPath, LP_IMU_MODRD_DEV, lpName, LP_IMU_MODRD_MOD, "acz", lpDEVacz, sizeof( lp_Real_t ) * lpShift );
+        lp_stream_write( lpPath, LP_IMU_MODRD_DEV, lpName, LP_IMU_MODRD_MOD, "syn", lpDEVsyn, sizeof( lp_Time_t ) * lpShift );
 
         /* Unallocate buffer memory */
-        free( cspsDEVgrx );
-        free( cspsDEVgry );
-        free( cspsDEVgrz );
-        free( cspsDEVacx );
-        free( cspsDEVacy );
-        free( cspsDEVacz );
-        free( cspsDEVsyn );
+        free( lpDEVgrx );
+        free( lpDEVgry );
+        free( lpDEVgrz );
+        free( lpDEVacx );
+        free( lpDEVacy );
+        free( lpDEVacz );
+        free( lpDEVsyn );
 
         /* Return device descriptor */
-        return( cspsDevice );
+        return( lpDevice );
 
     }
 

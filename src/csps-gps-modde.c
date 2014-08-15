@@ -47,18 +47,18 @@
     Source - GPS data extractor module
  */
 
-    csps_GPS csps_gps_modde( const csps_Char_t * const cspsPath, csps_GPS cspsDevice, const csps_Char_t * const cspsName ) {
+    lp_GPS lp_gps_modde( const lp_Char_t * const lpPath, lp_GPS lpDevice, const lp_Char_t * const lpName ) {
 
         /* Select device */
-        if ( strcmp( cspsDevice.dvName, CSPS_DEVICE_GPS_LS20031 ) == 0 ) {
+        if ( strcmp( lpDevice.dvName, LP_DEVICE_GPS_LS20031 ) == 0 ) {
 
             /* ADIS16375 specific process */
-            return ( csps_gps_LS20031( cspsPath, cspsDevice, cspsName ) );
+            return ( lp_gps_LS20031( lpPath, lpDevice, lpName ) );
 
         } else {
 
             /* Unknown device - Return descriptor */
-            return( cspsDevice );
+            return( lpDevice );
 
         }
 
@@ -68,143 +68,143 @@
     Source - GPS LS20031 specific extractor
  */
 
-    csps_GPS csps_gps_LS20031( const csps_Char_t * const cspsPath, csps_GPS cspsDevice, const csps_Char_t * const cspsName ) {
+    lp_GPS lp_gps_LS20031( const lp_Char_t * const lpPath, lp_GPS lpDevice, const lp_Char_t * const lpName ) {
 
         /* FPGA record buffer */
-        csps_Byte_t cspsRec[CSPS_DEVICE_CAM_EYESIS4PI_RECLEN];
+        lp_Byte_t lpRec[LP_DEVICE_CAM_EYESIS4PI_RECLEN];
 
         /* GPS NMEA sentence buffer */
-        csps_Char_t cspsSentence[CSPS_STR_LEN] = CSPS_STR_INI;
+        lp_Char_t lpSentence[LP_STR_LEN] = LP_STR_INI;
 
         /* GPS NMEA sentence type */
-        csps_Enum_t cspsSentenceType = csps_Enum_s( 0 );
+        lp_Enum_t lpSentenceType = lp_Enum_s( 0 );
 
         /* Reading variables */
-        csps_Enum_t cspsReading = CSPS_TRUE;
-        csps_Size_t cspsIndex = csps_Size_s( 0 );
-        csps_Size_t cspsParse = csps_Size_s( 0 );
-        csps_Size_t cspsReaded = csps_Size_s( 0 );
+        lp_Enum_t lpReading = LP_TRUE;
+        lp_Size_t lpIndex = lp_Size_s( 0 );
+        lp_Size_t lpParse = lp_Size_s( 0 );
+        lp_Size_t lpReaded = lp_Size_s( 0 );
 
         /* Timestamp buffer value */
-        csps_Time_t cspsTimestamp = csps_Time_s( 0 );
-        csps_Time_t cspsInitBreak = csps_Time_s( 0 );
+        lp_Time_t lpTimestamp = lp_Time_s( 0 );
+        lp_Time_t lpInitBreak = lp_Time_s( 0 );
 
         /* FPGA GPS event logger microsecond rebuilding variable */
-        csps_Size_t cspsModShift = csps_Size_s( 0 );
+        lp_Size_t lpModShift = lp_Size_s( 0 );
 
         /* Paths string buffer */
-        csps_Char_t cspsDEVlogp[CSPS_STR_LEN] = CSPS_STR_INI;
-        csps_Char_t cspsDEVsynp[CSPS_STR_LEN] = CSPS_STR_INI;
-        csps_Char_t cspsDEVlatp[CSPS_STR_LEN] = CSPS_STR_INI;
-        csps_Char_t cspsDEVlonp[CSPS_STR_LEN] = CSPS_STR_INI;
-        csps_Char_t cspsDEValtp[CSPS_STR_LEN] = CSPS_STR_INI;
-        csps_Char_t cspsDEVqbfp[CSPS_STR_LEN] = CSPS_STR_INI;
+        lp_Char_t lpDEVlogp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpDEVsynp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpDEVlatp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpDEVlonp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpDEValtp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpDEVqbfp[LP_STR_LEN] = LP_STR_INI;
 
         /* Stream handles */
-        csps_File_t cspsDEVlogf = NULL;
-        csps_File_t cspsDEVsynf = NULL;
-        csps_File_t cspsDEVlatf = NULL;
-        csps_File_t cspsDEVlonf = NULL;
-        csps_File_t cspsDEValtf = NULL;
-        csps_File_t cspsDEVqbff = NULL;
+        lp_File_t lpDEVlogf = NULL;
+        lp_File_t lpDEVsynf = NULL;
+        lp_File_t lpDEVlatf = NULL;
+        lp_File_t lpDEVlonf = NULL;
+        lp_File_t lpDEValtf = NULL;
+        lp_File_t lpDEVqbff = NULL;
 
         /* Data buffers */
-        csps_Real_t * cspsDEVlat = NULL;
-        csps_Real_t * cspsDEVlon = NULL;
-        csps_Real_t * cspsDEValt = NULL;
-        csps_Time_t * cspsDEVqbf = NULL;
-        csps_Time_t * cspsDEVsyn = NULL;
+        lp_Real_t * lpDEVlat = NULL;
+        lp_Real_t * lpDEVlon = NULL;
+        lp_Real_t * lpDEValt = NULL;
+        lp_Time_t * lpDEVqbf = NULL;
+        lp_Time_t * lpDEVsyn = NULL;
 
         /* Build raw log file paths */
-        csps_path( cspsPath, CSPS_DEVICE_GPS_LS20031, NULL, NULL, NULL, cspsDEVlogp );
+        lp_path( lpPath, LP_DEVICE_GPS_LS20031, NULL, NULL, NULL, lpDEVlogp );
 
         /* Build file paths */
-        csps_path( cspsPath, CSPS_GPS_MODDE_DEV, cspsName, CSPS_GPS_MODDE_MOD, "lat", cspsDEVlatp );
-        csps_path( cspsPath, CSPS_GPS_MODDE_DEV, cspsName, CSPS_GPS_MODDE_MOD, "lon", cspsDEVlonp );
-        csps_path( cspsPath, CSPS_GPS_MODDE_DEV, cspsName, CSPS_GPS_MODDE_MOD, "alt", cspsDEValtp );
-        csps_path( cspsPath, CSPS_GPS_MODDE_DEV, cspsName, CSPS_GPS_MODDE_MOD, "qbf", cspsDEVqbfp );
-        csps_path( cspsPath, CSPS_GPS_MODDE_DEV, cspsName, CSPS_GPS_MODDE_MOD, "syn", cspsDEVsynp );
+        lp_path( lpPath, LP_GPS_MODDE_DEV, lpName, LP_GPS_MODDE_MOD, "lat", lpDEVlatp );
+        lp_path( lpPath, LP_GPS_MODDE_DEV, lpName, LP_GPS_MODDE_MOD, "lon", lpDEVlonp );
+        lp_path( lpPath, LP_GPS_MODDE_DEV, lpName, LP_GPS_MODDE_MOD, "alt", lpDEValtp );
+        lp_path( lpPath, LP_GPS_MODDE_DEV, lpName, LP_GPS_MODDE_MOD, "qbf", lpDEVqbfp );
+        lp_path( lpPath, LP_GPS_MODDE_DEV, lpName, LP_GPS_MODDE_MOD, "syn", lpDEVsynp );
 
         /* Open file streams */
-        cspsDEVlogf = fopen( cspsDEVlogp, "rb" );
-        cspsDEVlatf = fopen( cspsDEVlatp, "wb" );
-        cspsDEVlonf = fopen( cspsDEVlonp, "wb" );
-        cspsDEValtf = fopen( cspsDEValtp, "wb" );
-        cspsDEVqbff = fopen( cspsDEVqbfp, "wb" );
-        cspsDEVsynf = fopen( cspsDEVsynp, "wb" );
+        lpDEVlogf = fopen( lpDEVlogp, "rb" );
+        lpDEVlatf = fopen( lpDEVlatp, "wb" );
+        lpDEVlonf = fopen( lpDEVlonp, "wb" );
+        lpDEValtf = fopen( lpDEValtp, "wb" );
+        lpDEVqbff = fopen( lpDEVqbfp, "wb" );
+        lpDEVsynf = fopen( lpDEVsynp, "wb" );
 
         /* Allocate buffer memory */
-        cspsDEVlat = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsDevice.dvBlock );
-        cspsDEVlon = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsDevice.dvBlock );
-        cspsDEValt = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsDevice.dvBlock );
-        cspsDEVqbf = ( csps_Time_t * ) malloc( sizeof( csps_Time_t ) * cspsDevice.dvBlock );
-        cspsDEVsyn = ( csps_Time_t * ) malloc( sizeof( csps_Time_t ) * cspsDevice.dvBlock );
+        lpDEVlat = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpDEVlon = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpDEValt = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpDEVqbf = ( lp_Time_t * ) malloc( sizeof( lp_Time_t ) * lpDevice.dvBlock );
+        lpDEVsyn = ( lp_Time_t * ) malloc( sizeof( lp_Time_t ) * lpDevice.dvBlock );
 
         /* FPGA records reading loop */
-        while ( cspsReading == CSPS_TRUE ) {
+        while ( lpReading == LP_TRUE ) {
 
             /* Reset reading index */
-            cspsIndex = csps_Size_s( 0 );
+            lpIndex = lp_Size_s( 0 );
 
             /* Reading of FPGA record by group */
-            while ( ( cspsReading == CSPS_TRUE ) && ( cspsIndex < cspsDevice.dvBlock ) ) {
+            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpDevice.dvBlock ) ) {
 
                 /* Read FPGA record */
-                cspsReaded = fread( cspsRec, 1, CSPS_DEVICE_CAM_EYESIS4PI_RECLEN, cspsDEVlogf );
+                lpReaded = fread( lpRec, 1, LP_DEVICE_CAM_EYESIS4PI_RECLEN, lpDEVlogf );
 
                 /* Verify FPGA record reading */
-                if ( cspsReaded == CSPS_DEVICE_CAM_EYESIS4PI_RECLEN ) {
+                if ( lpReaded == LP_DEVICE_CAM_EYESIS4PI_RECLEN ) {
 
                     /* GPS signal filter */
-                    if ( ( cspsRec[3] & csps_Byte_s( 0x0F ) ) == CSPS_DEVICE_CAM_EYESIS4PI_GPSEVT ) {
+                    if ( ( lpRec[3] & lp_Byte_s( 0x0F ) ) == LP_DEVICE_CAM_EYESIS4PI_GPSEVT ) {
 
                         /* Read GPS NMEA sentence and retrieve type */
-                        cspsSentenceType = csps_nmea_sentence( cspsRec + csps_Size_s( 8 ), ( CSPS_DEVICE_CAM_EYESIS4PI_RECLEN - csps_Size_s( 8 ) ) << 1, cspsSentence );
+                        lpSentenceType = lp_nmea_sentence( lpRec + lp_Size_s( 8 ), ( LP_DEVICE_CAM_EYESIS4PI_RECLEN - lp_Size_s( 8 ) ) << 1, lpSentence );
 
                         /* GPS NMEA GGA sentence filter */
-                        if ( cspsSentenceType == CSPS_NMEA_IDENT_GGA ) {
+                        if ( lpSentenceType == LP_NMEA_IDENT_GGA ) {
 
                             /* GPS NMEA GGA sentence validation */
-                            if ( csps_nmea_gga_validate( cspsSentence ) == CSPS_TRUE ) {
+                            if ( lp_nmea_gga_validate( lpSentence ) == LP_TRUE ) {
 
                                 /* Decompose NMEA GGA sentence */
-                                csps_nmea_gga( cspsSentence, NULL,
+                                lp_nmea_gga( lpSentence, NULL,
 
                                     /* Sending data buffers to decomposer */
-                                    cspsDEVlat + cspsIndex,
-                                    cspsDEVlon + cspsIndex,
-                                    cspsDEValt + cspsIndex,
-                                    cspsDEVqbf + cspsIndex
+                                    lpDEVlat + lpIndex,
+                                    lpDEVlon + lpIndex,
+                                    lpDEValt + lpIndex,
+                                    lpDEVqbf + lpIndex
 
                                 );
 
                                 /* Check rebuilding mode */
-                                if ( cspsModShift == csps_Size_s( 0 ) ) {
+                                if ( lpModShift == lp_Size_s( 0 ) ) {
 
                                     /* Rebuild FPGA timestamp based on 1pps trigger */
-                                    if ( cspsParse == csps_Size_s( 0 ) ) {
+                                    if ( lpParse == lp_Size_s( 0 ) ) {
 
                                         /* Consider FPGA initial timestamp for first segment reconstruction */
-                                        cspsDEVsyn[cspsIndex] = csps_timestamp( ( csps_Void_t * ) cspsRec );
+                                        lpDEVsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
 
                                         /* Memorize initial unix timestamp second */
-                                        cspsInitBreak = csps_timestamp_sec( cspsDEVsyn[cspsIndex] );
+                                        lpInitBreak = lp_timestamp_sec( lpDEVsyn[lpIndex] );
 
                                     } else {
 
                                         /* Search for initial complete second range */
-                                        if ( csps_timestamp_sec( csps_timestamp( ( csps_Void_t * ) cspsRec ) ) == cspsInitBreak ) {
+                                        if ( lp_timestamp_sec( lp_timestamp( ( lp_Void_t * ) lpRec ) ) == lpInitBreak ) {
 
                                             /* Build current timestamp based on previous */
-                                            cspsDEVsyn[cspsIndex] = csps_timestamp_add( cspsTimestamp, csps_Time_s( 200000 ) );
+                                            lpDEVsyn[lpIndex] = lp_timestamp_add( lpTimestamp, lp_Time_s( 200000 ) );
 
                                         } else {
 
                                             /* Consider FPGA timestamp for initial reset */
-                                            cspsDEVsyn[cspsIndex] = csps_timestamp( ( csps_Void_t * ) cspsRec );
+                                            lpDEVsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
 
                                             /* Set the modular shift parameter */
-                                            cspsModShift = cspsParse;
+                                            lpModShift = lpParse;
 
                                         }
 
@@ -213,28 +213,28 @@
                                 } else {
 
                                     /* Verify congurence reset condition */
-                                    if ( ( ( cspsParse - cspsModShift ) % cspsDevice.dvifreq ) == 0 ) {
+                                    if ( ( ( lpParse - lpModShift ) % lpDevice.dvifreq ) == 0 ) {
 
                                         /* Consider FPGA timestamp for periodic reset */
-                                        cspsDEVsyn[cspsIndex] = csps_timestamp( ( csps_Void_t * ) cspsRec );
+                                        lpDEVsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
 
                                     } else {
 
                                         /* Build current timestamp based on previous */
-                                        cspsDEVsyn[cspsIndex] = csps_timestamp_add( cspsTimestamp, csps_Time_s( 200000 ) );
+                                        lpDEVsyn[lpIndex] = lp_timestamp_add( lpTimestamp, lp_Time_s( 200000 ) );
 
                                     }
 
                                 }
 
                                 /* Memorize current timestemp */
-                                cspsTimestamp = cspsDEVsyn[cspsIndex];
+                                lpTimestamp = lpDEVsyn[lpIndex];
 
                                 /* Update reading index */
-                                cspsIndex += csps_Size_s( 1 );
+                                lpIndex += lp_Size_s( 1 );
 
                                 /* Update overall parse index */
-                                cspsParse += csps_Size_s( 1 );
+                                lpParse += lp_Size_s( 1 );
 
                             }
 
@@ -245,43 +245,43 @@
                 } else {
 
                     /* Stop reading on EOF */
-                    cspsReading = CSPS_FALSE;
+                    lpReading = LP_FALSE;
 
                 }
 
             }
 
             /* Verify that the current block is not empty */
-            if ( cspsIndex > csps_Size_s( 0 ) ) {
+            if ( lpIndex > lp_Size_s( 0 ) ) {
 
                 /* Export block in output streams */
-                fwrite( cspsDEVlat, sizeof( csps_Real_t ) * cspsIndex, 1, cspsDEVlatf );
-                fwrite( cspsDEVlon, sizeof( csps_Real_t ) * cspsIndex, 1, cspsDEVlonf );
-                fwrite( cspsDEValt, sizeof( csps_Real_t ) * cspsIndex, 1, cspsDEValtf );
-                fwrite( cspsDEVqbf, sizeof( csps_Time_t ) * cspsIndex, 1, cspsDEVqbff );
-                fwrite( cspsDEVsyn, sizeof( csps_Time_t ) * cspsIndex, 1, cspsDEVsynf );
+                fwrite( lpDEVlat, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVlatf );
+                fwrite( lpDEVlon, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVlonf );
+                fwrite( lpDEValt, sizeof( lp_Real_t ) * lpIndex, 1, lpDEValtf );
+                fwrite( lpDEVqbf, sizeof( lp_Time_t ) * lpIndex, 1, lpDEVqbff );
+                fwrite( lpDEVsyn, sizeof( lp_Time_t ) * lpIndex, 1, lpDEVsynf );
 
             }
 
         }
 
         /* Close file stream */
-        fclose( cspsDEVlogf );
-        fclose( cspsDEVlatf );
-        fclose( cspsDEVlonf );
-        fclose( cspsDEValtf );
-        fclose( cspsDEVqbff );
-        fclose( cspsDEVsynf );
+        fclose( lpDEVlogf );
+        fclose( lpDEVlatf );
+        fclose( lpDEVlonf );
+        fclose( lpDEValtf );
+        fclose( lpDEVqbff );
+        fclose( lpDEVsynf );
 
         /* Unallocate buffer memory */
-        free( cspsDEVsyn );
-        free( cspsDEVlat );
-        free( cspsDEVlon );
-        free( cspsDEValt );
-        free( cspsDEVqbf );
+        free( lpDEVsyn );
+        free( lpDEVlat );
+        free( lpDEVlon );
+        free( lpDEValt );
+        free( lpDEVqbf );
 
         /* Return device descriptor */
-        return( cspsDevice );
+        return( lpDevice );
 
     }
 

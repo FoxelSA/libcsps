@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_PATH__
-    # define __LIBCSPS_CSPS_PATH__
+    # ifndef __LP_PATH__
+    # define __LP_PATH__
 
 /*
     Header - C/C++ compatibility
@@ -64,8 +64,8 @@
  */
 
     /* Define relative root paths */
-    # define CSPS_PATH_CSPS     "stream_CSPS"
-    # define CSPS_PATH_FGPA     "stream_Logs"
+    # define LP_PATH_CSPS     "stream_CSPS"
+    # define LP_PATH_FGPA     "stream_Logs"
 
 /*
     Header - Preprocessor macros
@@ -83,14 +83,14 @@
     Header - Function prototypes
  */
 
-    void csps_path(
+    void lp_path(
 
-        const csps_Char_t * cspsBase,
-        const csps_Char_t * cspsTag,
-        const csps_Char_t * cspsName,
-        const csps_Char_t * cspsStep,
-        const csps_Char_t * cspsType,
-        csps_Char_t * const cspsPath
+        const lp_Char_t * lpBase,
+        const lp_Char_t * lpTag,
+        const lp_Char_t * lpName,
+        const lp_Char_t * lpStep,
+        const lp_Char_t * lpType,
+        lp_Char_t * const lpPath
 
     );
 

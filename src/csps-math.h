@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_MATH__
-    # define __LIBCSPS_CSPS_MATH__
+    # ifndef __LP_MATH__
+    # define __LP_MATH__
 
 /*
     Header - C/C++ compatibility
@@ -63,8 +63,8 @@
  */
 
     /* Spline flags */
-    # define CSPS_MATH_SPLINE_RESET csps_Enum_s( 0 )
-    # define CSPS_MATH_SPLINE_VALUE csps_Enum_s( 1 )
+    # define LP_MATH_SPLINE_RESET lp_Enum_s( 0 )
+    # define LP_MATH_SPLINE_VALUE lp_Enum_s( 1 )
 
 /*
     Header - Preprocessor macros
@@ -82,31 +82,31 @@
     Header - Function prototypes
  */
 
-    csps_Real_t csps_math_spline_czero(
+    lp_Real_t lp_math_spline_czero(
 
-        csps_Enum_t cspsFlag,
-        csps_Real_t x,
-        csps_Real_t x1,
-        csps_Real_t x2,
-        csps_Real_t y1,
-        csps_Real_t y2,
-        csps_Real_t d1,
-        csps_Real_t d2
+        lp_Enum_t cspsFlag,
+        lp_Real_t x,
+        lp_Real_t x1,
+        lp_Real_t x2,
+        lp_Real_t y1,
+        lp_Real_t y2,
+        lp_Real_t d1,
+        lp_Real_t d2
 
     );
 
-    csps_Real_t csps_math_spline(
+    lp_Real_t lp_math_spline(
 
-        csps_Enum_t cspsFlag,
-        csps_Real_t x,
-        csps_Real_t x0,
-        csps_Real_t x1,
-        csps_Real_t x2,
-        csps_Real_t x3,
-        csps_Real_t y0,
-        csps_Real_t y1,
-        csps_Real_t y2,
-        csps_Real_t y3
+        lp_Enum_t cspsFlag,
+        lp_Real_t x,
+        lp_Real_t x0,
+        lp_Real_t x1,
+        lp_Real_t x2,
+        lp_Real_t x3,
+        lp_Real_t y0,
+        lp_Real_t y1,
+        lp_Real_t y2,
+        lp_Real_t y3
 
     );
 

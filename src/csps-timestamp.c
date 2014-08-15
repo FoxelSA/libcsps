@@ -47,10 +47,10 @@
     Source - FPGA timestamp reader
  */
 
-    csps_Time_t csps_timestamp( const csps_Void_t * const cspsRec ) {
+    lp_Time_t lp_timestamp( const lp_Void_t * const lpRec ) {
 
         /* Return filtered timestamp value - 32HSb for unix time and 20LSb for microseconds */
-        return( csps_Time_s( 0xFFFFFFFF000FFFFF ) & ( * ( ( uint64_t * ) cspsRec ) ) );
+        return( lp_Time_s( 0xFFFFFFFF000FFFFF ) & ( * ( ( uint64_t * ) lpRec ) ) );
 
     }
 
@@ -59,10 +59,10 @@
     Source - FPGA timestamp composer
  */
 
-    csps_Time_t csps_timestamp_compose( csps_Time_t cspsSec, csps_Time_t cspsUsec ) {
+    lp_Time_t lp_timestamp_compose( lp_Time_t lpSec, lp_Time_t lpUsec ) {
 
         /* Return composed timestamp */
-        return( ( cspsSec << csps_Size_s( 32 ) ) | cspsUsec );
+        return( ( lpSec << lp_Size_s( 32 ) ) | lpUsec );
 
     }
 
@@ -70,17 +70,17 @@
     Source - FPGA timestamp decomposer
  */
 
-    csps_Time_t csps_timestamp_sec( csps_Time_t cspsT ) {
+    lp_Time_t lp_timestamp_sec( lp_Time_t lpT ) {
 
         /* Return time stamp seconds */
-        return( cspsT >> csps_Size_s( 32 ) );
+        return( lpT >> lp_Size_s( 32 ) );
 
     }
 
-    csps_Time_t csps_timestamp_usec( csps_Time_t cspsT ) {
+    lp_Time_t lp_timestamp_usec( lp_Time_t lpT ) {
 
         /* Return time stamp microseconds */
-        return( cspsT & csps_Time_s( 0x00000000000FFFFF ) );
+        return( lpT & lp_Time_s( 0x00000000000FFFFF ) );
 
     }
 
@@ -88,36 +88,36 @@
     Source - FPGA timestamp comparators
  */
 
-    csps_Enum_t csps_timestamp_eq( csps_Time_t cspsTa, csps_Time_t cspsTb ) {
+    lp_Enum_t lp_timestamp_eq( lp_Time_t lpTa, lp_Time_t lpTb ) {
 
         /* Verify timestamp equality */
-        if ( cspsTa == cspsTb ) {
+        if ( lpTa == lpTb ) {
 
             /* Return boolean result */
-            return( CSPS_TRUE );
+            return( LP_TRUE );
 
         } else {
 
             /* Return boolean result */
-            return( CSPS_FALSE );
+            return( LP_FALSE );
 
         }
 
     }
 
-    csps_Enum_t csps_timestamp_ge( csps_Time_t cspsTa, csps_Time_t cspsTb ) {
+    lp_Enum_t lp_timestamp_ge( lp_Time_t lpTa, lp_Time_t lpTb ) {
 
         /* Timestamp decomposition */
-        csps_Time_t cspsSeca  = csps_timestamp_sec ( cspsTa );
-        csps_Time_t cspsUseca = csps_timestamp_usec( cspsTa );
-        csps_Time_t cspsSecb  = csps_timestamp_sec ( cspsTb );
-        csps_Time_t cspsUsecb = csps_timestamp_usec( cspsTb );
+        lp_Time_t cspsSeca  = lp_timestamp_sec ( lpTa );
+        lp_Time_t cspsUseca = lp_timestamp_usec( lpTa );
+        lp_Time_t cspsSecb  = lp_timestamp_sec ( lpTb );
+        lp_Time_t cspsUsecb = lp_timestamp_usec( lpTb );
 
         /* Verify unix time */
         if ( cspsSeca > cspsSecb ) {
 
             /* Return boolean result */
-            return( CSPS_TRUE );
+            return( LP_TRUE );
 
         } else {
 
@@ -128,19 +128,19 @@
                 if ( cspsUseca >= cspsUsecb ) {
 
                     /* Return boolean result */
-                    return( CSPS_TRUE );
+                    return( LP_TRUE );
 
                 } else  {
 
                     /* Return boolean result */
-                    return( CSPS_FALSE );
+                    return( LP_FALSE );
 
                 }
 
             } else {
 
                 /* Return boolean result */
-                return( CSPS_FALSE );
+                return( LP_FALSE );
 
             }
 
@@ -152,24 +152,24 @@
     Source - FPGA timestamp arithmetic
  */
 
-    csps_Time_t csps_timestamp_add( const csps_Time_t cspsTa, const csps_Time_t cspsTb ) {
+    lp_Time_t lp_timestamp_add( const lp_Time_t lpTa, const lp_Time_t lpTb ) {
 
         /* Compute addition by parts */
-        csps_Time_t cspsSec  = csps_timestamp_sec ( cspsTa ) + csps_timestamp_sec ( cspsTb );
-        csps_Time_t cspsUsec = csps_timestamp_usec( cspsTa ) + csps_timestamp_usec( cspsTb );
+        lp_Time_t lpSec  = lp_timestamp_sec ( lpTa ) + lp_timestamp_sec ( lpTb );
+        lp_Time_t lpUsec = lp_timestamp_usec( lpTa ) + lp_timestamp_usec( lpTb );
 
         /* Return addition of timestamps */
-        return( csps_timestamp_compose( cspsSec + ( cspsUsec > csps_Time_s( 1000000 ) ? csps_Time_s( 1 ) : csps_Time_s( 0 ) ), cspsUsec % csps_Time_s( 1000000 ) ) );
+        return( lp_timestamp_compose( lpSec + ( lpUsec > lp_Time_s( 1000000 ) ? lp_Time_s( 1 ) : lp_Time_s( 0 ) ), lpUsec % lp_Time_s( 1000000 ) ) );
 
     }
 
-    csps_Time_t csps_timestamp_diff( csps_Time_t cspsTa, csps_Time_t cspsTb ) {
+    lp_Time_t lp_timestamp_diff( lp_Time_t lpTa, lp_Time_t lpTb ) {
 
         /* Difference variable */
-        csps_Diff_t cspsUsec = 0;
+        lp_Diff_t lpUsec = 0;
 
         /* Verify timestamp equality */
-        if ( csps_timestamp_eq( cspsTa, cspsTb ) == CSPS_TRUE ) {
+        if ( lp_timestamp_eq( lpTa, lpTb ) == LP_TRUE ) {
 
             /* Return difference */
             return( 0 );
@@ -177,21 +177,21 @@
         } else {
 
             /* Verify highest timestamp */
-            if ( csps_timestamp_ge( cspsTb, cspsTa ) == CSPS_TRUE ) { uint64_t cspsSwap = cspsTa; cspsTa = cspsTb; cspsTb = cspsSwap; }
+            if ( lp_timestamp_ge( lpTb, lpTa ) == LP_TRUE ) { uint64_t cspsSwap = lpTa; lpTa = lpTb; lpTb = cspsSwap; }
 
             /* Compute microseconde difference */
-            cspsUsec = csps_timestamp_usec( cspsTa ) - csps_timestamp_usec( cspsTb );
+            lpUsec = lp_timestamp_usec( lpTa ) - lp_timestamp_usec( lpTb );
 
             /* Verify microseconde sign */
-            if ( cspsUsec < 0 ) {
+            if ( lpUsec < 0 ) {
 
                 /* Return difference */
-                return( ( ( csps_timestamp_sec( cspsTa ) - csps_timestamp_sec( cspsTb ) - 1 ) << csps_Size_s( 32 ) ) | ( cspsUsec + csps_Diff_s( 1000000 ) ) );
+                return( ( ( lp_timestamp_sec( lpTa ) - lp_timestamp_sec( lpTb ) - 1 ) << lp_Size_s( 32 ) ) | ( lpUsec + lp_Diff_s( 1000000 ) ) );
 
             } else {
 
                 /* Return difference */
-                return( ( ( csps_timestamp_sec( cspsTa ) - csps_timestamp_sec( cspsTb ) ) << csps_Size_s( 32 ) ) | cspsUsec );
+                return( ( ( lp_timestamp_sec( lpTa ) - lp_timestamp_sec( lpTb ) ) << lp_Size_s( 32 ) ) | lpUsec );
 
             }
 
@@ -203,14 +203,14 @@
     Source - FPGA timestamp converter
  */
 
-    csps_Real_t csps_timestamp_float( csps_Time_t cspsT ) {
+    lp_Real_t lp_timestamp_float( lp_Time_t lpT ) {
 
         /* Conversion variable */
-        csps_Real_t cspsSec  = ( csps_Real_t ) csps_timestamp_sec ( cspsT );
-        csps_Real_t cspsUsec = ( csps_Real_t ) csps_timestamp_usec( cspsT );
+        lp_Real_t lpSec  = ( lp_Real_t ) lp_timestamp_sec ( lpT );
+        lp_Real_t lpUsec = ( lp_Real_t ) lp_timestamp_usec( lpT );
 
         /* Return converted value */
-        return( cspsSec + ( cspsUsec / csps_Real_s( 1000000.0 ) ) );
+        return( lpSec + ( lpUsec / lp_Real_s( 1000000.0 ) ) );
 
     }
 
@@ -218,44 +218,44 @@
     Source - UTC to localtime converter
  */
 
-    csps_Time_t csps_timestamp_local( const csps_Char_t * const cspsZone, csps_Time_t cspsUTC ) {
+    lp_Time_t lp_timestamp_local( const lp_Char_t * const lpZone, lp_Time_t lpUTC ) {
 
         /* Select zone */
-        if ( strcmp( cspsZone, CSPS_TIMESTAMP_ZONE_WET ) == 0 ) {
+        if ( strcmp( lpZone, LP_TIMESTAMP_ZONE_WET ) == 0 ) {
 
             /* Return local timestamp */
-            return( cspsUTC );
+            return( lpUTC );
 
-        } else if ( strcmp( cspsZone, CSPS_TIMESTAMP_ZONE_WEST ) == 0 ) {
-
-            /* Return local timestamp */
-            return( csps_timestamp_compose( csps_timestamp_sec( cspsUTC ) + csps_Time_s( 3600 * 1 ), csps_timestamp_usec( cspsUTC ) ) );
-
-        } else if ( strcmp( cspsZone, CSPS_TIMESTAMP_ZONE_CET ) == 0 ) {
+        } else if ( strcmp( lpZone, LP_TIMESTAMP_ZONE_WEST ) == 0 ) {
 
             /* Return local timestamp */
-            return( csps_timestamp_compose( csps_timestamp_sec( cspsUTC ) + csps_Time_s( 3600 * 1 ), csps_timestamp_usec( cspsUTC ) ) );
+            return( lp_timestamp_compose( lp_timestamp_sec( lpUTC ) + lp_Time_s( 3600 * 1 ), lp_timestamp_usec( lpUTC ) ) );
 
-        } else if ( strcmp( cspsZone, CSPS_TIMESTAMP_ZONE_CEST ) == 0 ) {
-
-            /* Return local timestamp */
-            return( csps_timestamp_compose( csps_timestamp_sec( cspsUTC ) + csps_Time_s( 3600 * 2 ), csps_timestamp_usec( cspsUTC ) ) );
-
-        } else if ( strcmp( cspsZone, CSPS_TIMESTAMP_ZONE_EET ) == 0 ) {
+        } else if ( strcmp( lpZone, LP_TIMESTAMP_ZONE_CET ) == 0 ) {
 
             /* Return local timestamp */
-            return( csps_timestamp_compose( csps_timestamp_sec( cspsUTC ) + csps_Time_s( 3600 * 2 ), csps_timestamp_usec( cspsUTC ) ) );
+            return( lp_timestamp_compose( lp_timestamp_sec( lpUTC ) + lp_Time_s( 3600 * 1 ), lp_timestamp_usec( lpUTC ) ) );
 
-        } else if ( strcmp( cspsZone, CSPS_TIMESTAMP_ZONE_EEST ) == 0 ) {
+        } else if ( strcmp( lpZone, LP_TIMESTAMP_ZONE_CEST ) == 0 ) {
 
             /* Return local timestamp */
-            return( csps_timestamp_compose( csps_timestamp_sec( cspsUTC ) + csps_Time_s( 3600 * 3 ), csps_timestamp_usec( cspsUTC ) ) );
+            return( lp_timestamp_compose( lp_timestamp_sec( lpUTC ) + lp_Time_s( 3600 * 2 ), lp_timestamp_usec( lpUTC ) ) );
+
+        } else if ( strcmp( lpZone, LP_TIMESTAMP_ZONE_EET ) == 0 ) {
+
+            /* Return local timestamp */
+            return( lp_timestamp_compose( lp_timestamp_sec( lpUTC ) + lp_Time_s( 3600 * 2 ), lp_timestamp_usec( lpUTC ) ) );
+
+        } else if ( strcmp( lpZone, LP_TIMESTAMP_ZONE_EEST ) == 0 ) {
+
+            /* Return local timestamp */
+            return( lp_timestamp_compose( lp_timestamp_sec( lpUTC ) + lp_Time_s( 3600 * 3 ), lp_timestamp_usec( lpUTC ) ) );
 
 
         } else {
 
             /* Return original timestamp */
-            return( cspsUTC );
+            return( lpUTC );
 
         }
 

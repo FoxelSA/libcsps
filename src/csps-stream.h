@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_STREAM__
-    # define __LIBCSPS_CSPS_STREAM__
+    # ifndef __LP_STREAM__
+    # define __LP_STREAM__
 
 /*
     Header - C/C++ compatibility
@@ -79,36 +79,36 @@
     Header - Function prototypes
  */
 
-    csps_Size_t csps_stream_size(
+    lp_Size_t lp_stream_size(
 
-        const csps_Char_t * const cspsPath,
-        const csps_Char_t * const cspsDev,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__,
-        const csps_Char_t * const cspsType
-
-    );
-
-    csps_Void_t * csps_stream_read(
-
-        const csps_Char_t * const cspsPath,
-        const csps_Char_t * const cspsDev,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__,
-        const csps_Char_t * const cspsType,
-        csps_Size_t cspsSize
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpDev,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__,
+        const lp_Char_t * const lpType
 
     );
 
-    csps_Void_t csps_stream_write(
+    lp_Void_t * lp_stream_read(
 
-        const csps_Char_t * const cspsPath,
-        const csps_Char_t * const cspsDev,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__,
-        const csps_Char_t * const cspsType,
-        const csps_Void_t * const cspsStream,
-        csps_Size_t cspsSize
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpDev,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__,
+        const lp_Char_t * const lpType,
+        lp_Size_t lpSize
+
+    );
+
+    lp_Void_t lp_stream_write(
+
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpDev,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__,
+        const lp_Char_t * const lpType,
+        const lp_Void_t * const lpStream,
+        lp_Size_t lpSize
 
     );
 

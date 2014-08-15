@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_QBF__
-    # define __LIBCSPS_CSPS_QBF__
+    # ifndef __LP_QBF__
+    # define __LP_QBF__
 
 /*
     Header - C/C++ compatibility
@@ -62,40 +62,43 @@
     Header - Preprocessor definitions
  */
 
+    /* Define signal fix */
+    # define LP_QBF_FIX_INVALID       lp_Enum_s( 0 )
+    # define LP_QBF_FIX_GPS           lp_Enum_s( 1 )
+    # define LP_QBF_FIX_DGPS          lp_Enum_s( 2 )
+    # define LP_QBF_FIX_PPS           lp_Enum_s( 3 )
+    # define LP_QBF_FIX_RTK           lp_Enum_s( 4 )
+    # define LP_QBF_FIX_FRTK          lp_Enum_s( 5 )
+    # define LP_QBF_FIX_ESTIMAT       lp_Enum_s( 6 )
+    # define LP_QBF_FIX_MANUAL        lp_Enum_s( 7 )
+    # define LP_QBF_FIX_SIMULATION    lp_Enum_s( 8 )
+
+    /* Define threshold parameters */
+    # define LP_QBF_THR_MINSAT        lp_Size_s(   7 )
+    # define LP_QBF_THR_MINHDP        lp_Size_s( 200 )
+
 /*
     Header - Preprocessor macros
  */
+    
+    /* Define casting macro */
+    # define lp_SQBF_c(x)   ( ( lp_SQBF_t ) x )
 
-    /* Define signal fix */
-    # define CSPS_QBF_FIX_INVALID       csps_Enum_s( 0 )
-    # define CSPS_QBF_FIX_GPS           csps_Enum_s( 1 )
-    # define CSPS_QBF_FIX_DGPS          csps_Enum_s( 2 )
-    # define CSPS_QBF_FIX_PPS           csps_Enum_s( 3 )
-    # define CSPS_QBF_FIX_RTK           csps_Enum_s( 4 )
-    # define CSPS_QBF_FIX_FRTK          csps_Enum_s( 5 )
-    # define CSPS_QBF_FIX_ESTIMAT       csps_Enum_s( 6 )
-    # define CSPS_QBF_FIX_MANUAL        csps_Enum_s( 7 )
-    # define CSPS_QBF_FIX_SIMULATION    csps_Enum_s( 8 )
+    /* Define litteral suffix */
+    # define lp_SQBF_s(x)   UINT64_C(x)
 
-    /* Define threshold parameters */
-    # define CSPS_QBF_THR_MINSAT        csps_Size_s(   7 )
-    # define CSPS_QBF_THR_MINHDP        csps_Size_s( 200 )
+    /* Define formated output specifiers */
+    # define lp_SQBF_p      PRIu64
+
+    /* Define formated input specifiers */
+    # define lp_SQBF_i      SCNu64
 
 /*
     Header - Typedefs
  */
 
     /* Define gps signal quality buffer type */
-    typedef uint64_t csps_SQBF_t;
-
-    /* Define literal suffix */
-    # define csps_SQBF_s(x)  UINT64_C(x)
-
-    /* Define formated output specifiers */
-    # define csps_SQBF_p    PRIu64
-
-    /* Define formated input specifiers */
-    # define csps_SQBF_i    SCNu64
+    typedef uint64_t lp_SQBF_t;
 
 /*
     Header - Structures
@@ -105,35 +108,35 @@
     Header - Function prototypes
  */
 
-    csps_Enum_t csps_qbf_threshold(
+    lp_Enum_t lp_qbf_threshold(
 
-        csps_SQBF_t cspsQBFValue
-
-    );
-
-    csps_SQBF_t csps_qbf_compose(
-
-        csps_Enum_t cspsFix,
-        csps_Size_t cspsSat,
-        csps_Size_t cspsHDP100
+        lp_SQBF_t lpQBFValue
 
     );
 
-    csps_Enum_t csps_qbf_fix(
+    lp_SQBF_t lp_qbf_compose(
 
-        csps_SQBF_t cspsQBF
-
-    );
-
-    csps_Size_t csps_qbf_sat(
-
-        csps_SQBF_t cspsQBF
+        lp_Enum_t lpFix,
+        lp_Size_t lpSat,
+        lp_Size_t lpHDP100
 
     );
 
-    csps_Size_t csps_qbf_hdop100(
+    lp_Enum_t lp_qbf_fix(
 
-        csps_SQBF_t cspsQBF
+        lp_SQBF_t lpQBF
+
+    );
+
+    lp_Size_t lp_qbf_sat(
+
+        lp_SQBF_t lpQBF
+
+    );
+
+    lp_Size_t lp_qbf_hdop100(
+
+        lp_SQBF_t lpQBF
 
     );
 

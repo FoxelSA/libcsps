@@ -47,25 +47,25 @@
     Source - C(0) spline function
  */
 
-    csps_Real_t csps_math_spline_czero(
+    lp_Real_t lp_math_spline_czero(
 
-        csps_Enum_t cspsFlag,
-        csps_Real_t x,
-        csps_Real_t x1,
-        csps_Real_t x2,
-        csps_Real_t y1,
-        csps_Real_t y2,
-        csps_Real_t d1,
-        csps_Real_t d2
+        lp_Enum_t cspsFlag,
+        lp_Real_t x,
+        lp_Real_t x1,
+        lp_Real_t x2,
+        lp_Real_t y1,
+        lp_Real_t y2,
+        lp_Real_t d1,
+        lp_Real_t d2
 
     ) {
 
         /* Cubic spline factors */
-        static csps_Real_t cspsCoeffA = csps_Real_s( 0.0 );
-        static csps_Real_t cspsCoeffB = csps_Real_s( 0.0 );
+        static lp_Real_t cspsCoeffA = lp_Real_s( 0.0 );
+        static lp_Real_t cspsCoeffB = lp_Real_s( 0.0 );
 
         /* Verify spline function flag */
-        if ( cspsFlag == CSPS_MATH_SPLINE_RESET ) {
+        if ( cspsFlag == LP_MATH_SPLINE_RESET ) {
 
             /* Compute cubic spline factors - 2-0,3-1 Model */
             cspsCoeffA = + ( d1 ) * ( x2 - x1 ) - ( y2 - y1 );
@@ -77,7 +77,7 @@
         x = ( x - x1 ) / ( x2 - x1 );
 
         /* Compute interpolated value */
-        return( ( ( csps_Real_s( 1.0 ) - x ) * y1 ) + ( x * y2 ) + ( x * ( csps_Real_s( 1.0 ) - x ) ) * ( cspsCoeffA * ( csps_Real_s( 1.0 ) - x ) + cspsCoeffB * x ) );
+        return( ( ( lp_Real_s( 1.0 ) - x ) * y1 ) + ( x * y2 ) + ( x * ( lp_Real_s( 1.0 ) - x ) ) * ( cspsCoeffA * ( lp_Real_s( 1.0 ) - x ) + cspsCoeffB * x ) );
 
     }
 
@@ -85,27 +85,27 @@
     Source - C(1) spline function
  */
 
-    csps_Real_t csps_math_spline(
+    lp_Real_t lp_math_spline(
 
-        csps_Enum_t cspsFlag,
-        csps_Real_t x,
-        csps_Real_t x0,
-        csps_Real_t x1,
-        csps_Real_t x2,
-        csps_Real_t x3,
-        csps_Real_t y0,
-        csps_Real_t y1,
-        csps_Real_t y2,
-        csps_Real_t y3
+        lp_Enum_t cspsFlag,
+        lp_Real_t x,
+        lp_Real_t x0,
+        lp_Real_t x1,
+        lp_Real_t x2,
+        lp_Real_t x3,
+        lp_Real_t y0,
+        lp_Real_t y1,
+        lp_Real_t y2,
+        lp_Real_t y3
 
     ) {
 
         /* Cubic spline factors */
-        static csps_Real_t cspsCoeffA = csps_Real_s( 0.0 );
-        static csps_Real_t cspsCoeffB = csps_Real_s( 0.0 );
+        static lp_Real_t cspsCoeffA = lp_Real_s( 0.0 );
+        static lp_Real_t cspsCoeffB = lp_Real_s( 0.0 );
 
         /* Verify spline function flag */
-        if ( cspsFlag == CSPS_MATH_SPLINE_RESET ) {
+        if ( cspsFlag == LP_MATH_SPLINE_RESET ) {
 
             /* Compute cubic spline factors - 2-0,3-1 Model */
             cspsCoeffA = + ( ( y2 - y0 ) / ( x2 - x0 ) ) * ( x2 - x1 ) - ( y2 - y1 );
@@ -117,7 +117,7 @@
         x = ( x - x1 ) / ( x2 - x1 );
 
         /* Compute interpolated value */
-        return( ( ( csps_Real_s( 1.0 ) - x ) * y1 ) + ( x * y2 ) + ( x * ( csps_Real_s( 1.0 ) - x ) ) * ( cspsCoeffA * ( csps_Real_s( 1.0 ) - x ) + cspsCoeffB * x ) );
+        return( ( ( lp_Real_s( 1.0 ) - x ) * y1 ) + ( x * y2 ) + ( x * ( lp_Real_s( 1.0 ) - x ) ) * ( cspsCoeffA * ( lp_Real_s( 1.0 ) - x ) + cspsCoeffB * x ) );
 
     }
 

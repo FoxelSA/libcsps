@@ -47,18 +47,18 @@
     Source - IMU data extractor module
  */
 
-    csps_IMU csps_imu_modde( const csps_Char_t * const cspsPath, csps_IMU cspsDevice, const csps_Char_t * const cspsName ) {
+    lp_IMU lp_imu_modde( const lp_Char_t * const lpPath, lp_IMU lpDevice, const lp_Char_t * const lpName ) {
 
         /* Select device */
-        if ( strcmp( cspsDevice.dvName, CSPS_DEVICE_IMU_ADIS16375 ) == 0 ) {
+        if ( strcmp( lpDevice.dvName, LP_DEVICE_IMU_ADIS16375 ) == 0 ) {
 
             /* ADIS16375 specific process */
-            return( csps_imu_ADIS16375( cspsPath, cspsDevice, cspsName ) );
+            return( lp_imu_ADIS16375( lpPath, lpDevice, lpName ) );
 
         } else {
 
             /* Unknown device - Return descriptor */
-            return( cspsDevice );
+            return( lpDevice );
 
         }
 
@@ -68,156 +68,156 @@
     Source - IMU ADIS16375 specific extractor
  */
 
-    csps_IMU csps_imu_ADIS16375( const csps_Char_t * const cspsPath, csps_IMU cspsDevice, const csps_Char_t * const cspsName ) {
+    lp_IMU lp_imu_ADIS16375( const lp_Char_t * const lpPath, lp_IMU lpDevice, const lp_Char_t * const lpName ) {
 
         /* FPGA record buffer */
-        csps_Byte_t cspsRec[CSPS_DEVICE_CAM_EYESIS4PI_RECLEN];
+        lp_Byte_t lpRec[LP_DEVICE_CAM_EYESIS4PI_RECLEN];
 
         /* Reading variables */
-        csps_Enum_t cspsReading = CSPS_TRUE;
-        csps_Size_t cspsIndex = csps_Size_s( 0 );
-        csps_Size_t cspsReaded = csps_Size_s( 0 );
+        lp_Enum_t lpReading = LP_TRUE;
+        lp_Size_t lpIndex = lp_Size_s( 0 );
+        lp_Size_t lpReaded = lp_Size_s( 0 );
 
         /* Paths string buffer */
-        csps_Char_t cspsDEVlogp[CSPS_STR_LEN] = CSPS_STR_INI;
-        csps_Char_t cspsDEVgrxp[CSPS_STR_LEN] = CSPS_STR_INI;
-        csps_Char_t cspsDEVgryp[CSPS_STR_LEN] = CSPS_STR_INI;
-        csps_Char_t cspsDEVgrzp[CSPS_STR_LEN] = CSPS_STR_INI;
-        csps_Char_t cspsDEVacxp[CSPS_STR_LEN] = CSPS_STR_INI;
-        csps_Char_t cspsDEVacyp[CSPS_STR_LEN] = CSPS_STR_INI;
-        csps_Char_t cspsDEVaczp[CSPS_STR_LEN] = CSPS_STR_INI;
-        csps_Char_t cspsDEVsynp[CSPS_STR_LEN] = CSPS_STR_INI;
+        lp_Char_t lpDEVlogp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpDEVgrxp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpDEVgryp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpDEVgrzp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpDEVacxp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpDEVacyp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpDEVaczp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpDEVsynp[LP_STR_LEN] = LP_STR_INI;
 
         /* Stream handles */
-        csps_File_t cspsDEVlogf = NULL;
-        csps_File_t cspsDEVgrxf = NULL;
-        csps_File_t cspsDEVgryf = NULL;
-        csps_File_t cspsDEVgrzf = NULL;
-        csps_File_t cspsDEVacxf = NULL;
-        csps_File_t cspsDEVacyf = NULL;
-        csps_File_t cspsDEVaczf = NULL;
-        csps_File_t cspsDEVsynf = NULL;
+        lp_File_t lpDEVlogf = NULL;
+        lp_File_t lpDEVgrxf = NULL;
+        lp_File_t lpDEVgryf = NULL;
+        lp_File_t lpDEVgrzf = NULL;
+        lp_File_t lpDEVacxf = NULL;
+        lp_File_t lpDEVacyf = NULL;
+        lp_File_t lpDEVaczf = NULL;
+        lp_File_t lpDEVsynf = NULL;
 
         /* Data buffers */
-        csps_Real_t * cspsDEVgrx = NULL;
-        csps_Real_t * cspsDEVgry = NULL;
-        csps_Real_t * cspsDEVgrz = NULL;
-        csps_Real_t * cspsDEVacx = NULL;
-        csps_Real_t * cspsDEVacy = NULL;
-        csps_Real_t * cspsDEVacz = NULL;
-        csps_Time_t * cspsDEVsyn = NULL;
+        lp_Real_t * lpDEVgrx = NULL;
+        lp_Real_t * lpDEVgry = NULL;
+        lp_Real_t * lpDEVgrz = NULL;
+        lp_Real_t * lpDEVacx = NULL;
+        lp_Real_t * lpDEVacy = NULL;
+        lp_Real_t * lpDEVacz = NULL;
+        lp_Time_t * lpDEVsyn = NULL;
 
         /* Build raw log file paths */
-        csps_path( cspsPath, CSPS_DEVICE_IMU_ADIS16375, NULL, NULL, NULL, cspsDEVlogp );
+        lp_path( lpPath, LP_DEVICE_IMU_ADIS16375, NULL, NULL, NULL, lpDEVlogp );
 
         /* Build file paths */
-        csps_path( cspsPath, CSPS_IMU_MODDE_DEV, cspsName, CSPS_IMU_MODDE_MOD, "grx", cspsDEVgrxp );
-        csps_path( cspsPath, CSPS_IMU_MODDE_DEV, cspsName, CSPS_IMU_MODDE_MOD, "gry", cspsDEVgryp );
-        csps_path( cspsPath, CSPS_IMU_MODDE_DEV, cspsName, CSPS_IMU_MODDE_MOD, "grz", cspsDEVgrzp );
-        csps_path( cspsPath, CSPS_IMU_MODDE_DEV, cspsName, CSPS_IMU_MODDE_MOD, "acx", cspsDEVacxp );
-        csps_path( cspsPath, CSPS_IMU_MODDE_DEV, cspsName, CSPS_IMU_MODDE_MOD, "acy", cspsDEVacyp );
-        csps_path( cspsPath, CSPS_IMU_MODDE_DEV, cspsName, CSPS_IMU_MODDE_MOD, "acz", cspsDEVaczp );
-        csps_path( cspsPath, CSPS_IMU_MODDE_DEV, cspsName, CSPS_IMU_MODDE_MOD, "syn", cspsDEVsynp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "grx", lpDEVgrxp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "gry", lpDEVgryp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "grz", lpDEVgrzp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "acx", lpDEVacxp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "acy", lpDEVacyp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "acz", lpDEVaczp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "syn", lpDEVsynp );
 
         /* Open file streams */
-        cspsDEVlogf = fopen( cspsDEVlogp, "rb" );
-        cspsDEVgrxf = fopen( cspsDEVgrxp, "wb" );
-        cspsDEVgryf = fopen( cspsDEVgryp, "wb" );
-        cspsDEVgrzf = fopen( cspsDEVgrzp, "wb" );
-        cspsDEVacxf = fopen( cspsDEVacxp, "wb" );
-        cspsDEVacyf = fopen( cspsDEVacyp, "wb" );
-        cspsDEVaczf = fopen( cspsDEVaczp, "wb" );
-        cspsDEVsynf = fopen( cspsDEVsynp, "wb" );
+        lpDEVlogf = fopen( lpDEVlogp, "rb" );
+        lpDEVgrxf = fopen( lpDEVgrxp, "wb" );
+        lpDEVgryf = fopen( lpDEVgryp, "wb" );
+        lpDEVgrzf = fopen( lpDEVgrzp, "wb" );
+        lpDEVacxf = fopen( lpDEVacxp, "wb" );
+        lpDEVacyf = fopen( lpDEVacyp, "wb" );
+        lpDEVaczf = fopen( lpDEVaczp, "wb" );
+        lpDEVsynf = fopen( lpDEVsynp, "wb" );
 
         /* Allocate buffer memory */
-        cspsDEVgrx = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsDevice.dvBlock );
-        cspsDEVgry = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsDevice.dvBlock );
-        cspsDEVgrz = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsDevice.dvBlock );
-        cspsDEVacx = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsDevice.dvBlock );
-        cspsDEVacy = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsDevice.dvBlock );
-        cspsDEVacz = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsDevice.dvBlock );
-        cspsDEVsyn = ( csps_Time_t * ) malloc( sizeof( csps_Time_t ) * cspsDevice.dvBlock );
+        lpDEVgrx = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpDEVgry = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpDEVgrz = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpDEVacx = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpDEVacy = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpDEVacz = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpDEVsyn = ( lp_Time_t * ) malloc( sizeof( lp_Time_t ) * lpDevice.dvBlock );
 
         /* FPGA records reading loop */
-        while ( cspsReading == CSPS_TRUE ) {
+        while ( lpReading == LP_TRUE ) {
 
             /* Reset reading index */
-            cspsIndex = csps_Size_s( 0 );
+            lpIndex = lp_Size_s( 0 );
 
             /* Reading of FPGA record by group */
-            while ( ( cspsReading == CSPS_TRUE ) && ( cspsIndex < cspsDevice.dvBlock ) ) {
+            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpDevice.dvBlock ) ) {
 
                 /* Read FPGA record */
-                cspsReaded = fread( cspsRec, 1, CSPS_DEVICE_CAM_EYESIS4PI_RECLEN, cspsDEVlogf );
+                lpReaded = fread( lpRec, 1, LP_DEVICE_CAM_EYESIS4PI_RECLEN, lpDEVlogf );
 
                 /* Verify FPGA record reading */
-                if ( cspsReaded == CSPS_DEVICE_CAM_EYESIS4PI_RECLEN ) {
+                if ( lpReaded == LP_DEVICE_CAM_EYESIS4PI_RECLEN ) {
 
                     /* IMU signal filter */
-                    if ( ( cspsRec[3] & csps_Byte_s( 0x0F ) ) == CSPS_DEVICE_CAM_EYESIS4PI_IMUEVT ) {
+                    if ( ( lpRec[3] & lp_Byte_s( 0x0F ) ) == LP_DEVICE_CAM_EYESIS4PI_IMUEVT ) {
 
                         /* Assign readed data */
-                        cspsDEVgrx[cspsIndex] = ( ( csps_Real_t ) ( ( int32_t * ) cspsRec )[2] ) * cspsDevice.dvGYRx;
-                        cspsDEVgry[cspsIndex] = ( ( csps_Real_t ) ( ( int32_t * ) cspsRec )[3] ) * cspsDevice.dvGYRy;
-                        cspsDEVgrz[cspsIndex] = ( ( csps_Real_t ) ( ( int32_t * ) cspsRec )[4] ) * cspsDevice.dvGYRz;
-                        cspsDEVacx[cspsIndex] = ( ( csps_Real_t ) ( ( int32_t * ) cspsRec )[5] ) * cspsDevice.dvACCx;
-                        cspsDEVacy[cspsIndex] = ( ( csps_Real_t ) ( ( int32_t * ) cspsRec )[6] ) * cspsDevice.dvACCy;
-                        cspsDEVacz[cspsIndex] = ( ( csps_Real_t ) ( ( int32_t * ) cspsRec )[7] ) * cspsDevice.dvACCz;
+                        lpDEVgrx[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[2] ) * lpDevice.dvGYRx;
+                        lpDEVgry[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[3] ) * lpDevice.dvGYRy;
+                        lpDEVgrz[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[4] ) * lpDevice.dvGYRz;
+                        lpDEVacx[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[5] ) * lpDevice.dvACCx;
+                        lpDEVacy[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[6] ) * lpDevice.dvACCy;
+                        lpDEVacz[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[7] ) * lpDevice.dvACCz;
 
                         /* Retrieve FPGA timestamp */
-                        cspsDEVsyn[cspsIndex] = csps_timestamp( ( csps_Void_t * ) cspsRec );
+                        lpDEVsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
 
                         /* Update reading index */
-                        cspsIndex += csps_Size_s( 1 );
+                        lpIndex += lp_Size_s( 1 );
 
                     }
 
                 } else {
 
                     /* Stop reading on EOF */
-                    cspsReading = CSPS_FALSE;
+                    lpReading = LP_FALSE;
 
                 }
 
             }
 
             /* Verify that the current block is not empty */
-            if ( cspsIndex > csps_Size_s( 0 ) ) {
+            if ( lpIndex > lp_Size_s( 0 ) ) {
 
                 /* Export block in output streams */
-                fwrite( cspsDEVgrx, sizeof( csps_Real_t ) * cspsIndex, 1, cspsDEVgrxf );
-                fwrite( cspsDEVgry, sizeof( csps_Real_t ) * cspsIndex, 1, cspsDEVgryf );
-                fwrite( cspsDEVgrz, sizeof( csps_Real_t ) * cspsIndex, 1, cspsDEVgrzf );
-                fwrite( cspsDEVacx, sizeof( csps_Real_t ) * cspsIndex, 1, cspsDEVacxf );
-                fwrite( cspsDEVacy, sizeof( csps_Real_t ) * cspsIndex, 1, cspsDEVacyf );
-                fwrite( cspsDEVacz, sizeof( csps_Real_t ) * cspsIndex, 1, cspsDEVaczf );
-                fwrite( cspsDEVsyn, sizeof( csps_Time_t ) * cspsIndex, 1, cspsDEVsynf );
+                fwrite( lpDEVgrx, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVgrxf );
+                fwrite( lpDEVgry, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVgryf );
+                fwrite( lpDEVgrz, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVgrzf );
+                fwrite( lpDEVacx, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVacxf );
+                fwrite( lpDEVacy, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVacyf );
+                fwrite( lpDEVacz, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVaczf );
+                fwrite( lpDEVsyn, sizeof( lp_Time_t ) * lpIndex, 1, lpDEVsynf );
 
             }
 
         }
 
         /* Close file stream */
-        fclose( cspsDEVlogf );
-        fclose( cspsDEVgrxf );
-        fclose( cspsDEVgryf );
-        fclose( cspsDEVgrzf );
-        fclose( cspsDEVacxf );
-        fclose( cspsDEVacyf );
-        fclose( cspsDEVaczf );
-        fclose( cspsDEVsynf );
+        fclose( lpDEVlogf );
+        fclose( lpDEVgrxf );
+        fclose( lpDEVgryf );
+        fclose( lpDEVgrzf );
+        fclose( lpDEVacxf );
+        fclose( lpDEVacyf );
+        fclose( lpDEVaczf );
+        fclose( lpDEVsynf );
 
         /* Unallocate buffer memory */
-        free( cspsDEVgrx );
-        free( cspsDEVgry );
-        free( cspsDEVgrz );
-        free( cspsDEVacx );
-        free( cspsDEVacy );
-        free( cspsDEVacz );
-        free( cspsDEVsyn );
+        free( lpDEVgrx );
+        free( lpDEVgry );
+        free( lpDEVgrz );
+        free( lpDEVacx );
+        free( lpDEVacy );
+        free( lpDEVacz );
+        free( lpDEVsyn );
 
         /* Return device descriptor */
-        return( cspsDevice );
+        return( lpDevice );
 
     }
 

@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_SYSTEM__
-    # define __LIBCSPS_CSPS_SYSTEM__
+    # ifndef __LP_SYSTEM__
+    # define __LP_SYSTEM__
 
 /*
     Header - C/C++ compatibility
@@ -88,9 +88,9 @@
     Header - Function prototypes
  */
 
-    csps_Void_t csps_system(
+    lp_Void_t lp_system(
 
-        const csps_Char_t * const cspsPath
+        const lp_Char_t * const lpPath
 
     );
 

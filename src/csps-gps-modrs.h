@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_GPS_MODRS__
-    # define __LIBCSPS_CSPS_GPS_MODRS__
+    # ifndef __LP_GPS_MODRS__
+    # define __LP_GPS_MODRS__
 
 /*
     Header - C/C++ compatibility
@@ -73,11 +73,11 @@
  */
 
     /* CSPS module identification */
-    # define CSPS_GPS_MODRS_DEV "gps"
-    # define CSPS_GPS_MODRS_MOD "modrs"
+    # define LP_GPS_MODRS_DEV "gps"
+    # define LP_GPS_MODRS_MOD "modrs"
 
     /* Define derivative computation range */
-    # define CSPS_GPS_MODRS_BOUND csps_Size_s( 8 )
+    # define LP_GPS_MODRS_BOUND lp_Size_s( 8 )
 
 /*
     Header - Typedefs
@@ -91,12 +91,23 @@
     Header - Function prototypes
  */
 
-    csps_GPS csps_gps_modrs(
+    /*! \brief GPS signal loss component removal module
+     *  
+     *  This module removes GPS measure on the base of the signal quality. The
+     *  output stream contains only measure that have a satisfying quality.
+     *  
+     *  \param lpPath Path to the CSPS directory structure
+     *  \param lpDevice GPS device descriptor
+     *  \param lpName GPS device name
+     *  \param CSPS input stream
+     */
 
-        const csps_Char_t * const cspsPath,
-        csps_GPS cspsDevice,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__
+    lp_GPS lp_gps_modrs(
+
+        const lp_Char_t * const lpPath,
+        lp_GPS lpDevice,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__
 
     );
 

@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_IMU_MODDN__
-    # define __LIBCSPS_CSPS_IMU_MODDN__
+    # ifndef __LP_IMU_MODDN__
+    # define __LP_IMU_MODDN__
 
 /*
     Header - C/C++ compatibility
@@ -67,8 +67,8 @@
  */
 
     /* CSPS module identification */
-    # define CSPS_IMU_MODDN_DEV "imu"
-    # define CSPS_IMU_MODDN_MOD "moddn"
+    # define LP_IMU_MODDN_DEV "imu"
+    # define LP_IMU_MODDN_MOD "moddn"
 
 /*
     Header - Preprocessor macros
@@ -86,21 +86,21 @@
     Header - Function prototypes
  */
 
-    csps_IMU csps_imu_moddn(
+    lp_IMU lp_imu_moddn(
 
-        const csps_Char_t * const cspsPath,
-        csps_IMU cspsDevice,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__
+        const lp_Char_t * const lpPath,
+        lp_IMU lpDevice,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__
 
     );
 
-    csps_Real_t * csps_imu_moddn_tvic(
+    lp_Real_t * lp_imu_moddn_tvic(
 
-        const csps_Real_t * const cspsSignal,
-        csps_Size_t cspsSize,
-        csps_Size_t cspsRegularity,
-        csps_Size_t cspsIteration
+        const lp_Real_t * const lpSignal,
+        lp_Size_t lpSize,
+        lp_Size_t lpRegularity,
+        lp_Size_t lpIteration
 
     );
 

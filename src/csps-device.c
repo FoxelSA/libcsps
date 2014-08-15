@@ -47,24 +47,24 @@
     Source - CAM device builder
  */
 
-    csps_CAM csps_device_CAM( const csps_Char_t * const cspsName ) {
+    lp_CAM lp_device_CAM( const lp_Char_t * const lpName ) {
 
         /* CAM device structure */
-        csps_CAM cspsDevice;
+        lp_CAM lpDevice;
 
         /* Detect type of camera */
-        if ( strcmp( cspsName, CSPS_DEVICE_CAM_EYESIS4PI ) == 0 ) {
+        if ( strcmp( lpName, LP_DEVICE_CAM_EYESIS4PI ) == 0 ) {
 
             /* Assign device name */
-            sprintf( cspsDevice.dvName, "%s", CSPS_DEVICE_CAM_EYESIS4PI );
+            sprintf( lpDevice.dvName, "%s", LP_DEVICE_CAM_EYESIS4PI );
 
             /* Assign configuration - Importation block size */
-            cspsDevice.dvBlock = csps_Size_s( 1024 );
+            lpDevice.dvBlock = lp_Size_s( 1024 );
 
         }
 
         /* Return device structure */
-        return( cspsDevice );
+        return( lpDevice );
 
     }
 
@@ -72,49 +72,49 @@
     Source - IMU device builder
  */
 
-    csps_IMU csps_device_IMU( const csps_Char_t * const cspsName ) {
+    lp_IMU lp_device_IMU( const lp_Char_t * const lpName ) {
 
         /* IMU device structure */
-        csps_IMU cspsDevice;
+        lp_IMU lpDevice;
 
         /* Detect type of IMU */
-        if ( strcmp( cspsName, CSPS_DEVICE_IMU_ADIS16375 ) == 0 ) {
+        if ( strcmp( lpName, LP_DEVICE_IMU_ADIS16375 ) == 0 ) {
 
             /* Assign device name */
-            sprintf( cspsDevice.dvName, "%s", CSPS_DEVICE_IMU_ADIS16375 );
+            sprintf( lpDevice.dvName, "%s", LP_DEVICE_IMU_ADIS16375 );
 
             /* Assign configuration - Gyroscope */
-            cspsDevice.dvGYRx = ( csps_Real_s( 0.013108 ) / csps_Real_s( 65536.0 ) ) * ( CSPS_PI / csps_Real_s( 180.0 ) );
-            cspsDevice.dvGYRy = ( csps_Real_s( 0.013108 ) / csps_Real_s( 65536.0 ) ) * ( CSPS_PI / csps_Real_s( 180.0 ) );
-            cspsDevice.dvGYRz = ( csps_Real_s( 0.013108 ) / csps_Real_s( 65536.0 ) ) * ( CSPS_PI / csps_Real_s( 180.0 ) );
+            lpDevice.dvGYRx = ( lp_Real_s( 0.013108 ) / lp_Real_s( 65536.0 ) ) * ( LP_PI / lp_Real_s( 180.0 ) );
+            lpDevice.dvGYRy = ( lp_Real_s( 0.013108 ) / lp_Real_s( 65536.0 ) ) * ( LP_PI / lp_Real_s( 180.0 ) );
+            lpDevice.dvGYRz = ( lp_Real_s( 0.013108 ) / lp_Real_s( 65536.0 ) ) * ( LP_PI / lp_Real_s( 180.0 ) );
 
             /* Assign configuration - Accelerometre */
-            cspsDevice.dvACCx = ( csps_Real_s( 0.8192 ) * csps_Real_s( 9.80665 ) ) / ( csps_Real_s( 65536000.0 ) );
-            cspsDevice.dvACCy = ( csps_Real_s( 0.8192 ) * csps_Real_s( 9.80665 ) ) / ( csps_Real_s( 65536000.0 ) );
-            cspsDevice.dvACCz = ( csps_Real_s( 0.8192 ) * csps_Real_s( 9.80665 ) ) / ( csps_Real_s( 65536000.0 ) );
+            lpDevice.dvACCx = ( lp_Real_s( 0.8192 ) * lp_Real_s( 9.80665 ) ) / ( lp_Real_s( 65536000.0 ) );
+            lpDevice.dvACCy = ( lp_Real_s( 0.8192 ) * lp_Real_s( 9.80665 ) ) / ( lp_Real_s( 65536000.0 ) );
+            lpDevice.dvACCz = ( lp_Real_s( 0.8192 ) * lp_Real_s( 9.80665 ) ) / ( lp_Real_s( 65536000.0 ) );
 
             /* Assign configuration - Default initial frame */
-            cspsDevice.dvfxx = csps_Real_s( 1.0 );
-            cspsDevice.dvfxy = csps_Real_s( 0.0 );
-            cspsDevice.dvfxz = csps_Real_s( 0.0 );
-            cspsDevice.dvfyx = csps_Real_s( 0.0 );
-            cspsDevice.dvfyy = csps_Real_s( 1.0 );
-            cspsDevice.dvfyz = csps_Real_s( 0.0 );
-            cspsDevice.dvfzx = csps_Real_s( 0.0 );
-            cspsDevice.dvfzy = csps_Real_s( 0.0 );
-            cspsDevice.dvfzz = csps_Real_s( 1.0 );
+            lpDevice.dvfxx = lp_Real_s( 1.0 );
+            lpDevice.dvfxy = lp_Real_s( 0.0 );
+            lpDevice.dvfxz = lp_Real_s( 0.0 );
+            lpDevice.dvfyx = lp_Real_s( 0.0 );
+            lpDevice.dvfyy = lp_Real_s( 1.0 );
+            lpDevice.dvfyz = lp_Real_s( 0.0 );
+            lpDevice.dvfzx = lp_Real_s( 0.0 );
+            lpDevice.dvfzy = lp_Real_s( 0.0 );
+            lpDevice.dvfzz = lp_Real_s( 1.0 );
 
             /* Assign configuration - Frequency */
-            cspsDevice.dvifreq = csps_Size_s( 2460 );
-            cspsDevice.dvdfreq = csps_Size_s(   60 );
+            lpDevice.dvifreq = lp_Size_s( 2460 );
+            lpDevice.dvdfreq = lp_Size_s(   60 );
 
             /* Assign configuration - Importation block size */
-            cspsDevice.dvBlock = csps_Size_s( 1024 );
+            lpDevice.dvBlock = lp_Size_s( 1024 );
 
         }
 
         /* Return device structure */
-        return( cspsDevice );
+        return( lpDevice );
 
     }
 
@@ -122,27 +122,27 @@
     Source - GPS device builder
  */
 
-    csps_GPS csps_device_GPS( const csps_Char_t * const cspsName ) {
+    lp_GPS lp_device_GPS( const lp_Char_t * const lpName ) {
 
         /* GPS device structure */
-        csps_GPS cspsDevice;
+        lp_GPS lpDevice;
 
         /* Detect type of GPS */
-        if ( strcmp( cspsName, CSPS_DEVICE_GPS_LS20031 ) == 0 ) {
+        if ( strcmp( lpName, LP_DEVICE_GPS_LS20031 ) == 0 ) {
 
             /* Assign device name */
-            sprintf( cspsDevice.dvName, "%s", CSPS_DEVICE_GPS_LS20031 );
+            sprintf( lpDevice.dvName, "%s", LP_DEVICE_GPS_LS20031 );
 
             /* Assign configuration - Frequency */
-            cspsDevice.dvifreq = csps_Size_s( 5 );
+            lpDevice.dvifreq = lp_Size_s( 5 );
 
             /* Assign configuration - Importation block size */
-            cspsDevice.dvBlock = csps_Size_s( 1024 );
+            lpDevice.dvBlock = lp_Size_s( 1024 );
 
         }
 
         /* Return device structure */
-        return( cspsDevice );
+        return( lpDevice );
 
     }
 

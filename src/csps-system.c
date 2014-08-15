@@ -47,32 +47,32 @@
     Source - CSPS main module
  */
 
-    csps_Void_t csps_system( const csps_Char_t * const cspsPath ) {
+    lp_Void_t lp_system( const lp_Char_t * const lpPath ) {
 
         /* CSPS devices */
-        csps_CAM cspsCAM;
-        csps_IMU cspsADIS;
-        csps_GPS cspsLS;
+        lp_CAM lpCAM;
+        lp_IMU lpADIS;
+        lp_GPS lpLS;
 
         /* CSPS create devices */
-        cspsCAM  = csps_device_CAM( CSPS_DEVICE_CAM_EYESIS4PI );
-        cspsADIS = csps_device_IMU( CSPS_DEVICE_IMU_ADIS16375 );
-        cspsLS   = csps_device_GPS( CSPS_DEVICE_GPS_LS20031   );
+        lpCAM  = lp_device_CAM( LP_DEVICE_CAM_EYESIS4PI );
+        lpADIS = lp_device_IMU( LP_DEVICE_IMU_ADIS16375 );
+        lpLS   = lp_device_GPS( LP_DEVICE_GPS_LS20031   );
 
         /* CSPS data extractors */
-        cspsCAM  = csps_cam_modde( cspsPath, cspsCAM , "eyesis4pi" );
-        cspsADIS = csps_imu_modde( cspsPath, cspsADIS, "adis16375" );
-        cspsLS   = csps_gps_modde( cspsPath, cspsLS  , "ls20031"   );
+        lpCAM  = lp_cam_modde( lpPath, lpCAM , "eyesis4pi" );
+        lpADIS = lp_imu_modde( lpPath, lpADIS, "adis16375" );
+        lpLS   = lp_gps_modde( lpPath, lpLS  , "ls20031"   );
 
         /* CSPS GPS process line */
-        cspsLS   = csps_gps_modrs( cspsPath, cspsLS  , "ls20031"  , "modde" );
+        lpLS   = lp_gps_modrs( lpPath, lpLS  , "ls20031"  , "modde" );
 
         /* CSPS IMU process line */
-        cspsADIS = csps_imu_modrd( cspsPath, cspsADIS, "adis16375", "modde" );
-        cspsADIS = csps_imu_moddn( cspsPath, cspsADIS, "adis16375", "modrd" );
-        cspsADIS = csps_imu_modsa( cspsPath, cspsADIS, "adis16375", "moddn" );
-        cspsADIS = csps_imu_modfi( cspsPath, cspsADIS, "adis16375", "moddn" );
-        cspsADIS = csps_imu_modaa( cspsPath, cspsADIS, "adis16375", "moddn", "modfi" );
+        lpADIS = lp_imu_modrd( lpPath, lpADIS, "adis16375", "modde" );
+        lpADIS = lp_imu_moddn( lpPath, lpADIS, "adis16375", "modrd" );
+        lpADIS = lp_imu_modsa( lpPath, lpADIS, "adis16375", "moddn" );
+        lpADIS = lp_imu_modfi( lpPath, lpADIS, "adis16375", "moddn" );
+        lpADIS = lp_imu_modaa( lpPath, lpADIS, "adis16375", "moddn", "modfi" );
 
     }
 

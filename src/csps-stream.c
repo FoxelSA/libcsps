@@ -47,42 +47,42 @@
     Source - Stream size
  */
 
-    csps_Size_t csps_stream_size(
+    lp_Size_t lp_stream_size(
 
-        const csps_Char_t * const cspsPath,
-        const csps_Char_t * const cspsDev,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__,
-        const csps_Char_t * const cspsType
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpDev,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__,
+        const lp_Char_t * const lpType
 
     ) {
 
         /* Stream handle */
-        csps_File_t cspsStreamf = NULL;
+        lp_File_t lpStreamf = NULL;
 
         /* Stream size */
-        csps_Size_t cspsSize = csps_Size_s( 0 );
+        lp_Size_t lpSize = lp_Size_s( 0 );
 
         /* Stream path */
-        csps_Char_t cspsStreamp[CSPS_STR_LEN] = CSPS_STR_INI;
+        lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
         /* Build stream path */
-        csps_path( cspsPath, cspsDev, cspsName, cspsPS__, cspsType, cspsStreamp );
+        lp_path( lpPath, lpDev, lpName, lpPS__, lpType, lpStreamp );
 
         /* Open stream file */
-        cspsStreamf = fopen( cspsStreamp, "rb" );
+        lpStreamf = fopen( lpStreamp, "rb" );
 
         /* Read pointer to EOF */
-        fseek( cspsStreamf, 0L, SEEK_END );
+        fseek( lpStreamf, 0L, SEEK_END );
 
         /* Read pointer value */
-        cspsSize = ftell( cspsStreamf );
+        lpSize = ftell( lpStreamf );
 
         /* Close stream file */
-        fclose( cspsStreamf );
+        fclose( lpStreamf );
 
         /* Return stream buffer */
-        return( cspsSize );
+        return( lpSize );
 
     }
 
@@ -90,41 +90,43 @@
     Source - Stream reader
  */
 
-    csps_Void_t * csps_stream_read(
+    lp_Void_t * lp_stream_read(
 
-        const csps_Char_t * const cspsPath,
-        const csps_Char_t * const cspsDev,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__,
-        const csps_Char_t * const cspsType,
-        csps_Size_t cspsSize ) {
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpDev,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__,
+        const lp_Char_t * const lpType,
+        lp_Size_t lpSize
+
+    ) {
 
         /* Stream handle */
-        csps_File_t cspsStreamf = NULL;
+        lp_File_t lpStreamf = NULL;
 
         /* Stream buffer */
-        csps_Void_t * cspsStream = NULL;
+        lp_Void_t * lpStream = NULL;
 
         /* Stream path */
-        csps_Char_t cspsStreamp[CSPS_STR_LEN] = CSPS_STR_INI;
+        lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
         /* Build stream path */
-        csps_path( cspsPath, cspsDev, cspsName, cspsPS__, cspsType, cspsStreamp );
+        lp_path( lpPath, lpDev, lpName, lpPS__, lpType, lpStreamp );
 
         /* Allocate buffer memory */
-        cspsStream = malloc( cspsSize );
+        lpStream = malloc( lpSize );
 
         /* Open stream file */
-        cspsStreamf = fopen( cspsStreamp, "rb" );
+        lpStreamf = fopen( lpStreamp, "rb" );
 
         /* Read stream file */
-        fread( cspsStream, 1, cspsSize, cspsStreamf );
+        fread( lpStream, 1, lpSize, lpStreamf );
 
         /* Close stream file */
-        fclose( cspsStreamf );
+        fclose( lpStreamf );
 
         /* Return stream buffer */
-        return( cspsStream );
+        return( lpStream );
 
     }
 
@@ -132,35 +134,35 @@
     Source - Stream writer
  */
 
-    csps_Void_t csps_stream_write(
+    lp_Void_t lp_stream_write(
 
-        const csps_Char_t * const cspsPath,
-        const csps_Char_t * const cspsDev,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__,
-        const csps_Char_t * const cspsType,
-        const csps_Void_t * const cspsStream,
-        csps_Size_t cspsSize
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpDev,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__,
+        const lp_Char_t * const lpType,
+        const lp_Void_t * const lpStream,
+        lp_Size_t lpSize
 
     ) {
 
         /* Stream handle */
-        csps_File_t cspsStreamf = NULL;
+        lp_File_t lpStreamf = NULL;
 
         /* Stream path */
-        csps_Char_t cspsStreamp[CSPS_STR_LEN] = CSPS_STR_INI;
+        lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
         /* Build stream path */
-        csps_path( cspsPath, cspsDev, cspsName, cspsPS__, cspsType, cspsStreamp );
+        lp_path( lpPath, lpDev, lpName, lpPS__, lpType, lpStreamp );
 
         /* Open stream file */
-        cspsStreamf = fopen( cspsStreamp, "wb" );
+        lpStreamf = fopen( lpStreamp, "wb" );
 
         /* Read stream file */
-        fwrite( cspsStream, 1, cspsSize, cspsStreamf );
+        fwrite( lpStream, 1, lpSize, lpStreamf );
 
         /* Close stream file */
-        fclose( cspsStreamf );
+        fclose( lpStreamf );
 
     }
 

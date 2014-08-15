@@ -47,115 +47,115 @@
     Source - IMU absolute acceleration computation module
  */
 
-    csps_IMU csps_imu_modaa(
+    lp_IMU lp_imu_modaa(
 
-        const csps_Char_t * const cspsPath,
-        csps_IMU cspsDevice,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPSac,
-        const csps_Char_t * const cspsPSf_
+        const lp_Char_t * const lpPath,
+        lp_IMU lpDevice,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPSac,
+        const lp_Char_t * const lpPSf_
 
     ) {
 
         /* Integration variables */
-        csps_Size_t cspsParse = 0;
+        lp_Size_t lpParse = 0;
 
         /* Files size */
-        csps_Size_t cspsSize = 0;
+        lp_Size_t lpSize = 0;
 
         /* Data buffers */
-        csps_Real_t * cspsDEVacx = NULL;
-        csps_Real_t * cspsDEVacy = NULL;
-        csps_Real_t * cspsDEVacz = NULL;
-        csps_Time_t * cspsDEVasy = NULL;
-        csps_Real_t * cspsDEVfxx = NULL;
-        csps_Real_t * cspsDEVfxy = NULL;
-        csps_Real_t * cspsDEVfxz = NULL;
-        csps_Real_t * cspsDEVfyx = NULL;
-        csps_Real_t * cspsDEVfyy = NULL;
-        csps_Real_t * cspsDEVfyz = NULL;
-        csps_Real_t * cspsDEVfzx = NULL;
-        csps_Real_t * cspsDEVfzy = NULL;
-        csps_Real_t * cspsDEVfzz = NULL;
-        csps_Time_t * cspsDEVfsy = NULL;
-        csps_Real_t * cspsDEVaax = NULL;
-        csps_Real_t * cspsDEVaay = NULL;
-        csps_Real_t * cspsDEVaaz = NULL;
-        csps_Time_t * cspsDEVsyn = NULL;
+        lp_Real_t * lpDEVacx = NULL;
+        lp_Real_t * lpDEVacy = NULL;
+        lp_Real_t * lpDEVacz = NULL;
+        lp_Time_t * lpDEVasy = NULL;
+        lp_Real_t * lpDEVfxx = NULL;
+        lp_Real_t * lpDEVfxy = NULL;
+        lp_Real_t * lpDEVfxz = NULL;
+        lp_Real_t * lpDEVfyx = NULL;
+        lp_Real_t * lpDEVfyy = NULL;
+        lp_Real_t * lpDEVfyz = NULL;
+        lp_Real_t * lpDEVfzx = NULL;
+        lp_Real_t * lpDEVfzy = NULL;
+        lp_Real_t * lpDEVfzz = NULL;
+        lp_Time_t * lpDEVfsy = NULL;
+        lp_Real_t * lpDEVaax = NULL;
+        lp_Real_t * lpDEVaay = NULL;
+        lp_Real_t * lpDEVaaz = NULL;
+        lp_Time_t * lpDEVsyn = NULL;
 
         /* Obtain stream size */
-        cspsSize = csps_stream_size( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSac, "syn" ) / sizeof( csps_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSac, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        cspsDEVacx = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSac, "acx", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVacy = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSac, "acy", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVacz = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSac, "acz", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVasy = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSac, "syn", sizeof( csps_Time_t ) * cspsSize );
-        cspsDEVfxx = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSf_, "fxx", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfxy = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSf_, "fxy", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfxz = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSf_, "fxz", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfyx = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSf_, "fyx", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfyy = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSf_, "fyy", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfyz = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSf_, "fyz", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfzx = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSf_, "fzx", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfzy = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSf_, "fzy", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfzz = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSf_, "fzz", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfsy = csps_stream_read( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, cspsPSf_, "syn", sizeof( csps_Time_t ) * cspsSize );
+        lpDEVacx = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSac, "acx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacy = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSac, "acy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacz = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSac, "acz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVasy = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSac, "syn", sizeof( lp_Time_t ) * lpSize );
+        lpDEVfxx = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSf_, "fxx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfxy = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSf_, "fxy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfxz = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSf_, "fxz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfyx = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSf_, "fyx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfyy = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSf_, "fyy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfyz = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSf_, "fyz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfzx = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSf_, "fzx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfzy = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSf_, "fzy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfzz = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSf_, "fzz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfsy = lp_stream_read( lpPath, LP_IMU_MODAA_DEV, lpName, lpPSf_, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Allocate stream memory */
-        cspsDEVaax = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVaay = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVaaz = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVsyn = ( csps_Time_t * ) malloc( sizeof( csps_Time_t ) * cspsSize );
+        lpDEVaax = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
+        lpDEVaay = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
+        lpDEVaaz = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
+        lpDEVsyn = ( lp_Time_t * ) malloc( sizeof( lp_Time_t ) * lpSize );
 
         /* Frame integration procedure */
-        for ( cspsParse = csps_Size_s( 0 ) ; cspsParse < cspsSize ; cspsParse ++ ) {
+        for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize ; lpParse ++ ) {
 
             /* Computation - Advance absolute acceleration x-vector */
-            cspsDEVaax[cspsParse] = cspsDEVacx[cspsParse] * cspsDEVfxx[cspsParse] +
-                                    cspsDEVacy[cspsParse] * cspsDEVfyx[cspsParse] +
-                                    cspsDEVacz[cspsParse] * cspsDEVfzx[cspsParse];
+            lpDEVaax[lpParse] = lpDEVacx[lpParse] * lpDEVfxx[lpParse] +
+                                    lpDEVacy[lpParse] * lpDEVfyx[lpParse] +
+                                    lpDEVacz[lpParse] * lpDEVfzx[lpParse];
 
             /* Computation - Advance absolute acceleration y-vector */
-            cspsDEVaax[cspsParse] = cspsDEVacx[cspsParse] * cspsDEVfxy[cspsParse] +
-                                    cspsDEVacy[cspsParse] * cspsDEVfyy[cspsParse] +
-                                    cspsDEVacz[cspsParse] * cspsDEVfzy[cspsParse];
+            lpDEVaax[lpParse] = lpDEVacx[lpParse] * lpDEVfxy[lpParse] +
+                                    lpDEVacy[lpParse] * lpDEVfyy[lpParse] +
+                                    lpDEVacz[lpParse] * lpDEVfzy[lpParse];
 
             /* Computation - Advance absolute acceleration z-vector */
-            cspsDEVaax[cspsParse] = cspsDEVacx[cspsParse] * cspsDEVfxz[cspsParse] +
-                                    cspsDEVacy[cspsParse] * cspsDEVfyz[cspsParse] +
-                                    cspsDEVacz[cspsParse] * cspsDEVfzz[cspsParse];
+            lpDEVaax[lpParse] = lpDEVacx[lpParse] * lpDEVfxz[lpParse] +
+                                    lpDEVacy[lpParse] * lpDEVfyz[lpParse] +
+                                    lpDEVacz[lpParse] * lpDEVfzz[lpParse];
 
         }
 
         /* Write stream data */
-        csps_stream_write( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, CSPS_IMU_MODAA_MOD, "aax", cspsDEVaax, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, CSPS_IMU_MODAA_MOD, "aay", cspsDEVaay, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, CSPS_IMU_MODAA_MOD, "aaz", cspsDEVaaz, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_IMU_MODAA_DEV, cspsName, CSPS_IMU_MODAA_MOD, "syn", cspsDEVaaz, sizeof( csps_Time_t ) * cspsSize );
+        lp_stream_write( lpPath, LP_IMU_MODAA_DEV, lpName, LP_IMU_MODAA_MOD, "aax", lpDEVaax, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODAA_DEV, lpName, LP_IMU_MODAA_MOD, "aay", lpDEVaay, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODAA_DEV, lpName, LP_IMU_MODAA_MOD, "aaz", lpDEVaaz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODAA_DEV, lpName, LP_IMU_MODAA_MOD, "syn", lpDEVaaz, sizeof( lp_Time_t ) * lpSize );
 
         /* Unallocate buffer memory */
-        free( cspsDEVacx );
-        free( cspsDEVacy );
-        free( cspsDEVacz );
-        free( cspsDEVasy );
-        free( cspsDEVfxx );
-        free( cspsDEVfxy );
-        free( cspsDEVfxz );
-        free( cspsDEVfyx );
-        free( cspsDEVfyy );
-        free( cspsDEVfyz );
-        free( cspsDEVfzx );
-        free( cspsDEVfzy );
-        free( cspsDEVfzz );
-        free( cspsDEVfsy );
-        free( cspsDEVaax );
-        free( cspsDEVaay );
-        free( cspsDEVaaz );
-        free( cspsDEVsyn );
+        free( lpDEVacx );
+        free( lpDEVacy );
+        free( lpDEVacz );
+        free( lpDEVasy );
+        free( lpDEVfxx );
+        free( lpDEVfxy );
+        free( lpDEVfxz );
+        free( lpDEVfyx );
+        free( lpDEVfyy );
+        free( lpDEVfyz );
+        free( lpDEVfzx );
+        free( lpDEVfzy );
+        free( lpDEVfzz );
+        free( lpDEVfsy );
+        free( lpDEVaax );
+        free( lpDEVaay );
+        free( lpDEVaaz );
+        free( lpDEVsyn );
 
         /* Return device descriptor */
-        return( cspsDevice );
+        return( lpDevice );
 
     }
 

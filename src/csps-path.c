@@ -47,52 +47,52 @@
     Source - General path database
  */
 
-    void csps_path(
+    void lp_path(
 
-        const csps_Char_t * cspsBase,
-        const csps_Char_t * cspsTag,
-        const csps_Char_t * cspsName,
-        const csps_Char_t * cspsStep,
-        const csps_Char_t * cspsType,
-        csps_Char_t * const cspsPath
+        const lp_Char_t * lpBase,
+        const lp_Char_t * lpTag,
+        const lp_Char_t * lpName,
+        const lp_Char_t * lpStep,
+        const lp_Char_t * lpType,
+        lp_Char_t * const lpPath
 
         ) {
 
         /* Select type of path */
-        if ( strcmp( cspsTag, CSPS_DEVICE_IMU_ADIS16375 ) == 0 ) {
+        if ( strcmp( lpTag, LP_DEVICE_IMU_ADIS16375 ) == 0 ) {
 
             /* Path for ADIS16375 IMU FPGA log file */
-            sprintf( cspsPath, "%s/" CSPS_PATH_FGPA "/log-data.bin", cspsBase );
+            sprintf( lpPath, "%s/" LP_PATH_FGPA "/log-data.bin", lpBase );
 
         /* Select type of path */
-        } else if ( strcmp( cspsTag, CSPS_DEVICE_GPS_LS20031 ) == 0 ) {
+        } else if ( strcmp( lpTag, LP_DEVICE_GPS_LS20031 ) == 0 ) {
 
             /* Path for LS20031 GPS FPGA log file */
-            sprintf( cspsPath, "%s/" CSPS_PATH_FGPA "/log-data.bin", cspsBase );
+            sprintf( lpPath, "%s/" LP_PATH_FGPA "/log-data.bin", lpBase );
 
         /* Select type of path */
-        } else if ( strcmp( cspsTag, CSPS_DEVICE_CAM_EYESIS4PI ) == 0 ) {
+        } else if ( strcmp( lpTag, LP_DEVICE_CAM_EYESIS4PI ) == 0 ) {
 
             /* Path for EYESIS4PI GPS FPGA log file */
-            sprintf( cspsPath, "%s/" CSPS_PATH_FGPA "/log-data.bin", cspsBase );
+            sprintf( lpPath, "%s/" LP_PATH_FGPA "/log-data.bin", lpBase );
 
         /* Select type of path */
-        } else if ( strcmp( cspsTag, "gps" ) == 0 ) {
+        } else if ( strcmp( lpTag, "gps" ) == 0 ) {
 
             /* Path to GPS data stream files */
-            sprintf( cspsPath, "%s/" CSPS_PATH_CSPS "/csps-stream-gps-%s-%s-%s.bin", cspsBase, cspsName, cspsStep, cspsType );
+            sprintf( lpPath, "%s/" LP_PATH_CSPS "/csps-stream-gps-%s-%s-%s.bin", lpBase, lpName, lpStep, lpType );
 
         /* Select type of path */
-        } else if ( strcmp( cspsTag, "imu" ) == 0 ) {
+        } else if ( strcmp( lpTag, "imu" ) == 0 ) {
 
             /* Path to IMU data stream files */
-            sprintf( cspsPath, "%s/" CSPS_PATH_CSPS "/csps-stream-imu-%s-%s-%s.bin", cspsBase, cspsName, cspsStep, cspsType );
+            sprintf( lpPath, "%s/" LP_PATH_CSPS "/csps-stream-imu-%s-%s-%s.bin", lpBase, lpName, lpStep, lpType );
 
         /* Select type of path */
-        } else if ( strcmp( cspsTag, "cam" ) == 0 ) {
+        } else if ( strcmp( lpTag, "cam" ) == 0 ) {
 
             /* Path to IMU data stream files */
-            sprintf( cspsPath, "%s/" CSPS_PATH_CSPS "/csps-stream-cam-%s-%s-%s.bin", cspsBase, cspsName, cspsStep, cspsType );
+            sprintf( lpPath, "%s/" LP_PATH_CSPS "/csps-stream-cam-%s-%s-%s.bin", lpBase, lpName, lpStep, lpType );
 
         }
 

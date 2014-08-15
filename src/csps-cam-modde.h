@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_CAM_MODDE__
-    # define __LIBCSPS_CSPS_CAM_MODDE__
+    # ifndef __LP_CAM_MODDE__
+    # define __LP_CAM_MODDE__
 
 /*
     Header - C/C++ compatibility
@@ -66,8 +66,8 @@
  */
 
     /* CSPS module identification */
-    # define CSPS_CAM_MODDE_DEV "cam"
-    # define CSPS_CAM_MODDE_MOD "modde" //extra
+    # define LP_CAM_MODDE_DEV "cam"
+    # define LP_CAM_MODDE_MOD "modde" //extra
 
 /*
     Header - Preprocessor macros
@@ -85,19 +85,19 @@
     Header - Function prototypes
  */
 
-    csps_CAM csps_cam_modde(
+    lp_CAM lp_cam_modde(
 
-        const csps_Char_t * const cspsPath,
-        csps_CAM cspsDevice,
-        const csps_Char_t * const cspsName
+        const lp_Char_t * const lpPath,
+        lp_CAM lpDevice,
+        const lp_Char_t * const lpName
 
     );
 
-    csps_CAM csps_cam_EYESIS4PI(
+    lp_CAM lp_cam_EYESIS4PI(
 
-        const csps_Char_t * const cspsPath,
-        csps_CAM cspsDevice,
-        const csps_Char_t * const cspsName
+        const lp_Char_t * const lpPath,
+        lp_CAM lpDevice,
+        const lp_Char_t * const lpName
 
     );
 

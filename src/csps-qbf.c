@@ -48,47 +48,47 @@
     Source - GPS signal quality threshold
  */
 
-    csps_Enum_t csps_qbf_threshold( csps_SQBF_t cspsQBFValue ) {
+    lp_Enum_t lp_qbf_threshold( lp_SQBF_t lpQBFValue ) {
 
         /* Decompose QBF - Fix value */
-        csps_Enum_t cspsFix = csps_qbf_fix( cspsQBFValue );
+        lp_Enum_t lpFix = lp_qbf_fix( lpQBFValue );
 
         /* Decompose QBF - Satellite count */
-        csps_Size_t cspsSat = csps_qbf_sat( cspsQBFValue );
+        lp_Size_t lpSat = lp_qbf_sat( lpQBFValue );
 
         /* Decompose QBF - HDOP */
-        csps_Size_t cspsHDP = csps_qbf_hdop100( cspsQBFValue );
+        lp_Size_t lpHDP = lp_qbf_hdop100( lpQBFValue );
 
         /* Verify signal fix value */
-        if ( ( cspsFix >= CSPS_QBF_FIX_GPS ) && ( cspsFix <= CSPS_QBF_FIX_FRTK ) ) {
+        if ( ( lpFix >= LP_QBF_FIX_GPS ) && ( lpFix <= LP_QBF_FIX_FRTK ) ) {
 
             /* Verify satellite count */
-            if ( cspsSat >= CSPS_QBF_THR_MINSAT ) {
+            if ( lpSat >= LP_QBF_THR_MINSAT ) {
 
                 /* Verify HDOP value */
-                if ( cspsHDP < CSPS_QBF_THR_MINHDP ) {
+                if ( lpHDP < LP_QBF_THR_MINHDP ) {
 
                     /* Return un-trigged threshold */
-                    return( CSPS_FALSE );
+                    return( LP_FALSE );
 
                 } else {
 
                     /* Return trigged threshold */
-                    return( CSPS_TRUE );
+                    return( LP_TRUE );
 
                 }
 
             } else {
 
                 /* Return trigged threshold */
-                return( CSPS_TRUE );
+                return( LP_TRUE );
 
             }
 
         } else {
 
             /* Return trigged threshold */
-            return( CSPS_TRUE );
+            return( LP_TRUE );
 
         }
 
@@ -98,10 +98,10 @@
     Source - GPS signal quality buffer composer
  */
 
-    csps_SQBF_t csps_qbf_compose( csps_Enum_t cspsFix, csps_Size_t cspsSat, csps_Size_t cspsHDP100 ) {
+    lp_SQBF_t lp_qbf_compose( lp_Enum_t lpFix, lp_Size_t lpSat, lp_Size_t lpHDP100 ) {
 
         /* Compose quality buffer (UUUUUUUUUUUUUUUUDDDDDDDDSSSSSSFF - Unused HDOP100 Fix)  */
-        return( ( ( csps_Size_t ) cspsFix ) | ( cspsSat << csps_Size_s( 4 ) ) | ( cspsHDP100 << csps_Size_s( 10 ) ) );
+        return( ( ( lp_Size_t ) lpFix ) | ( lpSat << lp_Size_s( 4 ) ) | ( lpHDP100 << lp_Size_s( 10 ) ) );
 
     }
 
@@ -109,24 +109,24 @@
     Source - GPS signal quality buffer decomposer
  */
 
-    csps_Enum_t csps_qbf_fix( csps_SQBF_t cspsQBF ) {
+    lp_Enum_t lp_qbf_fix( lp_SQBF_t lpQBF ) {
 
         /* Return fix value */
-        return( cspsQBF % csps_SQBF_s( 16 ) );
+        return( lpQBF % lp_SQBF_s( 16 ) );
 
     }
 
-    csps_Size_t csps_qbf_sat( csps_SQBF_t cspsQBF ) {
+    lp_Size_t lp_qbf_sat( lp_SQBF_t lpQBF ) {
 
         /* Return fix value */
-        return( ( cspsQBF >> csps_SQBF_s( 4 ) ) % csps_SQBF_s( 64 ) );
+        return( ( lpQBF >> lp_SQBF_s( 4 ) ) % lp_SQBF_s( 64 ) );
 
     }
 
-    csps_Size_t csps_qbf_hdop100( csps_SQBF_t cspsQBF ) {
+    lp_Size_t lp_qbf_hdop100( lp_SQBF_t lpQBF ) {
 
         /* Return fix value */
-        return( ( cspsQBF >> csps_SQBF_s( 10 ) ) % csps_SQBF_s( 65536 ) );
+        return( ( lpQBF >> lp_SQBF_s( 10 ) ) % lp_SQBF_s( 65536 ) );
 
     }
 

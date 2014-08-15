@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_GPS_MODDE__
-    # define __LIBCSPS_CSPS_GPS_MODDE__
+    # ifndef __LP_GPS_MODDE__
+    # define __LP_GPS_MODDE__
 
 /*
     Header - C/C++ compatibility
@@ -67,8 +67,8 @@
  */
 
     /* CSPS module identification */
-    # define CSPS_GPS_MODDE_DEV "gps"
-    # define CSPS_GPS_MODDE_MOD "modde"
+    # define LP_GPS_MODDE_DEV "gps"
+    # define LP_GPS_MODDE_MOD "modde"
 
 /*
     Header - Preprocessor macros
@@ -86,19 +86,19 @@
     Header - Function prototypes
  */
 
-    csps_GPS csps_gps_modde(
+    lp_GPS lp_gps_modde(
 
-        const csps_Char_t * const cspsPath,
-        csps_GPS cspsDevice,
-        const csps_Char_t * const cspsName
+        const lp_Char_t * const lpPath,
+        lp_GPS lpDevice,
+        const lp_Char_t * const lpName
 
     );
 
-    csps_GPS csps_gps_LS20031(
+    lp_GPS lp_gps_LS20031(
 
-        const csps_Char_t * const cspsPath,
-        csps_GPS cspsDevice,
-        const csps_Char_t * const cspsName
+        const lp_Char_t * const lpPath,
+        lp_GPS lpDevice,
+        const lp_Char_t * const lpName
 
     );
 

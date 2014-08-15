@@ -47,218 +47,218 @@
     Source - IMU frame integration module
  */
 
-    csps_IMU csps_imu_modfi(
+    lp_IMU lp_imu_modfi(
 
-        const csps_Char_t * const cspsPath,
-        csps_IMU cspsDevice,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPSgr
+        const lp_Char_t * const lpPath,
+        lp_IMU lpDevice,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPSgr
 
     ) {
 
         /* Integration variables */
-        csps_Real_t cspsDelta = csps_Real_s( 0.0 );
-        csps_Size_t cspsParse = csps_Size_s( 0 );
+        lp_Real_t lpDelta = lp_Real_s( 0.0 );
+        lp_Size_t lpParse = lp_Size_s( 0 );
 
         /* Files size */
-        csps_Size_t cspsSize = csps_Size_s( 0 );
+        lp_Size_t lpSize = lp_Size_s( 0 );
 
         /* Data buffers */
-        csps_Real_t * cspsDEVgrx = NULL;
-        csps_Real_t * cspsDEVgry = NULL;
-        csps_Real_t * cspsDEVgrz = NULL;
-        csps_Real_t * cspsDEVfxx = NULL;
-        csps_Real_t * cspsDEVfxy = NULL;
-        csps_Real_t * cspsDEVfxz = NULL;
-        csps_Real_t * cspsDEVfyx = NULL;
-        csps_Real_t * cspsDEVfyy = NULL;
-        csps_Real_t * cspsDEVfyz = NULL;
-        csps_Real_t * cspsDEVfzx = NULL;
-        csps_Real_t * cspsDEVfzy = NULL;
-        csps_Real_t * cspsDEVfzz = NULL;
-        csps_Time_t * cspsDEVsyn = NULL;
+        lp_Real_t * lpDEVgrx = NULL;
+        lp_Real_t * lpDEVgry = NULL;
+        lp_Real_t * lpDEVgrz = NULL;
+        lp_Real_t * lpDEVfxx = NULL;
+        lp_Real_t * lpDEVfxy = NULL;
+        lp_Real_t * lpDEVfxz = NULL;
+        lp_Real_t * lpDEVfyx = NULL;
+        lp_Real_t * lpDEVfyy = NULL;
+        lp_Real_t * lpDEVfyz = NULL;
+        lp_Real_t * lpDEVfzx = NULL;
+        lp_Real_t * lpDEVfzy = NULL;
+        lp_Real_t * lpDEVfzz = NULL;
+        lp_Time_t * lpDEVsyn = NULL;
 
         /* Obtain stream size */
-        cspsSize = csps_stream_size( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, cspsPSgr, "syn" ) / sizeof( uint64_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_MODFI_DEV, lpName, lpPSgr, "syn" ) / sizeof( uint64_t );
 
         /* Read streams data */
-        cspsDEVgrx = csps_stream_read( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, cspsPSgr, "grx", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVgry = csps_stream_read( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, cspsPSgr, "gry", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVgrz = csps_stream_read( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, cspsPSgr, "grz", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVsyn = csps_stream_read( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, cspsPSgr, "syn", sizeof( csps_Time_t ) * cspsSize );
+        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_MODFI_DEV, lpName, lpPSgr, "grx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgry = lp_stream_read( lpPath, LP_IMU_MODFI_DEV, lpName, lpPSgr, "gry", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_MODFI_DEV, lpName, lpPSgr, "grz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODFI_DEV, lpName, lpPSgr, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Allocate stream memory */
-        cspsDEVfxx = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfxy = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfxz = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfyx = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfyy = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfyz = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfzx = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfzy = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVfzz = ( csps_Real_t * ) malloc( sizeof( csps_Real_t ) * cspsSize );
+        lpDEVfxx = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
+        lpDEVfxy = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
+        lpDEVfxz = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
+        lpDEVfyx = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
+        lpDEVfyy = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
+        lpDEVfyz = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
+        lpDEVfzx = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
+        lpDEVfzy = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
+        lpDEVfzz = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
 
         /* Setting initial conditions */
-        for ( cspsParse = csps_Size_s( 0 ) ; cspsParse < CSPS_IMU_FRAME_BOUND ; cspsParse ++ ) {
+        for ( lpParse = lp_Size_s( 0 ) ; lpParse < LP_IMU_FRAME_BOUND ; lpParse ++ ) {
 
             /* Assign initial condition on IMU frame */
-            cspsDEVfxx[cspsParse] = cspsDevice.dvfxx;
-            cspsDEVfxy[cspsParse] = cspsDevice.dvfxy;
-            cspsDEVfxz[cspsParse] = cspsDevice.dvfxz;
-            cspsDEVfyx[cspsParse] = cspsDevice.dvfyx;
-            cspsDEVfyy[cspsParse] = cspsDevice.dvfyy;
-            cspsDEVfyz[cspsParse] = cspsDevice.dvfyz;
-            cspsDEVfzx[cspsParse] = cspsDevice.dvfzx;
-            cspsDEVfzy[cspsParse] = cspsDevice.dvfzy;
-            cspsDEVfzz[cspsParse] = cspsDevice.dvfzz;
+            lpDEVfxx[lpParse] = lpDevice.dvfxx;
+            lpDEVfxy[lpParse] = lpDevice.dvfxy;
+            lpDEVfxz[lpParse] = lpDevice.dvfxz;
+            lpDEVfyx[lpParse] = lpDevice.dvfyx;
+            lpDEVfyy[lpParse] = lpDevice.dvfyy;
+            lpDEVfyz[lpParse] = lpDevice.dvfyz;
+            lpDEVfzx[lpParse] = lpDevice.dvfzx;
+            lpDEVfzy[lpParse] = lpDevice.dvfzy;
+            lpDEVfzz[lpParse] = lpDevice.dvfzz;
 
         }
 
         /* Compute time step value */
-        cspsDelta = csps_Real_s( 1.0 ) / ( ( csps_Real_t ) cspsDevice.dvdfreq );
+        lpDelta = lp_Real_s( 1.0 ) / ( ( lp_Real_t ) lpDevice.dvdfreq );
 
         /* Frame integration procedure */
-        for ( cspsParse = CSPS_IMU_FRAME_BOUND ; cspsParse < cspsSize ; cspsParse ++ ) {
+        for ( lpParse = LP_IMU_FRAME_BOUND ; lpParse < lpSize ; lpParse ++ ) {
 
             /* Integration - Advance frame x-vector x-component */
-            cspsDEVfxx[cspsParse] = ( csps_Real_s( 20.0 ) / csps_Real_s( 49.0 ) ) * (
-                                  + ( cspsDelta                                 ) * cspsDEVfxz[cspsParse-1] * cspsDEVgry[cspsParse-1]
-                                  - ( cspsDelta                                 ) * cspsDEVfxy[cspsParse-1] * cspsDEVgrz[cspsParse-1]
-                                  + ( csps_Real_s(  6.0 )                       ) * cspsDEVfxx[cspsParse-1]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  2.0 ) ) * cspsDEVfxx[cspsParse-2]
-                                  + ( csps_Real_s( 20.0 ) / csps_Real_s(  3.0 ) ) * cspsDEVfxx[cspsParse-3]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  4.0 ) ) * cspsDEVfxx[cspsParse-4]
-                                  + ( csps_Real_s(  6.0 ) / csps_Real_s(  5.0 ) ) * cspsDEVfxx[cspsParse-5]
-                                  - ( csps_Real_s(  1.0 ) / csps_Real_s(  6.0 ) ) * cspsDEVfxx[cspsParse-6]
+            lpDEVfxx[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
+                                  + ( lpDelta                                 ) * lpDEVfxz[lpParse-1] * lpDEVgry[lpParse-1]
+                                  - ( lpDelta                                 ) * lpDEVfxy[lpParse-1] * lpDEVgrz[lpParse-1]
+                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfxx[lpParse-1]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfxx[lpParse-2]
+                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfxx[lpParse-3]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfxx[lpParse-4]
+                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfxx[lpParse-5]
+                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfxx[lpParse-6]
                                   );
 
             /* Integration - Advance frame x-vector y-component */
-            cspsDEVfxy[cspsParse] = ( csps_Real_s( 20.0 ) / csps_Real_s( 49.0 ) ) * (
-                                  + ( cspsDelta                                 ) * cspsDEVfxx[cspsParse-1] * cspsDEVgrz[cspsParse-1]
-                                  - ( cspsDelta                                 ) * cspsDEVfxz[cspsParse-1] * cspsDEVgrx[cspsParse-1]
-                                  + ( csps_Real_s(  6.0 )                       ) * cspsDEVfxy[cspsParse-1]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  2.0 ) ) * cspsDEVfxy[cspsParse-2]
-                                  + ( csps_Real_s( 20.0 ) / csps_Real_s(  3.0 ) ) * cspsDEVfxy[cspsParse-3]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  4.0 ) ) * cspsDEVfxy[cspsParse-4]
-                                  + ( csps_Real_s(  6.0 ) / csps_Real_s(  5.0 ) ) * cspsDEVfxy[cspsParse-5]
-                                  - ( csps_Real_s(  1.0 ) / csps_Real_s(  6.0 ) ) * cspsDEVfxy[cspsParse-6]
+            lpDEVfxy[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
+                                  + ( lpDelta                                 ) * lpDEVfxx[lpParse-1] * lpDEVgrz[lpParse-1]
+                                  - ( lpDelta                                 ) * lpDEVfxz[lpParse-1] * lpDEVgrx[lpParse-1]
+                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfxy[lpParse-1]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfxy[lpParse-2]
+                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfxy[lpParse-3]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfxy[lpParse-4]
+                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfxy[lpParse-5]
+                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfxy[lpParse-6]
                                   );
 
             /* Integration - Advance frame x-vector z-component */
-            cspsDEVfxz[cspsParse] = ( csps_Real_s( 20.0 ) / csps_Real_s( 49.0 ) ) * (
-                                  + ( cspsDelta                                 ) * cspsDEVfxy[cspsParse-1] * cspsDEVgrx[cspsParse-1]
-                                  - ( cspsDelta                                 ) * cspsDEVfxx[cspsParse-1] * cspsDEVgry[cspsParse-1]
-                                  + ( csps_Real_s(  6.0 )                       ) * cspsDEVfxz[cspsParse-1]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  2.0 ) ) * cspsDEVfxz[cspsParse-2]
-                                  + ( csps_Real_s( 20.0 ) / csps_Real_s(  3.0 ) ) * cspsDEVfxz[cspsParse-3]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  4.0 ) ) * cspsDEVfxz[cspsParse-4]
-                                  + ( csps_Real_s(  6.0 ) / csps_Real_s(  5.0 ) ) * cspsDEVfxz[cspsParse-5]
-                                  - ( csps_Real_s(  1.0 ) / csps_Real_s(  6.0 ) ) * cspsDEVfxz[cspsParse-6]
+            lpDEVfxz[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
+                                  + ( lpDelta                                 ) * lpDEVfxy[lpParse-1] * lpDEVgrx[lpParse-1]
+                                  - ( lpDelta                                 ) * lpDEVfxx[lpParse-1] * lpDEVgry[lpParse-1]
+                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfxz[lpParse-1]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfxz[lpParse-2]
+                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfxz[lpParse-3]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfxz[lpParse-4]
+                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfxz[lpParse-5]
+                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfxz[lpParse-6]
                                   );
 
             /* Integration - Advance frame y-vector x-component */
-            cspsDEVfyx[cspsParse] = ( csps_Real_s( 20.0 ) / csps_Real_s( 49.0 ) ) * (
-                                  + ( cspsDelta                                 ) * cspsDEVfyz[cspsParse-1] * cspsDEVgry[cspsParse-1]
-                                  - ( cspsDelta                                 ) * cspsDEVfyy[cspsParse-1] * cspsDEVgrz[cspsParse-1]
-                                  + ( csps_Real_s(  6.0 )                       ) * cspsDEVfyx[cspsParse-1]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  2.0 ) ) * cspsDEVfyx[cspsParse-2]
-                                  + ( csps_Real_s( 20.0 ) / csps_Real_s(  3.0 ) ) * cspsDEVfyx[cspsParse-3]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  4.0 ) ) * cspsDEVfyx[cspsParse-4]
-                                  + ( csps_Real_s(  6.0 ) / csps_Real_s(  5.0 ) ) * cspsDEVfyx[cspsParse-5]
-                                  - ( csps_Real_s(  1.0 ) / csps_Real_s(  6.0 ) ) * cspsDEVfyx[cspsParse-6]
+            lpDEVfyx[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
+                                  + ( lpDelta                                 ) * lpDEVfyz[lpParse-1] * lpDEVgry[lpParse-1]
+                                  - ( lpDelta                                 ) * lpDEVfyy[lpParse-1] * lpDEVgrz[lpParse-1]
+                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfyx[lpParse-1]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfyx[lpParse-2]
+                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfyx[lpParse-3]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfyx[lpParse-4]
+                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfyx[lpParse-5]
+                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfyx[lpParse-6]
                                   );
 
             /* Integration - Advance frame y-vector y-component */
-            cspsDEVfyy[cspsParse] = ( csps_Real_s( 20.0 ) / csps_Real_s( 49.0 ) ) * (
-                                  + ( cspsDelta                                 ) * cspsDEVfyx[cspsParse-1] * cspsDEVgrz[cspsParse-1]
-                                  - ( cspsDelta                                 ) * cspsDEVfyz[cspsParse-1] * cspsDEVgrx[cspsParse-1]
-                                  + ( csps_Real_s(  6.0 )                       ) * cspsDEVfyy[cspsParse-1]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  2.0 ) ) * cspsDEVfyy[cspsParse-2]
-                                  + ( csps_Real_s( 20.0 ) / csps_Real_s(  3.0 ) ) * cspsDEVfyy[cspsParse-3]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  4.0 ) ) * cspsDEVfyy[cspsParse-4]
-                                  + ( csps_Real_s(  6.0 ) / csps_Real_s(  5.0 ) ) * cspsDEVfyy[cspsParse-5]
-                                  - ( csps_Real_s(  1.0 ) / csps_Real_s(  6.0 ) ) * cspsDEVfyy[cspsParse-6]
+            lpDEVfyy[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
+                                  + ( lpDelta                                 ) * lpDEVfyx[lpParse-1] * lpDEVgrz[lpParse-1]
+                                  - ( lpDelta                                 ) * lpDEVfyz[lpParse-1] * lpDEVgrx[lpParse-1]
+                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfyy[lpParse-1]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfyy[lpParse-2]
+                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfyy[lpParse-3]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfyy[lpParse-4]
+                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfyy[lpParse-5]
+                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfyy[lpParse-6]
                                   );
 
             /* Integration - Advance frame y-vector z-component */
-            cspsDEVfyz[cspsParse] = ( csps_Real_s( 20.0 ) / csps_Real_s( 49.0 ) ) * (
-                                  + ( cspsDelta                                 ) * cspsDEVfyy[cspsParse-1] * cspsDEVgrx[cspsParse-1]
-                                  - ( cspsDelta                                 ) * cspsDEVfyx[cspsParse-1] * cspsDEVgry[cspsParse-1]
-                                  + ( csps_Real_s(  6.0 )                       ) * cspsDEVfyz[cspsParse-1]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  2.0 ) ) * cspsDEVfyz[cspsParse-2]
-                                  + ( csps_Real_s( 20.0 ) / csps_Real_s(  3.0 ) ) * cspsDEVfyz[cspsParse-3]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  4.0 ) ) * cspsDEVfyz[cspsParse-4]
-                                  + ( csps_Real_s(  6.0 ) / csps_Real_s(  5.0 ) ) * cspsDEVfyz[cspsParse-5]
-                                  - ( csps_Real_s(  1.0 ) / csps_Real_s(  6.0 ) ) * cspsDEVfyz[cspsParse-6]
+            lpDEVfyz[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
+                                  + ( lpDelta                                 ) * lpDEVfyy[lpParse-1] * lpDEVgrx[lpParse-1]
+                                  - ( lpDelta                                 ) * lpDEVfyx[lpParse-1] * lpDEVgry[lpParse-1]
+                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfyz[lpParse-1]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfyz[lpParse-2]
+                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfyz[lpParse-3]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfyz[lpParse-4]
+                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfyz[lpParse-5]
+                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfyz[lpParse-6]
                                   );
 
             /* Integration - Advance frame z-vector x-component */
-            cspsDEVfzx[cspsParse] = ( csps_Real_s( 20.0 ) / csps_Real_s( 49.0 ) ) * (
-                                  + ( cspsDelta                                 ) * cspsDEVfzz[cspsParse-1] * cspsDEVgry[cspsParse-1]
-                                  - ( cspsDelta                                 ) * cspsDEVfzy[cspsParse-1] * cspsDEVgrz[cspsParse-1]
-                                  + ( csps_Real_s(  6.0 )                       ) * cspsDEVfzx[cspsParse-1]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  2.0 ) ) * cspsDEVfzx[cspsParse-2]
-                                  + ( csps_Real_s( 20.0 ) / csps_Real_s(  3.0 ) ) * cspsDEVfzx[cspsParse-3]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  4.0 ) ) * cspsDEVfzx[cspsParse-4]
-                                  + ( csps_Real_s(  6.0 ) / csps_Real_s(  5.0 ) ) * cspsDEVfzx[cspsParse-5]
-                                  - ( csps_Real_s(  1.0 ) / csps_Real_s(  6.0 ) ) * cspsDEVfzx[cspsParse-6]
+            lpDEVfzx[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
+                                  + ( lpDelta                                 ) * lpDEVfzz[lpParse-1] * lpDEVgry[lpParse-1]
+                                  - ( lpDelta                                 ) * lpDEVfzy[lpParse-1] * lpDEVgrz[lpParse-1]
+                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfzx[lpParse-1]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfzx[lpParse-2]
+                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfzx[lpParse-3]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfzx[lpParse-4]
+                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfzx[lpParse-5]
+                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfzx[lpParse-6]
                                   );
 
             /* Integration - Advance frame z-vector y-component */
-            cspsDEVfzy[cspsParse] = ( csps_Real_s( 20.0 ) / csps_Real_s( 49.0 ) ) * (
-                                  + ( cspsDelta                                 ) * cspsDEVfzx[cspsParse-1] * cspsDEVgrz[cspsParse-1]
-                                  - ( cspsDelta                                 ) * cspsDEVfzz[cspsParse-1] * cspsDEVgrx[cspsParse-1]
-                                  + ( csps_Real_s(  6.0 )                       ) * cspsDEVfzy[cspsParse-1]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  2.0 ) ) * cspsDEVfzy[cspsParse-2]
-                                  + ( csps_Real_s( 20.0 ) / csps_Real_s(  3.0 ) ) * cspsDEVfzy[cspsParse-3]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  4.0 ) ) * cspsDEVfzy[cspsParse-4]
-                                  + ( csps_Real_s(  6.0 ) / csps_Real_s(  5.0 ) ) * cspsDEVfzy[cspsParse-5]
-                                  - ( csps_Real_s(  1.0 ) / csps_Real_s(  6.0 ) ) * cspsDEVfzy[cspsParse-6]
+            lpDEVfzy[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
+                                  + ( lpDelta                                 ) * lpDEVfzx[lpParse-1] * lpDEVgrz[lpParse-1]
+                                  - ( lpDelta                                 ) * lpDEVfzz[lpParse-1] * lpDEVgrx[lpParse-1]
+                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfzy[lpParse-1]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfzy[lpParse-2]
+                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfzy[lpParse-3]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfzy[lpParse-4]
+                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfzy[lpParse-5]
+                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfzy[lpParse-6]
                                   );
 
             /* Integration - Advance frame z-vector z-component */
-            cspsDEVfzz[cspsParse] = ( csps_Real_s( 20.0 ) / csps_Real_s( 49.0 ) ) * (
-                                  + ( cspsDelta                                 ) * cspsDEVfzy[cspsParse-1] * cspsDEVgrx[cspsParse-1]
-                                  - ( cspsDelta                                 ) * cspsDEVfzx[cspsParse-1] * cspsDEVgry[cspsParse-1]
-                                  + ( csps_Real_s(  6.0 )                       ) * cspsDEVfzz[cspsParse-1]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  2.0 ) ) * cspsDEVfzz[cspsParse-2]
-                                  + ( csps_Real_s( 20.0 ) / csps_Real_s(  3.0 ) ) * cspsDEVfzz[cspsParse-3]
-                                  - ( csps_Real_s( 15.0 ) / csps_Real_s(  4.0 ) ) * cspsDEVfzz[cspsParse-4]
-                                  + ( csps_Real_s(  6.0 ) / csps_Real_s(  5.0 ) ) * cspsDEVfzz[cspsParse-5]
-                                  - ( csps_Real_s(  1.0 ) / csps_Real_s(  6.0 ) ) * cspsDEVfzz[cspsParse-6]
+            lpDEVfzz[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
+                                  + ( lpDelta                                 ) * lpDEVfzy[lpParse-1] * lpDEVgrx[lpParse-1]
+                                  - ( lpDelta                                 ) * lpDEVfzx[lpParse-1] * lpDEVgry[lpParse-1]
+                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfzz[lpParse-1]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfzz[lpParse-2]
+                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfzz[lpParse-3]
+                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfzz[lpParse-4]
+                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfzz[lpParse-5]
+                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfzz[lpParse-6]
                                   );
 
         }
 
         /* Write stream data */
-        csps_stream_write( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, CSPS_IMU_MODFI_MOD, "fxx", cspsDEVfxx, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, CSPS_IMU_MODFI_MOD, "fxy", cspsDEVfxy, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, CSPS_IMU_MODFI_MOD, "fxz", cspsDEVfxz, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, CSPS_IMU_MODFI_MOD, "fyx", cspsDEVfyx, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, CSPS_IMU_MODFI_MOD, "fyy", cspsDEVfyy, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, CSPS_IMU_MODFI_MOD, "fyz", cspsDEVfyz, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, CSPS_IMU_MODFI_MOD, "fzx", cspsDEVfzx, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, CSPS_IMU_MODFI_MOD, "fzy", cspsDEVfzy, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, CSPS_IMU_MODFI_MOD, "fzz", cspsDEVfzz, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_IMU_MODFI_DEV, cspsName, CSPS_IMU_MODFI_MOD, "syn", cspsDEVsyn, sizeof( csps_Time_t ) * cspsSize );
+        lp_stream_write( lpPath, LP_IMU_MODFI_DEV, lpName, LP_IMU_MODFI_MOD, "fxx", lpDEVfxx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODFI_DEV, lpName, LP_IMU_MODFI_MOD, "fxy", lpDEVfxy, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODFI_DEV, lpName, LP_IMU_MODFI_MOD, "fxz", lpDEVfxz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODFI_DEV, lpName, LP_IMU_MODFI_MOD, "fyx", lpDEVfyx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODFI_DEV, lpName, LP_IMU_MODFI_MOD, "fyy", lpDEVfyy, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODFI_DEV, lpName, LP_IMU_MODFI_MOD, "fyz", lpDEVfyz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODFI_DEV, lpName, LP_IMU_MODFI_MOD, "fzx", lpDEVfzx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODFI_DEV, lpName, LP_IMU_MODFI_MOD, "fzy", lpDEVfzy, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODFI_DEV, lpName, LP_IMU_MODFI_MOD, "fzz", lpDEVfzz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODFI_DEV, lpName, LP_IMU_MODFI_MOD, "syn", lpDEVsyn, sizeof( lp_Time_t ) * lpSize );
 
         /* Unallocate buffer memory */
-        free( cspsDEVgrx );
-        free( cspsDEVgry );
-        free( cspsDEVgrz );
-        free( cspsDEVfxx );
-        free( cspsDEVfxy );
-        free( cspsDEVfxz );
-        free( cspsDEVfyx );
-        free( cspsDEVfyy );
-        free( cspsDEVfyz );
-        free( cspsDEVfzx );
-        free( cspsDEVfzy );
-        free( cspsDEVfzz );
-        free( cspsDEVsyn );
+        free( lpDEVgrx );
+        free( lpDEVgry );
+        free( lpDEVgrz );
+        free( lpDEVfxx );
+        free( lpDEVfxy );
+        free( lpDEVfxz );
+        free( lpDEVfyx );
+        free( lpDEVfyy );
+        free( lpDEVfyz );
+        free( lpDEVfzx );
+        free( lpDEVfzy );
+        free( lpDEVfzz );
+        free( lpDEVsyn );
 
         /* Return device descriptor */
-        return( cspsDevice );
+        return( lpDevice );
 
     }
 

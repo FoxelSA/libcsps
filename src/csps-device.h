@@ -68,21 +68,21 @@
  */
 
     /* Define camera device name */
-    # define CSPS_DEVICE_CAM_EYESIS4PI          "EYESIS4PI"
+    # define LP_DEVICE_CAM_EYESIS4PI          "EYESIS4PI"
 
     /* Define IMU device name */
-    # define CSPS_DEVICE_IMU_ADIS16375          "ADIS16375"
+    # define LP_DEVICE_IMU_ADIS16375          "ADIS16375"
 
     /* Define GPS device name */
-    # define CSPS_DEVICE_GPS_LS20031            "LS20031"
+    # define LP_DEVICE_GPS_LS20031            "LS20031"
 
     /* Define eyesis4pi fpga log record size */
-    # define CSPS_DEVICE_CAM_EYESIS4PI_RECLEN   csps_Size_s( 64 )
+    # define LP_DEVICE_CAM_EYESIS4PI_RECLEN   lp_Size_s( 64 )
 
     /* Define eyesis4pi event flags */
-    # define CSPS_DEVICE_CAM_EYESIS4PI_IMUEVT   csps_Enum_s(  0 )
-    # define CSPS_DEVICE_CAM_EYESIS4PI_GPSEVT   csps_Enum_s(  1 )
-    # define CSPS_DEVICE_CAM_EYESIS4PI_MASEVT   csps_Enum_s(  2 )
+    # define LP_DEVICE_CAM_EYESIS4PI_IMUEVT   lp_Enum_s(  0 )
+    # define LP_DEVICE_CAM_EYESIS4PI_GPSEVT   lp_Enum_s(  1 )
+    # define LP_DEVICE_CAM_EYESIS4PI_MASEVT   lp_Enum_s(  2 )
 
 /*
     Header - Preprocessor macros
@@ -96,155 +96,176 @@
     Header - Structures
  */
 
-    /*! \struct csps_CAM_struct
+    /*! \struct lp_CAM_struct
      *  \brief Camera descriptor structure
      *
      *  The structure stores the description of a camera device engaged
      *  in the CSPS.
      *
-     *  \var csps_CAM_struct::dvName 
+     *  \var lp_CAM_struct::dvName 
      *  Stores the device name
-     *  \var csps_CAM_struct::dvBlock 
+     *  \var lp_CAM_struct::dvBlock 
      *  Stores the importation block size
      */ 
 
-    typedef struct csps_CAM_struct {
+    typedef struct lp_CAM_struct {
 
         /* Device name */
-        csps_Char_t dvName[CSPS_STR_LEN];
+        lp_Char_t dvName[LP_STR_LEN];
 
         /* Size of importation block */
-        csps_Size_t dvBlock;
+        lp_Size_t dvBlock;
 
-    } csps_CAM;
+    } lp_CAM;
 
-    /*! \struct csps_IMU_struct
+    /*! \struct lp_IMU_struct
      *  \brief IMU descriptor structure
      *
      *  The structure stores the description of an IMU device engaged
      *  in the CSPS.
      *
-     *  \var csps_IMU_struct::dvName 
+     *  \var lp_IMU_struct::dvName 
      *  Stores the device name
-     *  \var csps_IMU_struct::dvGYRx 
+     *  \var lp_IMU_struct::dvGYRx 
      *  Gyroscope factory scale factor for x component
-     *  \var csps_IMU_struct::dvGYRy
+     *  \var lp_IMU_struct::dvGYRy
      *  Gyroscope factory scale factor for y component
-     *  \var csps_IMU_struct::dvGYRz 
+     *  \var lp_IMU_struct::dvGYRz 
      *  Gyroscope factory scale factor for z component
-     *  \var csps_IMU_struct::dvACCx 
+     *  \var lp_IMU_struct::dvACCx 
      *  Accelerometer factory scale factor for x component
-     *  \var csps_IMU_struct::dvACCy
+     *  \var lp_IMU_struct::dvACCy
      *  Accelerometer factory scale factor for y component
-     *  \var csps_IMU_struct::dvACCz
+     *  \var lp_IMU_struct::dvACCz
      *  Accelerometer factory scale factor for z component
-     *  \var csps_IMU_struct::dvfxx
+     *  \var lp_IMU_struct::dvfxx
      *  IMU frame x-component of x-vector 
-     *  \var csps_IMU_struct::dvfxy
+     *  \var lp_IMU_struct::dvfxy
      *  IMU frame y-component of x-vector 
-     *  \var csps_IMU_struct::dvfxz
+     *  \var lp_IMU_struct::dvfxz
      *  IMU frame z-component of x-vector 
-     *  \var csps_IMU_struct::dvfyx
+     *  \var lp_IMU_struct::dvfyx
      *  IMU frame x-component of y-vector 
-     *  \var csps_IMU_struct::dvfyy
+     *  \var lp_IMU_struct::dvfyy
      *  IMU frame y-component of y-vector 
-     *  \var csps_IMU_struct::dvfyz
+     *  \var lp_IMU_struct::dvfyz
      *  IMU frame z-component of y-vector 
-     *  \var csps_IMU_struct::dvfzx
+     *  \var lp_IMU_struct::dvfzx
      *  IMU frame x-component of z-vector 
-     *  \var csps_IMU_struct::dvfzy
+     *  \var lp_IMU_struct::dvfzy
      *  IMU frame y-component of z-vector 
-     *  \var csps_IMU_struct::dvfzz
+     *  \var lp_IMU_struct::dvfzz
      *  IMU frame z-component of z-vector 
-     *  \var csps_IMU_struct::dvifreq 
+     *  \var lp_IMU_struct::dvifreq 
      *  Device output sampling frequency
-     *  \var csps_IMU_struct::dvdfreq 
+     *  \var lp_IMU_struct::dvdfreq 
      *  Output sampling reduced frequency
-     *  \var csps_IMU_struct::dvBlock 
+     *  \var lp_IMU_struct::dvBlock 
      *  Stores the importation block size
      */ 
 
-    typedef struct csps_IMU_struct {
+    typedef struct lp_IMU_struct {
 
         /* Device name */
-        csps_Char_t dvName[CSPS_STR_LEN];
+        lp_Char_t dvName[LP_STR_LEN];
 
         /* Gyroscope factory factors */
-        csps_Real_t dvGYRx;
-        csps_Real_t dvGYRy;
-        csps_Real_t dvGYRz;
+        lp_Real_t dvGYRx;
+        lp_Real_t dvGYRy;
+        lp_Real_t dvGYRz;
 
         /* Accelerometre factory factors */
-        csps_Real_t dvACCx;
-        csps_Real_t dvACCy;
-        csps_Real_t dvACCz;
+        lp_Real_t dvACCx;
+        lp_Real_t dvACCy;
+        lp_Real_t dvACCz;
 
         /* Initial frame parameters */
-        csps_Real_t dvfxx;
-        csps_Real_t dvfxy;
-        csps_Real_t dvfxz;
-        csps_Real_t dvfyx;
-        csps_Real_t dvfyy;
-        csps_Real_t dvfyz;
-        csps_Real_t dvfzx;
-        csps_Real_t dvfzy;
-        csps_Real_t dvfzz;
+        lp_Real_t dvfxx;
+        lp_Real_t dvfxy;
+        lp_Real_t dvfxz;
+        lp_Real_t dvfyx;
+        lp_Real_t dvfyy;
+        lp_Real_t dvfyz;
+        lp_Real_t dvfzx;
+        lp_Real_t dvfzy;
+        lp_Real_t dvfzz;
 
         /* IMU frequencies */
-        csps_Size_t dvifreq;
-        csps_Size_t dvdfreq;
+        lp_Size_t dvifreq;
+        lp_Size_t dvdfreq;
 
         /* Size of importation block */
-        csps_Size_t dvBlock;
+        lp_Size_t dvBlock;
 
-    } csps_IMU;
+    } lp_IMU;
 
-    /*! \struct csps_GPS_struct
+    /*! \struct lp_GPS_struct
      *  \brief GPS descriptor structure
      *
      *  The structure stores the description of a GPS device engaged
      *  in the CSPS.
      *
-     *  \var csps_GPS_struct::dvName 
+     *  \var lp_GPS_struct::dvName 
      *  Stores the device name
-     *  \var csps_GPS_struct::dvifreq 
+     *  \var lp_GPS_struct::dvifreq 
      *  Device output sampling frequency
-     *  \var csps_GPS_struct::dvBlock 
+     *  \var lp_GPS_struct::dvBlock 
      *  Stores the importation block size
      */ 
 
-    typedef struct csps_GPS_struct {
+    typedef struct lp_GPS_struct {
 
         /* Device name */
-        csps_Char_t dvName[CSPS_STR_LEN];
+        lp_Char_t dvName[LP_STR_LEN];
 
         /* GPS frequency */
-        csps_Size_t dvifreq;
+        lp_Size_t dvifreq;
 
         /* Size of importation block */
-        csps_Size_t dvBlock;
+        lp_Size_t dvBlock;
 
-    } csps_GPS;
+    } lp_GPS;
 
 /*
     Header - Function prototypes
  */
 
-    csps_CAM csps_device_CAM(
+    /*! \brief Camera descriptor structure creation
+     * 
+     *  Create the camera descriptor structre.
+     *
+     * \param lpName Camera device name
+     */
 
-        const csps_Char_t * const cspsName
+    lp_CAM lp_device_CAM(
+
+        const lp_Char_t * const lpName
 
     );
 
-    csps_IMU csps_device_IMU(
+    /*! \brief IMU descriptor structure creation
+     * 
+     *  Create the IMU descriptor structre.
+     *
+     * \param lpName IMU device name
+     */
 
-        const csps_Char_t * const cspsName
+    lp_IMU lp_device_IMU(
+
+        const lp_Char_t * const lpName
 
     );
 
-    csps_GPS csps_device_GPS(
+    /*! \brief GPS descriptor structure creation
+     * 
+     *  Create the GPS descriptor structre.
+     *
+     * \param lpName GPS device name
+     */
 
-        const csps_Char_t * const cspsName
+    lp_GPS lp_device_GPS(
+
+        const lp_Char_t * const lpName
 
     );
 

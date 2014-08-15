@@ -47,160 +47,57 @@
     Source - GPS signal loss compensator
  */
 
-    csps_GPS csps_gps_modrs(
+    lp_GPS lp_gps_modrs(
 
-        const csps_Char_t * const cspsPath,
-        csps_GPS cspsDevice,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__
+        const lp_Char_t * const lpPath,
+        lp_GPS lpDevice,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__
 
     ) {
 
         /* Integration variables */
-        csps_Size_t cspsParse = csps_Size_s( 0 );
-        csps_Size_t cspsIndex = csps_Size_s( 0 );
+        lp_Size_t lpParse = lp_Size_s( 0 );
+        lp_Size_t lpIndex = lp_Size_s( 0 );
 
         /* Files size */
-        csps_Size_t cspsSize = csps_Size_s( 0 );
-
-        /* Signal loss range */
-        csps_Size_t cspsLoss = csps_Size_s( 0 );
-
-        /* Derivation variables */
-        csps_Size_t cspsDR1cnt = csps_Size_s(   0 );
-        csps_Size_t cspsDR2cnt = csps_Size_s(   0 );
-        csps_Real_t cspsDR1lat = csps_Real_s( 0.0 );
-        csps_Real_t cspsDR2lat = csps_Real_s( 0.0 );
-        csps_Real_t cspsDR1lon = csps_Real_s( 0.0 );
-        csps_Real_t cspsDR2lon = csps_Real_s( 0.0 );
-        csps_Real_t cspsDR1alt = csps_Real_s( 0.0 );
-        csps_Real_t cspsDR2alt = csps_Real_s( 0.0 );
+        lp_Size_t lpSize = lp_Size_s( 0 );
 
         /* Data buffers */
-        csps_Real_t * cspsDEVlat = NULL;
-        csps_Real_t * cspsDEVlon = NULL;
-        csps_Real_t * cspsDEValt = NULL;
-        csps_Time_t * cspsDEVsyn = NULL;
-        csps_Time_t * cspsDEVqbf = NULL;
+        lp_Real_t * lpDEVlat = NULL;
+        lp_Real_t * lpDEVlon = NULL;
+        lp_Real_t * lpDEValt = NULL;
+        lp_Time_t * lpDEVsyn = NULL;
+        lp_Time_t * lpDEVqbf = NULL;
 
         /* Obtain stream size */
-        cspsSize = csps_stream_size( cspsPath, CSPS_GPS_MODRS_DEV, cspsName, cspsPS__, "syn" ) / sizeof( csps_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_GPS_MODRS_DEV, lpName, lpPS__, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        cspsDEVlat = csps_stream_read( cspsPath, CSPS_GPS_MODRS_DEV, cspsName, cspsPS__, "lat", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVlon = csps_stream_read( cspsPath, CSPS_GPS_MODRS_DEV, cspsName, cspsPS__, "lon", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEValt = csps_stream_read( cspsPath, CSPS_GPS_MODRS_DEV, cspsName, cspsPS__, "alt", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVsyn = csps_stream_read( cspsPath, CSPS_GPS_MODRS_DEV, cspsName, cspsPS__, "syn", sizeof( csps_Time_t ) * cspsSize );
-        cspsDEVqbf = csps_stream_read( cspsPath, CSPS_GPS_MODRS_DEV, cspsName, cspsPS__, "qbf", sizeof( csps_Time_t ) * cspsSize );
+        lpDEVlat = lp_stream_read( lpPath, LP_GPS_MODRS_DEV, lpName, lpPS__, "lat", sizeof( lp_Real_t ) * lpSize );
+        lpDEVlon = lp_stream_read( lpPath, LP_GPS_MODRS_DEV, lpName, lpPS__, "lon", sizeof( lp_Real_t ) * lpSize );
+        lpDEValt = lp_stream_read( lpPath, LP_GPS_MODRS_DEV, lpName, lpPS__, "alt", sizeof( lp_Real_t ) * lpSize );
+        lpDEVsyn = lp_stream_read( lpPath, LP_GPS_MODRS_DEV, lpName, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
+        lpDEVqbf = lp_stream_read( lpPath, LP_GPS_MODRS_DEV, lpName, lpPS__, "qbf", sizeof( lp_Time_t ) * lpSize );
 
         /* Frame integration procedure */
-        for ( cspsParse = CSPS_GPS_MODRS_BOUND ; cspsParse < cspsSize - CSPS_GPS_MODRS_BOUND ; cspsParse ++ ) {
+        for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize - lp_Size_s( 1 ) ; lpParse ++ ) {
 
-            /* Save index value */
-            cspsLoss = cspsParse;
+            /* Check signal QBF threshold */
+            if ( lp_qbf_threshold( lpDEVqbf[lpParse] ) == LP_FALSE ) {
 
-            /* Search signal loss range */
-            while ( ( csps_qbf_threshold( cspsDEVqbf[cspsParse] ) == CSPS_TRUE ) && ( cspsParse < ( cspsSize - CSPS_GPS_MODRS_BOUND ) ) ) cspsParse++;
+                /* Check indexes differency */
+                if ( lpIndex < lpParse ) {
 
-            /* Verify if loss range is present */
-            if ( ( cspsLoss -- ) != cspsParse ) {
+                    /* Rethrow values */
+                    lpDEVlat[lpIndex] = lpDEVlat[lpParse];
+                    lpDEVlon[lpIndex] = lpDEVlon[lpParse];
+                    lpDEValt[lpIndex] = lpDEValt[lpParse];
+                    lpDEVsyn[lpIndex] = lpDEVsyn[lpParse];
+                    lpDEVqbf[lpIndex] = lpDEVqbf[lpParse];
 
-                /* Reset derivative variables */
-                cspsDR1cnt = csps_Size_s(   0 );
-                cspsDR2cnt = csps_Size_s(   0 );
-                cspsDR1lat = csps_Real_s( 0.0 );
-                cspsDR2lat = csps_Real_s( 0.0 );
-                cspsDR1lon = csps_Real_s( 0.0 );
-                cspsDR2lon = csps_Real_s( 0.0 );
-                cspsDR1alt = csps_Real_s( 0.0 );
-                cspsDR2alt = csps_Real_s( 0.0 );
-
-                /* Computation of the derivatives */
-                for ( cspsIndex = csps_Size_s( 1 ) ; cspsIndex <= CSPS_GPS_MODRS_BOUND - csps_Size_s( 1 ) ; cspsIndex ++ ) {
-
-                    /* Verify signal quality */
-                    if ( ( csps_qbf_threshold( cspsDEVqbf[cspsLoss - cspsIndex] ) == CSPS_FALSE ) || ( cspsIndex == 1 ) ) {
-
-                        /* Compute left bound derivative */
-                        cspsDR1lat += ( cspsDEVlat[cspsLoss] - cspsDEVlat[cspsLoss - cspsIndex] ) /
-                                      ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss], cspsDEVsyn[cspsLoss - cspsIndex] ) ) );
-                        cspsDR1lon += ( cspsDEVlon[cspsLoss] - cspsDEVlon[cspsLoss - cspsIndex] ) /
-                                      ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss], cspsDEVsyn[cspsLoss - cspsIndex] ) ) );
-                        cspsDR1alt += ( cspsDEValt[cspsLoss] - cspsDEValt[cspsLoss - cspsIndex] ) /
-                                      ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss], cspsDEVsyn[cspsLoss - cspsIndex] ) ) );
-
-                        /* Update derivative count */
-                        cspsDR1cnt += csps_Size_s( 1 );
-
-                    }
-
-                    /* Verify signal quality */
-                    if ( ( csps_qbf_threshold( cspsDEVqbf[cspsParse + cspsIndex] ) == CSPS_FALSE ) || ( cspsIndex == 1 ) ) {
-
-                        /* Compute right bound derivative */
-                        cspsDR2lat += ( cspsDEVlat[cspsParse + cspsIndex] - cspsDEVlat[cspsParse] ) /
-                                      ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse + cspsIndex], cspsDEVsyn[cspsParse] ) ) );
-                        cspsDR2lon += ( cspsDEVlon[cspsParse + cspsIndex] - cspsDEVlon[cspsParse] ) /
-                                      ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse + cspsIndex], cspsDEVsyn[cspsParse] ) ) );
-                        cspsDR2alt += ( cspsDEValt[cspsParse + cspsIndex] - cspsDEValt[cspsParse] ) /
-                                      ( csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse + cspsIndex], cspsDEVsyn[cspsParse] ) ) );
-
-                        /* Update derivative count */
-                        cspsDR2cnt += csps_Size_s( 1 );
-
-                    }
-
-                }
-
-                /* Compute derivative mean */
-                cspsDR1lat /= ( csps_Real_t ) cspsDR1cnt;
-                cspsDR2lat /= ( csps_Real_t ) cspsDR2cnt;
-                cspsDR1lon /= ( csps_Real_t ) cspsDR1cnt;
-                cspsDR2lon /= ( csps_Real_t ) cspsDR2cnt;
-                cspsDR1alt /= ( csps_Real_t ) cspsDR1cnt;
-                cspsDR2alt /= ( csps_Real_t ) cspsDR2cnt;
-
-                /* Signal rebuilding loop */
-                for ( cspsIndex = cspsLoss ; cspsIndex < cspsParse ; cspsIndex ++ ) {
-
-                    /* Signal rebuilding by spline */
-                    cspsDEVlat[cspsIndex] = csps_math_spline_czero( CSPS_MATH_SPLINE_RESET,
-
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsIndex], cspsDEVsyn[cspsLoss] ) ),
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss ], cspsDEVsyn[cspsLoss] ) ),
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse], cspsDEVsyn[cspsLoss] ) ),
-                        cspsDEVlat[cspsLoss ],
-                        cspsDEVlat[cspsParse],
-                        cspsDR1lat,
-                        cspsDR2lat
-
-                    );
-
-                    /* Signal rebuilding by spline */
-                    cspsDEVlon[cspsIndex] = csps_math_spline_czero( CSPS_MATH_SPLINE_RESET,
-
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsIndex], cspsDEVsyn[cspsLoss] ) ),
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss ], cspsDEVsyn[cspsLoss] ) ),
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse], cspsDEVsyn[cspsLoss] ) ),
-                        cspsDEVlon[cspsLoss ],
-                        cspsDEVlon[cspsParse],
-                        cspsDR1lon,
-                        cspsDR2lon
-
-                    );
-
-                    /* Signal rebuilding by spline */
-                    cspsDEValt[cspsIndex] = csps_math_spline_czero( CSPS_MATH_SPLINE_RESET,
-
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsIndex], cspsDEVsyn[cspsLoss] ) ),
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsLoss ], cspsDEVsyn[cspsLoss] ) ),
-                        csps_timestamp_float( csps_timestamp_diff( cspsDEVsyn[cspsParse], cspsDEVsyn[cspsLoss] ) ),
-                        cspsDEValt[cspsLoss ],
-                        cspsDEValt[cspsParse],
-                        cspsDR1alt,
-                        cspsDR2alt
-
-                    );
+                    /* Update rethrown value index */
+                    lpIndex ++;
 
                 }
 
@@ -209,21 +106,21 @@
         }
 
         /* Write stream data */
-        csps_stream_write( cspsPath, CSPS_GPS_MODRS_DEV, cspsName, CSPS_GPS_MODRS_MOD, "lat", cspsDEVlat, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_GPS_MODRS_DEV, cspsName, CSPS_GPS_MODRS_MOD, "lon", cspsDEVlon, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_GPS_MODRS_DEV, cspsName, CSPS_GPS_MODRS_MOD, "alt", cspsDEValt, sizeof( csps_Real_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_GPS_MODRS_DEV, cspsName, CSPS_GPS_MODRS_MOD, "syn", cspsDEVsyn, sizeof( csps_Time_t ) * cspsSize );
-        csps_stream_write( cspsPath, CSPS_GPS_MODRS_DEV, cspsName, CSPS_GPS_MODRS_MOD, "qbf", cspsDEVqbf, sizeof( csps_Time_t ) * cspsSize );
+        lp_stream_write( lpPath, LP_GPS_MODRS_DEV, lpName, LP_GPS_MODRS_MOD, "lat", lpDEVlat, sizeof( lp_Real_t ) * lpIndex );
+        lp_stream_write( lpPath, LP_GPS_MODRS_DEV, lpName, LP_GPS_MODRS_MOD, "lon", lpDEVlon, sizeof( lp_Real_t ) * lpIndex );
+        lp_stream_write( lpPath, LP_GPS_MODRS_DEV, lpName, LP_GPS_MODRS_MOD, "alt", lpDEValt, sizeof( lp_Real_t ) * lpIndex );
+        lp_stream_write( lpPath, LP_GPS_MODRS_DEV, lpName, LP_GPS_MODRS_MOD, "syn", lpDEVsyn, sizeof( lp_Time_t ) * lpIndex );
+        lp_stream_write( lpPath, LP_GPS_MODRS_DEV, lpName, LP_GPS_MODRS_MOD, "qbf", lpDEVqbf, sizeof( lp_Time_t ) * lpIndex );
 
         /* Unallocate buffer memory */
-        free( cspsDEVlat );
-        free( cspsDEVlon );
-        free( cspsDEValt );
-        free( cspsDEVsyn );
-        free( cspsDEVqbf );
+        free( lpDEVlat );
+        free( lpDEVlon );
+        free( lpDEValt );
+        free( lpDEVsyn );
+        free( lpDEVqbf );
 
         /* Return device descriptor */
-        return( cspsDevice );
+        return( lpDevice );
 
     }
 

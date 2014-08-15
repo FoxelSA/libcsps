@@ -47,121 +47,121 @@
     Source - Gravity alignment procedure
  */
 
-    csps_IMU csps_imu_modsa(
+    lp_IMU lp_imu_modsa(
 
-        const csps_Char_t * const cspsPath,
-        csps_IMU cspsDevice,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__
+        const lp_Char_t * const lpPath,
+        lp_IMU lpDevice,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__
 
     ) {
 
         /* Downsampling variables */
-        csps_Size_t cspsParse = csps_Size_s( 0 );
+        lp_Size_t lpParse = lp_Size_s( 0 );
 
         /* Files size */
-        csps_Size_t cspsSize = csps_Size_s( 0 );
+        lp_Size_t lpSize = lp_Size_s( 0 );
 
         /* Acceleration accumulation */
-        csps_Real_t cspsACCacx = csps_Real_s( 0.0 );
-        csps_Real_t cspsACCacy = csps_Real_s( 0.0 );
-        csps_Real_t cspsACCacz = csps_Real_s( 0.0 );
-        csps_Real_t cspsACCgrx = csps_Real_s( 0.0 );
-        csps_Real_t cspsACCgry = csps_Real_s( 0.0 );
-        csps_Real_t cspsACCgrz = csps_Real_s( 0.0 );
-        csps_Real_t cspsACCnrm = csps_Real_s( 0.0 );
+        lp_Real_t lpACCacx = lp_Real_s( 0.0 );
+        lp_Real_t lpACCacy = lp_Real_s( 0.0 );
+        lp_Real_t lpACCacz = lp_Real_s( 0.0 );
+        lp_Real_t lpACCgrx = lp_Real_s( 0.0 );
+        lp_Real_t lpACCgry = lp_Real_s( 0.0 );
+        lp_Real_t lpACCgrz = lp_Real_s( 0.0 );
+        lp_Real_t lpACCnrm = lp_Real_s( 0.0 );
 
         /* Data buffers */
-        csps_Real_t * cspsDEVacx = NULL;
-        csps_Real_t * cspsDEVacy = NULL;
-        csps_Real_t * cspsDEVacz = NULL;
-        csps_Real_t * cspsDEVgrx = NULL;
-        csps_Real_t * cspsDEVgry = NULL;
-        csps_Real_t * cspsDEVgrz = NULL;
-        csps_Time_t * cspsDEVsyn = NULL;
+        lp_Real_t * lpDEVacx = NULL;
+        lp_Real_t * lpDEVacy = NULL;
+        lp_Real_t * lpDEVacz = NULL;
+        lp_Real_t * lpDEVgrx = NULL;
+        lp_Real_t * lpDEVgry = NULL;
+        lp_Real_t * lpDEVgrz = NULL;
+        lp_Time_t * lpDEVsyn = NULL;
 
         /* Obtain stream size */
-        cspsSize = csps_stream_size( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "syn" ) / sizeof( csps_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        cspsDEVacx = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "acx", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVacy = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "acy", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVacz = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "acz", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVgrx = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "grx", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVgry = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "gry", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVgrz = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "grz", sizeof( csps_Real_t ) * cspsSize );
-        cspsDEVsyn = csps_stream_read( cspsPath, CSPS_IMU_MODGA_DEV, cspsName, cspsPS__, "syn", sizeof( csps_Time_t ) * cspsSize );
+        lpDEVacx = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "acx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacy = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "acy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacz = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "acz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "grx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgry = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "gry", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "grz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Downsampling procedure */
-        while ( cspsParse < ( csps_Size_s( 5 ) * cspsDevice.dvdfreq ) ) {
+        while ( lpParse < ( lp_Size_s( 5 ) * lpDevice.dvdfreq ) ) {
 
             /* Accelerometer signal accumulation */
-            cspsACCacx += cspsDEVacx[cspsParse];
-            cspsACCacy += cspsDEVacy[cspsParse];
-            cspsACCacz += cspsDEVacz[cspsParse];
+            lpACCacx += lpDEVacx[lpParse];
+            lpACCacy += lpDEVacy[lpParse];
+            lpACCacz += lpDEVacz[lpParse];
 
             /* Gyroscope signal accumulation */
-            cspsACCgrx += cspsDEVgrx[cspsParse];
-            cspsACCgry += cspsDEVgry[cspsParse];
-            cspsACCgrz += cspsDEVgrz[cspsParse];
+            lpACCgrx += lpDEVgrx[lpParse];
+            lpACCgry += lpDEVgry[lpParse];
+            lpACCgrz += lpDEVgrz[lpParse];
 
             /* Update parse index */
-            cspsParse += csps_Size_s( 1 );
+            lpParse += lp_Size_s( 1 );
 
         }
 
         /* Accelerometer accumulation average */
-        cspsACCacx /= cspsParse;
-        cspsACCacy /= cspsParse;
-        cspsACCacz /= cspsParse;
+        lpACCacx /= lpParse;
+        lpACCacy /= lpParse;
+        lpACCacz /= lpParse;
 
         /* Compute average acceleration norm */
-        cspsACCnrm = sqrt( cspsACCacx * cspsACCacx + cspsACCacy * cspsACCacy + cspsACCacz * cspsACCacz );
+        lpACCnrm = sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy + lpACCacz * lpACCacz );
 
         /* Normalize acceleration vector */
-        cspsACCacx /= cspsACCnrm;
-        cspsACCacy /= cspsACCnrm;
-        cspsACCacz /= cspsACCnrm;
+        lpACCacx /= lpACCnrm;
+        lpACCacy /= lpACCnrm;
+        lpACCacz /= lpACCnrm;
 
         /* Gyroscope accumulation average */
-        cspsACCgrx /= cspsParse;
-        cspsACCgry /= cspsParse;
-        cspsACCgrz /= cspsParse;
+        lpACCgrx /= lpParse;
+        lpACCgry /= lpParse;
+        lpACCgrz /= lpParse;
 
         /* Compute average acceleration norm */
-        cspsACCnrm = sqrt( cspsACCgrx * cspsACCgrx + cspsACCgry * cspsACCgry + cspsACCgrz * cspsACCgrz );
+        lpACCnrm = sqrt( lpACCgrx * lpACCgrx + lpACCgry * lpACCgry + lpACCgrz * lpACCgrz );
 
         /* Normalize acceleration vector */
-        cspsACCgrx /= cspsACCnrm;
-        cspsACCgry /= cspsACCnrm;
-        cspsACCgrz /= cspsACCnrm;
+        lpACCgrx /= lpACCnrm;
+        lpACCgry /= lpACCnrm;
+        lpACCgrz /= lpACCnrm;
 
         /* Align z-vector to gravity reaction */
-        cspsDevice.dvfzx = + cspsACCacx;
-        cspsDevice.dvfzy = + cspsACCacy;
-        cspsDevice.dvfzz = + cspsACCacz;
+        lpDevice.dvfzx = + lpACCacx;
+        lpDevice.dvfzy = + lpACCacy;
+        lpDevice.dvfzz = + lpACCacz;
 
         /* Align x-vector to gravity/earth rate normal */
-        cspsDevice.dvfyx = - cspsACCacy * cspsACCgrz + cspsACCacz * cspsACCgry;
-        cspsDevice.dvfyy = - cspsACCacz * cspsACCgrx + cspsACCacx * cspsACCgrz;
-        cspsDevice.dvfyz = - cspsACCacx * cspsACCgry + cspsACCacy * cspsACCgrx;
+        lpDevice.dvfyx = - lpACCacy * lpACCgrz + lpACCacz * lpACCgry;
+        lpDevice.dvfyy = - lpACCacz * lpACCgrx + lpACCacx * lpACCgrz;
+        lpDevice.dvfyz = - lpACCacx * lpACCgry + lpACCacy * lpACCgrx;
 
         /* Align y-vector to x-z crossed product */
-        cspsDevice.dvfxx = - cspsDevice.dvfyy * cspsDevice.dvfzz + cspsDevice.dvfyz * cspsDevice.dvfzy;
-        cspsDevice.dvfxy = - cspsDevice.dvfyz * cspsDevice.dvfzx + cspsDevice.dvfyx * cspsDevice.dvfzz;
-        cspsDevice.dvfxz = - cspsDevice.dvfyx * cspsDevice.dvfzy + cspsDevice.dvfyy * cspsDevice.dvfzx;
+        lpDevice.dvfxx = - lpDevice.dvfyy * lpDevice.dvfzz + lpDevice.dvfyz * lpDevice.dvfzy;
+        lpDevice.dvfxy = - lpDevice.dvfyz * lpDevice.dvfzx + lpDevice.dvfyx * lpDevice.dvfzz;
+        lpDevice.dvfxz = - lpDevice.dvfyx * lpDevice.dvfzy + lpDevice.dvfyy * lpDevice.dvfzx;
 
         /* Unallocate buffer memory */
-        free( cspsDEVacx );
-        free( cspsDEVacy );
-        free( cspsDEVacz );
-        free( cspsDEVgrx );
-        free( cspsDEVgry );
-        free( cspsDEVgrz );
-        free( cspsDEVsyn );
+        free( lpDEVacx );
+        free( lpDEVacy );
+        free( lpDEVacz );
+        free( lpDEVgrx );
+        free( lpDEVgry );
+        free( lpDEVgrz );
+        free( lpDEVsyn );
 
         /* Return device descriptor */
-        return( cspsDevice );
+        return( lpDevice );
 
     }
 

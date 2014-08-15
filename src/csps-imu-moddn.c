@@ -47,60 +47,60 @@
     Source - Total variation denoising with iterative clipping IMU signal denoising
  */
 
-    csps_IMU csps_imu_moddn(
+    lp_IMU lp_imu_moddn(
 
-        const csps_Char_t * const cspsPath,
-        csps_IMU cspsDevice,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__
+        const lp_Char_t * const lpPath,
+        lp_IMU lpDevice,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__
 
     ) {
         
         /* Files size */
-        csps_Size_t cspsSize = csps_Size_s( 0 );
+        lp_Size_t lpSize = lp_Size_s( 0 );
 
         /* Data buffers */
-        csps_Real_t * cspsDEVgen = NULL;
-        csps_Real_t * cspsDEVden = NULL;
-        csps_Time_t * cspsDEVsyn = NULL;
+        lp_Real_t * lpDEVgen = NULL;
+        lp_Real_t * lpDEVden = NULL;
+        lp_Time_t * lpDEVsyn = NULL;
 
         /* Stream element name array */
-        csps_Char_t * cspsElement[6] = { "grx", "gry", "grz", "acx", "acy", "acz" };
+        lp_Char_t * cspsElement[6] = { "grx", "gry", "grz", "acx", "acy", "acz" };
 
         /* Processing variables */
-        csps_Size_t cspsIndex = csps_Size_s( 0 );
+        lp_Size_t lpIndex = lp_Size_s( 0 );
 
         /* Obtain stream size */
-        cspsSize = csps_stream_size( cspsPath, CSPS_IMU_MODDN_DEV, cspsName, cspsPS__, "syn" ) / sizeof( csps_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_MODDN_DEV, lpName, lpPS__, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        cspsDEVsyn = csps_stream_read( cspsPath, CSPS_IMU_MODDN_DEV, cspsName, cspsPS__, "syn", sizeof( csps_Time_t ) * cspsSize );
+        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODDN_DEV, lpName, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Write stream data */
-        csps_stream_write( cspsPath, CSPS_IMU_MODDN_DEV, cspsName, CSPS_IMU_MODDN_MOD, "syn", cspsDEVsyn, sizeof( csps_Time_t ) * cspsSize );
+        lp_stream_write( lpPath, LP_IMU_MODDN_DEV, lpName, LP_IMU_MODDN_MOD, "syn", lpDEVsyn, sizeof( lp_Time_t ) * lpSize );
 
         /* Unallocate buffer memory */
-        free( cspsDEVsyn );
+        free( lpDEVsyn );
 
         /* Stream element denoising loop */
-        for ( cspsIndex = csps_Size_s( 0 ); cspsIndex < csps_Size_s( 6 ); cspsIndex ++ ) {
+        for ( lpIndex = lp_Size_s( 0 ); lpIndex < lp_Size_s( 6 ); lpIndex ++ ) {
 
             /* Read streams data */
-            cspsDEVgen = csps_stream_read( cspsPath, CSPS_IMU_MODDN_DEV, cspsName, cspsPS__, cspsElement[cspsIndex], sizeof( csps_Real_t ) * cspsSize );
+            lpDEVgen = lp_stream_read( lpPath, LP_IMU_MODDN_DEV, lpName, lpPS__, cspsElement[lpIndex], sizeof( lp_Real_t ) * lpSize );
 
             /* Denoising procedure */
-            cspsDEVden = csps_imu_moddn_tvic( cspsDEVgen, cspsSize, csps_Size_s( 10 ), csps_Size_s( 32 ) );
+            lpDEVden = lp_imu_moddn_tvic( lpDEVgen, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
 
             /* Write stream data */
-            csps_stream_write( cspsPath, CSPS_IMU_MODDN_DEV, cspsName, CSPS_IMU_MODDN_MOD, cspsElement[cspsIndex], cspsDEVden, sizeof( csps_Real_t ) * cspsSize );
+            lp_stream_write( lpPath, LP_IMU_MODDN_DEV, lpName, LP_IMU_MODDN_MOD, cspsElement[lpIndex], lpDEVden, sizeof( lp_Real_t ) * lpSize );
 
             /* Unallocate buffer memory */
-            free( cspsDEVden );
+            free( lpDEVden );
 
         }
 
         /* Return device descriptor */
-        return( cspsDevice );
+        return( lpDevice );
 
     }
 
@@ -108,65 +108,65 @@
     Source - Total variation denoising with iterative clipping algorithm
  */
 
-    csps_Real_t * csps_imu_moddn_tvic(
+    lp_Real_t * lp_imu_moddn_tvic(
 
-        const csps_Real_t * const cspsSignal,
-        csps_Size_t cspsSize,
-        csps_Size_t cspsRegularity,
-        csps_Size_t cspsIteration
+        const lp_Real_t * const lpSignal,
+        lp_Size_t lpSize,
+        lp_Size_t lpRegularity,
+        lp_Size_t lpIteration
 
     ) {
 
         /* Allocate denoised signal memory */
-        csps_Real_t * cspsDenoised = malloc( cspsSize * sizeof( double ) );
+        lp_Real_t * lpDenoised = malloc( lpSize * sizeof( double ) );
 
         /* Allocate differential array */
-        csps_Real_t * cspsDiff = malloc( ( cspsSize - 1 ) * sizeof( double ) );
+        lp_Real_t * lpDiff = malloc( ( lpSize - 1 ) * sizeof( double ) );
 
         /* Iteration index */
-        csps_Size_t cspsIter = csps_Size_s( 0 );
+        lp_Size_t lpIter = lp_Size_s( 0 );
 
         /* Algorithm variables */
-        csps_Size_t cspsIndex = csps_Size_s( 0 );
-        csps_Size_t cspsPrevi = csps_Size_s( 0 );
-        csps_Real_t cspsClip  = cspsRegularity * csps_Real_s( 0.5 );
+        lp_Size_t lpIndex = lp_Size_s( 0 );
+        lp_Size_t lpPrevi = lp_Size_s( 0 );
+        lp_Real_t lpClip  = lpRegularity * lp_Real_s( 0.5 );
 
         /* Iteration loop */
-        while ( ( cspsIter ++ ) < cspsIteration ) {
+        while ( ( lpIter ++ ) < lpIteration ) {
 
             /* Optimized algorithm */
-            for ( cspsIndex = csps_Size_s( 0 ); cspsIndex < cspsSize; cspsIndex ++ ) {
+            for ( lpIndex = lp_Size_s( 0 ); lpIndex < lpSize; lpIndex ++ ) {
 
                 /* Boundaries managment */
-                if ( cspsIndex == csps_Size_s( 0 ) ) {
+                if ( lpIndex == lp_Size_s( 0 ) ) {
 
                     /* Compute part of y - D'z */
-                    cspsDenoised[cspsIndex] = cspsSignal[cspsIndex] + cspsDiff[0];
+                    lpDenoised[lpIndex] = lpSignal[lpIndex] + lpDiff[0];
 
                 } else {
 
                     /* Compute previous index - optimization */
-                    cspsPrevi = cspsIndex - csps_Size_s( 1 );
+                    lpPrevi = lpIndex - lp_Size_s( 1 );
 
                     /* Boundaries managment */
-                    if ( cspsIndex == ( cspsSize - csps_Size_s( 1 ) ) ) {
+                    if ( lpIndex == ( lpSize - lp_Size_s( 1 ) ) ) {
 
                         /* Compute part of y - D'z */
-                        cspsDenoised[cspsIndex] = cspsSignal[cspsIndex] - cspsDiff[cspsSize-2];
+                        lpDenoised[lpIndex] = lpSignal[lpIndex] - lpDiff[lpSize-2];
 
                     } else {
 
                         /* Compute part of y - D'z */
-                        cspsDenoised[cspsIndex] = cspsSignal[cspsIndex] - cspsDiff[cspsPrevi] + cspsDiff[cspsIndex];
+                        lpDenoised[lpIndex] = lpSignal[lpIndex] - lpDiff[lpPrevi] + lpDiff[lpIndex];
 
                     }
 
                     /* Compute z + (1/alpha)Dz */
-                    cspsDiff[cspsPrevi] = cspsDiff[cspsPrevi] + ( csps_Real_s( 1.0 ) / csps_Real_s( 3.0 ) ) * ( cspsDenoised[cspsIndex] - cspsDenoised[cspsPrevi] );
+                    lpDiff[lpPrevi] = lpDiff[lpPrevi] + ( lp_Real_s( 1.0 ) / lp_Real_s( 3.0 ) ) * ( lpDenoised[lpIndex] - lpDenoised[lpPrevi] );
 
                     /* Apply iterative clipping */
-                    if ( cspsDiff[cspsPrevi] < - cspsClip ) cspsDiff[cspsPrevi] = - cspsClip;
-                    if ( cspsDiff[cspsPrevi] > + cspsClip ) cspsDiff[cspsPrevi] = + cspsClip;
+                    if ( lpDiff[lpPrevi] < - lpClip ) lpDiff[lpPrevi] = - lpClip;
+                    if ( lpDiff[lpPrevi] > + lpClip ) lpDiff[lpPrevi] = + lpClip;
 
                 }
 
@@ -175,10 +175,10 @@
         }
 
         /* Unallocate differential array */
-        free( cspsDiff );
+        free( lpDiff );
 
         /* Return pointer to denoised signal */
-        return( cspsDenoised );
+        return( lpDenoised );
 
     }
 

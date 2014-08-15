@@ -47,39 +47,39 @@
     Source - CSPS query - Time range
  */
 
-    csps_QueryTime csps_query_time(
+    lp_QueryTime lp_query_time(
 
-        const csps_Char_t * const cspsPath,
-        const csps_Char_t * const cspsTag,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__
 
     ) {
 
         /* Files size */
-        csps_Size_t cspsSize = csps_Size_s( 0 );
+        lp_Size_t lpSize = lp_Size_s( 0 );
 
         /* Data buffers */
-        csps_Time_t * cspsVPDsyn = NULL;
+        lp_Time_t * lpVPDsyn = NULL;
 
         /* Returned structure */
-        csps_QueryTime cspsTime;
+        lp_QueryTime lpTime;
 
         /* Obtain stream size */
-        cspsSize = csps_stream_size( cspsPath, cspsTag, cspsName, cspsPS__, "syn" ) / sizeof( csps_Time_t );
+        lpSize = lp_stream_size( lpPath, lpTag, lpName, lpPS__, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        cspsVPDsyn = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "syn", sizeof( csps_Time_t ) * cspsSize );
+        lpVPDsyn = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Extract timestamp boundaries */
-        cspsTime.qrInitial = cspsVPDsyn[0];
-        cspsTime.qrFinal   = cspsVPDsyn[cspsSize-1];
+        lpTime.qrInitial = lpVPDsyn[0];
+        lpTime.qrFinal   = lpVPDsyn[lpSize-1];
 
         /* Unallocate buffer memory */
-        free( cspsVPDsyn );
+        free( lpVPDsyn );
 
         /* Return time structure */
-        return( cspsTime );
+        return( lpTime );
 
     }
 
@@ -87,134 +87,142 @@
     Source - CSPS query - Position
  */
 
-    csps_QueryPosition csps_query_position_by_timestamp(
+    lp_QueryPosition lp_query_position_by_timestamp(
 
-        const csps_Char_t * const cspsPath,
-        const csps_Char_t * const cspsTag,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__,
-        csps_Time_t cspsTimestamp
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__,
+        lp_Time_t lpTimestamp
 
     ) {
 
         /* Query variables */
-        csps_Size_t cspsParse = csps_Size_s( 0 );
+        lp_Size_t lpParse = lp_Size_s( 0 );
 
         /* Files size */
-        csps_Size_t cspsSize = csps_Size_s( 0 );
+        lp_Size_t lpSize = lp_Size_s( 0 );
 
         /* Interpolation parameters */
-        csps_Size_t cspsShift0 = csps_Size_s( 0 );
-        csps_Size_t cspsShift1 = csps_Size_s( 0 );
-        csps_Size_t cspsShift2 = csps_Size_s( 0 );
-        csps_Size_t cspsShift3 = csps_Size_s( 0 );
+        lp_Size_t lpShift0 = lp_Size_s( 0 );
+        lp_Size_t lpShift1 = lp_Size_s( 0 );
+        lp_Size_t lpShift2 = lp_Size_s( 0 );
+        lp_Size_t lpShift3 = lp_Size_s( 0 );
 
         /* Data buffers */
-        csps_Real_t * cspsVPDlat = NULL;
-        csps_Real_t * cspsVPDlon = NULL;
-        csps_Real_t * cspsVPDalt = NULL;
-        csps_Time_t * cspsVPDsyn = NULL;
+        lp_Real_t * lpVPDlat = NULL;
+        lp_Real_t * lpVPDlon = NULL;
+        lp_Real_t * lpVPDalt = NULL;
+        lp_Time_t * lpVPDsyn = NULL;
 
         /* Returned structure */
-        csps_QueryPosition cspsPosition;
+        lp_QueryPosition lpPosition;
 
         /* Obtain stream size */
-        cspsSize = csps_stream_size( cspsPath, cspsTag, cspsName, cspsPS__, "syn" ) / sizeof( csps_Time_t );
+        lpSize = lp_stream_size( lpPath, lpTag, lpName, lpPS__, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        cspsVPDlat = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "lat", sizeof( csps_Real_t ) * cspsSize );
-        cspsVPDlon = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "lon", sizeof( csps_Real_t ) * cspsSize );
-        cspsVPDalt = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "alt", sizeof( csps_Real_t ) * cspsSize );
-        cspsVPDsyn = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "syn", sizeof( csps_Time_t ) * cspsSize );
+        lpVPDlat = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "lat", sizeof( lp_Real_t ) * lpSize );
+        lpVPDlon = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "lon", sizeof( lp_Real_t ) * lpSize );
+        lpVPDalt = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "alt", sizeof( lp_Real_t ) * lpSize );
+        lpVPDsyn = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Verify time range */
-        if ( ( csps_timestamp_ge( cspsTimestamp, cspsVPDsyn[0] ) == CSPS_TRUE ) && ( csps_timestamp_ge( cspsVPDsyn[cspsSize-1], cspsTimestamp ) == CSPS_TRUE ) ) {
+        if ( ( lp_timestamp_ge( lpTimestamp, lpVPDsyn[0] ) == LP_TRUE ) && ( lp_timestamp_ge( lpVPDsyn[lpSize-1], lpTimestamp ) == LP_TRUE ) ) {
 
             /* Search position by timestamp */
-            while ( csps_timestamp_ge( cspsTimestamp, cspsVPDsyn[++cspsParse] ) == CSPS_TRUE );
+            while ( lp_timestamp_ge( lpTimestamp, lpVPDsyn[++lpParse] ) == LP_TRUE );
 
             /* Create interpolation parameters */
-            if ( cspsParse == csps_Size_s( 0 ) ) {
+            if ( lpParse == lp_Size_s( 0 ) ) {
 
                 /* Left boundary correction */
-                cspsShift0 = csps_Size_s( 0 );
-                cspsShift1 = csps_Size_s( 0 );
-                cspsShift2 = csps_Size_s( 1 );
-                cspsShift3 = csps_Size_s( 2 );
+                lpShift0 = lp_Size_s( 0 );
+                lpShift1 = lp_Size_s( 0 );
+                lpShift2 = lp_Size_s( 1 );
+                lpShift3 = lp_Size_s( 2 );
 
-            } else if ( cspsParse == ( cspsSize - csps_Size_s( 1 ) ) ) {
+            } else if ( lpParse == ( lpSize - lp_Size_s( 1 ) ) ) {
 
                 /* Right boundary correction */
-                cspsShift0 = cspsSize - csps_Size_s( 3 );
-                cspsShift1 = cspsSize - csps_Size_s( 2 );
-                cspsShift2 = cspsSize - csps_Size_s( 1 );
-                cspsShift3 = cspsSize - csps_Size_s( 1 );
+                lpShift0 = lpSize - lp_Size_s( 3 );
+                lpShift1 = lpSize - lp_Size_s( 2 );
+                lpShift2 = lpSize - lp_Size_s( 1 );
+                lpShift3 = lpSize - lp_Size_s( 1 );
 
             } else {
 
                 /* Usual range parameters */
-                cspsShift0 = cspsParse - csps_Size_s( 2 );
-                cspsShift1 = cspsParse - csps_Size_s( 1 );
-                cspsShift2 = cspsParse;
-                cspsShift3 = cspsParse + csps_Size_s( 1 );
+                lpShift0 = lpParse - lp_Size_s( 2 );
+                lpShift1 = lpParse - lp_Size_s( 1 );
+                lpShift2 = lpParse;
+                lpShift3 = lpParse + lp_Size_s( 1 );
 
             }
 
             /* Compute interpolation values - Latitude */
-            cspsPosition.qrLatitude = csps_math_spline( CSPS_MATH_SPLINE_RESET,
+            lpPosition.qrLatitude = lp_math_spline( LP_MATH_SPLINE_RESET,
 
-                csps_timestamp_float( csps_timestamp_diff( cspsTimestamp         , cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift0], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift1], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift2], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift3], cspsVPDsyn[cspsShift0] ) ),
-                cspsVPDlat[cspsShift0],
-                cspsVPDlat[cspsShift1],
-                cspsVPDlat[cspsShift2],
-                cspsVPDlat[cspsShift3]
+                lp_timestamp_float( lp_timestamp_diff( lpTimestamp       , lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
+                lpVPDlat[lpShift0],
+                lpVPDlat[lpShift1],
+                lpVPDlat[lpShift2],
+                lpVPDlat[lpShift3]
 
             );
 
             /* Compute interpolation values - Longitude */
-            cspsPosition.qrLongitude = csps_math_spline( CSPS_MATH_SPLINE_RESET,
+            lpPosition.qrLongitude = lp_math_spline( LP_MATH_SPLINE_RESET,
 
-                csps_timestamp_float( csps_timestamp_diff( cspsTimestamp         , cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift0], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift1], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift2], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift3], cspsVPDsyn[cspsShift0] ) ),
-                cspsVPDlon[cspsShift0],
-                cspsVPDlon[cspsShift1],
-                cspsVPDlon[cspsShift2],
-                cspsVPDlon[cspsShift3]
+                lp_timestamp_float( lp_timestamp_diff( lpTimestamp       , lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
+                lpVPDlon[lpShift0],
+                lpVPDlon[lpShift1],
+                lpVPDlon[lpShift2],
+                lpVPDlon[lpShift3]
 
             );
 
             /* Compute interpolation values - Altitude */
-            cspsPosition.qrAltitude = csps_math_spline( CSPS_MATH_SPLINE_RESET,
+            lpPosition.qrAltitude = lp_math_spline( LP_MATH_SPLINE_RESET,
 
-                csps_timestamp_float( csps_timestamp_diff( cspsTimestamp         , cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift0], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift1], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift2], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift3], cspsVPDsyn[cspsShift0] ) ),
-                cspsVPDalt[cspsShift0],
-                cspsVPDalt[cspsShift1],
-                cspsVPDalt[cspsShift2],
-                cspsVPDalt[cspsShift3]
+                lp_timestamp_float( lp_timestamp_diff( lpTimestamp       , lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
+                lpVPDalt[lpShift0],
+                lpVPDalt[lpShift1],
+                lpVPDalt[lpShift2],
+                lpVPDalt[lpShift3]
 
             );
+
+            /* Update query status */
+            lpPosition.qrStatus = LP_TRUE;
+
+        } else {
+
+            /* Update query status */
+            lpPosition.qrStatus = LP_FALSE;
 
         }
 
         /* Unallocate buffer memory */
-        free( cspsVPDlat );
-        free( cspsVPDlon );
-        free( cspsVPDalt );
-        free( cspsVPDsyn );
+        free( lpVPDlat );
+        free( lpVPDlon );
+        free( lpVPDalt );
+        free( lpVPDsyn );
 
         /* Return position structure */
-        return( cspsPosition );
+        return( lpPosition );
 
     }
 
@@ -222,242 +230,242 @@
     Source - CSPS query - Orientation
  */
 
-    csps_QueryOrientation csps_query_orientation_by_timestamp(
+    lp_QueryOrientation lp_query_orientation_by_timestamp(
 
-        const csps_Char_t * const cspsPath,
-        const csps_Char_t * const cspsTag,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__,
-        csps_Time_t cspsTimestamp
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpName,
+        const lp_Char_t * const lpPS__,
+        lp_Time_t lpTimestamp
 
     ) {
 
         /* Query variables */
-        csps_Size_t cspsParse = csps_Size_s( 0 );
+        lp_Size_t lpParse = lp_Size_s( 0 );
 
         /* Files size */
-        csps_Size_t cspsSize = csps_Size_s( 0 );
+        lp_Size_t lpSize = lp_Size_s( 0 );
 
         /* Interpolation parameters */
-        csps_Size_t cspsShift0 = csps_Size_s( 0 );
-        csps_Size_t cspsShift1 = csps_Size_s( 0 );
-        csps_Size_t cspsShift2 = csps_Size_s( 0 );
-        csps_Size_t cspsShift3 = csps_Size_s( 0 );
+        lp_Size_t lpShift0 = lp_Size_s( 0 );
+        lp_Size_t lpShift1 = lp_Size_s( 0 );
+        lp_Size_t lpShift2 = lp_Size_s( 0 );
+        lp_Size_t lpShift3 = lp_Size_s( 0 );
 
         /* Data buffers */
-        csps_Real_t * cspsVPDfxx = NULL;
-        csps_Real_t * cspsVPDfxy = NULL;
-        csps_Real_t * cspsVPDfxz = NULL;
-        csps_Real_t * cspsVPDfyx = NULL;
-        csps_Real_t * cspsVPDfyy = NULL;
-        csps_Real_t * cspsVPDfyz = NULL;
-        csps_Real_t * cspsVPDfzx = NULL;
-        csps_Real_t * cspsVPDfzy = NULL;
-        csps_Real_t * cspsVPDfzz = NULL;
-        csps_Time_t * cspsVPDsyn = NULL;
+        lp_Real_t * lpVPDfxx = NULL;
+        lp_Real_t * lpVPDfxy = NULL;
+        lp_Real_t * lpVPDfxz = NULL;
+        lp_Real_t * lpVPDfyx = NULL;
+        lp_Real_t * lpVPDfyy = NULL;
+        lp_Real_t * lpVPDfyz = NULL;
+        lp_Real_t * lpVPDfzx = NULL;
+        lp_Real_t * lpVPDfzy = NULL;
+        lp_Real_t * lpVPDfzz = NULL;
+        lp_Time_t * lpVPDsyn = NULL;
 
         /* Returned structure */
-        csps_QueryOrientation cspsOrientation;
+        lp_QueryOrientation lpOrientation;
 
         /* Obtain stream size */
-        cspsSize = csps_stream_size( cspsPath, cspsTag, cspsName, cspsPS__, "syn" ) / sizeof( csps_Time_t );
+        lpSize = lp_stream_size( lpPath, lpTag, lpName, lpPS__, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        cspsVPDfxx = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "fxx", sizeof( csps_Real_t ) * cspsSize );
-        cspsVPDfxy = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "fxy", sizeof( csps_Real_t ) * cspsSize );
-        cspsVPDfxz = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "fxz", sizeof( csps_Real_t ) * cspsSize );
-        cspsVPDfyx = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "fyx", sizeof( csps_Real_t ) * cspsSize );
-        cspsVPDfyy = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "fyy", sizeof( csps_Real_t ) * cspsSize );
-        cspsVPDfyz = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "fyz", sizeof( csps_Real_t ) * cspsSize );
-        cspsVPDfzx = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "fzx", sizeof( csps_Real_t ) * cspsSize );
-        cspsVPDfzy = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "fzy", sizeof( csps_Real_t ) * cspsSize );
-        cspsVPDfzz = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "fzz", sizeof( csps_Real_t ) * cspsSize );
-        cspsVPDsyn = csps_stream_read( cspsPath, cspsTag, cspsName, cspsPS__, "syn", sizeof( csps_Time_t ) * cspsSize );
+        lpVPDfxx = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "fxx", sizeof( lp_Real_t ) * lpSize );
+        lpVPDfxy = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "fxy", sizeof( lp_Real_t ) * lpSize );
+        lpVPDfxz = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "fxz", sizeof( lp_Real_t ) * lpSize );
+        lpVPDfyx = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "fyx", sizeof( lp_Real_t ) * lpSize );
+        lpVPDfyy = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "fyy", sizeof( lp_Real_t ) * lpSize );
+        lpVPDfyz = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "fyz", sizeof( lp_Real_t ) * lpSize );
+        lpVPDfzx = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "fzx", sizeof( lp_Real_t ) * lpSize );
+        lpVPDfzy = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "fzy", sizeof( lp_Real_t ) * lpSize );
+        lpVPDfzz = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "fzz", sizeof( lp_Real_t ) * lpSize );
+        lpVPDsyn = lp_stream_read( lpPath, lpTag, lpName, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Verify time range */
-        if ( ( csps_timestamp_ge( cspsTimestamp, cspsVPDsyn[0] ) == CSPS_TRUE ) && ( csps_timestamp_ge( cspsVPDsyn[cspsSize-1], cspsTimestamp ) == CSPS_TRUE ) ) {
+        if ( ( lp_timestamp_ge( lpTimestamp, lpVPDsyn[0] ) == LP_TRUE ) && ( lp_timestamp_ge( lpVPDsyn[lpSize-1], lpTimestamp ) == LP_TRUE ) ) {
 
             /* Search position by timestamp */
-            while ( csps_timestamp_ge( cspsTimestamp, cspsVPDsyn[++cspsParse] ) == CSPS_TRUE );
+            while ( lp_timestamp_ge( lpTimestamp, lpVPDsyn[++lpParse] ) == LP_TRUE );
 
             /* Create interpolation parameters */
-            if ( cspsParse == csps_Size_s( 0 ) ) {
+            if ( lpParse == lp_Size_s( 0 ) ) {
 
                 /* Left boundary correction */
-                cspsShift0 = csps_Size_s( 0 );
-                cspsShift1 = csps_Size_s( 0 );
-                cspsShift2 = csps_Size_s( 1 );
-                cspsShift3 = csps_Size_s( 2 );
+                lpShift0 = lp_Size_s( 0 );
+                lpShift1 = lp_Size_s( 0 );
+                lpShift2 = lp_Size_s( 1 );
+                lpShift3 = lp_Size_s( 2 );
 
-            } else if ( cspsParse == ( cspsSize - csps_Size_s( 1 ) ) ) {
+            } else if ( lpParse == ( lpSize - lp_Size_s( 1 ) ) ) {
 
                 /* Right boundary correction */
-                cspsShift0 = cspsSize - csps_Size_s( 3 );
-                cspsShift1 = cspsSize - csps_Size_s( 2 );
-                cspsShift2 = cspsSize - csps_Size_s( 1 );
-                cspsShift3 = cspsSize - csps_Size_s( 1 );
+                lpShift0 = lpSize - lp_Size_s( 3 );
+                lpShift1 = lpSize - lp_Size_s( 2 );
+                lpShift2 = lpSize - lp_Size_s( 1 );
+                lpShift3 = lpSize - lp_Size_s( 1 );
 
             } else {
 
                 /* Usual range parameters */
-                cspsShift0 = cspsParse - csps_Size_s( 2 );
-                cspsShift1 = cspsParse - csps_Size_s( 1 );
-                cspsShift2 = cspsParse;
-                cspsShift3 = cspsParse + csps_Size_s( 1 );
+                lpShift0 = lpParse - lp_Size_s( 2 );
+                lpShift1 = lpParse - lp_Size_s( 1 );
+                lpShift2 = lpParse;
+                lpShift3 = lpParse + lp_Size_s( 1 );
 
             }
 
             /* Compute interpolation values - Frame x-component x-vector */
-            cspsOrientation.qrfxx = csps_math_spline( CSPS_MATH_SPLINE_RESET,
+            lpOrientation.qrfxx = lp_math_spline( LP_MATH_SPLINE_RESET,
 
-                csps_timestamp_float( csps_timestamp_diff( cspsTimestamp         , cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift0], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift1], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift2], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift3], cspsVPDsyn[cspsShift0] ) ),
-                cspsVPDfxx[cspsShift0],
-                cspsVPDfxx[cspsShift1],
-                cspsVPDfxx[cspsShift2],
-                cspsVPDfxx[cspsShift3]
+                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
+                lpVPDfxx[lpShift0],
+                lpVPDfxx[lpShift1],
+                lpVPDfxx[lpShift2],
+                lpVPDfxx[lpShift3]
 
             );
 
             /* Compute interpolation values - Frame y-component x-vector */
-            cspsOrientation.qrfxy = csps_math_spline( CSPS_MATH_SPLINE_RESET,
+            lpOrientation.qrfxy = lp_math_spline( LP_MATH_SPLINE_RESET,
 
-                csps_timestamp_float( csps_timestamp_diff( cspsTimestamp         , cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift0], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift1], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift2], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift3], cspsVPDsyn[cspsShift0] ) ),
-                cspsVPDfxy[cspsShift0],
-                cspsVPDfxy[cspsShift1],
-                cspsVPDfxy[cspsShift2],
-                cspsVPDfxy[cspsShift3]
+                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
+                lpVPDfxy[lpShift0],
+                lpVPDfxy[lpShift1],
+                lpVPDfxy[lpShift2],
+                lpVPDfxy[lpShift3]
 
             );
 
             /* Compute interpolation values - Frame z-component x-vector */
-            cspsOrientation.qrfxz = csps_math_spline( CSPS_MATH_SPLINE_RESET,
+            lpOrientation.qrfxz = lp_math_spline( LP_MATH_SPLINE_RESET,
 
-                csps_timestamp_float( csps_timestamp_diff( cspsTimestamp         , cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift0], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift1], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift2], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift3], cspsVPDsyn[cspsShift0] ) ),
-                cspsVPDfxz[cspsShift0],
-                cspsVPDfxz[cspsShift1],
-                cspsVPDfxz[cspsShift2],
-                cspsVPDfxz[cspsShift3]
+                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
+                lpVPDfxz[lpShift0],
+                lpVPDfxz[lpShift1],
+                lpVPDfxz[lpShift2],
+                lpVPDfxz[lpShift3]
 
             );
 
             /* Compute interpolation values - Frame x-component y-vector */
-            cspsOrientation.qrfyx = csps_math_spline( CSPS_MATH_SPLINE_RESET,
+            lpOrientation.qrfyx = lp_math_spline( LP_MATH_SPLINE_RESET,
 
-                csps_timestamp_float( csps_timestamp_diff( cspsTimestamp         , cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift0], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift1], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift2], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift3], cspsVPDsyn[cspsShift0] ) ),
-                cspsVPDfyx[cspsShift0],
-                cspsVPDfyx[cspsShift1],
-                cspsVPDfyx[cspsShift2],
-                cspsVPDfyx[cspsShift3]
+                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
+                lpVPDfyx[lpShift0],
+                lpVPDfyx[lpShift1],
+                lpVPDfyx[lpShift2],
+                lpVPDfyx[lpShift3]
 
             );
 
             /* Compute interpolation values - Frame y-component y-vector */
-            cspsOrientation.qrfyy = csps_math_spline( CSPS_MATH_SPLINE_RESET,
+            lpOrientation.qrfyy = lp_math_spline( LP_MATH_SPLINE_RESET,
 
-                csps_timestamp_float( csps_timestamp_diff( cspsTimestamp         , cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift0], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift1], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift2], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift3], cspsVPDsyn[cspsShift0] ) ),
-                cspsVPDfyy[cspsShift0],
-                cspsVPDfyy[cspsShift1],
-                cspsVPDfyy[cspsShift2],
-                cspsVPDfyy[cspsShift3]
+                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
+                lpVPDfyy[lpShift0],
+                lpVPDfyy[lpShift1],
+                lpVPDfyy[lpShift2],
+                lpVPDfyy[lpShift3]
 
             );
 
             /* Compute interpolation values - Frame z-component y-vector */
-            cspsOrientation.qrfyz = csps_math_spline( CSPS_MATH_SPLINE_RESET,
+            lpOrientation.qrfyz = lp_math_spline( LP_MATH_SPLINE_RESET,
 
-                csps_timestamp_float( csps_timestamp_diff( cspsTimestamp         , cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift0], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift1], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift2], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift3], cspsVPDsyn[cspsShift0] ) ),
-                cspsVPDfyz[cspsShift0],
-                cspsVPDfyz[cspsShift1],
-                cspsVPDfyz[cspsShift2],
-                cspsVPDfyz[cspsShift3]
+                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
+                lpVPDfyz[lpShift0],
+                lpVPDfyz[lpShift1],
+                lpVPDfyz[lpShift2],
+                lpVPDfyz[lpShift3]
 
             );
 
             /* Compute interpolation values - Frame x-component z-vector */
-            cspsOrientation.qrfzx = csps_math_spline( CSPS_MATH_SPLINE_RESET,
+            lpOrientation.qrfzx = lp_math_spline( LP_MATH_SPLINE_RESET,
 
-                csps_timestamp_float( csps_timestamp_diff( cspsTimestamp         , cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift0], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift1], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift2], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift3], cspsVPDsyn[cspsShift0] ) ),
-                cspsVPDfzx[cspsShift0],
-                cspsVPDfzx[cspsShift1],
-                cspsVPDfzx[cspsShift2],
-                cspsVPDfzx[cspsShift3]
+                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
+                lpVPDfzx[lpShift0],
+                lpVPDfzx[lpShift1],
+                lpVPDfzx[lpShift2],
+                lpVPDfzx[lpShift3]
 
             );
 
             /* Compute interpolation values - Frame y-component z-vector */
-            cspsOrientation.qrfzy = csps_math_spline( CSPS_MATH_SPLINE_RESET,
+            lpOrientation.qrfzy = lp_math_spline( LP_MATH_SPLINE_RESET,
 
-                csps_timestamp_float( csps_timestamp_diff( cspsTimestamp         , cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift0], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift1], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift2], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift3], cspsVPDsyn[cspsShift0] ) ),
-                cspsVPDfzy[cspsShift0],
-                cspsVPDfzy[cspsShift1],
-                cspsVPDfzy[cspsShift2],
-                cspsVPDfzy[cspsShift3]
+                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
+                lpVPDfzy[lpShift0],
+                lpVPDfzy[lpShift1],
+                lpVPDfzy[lpShift2],
+                lpVPDfzy[lpShift3]
 
             );
 
             /* Compute interpolation values - Frame z-component z-vector */
-            cspsOrientation.qrfzz = csps_math_spline( CSPS_MATH_SPLINE_RESET,
+            lpOrientation.qrfzz = lp_math_spline( LP_MATH_SPLINE_RESET,
 
-                csps_timestamp_float( csps_timestamp_diff( cspsTimestamp         , cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift0], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift1], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift2], cspsVPDsyn[cspsShift0] ) ),
-                csps_timestamp_float( csps_timestamp_diff( cspsVPDsyn[cspsShift3], cspsVPDsyn[cspsShift0] ) ),
-                cspsVPDfzz[cspsShift0],
-                cspsVPDfzz[cspsShift1],
-                cspsVPDfzz[cspsShift2],
-                cspsVPDfzz[cspsShift3]
+                lp_timestamp_float( lp_timestamp_diff( lpTimestamp         , lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift0], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift1], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift2], lpVPDsyn[lpShift0] ) ),
+                lp_timestamp_float( lp_timestamp_diff( lpVPDsyn[lpShift3], lpVPDsyn[lpShift0] ) ),
+                lpVPDfzz[lpShift0],
+                lpVPDfzz[lpShift1],
+                lpVPDfzz[lpShift2],
+                lpVPDfzz[lpShift3]
 
             );
 
         }
 
         /* Unallocate buffer memory */
-        free( cspsVPDfxx );
-        free( cspsVPDfxy );
-        free( cspsVPDfxz );
-        free( cspsVPDfyx );
-        free( cspsVPDfyy );
-        free( cspsVPDfyz );
-        free( cspsVPDfzx );
-        free( cspsVPDfzy );
-        free( cspsVPDfzz );
-        free( cspsVPDsyn );
+        free( lpVPDfxx );
+        free( lpVPDfxy );
+        free( lpVPDfxz );
+        free( lpVPDfyx );
+        free( lpVPDfyy );
+        free( lpVPDfyz );
+        free( lpVPDfzx );
+        free( lpVPDfzy );
+        free( lpVPDfzz );
+        free( lpVPDsyn );
 
         /* Return position structure */
-        return( cspsOrientation );
+        return( lpOrientation );
 
     }
 

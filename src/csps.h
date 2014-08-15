@@ -105,73 +105,80 @@
  */
 
     /* Define default truth values */
-    # define CSPS_FALSE             csps_Enum_s( 0 )
-    # define CSPS_TRUE              csps_Enum_s( 1 )
+    # define LP_FALSE             lp_Enum_s( 0 )
+    # define LP_TRUE              lp_Enum_s( 1 )
 
     /* Define default string length */
-    # define CSPS_STR_LEN           csps_Size_s( 256 )
+    # define LP_STR_LEN           lp_Size_s( 256 )
 
     /* Define default initializer */
-    # define CSPS_STR_INI           { '\0' }
+    # define LP_STR_INI           { '\0' }
 
     /* Declare mathematical constants */
-    # define CSPS_PI                csps_Real_s( 3.14159265358979323846264338327 )
+    # define LP_PI                lp_Real_s( 3.14159265358979323846264338327 )
 
 /*
     Header - Preprocessor macros
  */
+
+    /* Define casting macro */
+    # define lp_Size_c( x )   ( ( lp_Size_t ) x )
+    # define lp_Enum_c( x )   ( ( lp_Enum_t ) x )
+    # define lp_Real_c( x )   ( ( lp_Real_t ) x )
+    # define lp_Byte_c( x )   ( ( lp_Byte_t ) x )
+    # define lp_Char_c( x )   ( ( lp_Char_t ) x )
+
+    /* Define litteral suffix */
+    # define lp_Size_s( x )   INT64_C( x )
+    # define lp_Enum_s( x )   INT64_C( x )
+    # define lp_Real_s( x )   ( x )
+    # define lp_Byte_s( x )   UINT8_C( x )
+    # define lp_Char_s( x )   ( x )
+
+    /* Define formated output specifiers */
+    # define lp_Size_p        PRId64
+    # define lp_Enum_p        PRId64
+    # define lp_Real_p        "lf"
+    # define lp_Byte_p        PRIu8
+    # define lp_Char_p        "c"
+
+    /* Define formated input specifiers */
+    # define lp_Size_i        SCNu64
+    # define lp_Enum_i        SCNu64
+    # define lp_Real_i        "lf"
+    # define lp_Byte_i        SCNu8
+    # define lp_Char_i        "c"
+
+    /* Define floating point operator */
+    # define lp_trunc( x )    trunc( x )
+    # define lp_floor( x )    floor( x )
+    # define lp_ceil ( x )    ceil ( x )
+    # define lp_fabs ( x )    fabs ( x )
 
 /*
     Header - Typedefs
  */
 
     /* Define general void */
-    typedef void    csps_Void_t;
+    typedef void    lp_Void_t;
 
     /* Define general index */
-    typedef int64_t csps_Size_t;
+    typedef int64_t lp_Size_t;
 
     /* Define general enumeration */
-    typedef int64_t csps_Enum_t;
+    typedef int64_t lp_Enum_t;
 
     /* Define general floating point */
-    typedef double  csps_Real_t;
+    typedef double  lp_Real_t;
 
     /* Define general byte */
-    typedef uint8_t csps_Byte_t;
+    typedef uint8_t lp_Byte_t;
 
     /* Define general char */
-    typedef char    csps_Char_t;
+    typedef char    lp_Char_t;
 
     /* Define general stream */
-    typedef FILE *  csps_File_t;
-
-    /* Define literal suffix */
-    # define csps_Size_s( x )   INT64_C( x )
-    # define csps_Enum_s( x )   INT64_C( x )
-    # define csps_Real_s( x )   ( x )
-    # define csps_Byte_s( x )   UINT8_C( x )
-    # define csps_Char_s( x )   ( x )
-
-    /* Define formated output specifiers */
-    # define csps_Size_p        PRId64
-    # define csps_Enum_p        PRId64
-    # define csps_Real_p        "lf"
-    # define csps_Byte_p        PRIu8
-    # define csps_Char_p        "c"
-
-    /* Define formated input specifiers */
-    # define csps_Size_i        SCNu64
-    # define csps_Enum_i        SCNu64
-    # define csps_Real_i        "lf"
-    # define csps_Byte_i        SCNu8
-    # define csps_Char_i        "c"
-
-    /* Define floating point operator */
-    # define csps_trunc( x )    trunc( x )
-    # define csps_floor( x )    floor( x )
-    # define csps_ceil ( x )    ceil ( x )
-    # define csps_fabs ( x )    fabs ( x )
+    typedef FILE *  lp_File_t;
 
 /*
     Header - Structures

@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LIBCSPS_CSPS_QUERY__
-    # define __LIBCSPS_CSPS_QUERY__
+    # ifndef __LP_QUERY__
+    # define __LP_QUERY__
 
 /*
     Header - C/C++ compatibility
@@ -78,68 +78,71 @@
     Header - Structures
  */
 
-    typedef struct csps_QueryTime_struct {
+    typedef struct lp_QueryTime_struct {
 
         /* Timestamp range boundaries */
-        csps_Time_t qrInitial;
-        csps_Time_t qrFinal;
+        lp_Time_t qrInitial;
+        lp_Time_t qrFinal;
 
-    } csps_QueryTime;
+    } lp_QueryTime;
 
-    typedef struct csps_QueryPosition_struct {
+    typedef struct lp_QueryPosition_struct {
+
+        /* Query status */
+        lp_Enum_t qrStatus;
 
         /* Position descriptors */
-        csps_Real_t qrLatitude;
-        csps_Real_t qrLongitude;
-        csps_Real_t qrAltitude;
+        lp_Real_t qrLatitude;
+        lp_Real_t qrLongitude;
+        lp_Real_t qrAltitude;
 
-    } csps_QueryPosition;
+    } lp_QueryPosition;
 
-    typedef struct cspsQueryOrientation_struct {
+    typedef struct lp_QueryOrientation_struct {
 
         /* Orientation descriptor */
-        csps_Real_t qrfxx;
-        csps_Real_t qrfxy;
-        csps_Real_t qrfxz;
-        csps_Real_t qrfyx;
-        csps_Real_t qrfyy;
-        csps_Real_t qrfyz;
-        csps_Real_t qrfzx;
-        csps_Real_t qrfzy;
-        csps_Real_t qrfzz;
+        lp_Real_t qrfxx;
+        lp_Real_t qrfxy;
+        lp_Real_t qrfxz;
+        lp_Real_t qrfyx;
+        lp_Real_t qrfyy;
+        lp_Real_t qrfyz;
+        lp_Real_t qrfzx;
+        lp_Real_t qrfzy;
+        lp_Real_t qrfzz;
 
-    } csps_QueryOrientation;
+    } lp_QueryOrientation;
 
 /*
     Header - Function prototypes
  */
 
-    csps_QueryTime csps_query_time(
+    lp_QueryTime lp_query_time(
 
-        const csps_Char_t * const cspsPath,
-        const csps_Char_t * const cspsTag,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__
-
-    );
-
-    csps_QueryPosition csps_query_position_by_timestamp(
-
-        const csps_Char_t * const cspsPath,
-        const csps_Char_t * const cspsTag,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__,
-        csps_Time_t cspsTimestamp
+        const lp_Char_t * const cspsPath,
+        const lp_Char_t * const cspsTag,
+        const lp_Char_t * const cspsName,
+        const lp_Char_t * const cspsPS__
 
     );
 
-    csps_QueryOrientation csps_query_orientation_by_timestamp(
+    lp_QueryPosition lp_query_position_by_timestamp(
 
-        const csps_Char_t * const cspsPath,
-        const csps_Char_t * const cspsTag,
-        const csps_Char_t * const cspsName,
-        const csps_Char_t * const cspsPS__,
-        csps_Time_t cspsTimestamp
+        const lp_Char_t * const cspsPath,
+        const lp_Char_t * const cspsTag,
+        const lp_Char_t * const cspsName,
+        const lp_Char_t * const cspsPS__,
+        lp_Time_t cspsTimestamp
+
+    );
+
+    lp_QueryOrientation lp_query_orientation_by_timestamp(
+
+        const lp_Char_t * const cspsPath,
+        const lp_Char_t * const cspsTag,
+        const lp_Char_t * const cspsName,
+        const lp_Char_t * const cspsPS__,
+        lp_Time_t cspsTimestamp
 
     );
 
