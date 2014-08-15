@@ -51,7 +51,6 @@
 
         const lp_Char_t * const lpPath,
         lp_IMU lpDevice,
-        const lp_Char_t * const lpName,
         const lp_Char_t * const lpPS__
 
     ) {
@@ -71,13 +70,13 @@
         lp_Size_t lpIndex = lp_Size_s( 0 );
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, LP_IMU_MODDN_DEV, lpName, lpPS__, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_MODDN_DEV, lpDevice.dvTag, lpPS__, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODDN_DEV, lpName, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
+        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODDN_DEV, lpDevice.dvTag, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Write stream data */
-        lp_stream_write( lpPath, LP_IMU_MODDN_DEV, lpName, LP_IMU_MODDN_MOD, "syn", lpDEVsyn, sizeof( lp_Time_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODDN_DEV, lpDevice.dvTag, LP_IMU_MODDN_MOD, "syn", lpDEVsyn, sizeof( lp_Time_t ) * lpSize );
 
         /* Unallocate buffer memory */
         free( lpDEVsyn );
@@ -86,13 +85,13 @@
         for ( lpIndex = lp_Size_s( 0 ); lpIndex < lp_Size_s( 6 ); lpIndex ++ ) {
 
             /* Read streams data */
-            lpDEVgen = lp_stream_read( lpPath, LP_IMU_MODDN_DEV, lpName, lpPS__, cspsElement[lpIndex], sizeof( lp_Real_t ) * lpSize );
+            lpDEVgen = lp_stream_read( lpPath, LP_IMU_MODDN_DEV, lpDevice.dvTag, lpPS__, cspsElement[lpIndex], sizeof( lp_Real_t ) * lpSize );
 
             /* Denoising procedure */
             lpDEVden = lp_imu_moddn_tvic( lpDEVgen, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
 
             /* Write stream data */
-            lp_stream_write( lpPath, LP_IMU_MODDN_DEV, lpName, LP_IMU_MODDN_MOD, cspsElement[lpIndex], lpDEVden, sizeof( lp_Real_t ) * lpSize );
+            lp_stream_write( lpPath, LP_IMU_MODDN_DEV, lpDevice.dvTag, LP_IMU_MODDN_MOD, cspsElement[lpIndex], lpDEVden, sizeof( lp_Real_t ) * lpSize );
 
             /* Unallocate buffer memory */
             free( lpDEVden );

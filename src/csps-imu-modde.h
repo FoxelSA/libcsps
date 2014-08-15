@@ -88,16 +88,14 @@
     lp_IMU lp_imu_modde(
 
         const lp_Char_t * const lpPath,
-        lp_IMU lpDevice,
-        const lp_Char_t * const lpName
+        lp_IMU lpDevice
 
     );
 
     lp_IMU lp_imu_ADIS16375(
 
         const lp_Char_t * const lpPath,
-        lp_IMU cspsDevice,
-        const lp_Char_t * const lpName
+        lp_IMU cspsDevice
 
     );
 

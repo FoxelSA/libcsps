@@ -105,7 +105,6 @@
 
         const lp_Char_t * const lpPath,
         lp_GPS lpDevice,
-        const lp_Char_t * const lpName,
         const lp_Char_t * const lpPS__
 
     );

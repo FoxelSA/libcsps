@@ -47,13 +47,13 @@
     Source - IMU data extractor module
  */
 
-    lp_IMU lp_imu_modde( const lp_Char_t * const lpPath, lp_IMU lpDevice, const lp_Char_t * const lpName ) {
+    lp_IMU lp_imu_modde( const lp_Char_t * const lpPath, lp_IMU lpDevice ) {
 
         /* Select device */
         if ( strcmp( lpDevice.dvName, LP_DEVICE_IMU_ADIS16375 ) == 0 ) {
 
             /* ADIS16375 specific process */
-            return( lp_imu_ADIS16375( lpPath, lpDevice, lpName ) );
+            return( lp_imu_ADIS16375( lpPath, lpDevice ) );
 
         } else {
 
@@ -68,7 +68,7 @@
     Source - IMU ADIS16375 specific extractor
  */
 
-    lp_IMU lp_imu_ADIS16375( const lp_Char_t * const lpPath, lp_IMU lpDevice, const lp_Char_t * const lpName ) {
+    lp_IMU lp_imu_ADIS16375( const lp_Char_t * const lpPath, lp_IMU lpDevice ) {
 
         /* FPGA record buffer */
         lp_Byte_t lpRec[LP_DEVICE_CAM_EYESIS4PI_RECLEN];
@@ -111,13 +111,13 @@
         lp_path( lpPath, LP_DEVICE_IMU_ADIS16375, NULL, NULL, NULL, lpDEVlogp );
 
         /* Build file paths */
-        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "grx", lpDEVgrxp );
-        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "gry", lpDEVgryp );
-        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "grz", lpDEVgrzp );
-        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "acx", lpDEVacxp );
-        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "acy", lpDEVacyp );
-        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "acz", lpDEVaczp );
-        lp_path( lpPath, LP_IMU_MODDE_DEV, lpName, LP_IMU_MODDE_MOD, "syn", lpDEVsynp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpDevice.dvTag, LP_IMU_MODDE_MOD, "grx", lpDEVgrxp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpDevice.dvTag, LP_IMU_MODDE_MOD, "gry", lpDEVgryp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpDevice.dvTag, LP_IMU_MODDE_MOD, "grz", lpDEVgrzp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpDevice.dvTag, LP_IMU_MODDE_MOD, "acx", lpDEVacxp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpDevice.dvTag, LP_IMU_MODDE_MOD, "acy", lpDEVacyp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpDevice.dvTag, LP_IMU_MODDE_MOD, "acz", lpDEVaczp );
+        lp_path( lpPath, LP_IMU_MODDE_DEV, lpDevice.dvTag, LP_IMU_MODDE_MOD, "syn", lpDEVsynp );
 
         /* Open file streams */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );

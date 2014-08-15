@@ -93,7 +93,6 @@
 
         const lp_Char_t * const lpPath,
         lp_IMU lpDevice,
-        const lp_Char_t * const lpName,
         const lp_Char_t * const lpPSgr
 
     );

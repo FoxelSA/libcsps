@@ -88,16 +88,14 @@
     lp_CAM lp_cam_modde(
 
         const lp_Char_t * const lpPath,
-        lp_CAM lpDevice,
-        const lp_Char_t * const lpName
+        lp_CAM lpDevice
 
     );
 
     lp_CAM lp_cam_EYESIS4PI(
 
         const lp_Char_t * const lpPath,
-        lp_CAM lpDevice,
-        const lp_Char_t * const lpName
+        lp_CAM lpDevice
 
     );
 

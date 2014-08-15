@@ -51,7 +51,6 @@
 
         const lp_Char_t * const lpPath,
         lp_IMU lpDevice,
-        const lp_Char_t * const lpName,
         const lp_Char_t * const lpPS__
 
     ) {
@@ -81,16 +80,16 @@
         lp_Time_t * lpDEVsyn = NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_MODGA_DEV, lpDevice.dvTag, lpPS__, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        lpDEVacx = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "acx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacy = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "acy", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacz = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "acz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "grx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgry = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "gry", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "grz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpName, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
+        lpDEVacx = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpDevice.dvTag, lpPS__, "acx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacy = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpDevice.dvTag, lpPS__, "acy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacz = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpDevice.dvTag, lpPS__, "acz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpDevice.dvTag, lpPS__, "grx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgry = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpDevice.dvTag, lpPS__, "gry", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpDevice.dvTag, lpPS__, "grz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODGA_DEV, lpDevice.dvTag, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Downsampling procedure */
         while ( lpParse < ( lp_Size_s( 5 ) * lpDevice.dvdfreq ) ) {
