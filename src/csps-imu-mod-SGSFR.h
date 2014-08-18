@@ -36,6 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-imu-mod-SGSFR.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  IMU signal frequency reducer module (SGSFR - SiGnal Sampling Frequency Reduction)
+     */
 
 /*
     Header - Include guard
@@ -86,6 +91,16 @@
 /*
     Header - Function prototypes
  */
+
+    /*! \brief IMU signals frequency reduction
+     *  
+     *  Reduce the sampling rate of the IMU signals.
+     *  
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice IMU device descriptor
+     *  \param lpPS__ Signals module name
+     *  \return Returns lpDevice structure
+     */
 
     lp_IMU lp_imu_mod_SGSFR(
 

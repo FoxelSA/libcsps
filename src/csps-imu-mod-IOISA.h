@@ -36,6 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-imu-mod-IOISA.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  IMU earth self-alignment module (IOISA - Initial Orientation Inertial Self-Alignment)
+     */
 
 /*
     Header - Include guard
@@ -86,6 +91,17 @@
 /*
     Header - Function prototypes
  */
+
+    /*! \brief IMU earth self-alignment
+     *  
+     *  This function performs IMU earth self-alignment based on
+     *  an inertial still range.
+     *  
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice IMU device descriptor
+     *  \param lpPS__ Acceleration and gyroscopic module name
+     *  \return Returns lpDevice structure
+     */
 
     lp_IMU lp_imu_mod_IOISA(
 

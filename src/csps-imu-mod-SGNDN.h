@@ -36,6 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-imu-mod-SGNDN.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  IMU signal denoising module (SGNDN - SiGNal DeNoising)
+     */
 
 /*
     Header - Include guard
@@ -87,6 +92,17 @@
     Header - Function prototypes
  */
 
+    /*! \brief IMU signal denoising
+     *  
+     *  Denoise the signals comming from the IMU device. The implemented
+     *  algorithm is currently the total variation with iterative clipping.
+     *  
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice IMU device descriptor
+     *  \param lpPS__ Acceleration and gyroscopic module name
+     *  \return Return lpDevice structure
+     */
+
     lp_IMU lp_imu_mod_SGNDN(
 
         const lp_Char_t * const lpPath,
@@ -94,6 +110,18 @@
         const lp_Char_t * const lpPS__
 
     );
+
+    /*! \brief Total variation with iterative clipping denoising
+     *  
+     *  Perform a total variation with iterative clipping densoing
+     *  on the input data.
+     *  
+     *  \param lpSignal Pointer to signal data
+     *  \param lpSize Size of the signal, in type units
+     *  \param lpRegulation Total variation regularity (smoothing) parameter
+     *  \param lpIteration Number of iterations
+     *  \return Returns an allocated buffer that stores denoised signal
+     */
 
     lp_Real_t * lp_imu_mod_SGNDN_tvic(
 
