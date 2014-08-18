@@ -168,6 +168,10 @@
      *  Device output sampling frequency
      *  \var lp_IMU_struct::dvdfreq 
      *  Output sampling reduced frequency
+     *  \var lp_IMU_struct::dvMin 
+     *  Largest intertial still range minimum timestamp value
+     *  \var lp_IMU_struct::dvMax 
+     *  Largest intertial still range maximum timestamp value
      *  \var lp_IMU_struct::dvBlock 
      *  Stores the importation block size
      */ 

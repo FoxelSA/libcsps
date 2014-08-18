@@ -86,12 +86,28 @@
     Header - Function prototypes
  */
 
+    /*! \brief Camera extraction switch
+     *  
+     *  Switch on device-specific initial data extractor.
+     *
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice Device descriptor structure
+     */
+
     lp_CAM lp_cam_mod_DSIDE(
 
         const lp_Char_t * const lpPath,
         lp_CAM lpDevice
 
     );
+
+    /*! \brief Eyesis4PI specific initial data extractor
+     *
+     *  Eyesis4PI specific initial data extraction procedure.
+     *
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice Device descriptor structure
+     */
 
     lp_CAM lp_cam_DSIDE_EYESIS4PI(
 

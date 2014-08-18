@@ -36,6 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-nmea.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  GPS NMEA sentence management
+     */
 
 /*
     Header - Include guard
@@ -84,10 +89,10 @@
 
     /* Define sexagesimal to floating degree */
     # define LP_NMEA_S2D(x)   ((\
-                                lp_trunc((x)/lp_Real_s(100.0))\
-                                )+(\
-                                ((x)-lp_Real_s(100.0)*lp_trunc((x)/lp_Real_s(100.0)))/lp_Real_s(60.0)\
-                                ))
+                              lp_trunc((x)/lp_Real_s(100.0))\
+                              )+(\
+                              ((x)-lp_Real_s(100.0)*lp_trunc((x)/lp_Real_s(100.0)))/lp_Real_s(60.0)\
+                              ))
 
 /*
     Header - Typedefs
@@ -101,6 +106,19 @@
     Header - Function prototypes
  */
 
+    /*! \brief NMEA/GGA sentence decomposer
+     *  
+     *  Reads, from an extracted NMEA/GGA GPS sentence, the geographic
+     *  information contained in the sentence.
+     *
+     *  \param lpSentence NMEA/GGA sentence
+     *  \param lpUTC UTC time output parameter
+     *  \param lpLat Latitude, in degrees, output parameter
+     *  \param lpLon Longitude, in degrees, output parameter
+     *  \param lpAlt Altitude, in meter above geoid, output parameter
+     *  \param lpQBF Quality buffer output parameter
+     */
+
     lp_Void_t lp_nmea_gga(
 
         const lp_Char_t * const lpSentence,
@@ -112,11 +130,31 @@
 
     );
 
+    /*! \brief NMEA/GGA sentence validation
+     *  
+     *  Perform a fast consistency verification of the input NMEA/GGA
+     *  sentence.
+     *  
+     *  \param lpSentence NMEA/GGA sentence
+     *  \return True if sentence is correctly formatted
+     */
+
     lp_Enum_t lp_nmea_gga_validate( 
 
         const lp_Char_t * const lpSentence
 
     );
+
+    /*! \brief NMEA sentence translator
+     *  
+     *  Reads NMEA sentence from GPS binary buffer and translate
+     *  it in ASCII character string.
+     *  
+     *  \param lpRec Pointer to first byte of binary buffer
+     *  \param lpSize Size, in bytes, of the binary buffer
+     *  \param lpSentence ASCII read sentence
+     *  \return Return the type of the read NMEA sentence (GGA,VTG,...)
+     */
 
     lp_Enum_t lp_nmea_sentence( 
 
@@ -125,6 +163,17 @@
         lp_Char_t * const lpSentence
 
     );
+
+    /*! \brief Four bits binary pattern reader
+     *  
+     *  Reads four bits binary patterns pointed by offset. The offset
+     *  value has to contain the number of the desired four bits pattern
+     *  in binary buffer.
+     *  
+     *  \param lpRec Pointer to binary buffer
+     *  \param lpOffset Four bits pattern offset, in four bits pattern units
+     *  \return Return the value stored in the pattern
+     */
 
     lp_Byte_t lp_nmea_quartet(
 

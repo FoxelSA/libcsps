@@ -44,7 +44,7 @@
     # include "csps-device.h"
 
 /*
-    Source - CAM device builder
+    Source - CAM device descriptor initializer
  */
 
     lp_CAM lp_device_CAM( const lp_Char_t * const lpName, const lp_Char_t * const lpTag ) {
@@ -72,7 +72,7 @@
     }
 
 /*
-    Source - IMU device builder
+    Source - IMU device descriptor initializer
  */
 
     lp_IMU lp_device_IMU( const lp_Char_t * const lpName, const lp_Char_t * const lpTag ) {
@@ -129,7 +129,7 @@
     }
 
 /*
-    Source - GPS device builder
+    Source - GPS device descriptor initializer
  */
 
     lp_GPS lp_device_GPS( const lp_Char_t * const lpName, const lp_Char_t * const lpTag ) {
