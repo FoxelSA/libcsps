@@ -56,7 +56,7 @@
 
 
 /*
-    Source - FPGA timestamp composer
+    Source - Timestamp composer
  */
 
     lp_Time_t lp_timestamp_compose( lp_Time_t lpSec, lp_Time_t lpUsec ) {
@@ -67,7 +67,7 @@
     }
 
 /*
-    Source - FPGA timestamp decomposer
+    Source - Timestamp decomposer
  */
 
     lp_Time_t lp_timestamp_sec( lp_Time_t lpT ) {
@@ -85,7 +85,63 @@
     }
 
 /*
-    Source - FPGA timestamp comparators
+    Source - Timestamp search
+ */
+
+    lp_Size_t lp_timestamp_index( lp_Time_t lpT, lp_Time_t * lpBuffer, lp_Size_t lpSize ) {
+
+        /* Check timestamp range */
+        if ( ( lp_timestamp_ge( lpBuffer[0], lpT ) == LP_TRUE ) || ( lp_timestamp_ge( lpT, lpBuffer[lpSize - 1] ) == LP_TRUE ) ) {
+
+            /* Return range fault */
+            return( LP_TIMESTAMP_FAULT );
+
+        } else {
+
+            /* Dichotomous search variables */
+            lp_Size_t lpDichD = lp_Size_s( 0 );
+            lp_Size_t lpDichM = lp_Size_s( 0 );
+            lp_Size_t lpDichU = lpSize - lp_Size_s( 1 );
+
+            while ( ( lpDichU - lpDichD ) > lp_Size_s( 1 ) ) {
+
+                /* Compute range middle */
+                lpDichM = ( lpDichD + lpDichU ) << lp_Size_s( 1 );
+
+                /* Check sub-range position */
+                if ( lp_timestamp_ge( lpT, lpBuffer[lpDichM] ) == LP_TRUE ) {
+
+                    /* Update downer boundary */
+                    lpDichD = lpDichM;
+
+                } else {
+
+                    /* Update upper boundary */
+                    lpDichU = lpDichM;
+
+                }
+
+            }
+
+            /* Verify search results */
+            if ( lp_timestamp_eq( lpT, lpBuffer[lpDichU] ) == LP_TRUE ) {
+
+                /* Returns exact index */
+                return( lpDichU );
+
+            } else {
+
+                /* Return the index of nearest lower or exact timestamp */
+                return( lpDichD );
+
+            }
+
+        }
+
+    }
+
+/*
+    Source - Timestamp comparison
  */
 
     lp_Enum_t lp_timestamp_eq( lp_Time_t lpTa, lp_Time_t lpTb ) {
@@ -149,7 +205,7 @@
     }
 
 /*
-    Source - FPGA timestamp arithmetic
+    Source - Timestamp arithmetic
  */
 
     lp_Time_t lp_timestamp_add( const lp_Time_t lpTa, const lp_Time_t lpTb ) {
@@ -165,9 +221,6 @@
 
     lp_Time_t lp_timestamp_diff( lp_Time_t lpTa, lp_Time_t lpTb ) {
 
-        /* Difference variable */
-        lp_Diff_t lpUsec = 0;
-
         /* Verify timestamp equality */
         if ( lp_timestamp_eq( lpTa, lpTb ) == LP_TRUE ) {
 
@@ -175,6 +228,9 @@
             return( 0 );
 
         } else {
+
+            /* Microseconds difference variable */
+            lp_Size_t lpUsec = 0;
 
             /* Verify highest timestamp */
             if ( lp_timestamp_ge( lpTb, lpTa ) == LP_TRUE ) { uint64_t cspsSwap = lpTa; lpTa = lpTb; lpTb = cspsSwap; }
@@ -186,7 +242,7 @@
             if ( lpUsec < 0 ) {
 
                 /* Return difference */
-                return( ( ( lp_timestamp_sec( lpTa ) - lp_timestamp_sec( lpTb ) - 1 ) << lp_Size_s( 32 ) ) | ( lpUsec + lp_Diff_s( 1000000 ) ) );
+                return( ( ( lp_timestamp_sec( lpTa ) - lp_timestamp_sec( lpTb ) - 1 ) << lp_Size_s( 32 ) ) | ( lpUsec + lp_Size_s( 1000000 ) ) );
 
             } else {
 
@@ -200,7 +256,7 @@
     }
 
 /*
-    Source - FPGA timestamp converter
+    Source - Timestamp convertion
  */
 
     lp_Real_t lp_timestamp_float( lp_Time_t lpT ) {

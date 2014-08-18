@@ -44,7 +44,7 @@
     # include "csps-imu-mod-IFETI.h"
 
 /*
-    Source - IMU frame integration module
+    Source - IMU frame explicit time-integration module
  */
 
     lp_IMU lp_imu_mod_IFETI(

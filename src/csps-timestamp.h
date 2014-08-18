@@ -68,36 +68,38 @@
  */
 
     /* Define timezone designation */
-    # define LP_TIMESTAMP_ZONE_WET    "WET"
-    # define LP_TIMESTAMP_ZONE_WEST   "WEST"
-    # define LP_TIMESTAMP_ZONE_CET    "CET"
-    # define LP_TIMESTAMP_ZONE_CEST   "CEST"
-    # define LP_TIMESTAMP_ZONE_EET    "EET"
-    # define LP_TIMESTAMP_ZONE_EEST   "EEST"
+    # define LP_TIMESTAMP_ZONE_WET  "WET"
+    # define LP_TIMESTAMP_ZONE_WEST "WEST"
+    # define LP_TIMESTAMP_ZONE_CET  "CET"
+    # define LP_TIMESTAMP_ZONE_CEST "CEST"
+    # define LP_TIMESTAMP_ZONE_EET  "EET"
+    # define LP_TIMESTAMP_ZONE_EEST "EEST"
+
+    /* Define range-fault */
+    # define LP_TIMESTAMP_FAULT     lp_Size_s( -1 )     
 
 /*
     Header - Preprocessor macros
  */
 
+    /* Define casting macro */
+    # define lp_Time_c( x )     ( ( lp_Time_t ) ( x ) )
+
+    /* Define litteral suffix */
+    # define lp_Time_s( x )     UINT64_C( x )
+
+    /* Define formated output specifiers */
+    # define lp_Time_p          PRIu64
+
+    /* Define formated input specifiers */
+    # define lp_Time_i          SCNu64
+
 /*
     Header - Typedefs
  */
 
-    /* Define gps signal quality buffer type */
+    /* Define timestamp type */
     typedef uint64_t            lp_Time_t;
-    typedef int64_t             lp_Diff_t;
-
-    /* Define literal suffix */
-    # define lp_Time_s(x)       UINT64_C(x)
-    # define lp_Diff_s(x)       INT64_C(x)
-
-    /* Define formated output specifiers */
-    # define lp_Time_p          PRIu64
-    # define lp_Diff_p          PRId64
-
-    /* Define formated input specifiers */
-    # define lp_Time_i          SCNu64
-    # define lp_Diff_i          SCNd64
 
 /*
     Header - Structures
@@ -166,6 +168,30 @@
     lp_Time_t lp_timestamp_usec(
 
         lp_Time_t lpT
+
+    );
+
+    /*! \brief Timestamp index dichotomous search
+     *  
+     *  On the base of a given reference timestamp and a growing timestamps
+     *  array, the function search the array index of the equal or nearest 
+     *  lower array timestamp to the reference timestamp using dichotomous
+     *  search.
+     *  
+     *  When the refrence timestamp is out of the array range, a range fault
+     *  code is returned by the function (LP_TIMESTAMP_FAULT).
+     *  
+     *  \param lpT Reference timestamp
+     *  \param lpBuffer Pointer to growing timestamps array
+     *  \param lpSize Size of the growing timestamps array, in array type units
+     *  \return Returns the index value or a range fault code
+     */
+
+    lp_Size_t lp_timestamp_index( 
+
+        lp_Time_t lpT, 
+        lp_Time_t * lpBuffer, 
+        lp_Size_t lpSize
 
     );
 

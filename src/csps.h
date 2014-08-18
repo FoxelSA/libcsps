@@ -122,11 +122,11 @@
  */
 
     /* Define casting macro */
-    # define lp_Size_c( x )     ( ( lp_Size_t ) x )
-    # define lp_Enum_c( x )     ( ( lp_Enum_t ) x )
-    # define lp_Real_c( x )     ( ( lp_Real_t ) x )
-    # define lp_Byte_c( x )     ( ( lp_Byte_t ) x )
-    # define lp_Char_c( x )     ( ( lp_Char_t ) x )
+    # define lp_Size_c( x )     ( ( lp_Size_t ) ( x ) )
+    # define lp_Enum_c( x )     ( ( lp_Enum_t ) ( x ) )
+    # define lp_Real_c( x )     ( ( lp_Real_t ) ( x ) )
+    # define lp_Byte_c( x )     ( ( lp_Byte_t ) ( x ) )
+    # define lp_Char_c( x )     ( ( lp_Char_t ) ( x ) )
 
     /* Define litteral suffix */
     # define lp_Size_s( x )     INT64_C( x )
