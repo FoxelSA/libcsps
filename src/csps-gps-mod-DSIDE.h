@@ -105,7 +105,7 @@
     lp_GPS lp_gps_mod_DSIDE(
 
         const lp_Char_t * const lpPath,
-        lp_GPS lpDevice
+        lp_GPS                  lpDevice
 
     );
 
@@ -121,7 +121,7 @@
     lp_GPS lp_gps_DSIDE_LS20031(
 
         const lp_Char_t * const lpPath,
-        lp_GPS lpDevice
+        lp_GPS                  lpDevice
 
     );
 

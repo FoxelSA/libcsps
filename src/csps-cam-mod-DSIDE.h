@@ -104,7 +104,7 @@
     lp_CAM lp_cam_mod_DSIDE(
 
         const lp_Char_t * const lpPath,
-        lp_CAM lpDevice
+        lp_CAM                  lpDevice
 
     );
 
@@ -120,7 +120,7 @@
     lp_CAM lp_cam_DSIDE_EYESIS4PI(
 
         const lp_Char_t * const lpPath,
-        lp_CAM lpDevice
+        lp_CAM                  lpDevice
 
     );
 

@@ -47,13 +47,7 @@
     Source - Total variation denoising with iterative clipping IMU signal denoising
  */
 
-    lp_IMU lp_imu_mod_SGNDN(
-
-        const lp_Char_t * const lpPath,
-        lp_IMU lpDevice,
-        const lp_Char_t * const lpPS__
-
-    ) {
+    lp_IMU lp_imu_mod_SGNDN( const lp_Char_t * const lpPath, lp_IMU lpDevice, const lp_Char_t * const lpPS__ ) {
         
         /* Files size */
         lp_Size_t lpSize = lp_Size_s( 0 );
@@ -107,14 +101,7 @@
     Source - Total variation denoising with iterative clipping algorithm
  */
 
-    lp_Real_t * lp_imu_mod_SGNDN_tvic(
-
-        const lp_Real_t * const lpSignal,
-        lp_Size_t lpSize,
-        lp_Size_t lpRegularity,
-        lp_Size_t lpIteration
-
-    ) {
+    lp_Real_t * lp_imu_mod_SGNDN_tvic( const lp_Real_t * const lpSignal, lp_Size_t lpSize, lp_Size_t lpRegularity, lp_Size_t lpIteration ) {
 
         /* Allocate denoised signal memory */
         lp_Real_t * lpDenoised = malloc( lpSize * sizeof( double ) );

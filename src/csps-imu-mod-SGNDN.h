@@ -106,7 +106,7 @@
     lp_IMU lp_imu_mod_SGNDN(
 
         const lp_Char_t * const lpPath,
-        lp_IMU lpDevice,
+        lp_IMU                  lpDevice,
         const lp_Char_t * const lpPS__
 
     );
@@ -126,9 +126,9 @@
     lp_Real_t * lp_imu_mod_SGNDN_tvic(
 
         const lp_Real_t * const lpSignal,
-        lp_Size_t lpSize,
-        lp_Size_t lpRegularity,
-        lp_Size_t lpIteration
+        lp_Size_t               lpSize,
+        lp_Size_t               lpRegularity,
+        lp_Size_t               lpIteration
 
     );
 

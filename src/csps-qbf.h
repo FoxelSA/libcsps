@@ -87,7 +87,7 @@
  */
     
     /* Define casting macro */
-    # define lp_SQBF_c(x)   ( ( lp_SQBF_t ) x )
+    # define lp_SQBF_c(x)   ( ( lp_SQBF_t ) ( x ) )
 
     /* Define litteral suffix */
     # define lp_SQBF_s(x)   UINT64_C(x)

@@ -47,13 +47,7 @@
     Source - IMU frame explicit time-integration module
  */
 
-    lp_IMU lp_imu_mod_IFETI(
-
-        const lp_Char_t * const lpPath,
-        lp_IMU lpDevice,
-        const lp_Char_t * const lpPSgr
-
-    ) {
+    lp_IMU lp_imu_mod_IFETI( const lp_Char_t * const lpPath, lp_IMU lpDevice, const lp_Char_t * const lpPSgr ) {
 
         /* Integration variables */
         lp_Real_t lpDelta = lp_Real_s( 0.0 );

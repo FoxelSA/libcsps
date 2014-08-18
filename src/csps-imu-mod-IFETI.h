@@ -108,7 +108,7 @@
     lp_IMU lp_imu_mod_IFETI(
 
         const lp_Char_t * const lpPath,
-        lp_IMU lpDevice,
+        lp_IMU                  lpDevice,
         const lp_Char_t * const lpPSgr
 
     );

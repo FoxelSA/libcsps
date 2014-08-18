@@ -104,7 +104,7 @@
     lp_IMU lp_imu_mod_DSIDE(
 
         const lp_Char_t * const lpPath,
-        lp_IMU lpDevice
+        lp_IMU                  lpDevice
 
     );
 
@@ -120,7 +120,7 @@
     lp_IMU lp_imu_DSIDE_ADIS16375(
 
         const lp_Char_t * const lpPath,
-        lp_IMU cspsDevice
+        lp_IMU                  lpDevice
 
     );
 

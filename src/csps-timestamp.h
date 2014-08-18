@@ -189,9 +189,9 @@
 
     lp_Size_t lp_timestamp_index( 
 
-        lp_Time_t lpT, 
+        lp_Time_t   lpT, 
         lp_Time_t * lpBuffer, 
-        lp_Size_t lpSize
+        lp_Size_t   lpSize
 
     );
 
@@ -291,7 +291,7 @@
     lp_Time_t lp_timestamp_local(
 
         const lp_Char_t * const lpZone,
-        lp_Time_t lpUTC
+        lp_Time_t               lpUTC
 
     );
 
