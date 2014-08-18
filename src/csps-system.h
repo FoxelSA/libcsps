@@ -36,6 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-system.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  CSPS library front-end
+     */
 
 /*
     Header - Include guard
@@ -88,6 +93,13 @@
 /*
     Header - Function prototypes
  */
+
+    /*! \brief CSPS library front-end
+     *  
+     *  Work in progress. Please wait a while.
+     *  
+     *  \param lpPath Path to the CSPS structure
+     */
 
     lp_Void_t lp_system(
 
