@@ -78,13 +78,13 @@
         lp_Time_t * lpDEVsyn = NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, lpPSgr, "syn" ) / sizeof( uint64_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, lpPSgr, "syn" ) / sizeof( uint64_t );
 
         /* Read streams data */
-        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, lpPSgr, "grx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgry = lp_stream_read( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, lpPSgr, "gry", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, lpPSgr, "grz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, lpPSgr, "syn", sizeof( lp_Time_t ) * lpSize );
+        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, lpPSgr, "grx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgry = lp_stream_read( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, lpPSgr, "gry", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, lpPSgr, "grz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, lpPSgr, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Allocate stream memory */
         lpDEVfxx = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
@@ -230,16 +230,16 @@
         }
 
         /* Write stream data */
-        lp_stream_write( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, LP_IMU_MODIFETI_MOD, "fxx", lpDEVfxx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, LP_IMU_MODIFETI_MOD, "fxy", lpDEVfxy, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, LP_IMU_MODIFETI_MOD, "fxz", lpDEVfxz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, LP_IMU_MODIFETI_MOD, "fyx", lpDEVfyx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, LP_IMU_MODIFETI_MOD, "fyy", lpDEVfyy, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, LP_IMU_MODIFETI_MOD, "fyz", lpDEVfyz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, LP_IMU_MODIFETI_MOD, "fzx", lpDEVfzx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, LP_IMU_MODIFETI_MOD, "fzy", lpDEVfzy, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, LP_IMU_MODIFETI_MOD, "fzz", lpDEVfzz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODIFETI_DEV, lpDevice.dvTag, LP_IMU_MODIFETI_MOD, "syn", lpDEVsyn, sizeof( lp_Time_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, LP_IMU_MODULE_IFETI__MOD, "fxx", lpDEVfxx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, LP_IMU_MODULE_IFETI__MOD, "fxy", lpDEVfxy, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, LP_IMU_MODULE_IFETI__MOD, "fxz", lpDEVfxz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, LP_IMU_MODULE_IFETI__MOD, "fyx", lpDEVfyx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, LP_IMU_MODULE_IFETI__MOD, "fyy", lpDEVfyy, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, LP_IMU_MODULE_IFETI__MOD, "fyz", lpDEVfyz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, LP_IMU_MODULE_IFETI__MOD, "fzx", lpDEVfzx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, LP_IMU_MODULE_IFETI__MOD, "fzy", lpDEVfzy, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, LP_IMU_MODULE_IFETI__MOD, "fzz", lpDEVfzz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_MODULE_IFETI__DEV, lpDevice.dvTag, LP_IMU_MODULE_IFETI__MOD, "syn", lpDEVsyn, sizeof( lp_Time_t ) * lpSize );
 
         /* Unallocate buffer memory */
         free( lpDEVgrx );

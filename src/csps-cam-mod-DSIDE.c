@@ -96,8 +96,8 @@
         lp_path( lpPath, LP_DEVICE_CAM_EYESIS4PI, NULL, NULL, NULL, lpDEVlogp );
 
         /* Build file paths */
-        lp_path( lpPath, LP_CAM_MODDSIDE_DEV, lpDevice.dvTag, LP_CAM_MODDSIDE_MOD, "mas", lpDEVmasp );
-        lp_path( lpPath, LP_CAM_MODDSIDE_DEV, lpDevice.dvTag, LP_CAM_MODDSIDE_MOD, "syn", lpDEVsynp );
+        lp_path( lpPath, LP_CAM_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_CAM_MODULE_DSIDE_MOD, "mas", lpDEVmasp );
+        lp_path( lpPath, LP_CAM_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_CAM_MODULE_DSIDE_MOD, "syn", lpDEVsynp );
 
         /* Open file streams */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );

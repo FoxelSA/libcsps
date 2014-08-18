@@ -119,11 +119,11 @@
         lp_path( lpPath, LP_DEVICE_GPS_LS20031, NULL, NULL, NULL, lpDEVlogp );
 
         /* Build file paths */
-        lp_path( lpPath, LP_GPS_MODDSIDE_DEV, lpDevice.dvTag, LP_GPS_MODDSIDE_MOD, "lat", lpDEVlatp );
-        lp_path( lpPath, LP_GPS_MODDSIDE_DEV, lpDevice.dvTag, LP_GPS_MODDSIDE_MOD, "lon", lpDEVlonp );
-        lp_path( lpPath, LP_GPS_MODDSIDE_DEV, lpDevice.dvTag, LP_GPS_MODDSIDE_MOD, "alt", lpDEValtp );
-        lp_path( lpPath, LP_GPS_MODDSIDE_DEV, lpDevice.dvTag, LP_GPS_MODDSIDE_MOD, "qbf", lpDEVqbfp );
-        lp_path( lpPath, LP_GPS_MODDSIDE_DEV, lpDevice.dvTag, LP_GPS_MODDSIDE_MOD, "syn", lpDEVsynp );
+        lp_path( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "lat", lpDEVlatp );
+        lp_path( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "lon", lpDEVlonp );
+        lp_path( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "alt", lpDEValtp );
+        lp_path( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "qbf", lpDEVqbfp );
+        lp_path( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "syn", lpDEVsynp );
 
         /* Open file streams */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );

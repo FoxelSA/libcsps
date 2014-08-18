@@ -46,8 +46,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_MODIFETI__
-    # define __LP_IMU_MODIFETI__
+    # ifndef __LP_IMU_MODULE_IFETI___
+    # define __LP_IMU_MODULE_IFETI___
 
 /*
     Header - C/C++ compatibility
@@ -72,9 +72,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_MODIFETI_DEV "imu"
-    # define LP_IMU_MODIFETI_MOD "mod-IFETI"
-    # define LP_IMU_MODIFETI_DES "Inertial Frame Explicit Time Integration"
+    # define LP_IMU_MODULE_IFETI__DEV "imu"
+    # define LP_IMU_MODULE_IFETI__MOD "mod-IFETI"
+    # define LP_IMU_MODULE_IFETI__DES "Inertial Frame Explicit Time Integration"
 
     /* Define integration boundaries */
     # define LP_IMU_FRAME_BOUND lp_Size_s( 6 )

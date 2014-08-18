@@ -111,13 +111,13 @@
         lp_path( lpPath, LP_DEVICE_IMU_ADIS16375, NULL, NULL, NULL, lpDEVlogp );
 
         /* Build file paths */
-        lp_path( lpPath, LP_IMU_MODDSIDE_DEV, lpDevice.dvTag, LP_IMU_MODDSIDE_MOD, "grx", lpDEVgrxp );
-        lp_path( lpPath, LP_IMU_MODDSIDE_DEV, lpDevice.dvTag, LP_IMU_MODDSIDE_MOD, "gry", lpDEVgryp );
-        lp_path( lpPath, LP_IMU_MODDSIDE_DEV, lpDevice.dvTag, LP_IMU_MODDSIDE_MOD, "grz", lpDEVgrzp );
-        lp_path( lpPath, LP_IMU_MODDSIDE_DEV, lpDevice.dvTag, LP_IMU_MODDSIDE_MOD, "acx", lpDEVacxp );
-        lp_path( lpPath, LP_IMU_MODDSIDE_DEV, lpDevice.dvTag, LP_IMU_MODDSIDE_MOD, "acy", lpDEVacyp );
-        lp_path( lpPath, LP_IMU_MODDSIDE_DEV, lpDevice.dvTag, LP_IMU_MODDSIDE_MOD, "acz", lpDEVaczp );
-        lp_path( lpPath, LP_IMU_MODDSIDE_DEV, lpDevice.dvTag, LP_IMU_MODDSIDE_MOD, "syn", lpDEVsynp );
+        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "grx", lpDEVgrxp );
+        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "gry", lpDEVgryp );
+        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "grz", lpDEVgrzp );
+        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "acx", lpDEVacxp );
+        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "acy", lpDEVacyp );
+        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "acz", lpDEVaczp );
+        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "syn", lpDEVsynp );
 
         /* Open file streams */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );

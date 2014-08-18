@@ -46,8 +46,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_MODGYLAE__
-    # define __LP_IMU_MODGYLAE__
+    # ifndef __LP_IMU_MODULE_GYLAE___
+    # define __LP_IMU_MODULE_GYLAE___
 
 /*
     Header - C/C++ compatibility
@@ -72,9 +72,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_MODGYLAE_DEV "imu"
-    # define LP_IMU_MODGYLAE_MOD "mod-GYLAE"
-    # define LP_IMU_MODGYLAE_DES "GravitY-Less Acceleration Extraction"
+    # define LP_IMU_MODULE_GYLAE__DEV "imu"
+    # define LP_IMU_MODULE_GYLAE__MOD "mod-GYLAE"
+    # define LP_IMU_MODULE_GYLAE__DES "GravitY-Less Acceleration Extraction"
 
 /*
     Header - Preprocessor macros

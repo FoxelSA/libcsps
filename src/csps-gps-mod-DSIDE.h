@@ -47,8 +47,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_GPS_MODDSIDE__
-    # define __LP_GPS_MODDSIDE__
+    # ifndef __LP_GPS_MODULE_DSIDE__
+    # define __LP_GPS_MODULE_DSIDE__
 
 /*
     Header - C/C++ compatibility
@@ -73,9 +73,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_GPS_MODDSIDE_DEV "gps"
-    # define LP_GPS_MODDSIDE_MOD "mod-DSIDE"
-    # define LP_GPS_MODDSIDE_DES "Device-Specitic Initial Data Extraction"
+    # define LP_GPS_MODULE_DSIDE_DEV "gps"
+    # define LP_GPS_MODULE_DSIDE_MOD "mod-DSIDE"
+    # define LP_GPS_MODULE_DSIDE_DES "Device-Specitic Initial Data Extraction"
 
 /*
     Header - Preprocessor macros

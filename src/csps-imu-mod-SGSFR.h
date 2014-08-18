@@ -46,8 +46,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_MODSGSFR__
-    # define __LP_IMU_MODSGSFR__
+    # ifndef __LP_IMU_MODULE_SGSFR__
+    # define __LP_IMU_MODULE_SGSFR__
 
 /*
     Header - C/C++ compatibility
@@ -72,9 +72,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_MODSGSFR_DEV "imu"
-    # define LP_IMU_MODSGSFR_MOD "mod-SGSFR"
-    # define LP_IMU_MODSGSFR_DES "SiGnal Sampling Frequency Reduction"
+    # define LP_IMU_MODULE_SGSFR_DEV "imu"
+    # define LP_IMU_MODULE_SGSFR_MOD "mod-SGSFR"
+    # define LP_IMU_MODULE_SGSFR_DES "SiGnal Sampling Frequency Reduction"
 
 /*
     Header - Preprocessor macros
