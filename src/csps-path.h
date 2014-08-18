@@ -36,6 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-path.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  CSPS structure path management
+     */
 
 /*
     Header - Include guard
@@ -83,12 +88,24 @@
     Header - Function prototypes
  */
 
+    /*! \brief Standard path manager
+     *  
+     *  Build and return standard file path according to CSPS structure.
+     *  
+     *  \param lpBase Path to the CSPS structure
+     *  \param lpDevice Device related path
+     *  \param lpTag Device specific name
+     *  \param lpModule Modulde related path
+     *  \param lpType Type of the data
+     *  \param lpPath Pointer to the built path string
+     */
+
     void lp_path(
 
         const lp_Char_t * lpBase,
+        const lp_Char_t * lpDevice,
         const lp_Char_t * lpTag,
-        const lp_Char_t * lpName,
-        const lp_Char_t * lpStep,
+        const lp_Char_t * lpModule,
         const lp_Char_t * lpType,
         lp_Char_t * const lpPath
 

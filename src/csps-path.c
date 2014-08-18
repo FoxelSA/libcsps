@@ -50,49 +50,49 @@
     void lp_path(
 
         const lp_Char_t * lpBase,
+        const lp_Char_t * lpDevice,
         const lp_Char_t * lpTag,
-        const lp_Char_t * lpName,
-        const lp_Char_t * lpStep,
+        const lp_Char_t * lpModule,
         const lp_Char_t * lpType,
         lp_Char_t * const lpPath
 
-        ) {
+    ) {
 
         /* Select type of path */
-        if ( strcmp( lpTag, LP_DEVICE_IMU_ADIS16375 ) == 0 ) {
+        if ( strcmp( lpDevice, LP_DEVICE_IMU_ADIS16375 ) == 0 ) {
 
             /* Path for ADIS16375 IMU FPGA log file */
             sprintf( lpPath, "%s/" LP_PATH_FGPA "/log-data.bin", lpBase );
 
         /* Select type of path */
-        } else if ( strcmp( lpTag, LP_DEVICE_GPS_LS20031 ) == 0 ) {
+        } else if ( strcmp( lpDevice, LP_DEVICE_GPS_LS20031 ) == 0 ) {
 
             /* Path for LS20031 GPS FPGA log file */
             sprintf( lpPath, "%s/" LP_PATH_FGPA "/log-data.bin", lpBase );
 
         /* Select type of path */
-        } else if ( strcmp( lpTag, LP_DEVICE_CAM_EYESIS4PI ) == 0 ) {
+        } else if ( strcmp( lpDevice, LP_DEVICE_CAM_EYESIS4PI ) == 0 ) {
 
             /* Path for EYESIS4PI GPS FPGA log file */
             sprintf( lpPath, "%s/" LP_PATH_FGPA "/log-data.bin", lpBase );
 
         /* Select type of path */
-        } else if ( strcmp( lpTag, "gps" ) == 0 ) {
+        } else if ( strcmp( lpDevice, "gps" ) == 0 ) {
 
             /* Path to GPS data stream files */
-            sprintf( lpPath, "%s/" LP_PATH_CSPS "/csps-stream-gps-%s-%s-%s.bin", lpBase, lpName, lpStep, lpType );
+            sprintf( lpPath, "%s/" LP_PATH_CSPS "/csps-stream-gps-%s-%s-%s.bin", lpBase, lpTag, lpModule, lpType );
 
         /* Select type of path */
-        } else if ( strcmp( lpTag, "imu" ) == 0 ) {
+        } else if ( strcmp( lpDevice, "imu" ) == 0 ) {
 
             /* Path to IMU data stream files */
-            sprintf( lpPath, "%s/" LP_PATH_CSPS "/csps-stream-imu-%s-%s-%s.bin", lpBase, lpName, lpStep, lpType );
+            sprintf( lpPath, "%s/" LP_PATH_CSPS "/csps-stream-imu-%s-%s-%s.bin", lpBase, lpTag, lpModule, lpType );
 
         /* Select type of path */
-        } else if ( strcmp( lpTag, "cam" ) == 0 ) {
+        } else if ( strcmp( lpDevice, "cam" ) == 0 ) {
 
             /* Path to IMU data stream files */
-            sprintf( lpPath, "%s/" LP_PATH_CSPS "/csps-stream-cam-%s-%s-%s.bin", lpBase, lpName, lpStep, lpType );
+            sprintf( lpPath, "%s/" LP_PATH_CSPS "/csps-stream-cam-%s-%s-%s.bin", lpBase, lpTag, lpModule, lpType );
 
         }
 

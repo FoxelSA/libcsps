@@ -36,6 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-query.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  CSPS query interface
+     */
 
 /*
     Header - Include guard
@@ -77,6 +82,18 @@
     Header - Structures
  */
 
+    /*! \struct lp_QueryTime_struct
+     *  \brief Time boundaries query structure
+     *  
+     *  This structure is used to determine the lowest and highest timestamp
+     *  accessible in a given synchronization stream component.
+     *
+     *  \var lp_QueryTime_struct::qrInitial 
+     *  Initial timestamp stored in specified synchronization stream component
+     *  \var lp_QueryTime_struct::qrFinal
+     *  Final timestamp stored in specified synchronization stream component
+     */
+
     typedef struct lp_QueryTime_struct {
 
         /* Timestamp range boundaries */
@@ -84,6 +101,21 @@
         lp_Time_t qrFinal;
 
     } lp_QueryTime;
+
+    /*! \struct lp_QueryPosition_struct
+     *  \brief WGS84 position query structure
+     *  
+     *  This structure is used to obtain a position according to WGS84 standard.
+     *  
+     *  \var lp_QueryPosition_struct::qrStatus
+     *  Query status. If LP_FALSE, the query has failed
+     *  \var lp_QueryPosition_struct::qrLatitude
+     *  Latitude in degrees
+     *  \var lp_QueryPosition_struct::qrLongitude
+     *  Longitude in degrees
+     *  \var lp_QueryPosition_struct::qrAltitude
+     *  Altitude, in meters above geoid
+     */
 
     typedef struct lp_QueryPosition_struct {
 
@@ -96,6 +128,34 @@
         lp_Real_t qrAltitude;
 
     } lp_QueryPosition;
+
+    /*! \struct lp_QueryOrientation_struct
+     *  \brief Orientation query structure
+     *  
+     *  This structure is used to obtain orientation of the frame attached to
+     *  the device.
+     *  
+     *  \var lp_QueryOrientation_struct::qrStatus
+     *  Query status. If LP_FALSE, the query has failed
+     *  \var lp_QueryOrientation_struct::qrfxx
+     *  X-component of the x-frame vector
+     *  \var lp_QueryOrientation_struct::qrfxy
+     *  Y-component of the x-frame vector
+     *  \var lp_QueryOrientation_struct::qrfxz
+     *  Z-component of the x-frame vector
+     *  \var lp_QueryOrientation_struct::qrfyx
+     *  X-component of the y-frame vector
+     *  \var lp_QueryOrientation_struct::qrfyy
+     *  Y-component of the y-frame vector
+     *  \var lp_QueryOrientation_struct::qrfyz
+     *  Z-component of the y-frame vector
+     *  \var lp_QueryOrientation_struct::qrfzx
+     *  X-component of the z-frame vector
+     *  \var lp_QueryOrientation_struct::qrfzy
+     *  Y-component of the z-frame vector
+     *  \var lp_QueryOrientation_struct::qrfzz
+     *  Z-component of the z-frame vector
+     */
 
     typedef struct lp_QueryOrientation_struct {
 
@@ -119,32 +179,72 @@
     Header - Function prototypes
  */
 
+    /*! \brief Query time boudaries
+     *  
+     *  This function gives the initial and final time that appears
+     *  in a given synchronization stream component.
+     *  
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice Device type
+     *  \param lpTag Device name
+     *  \param lpModule CSPS stream to consider
+     *  \return Returns a time boundaries structure
+     */
+
     lp_QueryTime lp_query_time(
 
-        const lp_Char_t * const cspsPath,
-        const lp_Char_t * const cspsTag,
-        const lp_Char_t * const cspsName,
-        const lp_Char_t * const cspsPS__
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule
 
     );
+
+    /*! \brief Query WGS84 position by timestamp
+     *  
+     *  This function returns WGS84 position according to
+     *  specified timestamp. If the given timestamp is
+     *  outside of the range, the query fails.
+     *  
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice Device type
+     *  \param lpTag Device name
+     *  \param lpModule CSPS stream to consider
+     *  \param lpTimestamp Reference timestamp
+     *  \return Returns a WGS84 position structure
+     */
 
     lp_QueryPosition lp_query_position_by_timestamp(
 
-        const lp_Char_t * const cspsPath,
-        const lp_Char_t * const cspsTag,
-        const lp_Char_t * const cspsName,
-        const lp_Char_t * const cspsPS__,
-        lp_Time_t cspsTimestamp
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule,
+        lp_Time_t lpTimestamp
 
     );
 
+    /*! \brief Orientation query by timestamp
+     *  
+     *  This function returns the orientation according to the
+     *  given timestamp. If the given timestamp is outside of
+     *  the range, the query fails.
+     *  
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice Device type
+     *  \param lpTag Device name
+     *  \param lpModule CSPS stream to consider
+     *  \param lpTimestamp Reference timestamp
+     *  \return Returns an orientation structure
+     */
+
     lp_QueryOrientation lp_query_orientation_by_timestamp(
 
-        const lp_Char_t * const cspsPath,
-        const lp_Char_t * const cspsTag,
-        const lp_Char_t * const cspsName,
-        const lp_Char_t * const cspsPS__,
-        lp_Time_t cspsTimestamp
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule,
+        lp_Time_t lpTimestamp
 
     );
 

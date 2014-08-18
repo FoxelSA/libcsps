@@ -36,6 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-stream.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  CSPS stream management
+     */
 
 /*
     Header - Include guard
@@ -79,12 +84,24 @@
     Header - Function prototypes
  */
 
+    /*! \brief Stream component size extractor
+     *  
+     *  Extract the size, in bytes, of the desired stream component.
+     *  
+     *  \param lpPath Path to the CSPS structure
+     *  \param lpDevice Device type
+     *  \param lpTag Device name
+     *  \param lpModule CSPS stream component to consider
+     *  \param lpType Type of the data stored by the considered stream
+     *  \return Returns the size of the stream in bytes
+     */
+
     lp_Size_t lp_stream_size(
 
         const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDev,
-        const lp_Char_t * const lpName,
-        const lp_Char_t * const lpPS__,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule,
         const lp_Char_t * const lpType
 
     );
@@ -95,23 +112,49 @@
 
     );
 
+    /*! \brief Stream component data reader
+     *  
+     *  Reads the data contained in the specified stream component.
+     *  
+     *  \param lpPath Path to the CSPS structure
+     *  \param lpDevice Device type
+     *  \param lpTag Device name
+     *  \param lpModule CSPS stream component to consider
+     *  \param lpType Type of the data stored by the considered stream
+     *  \param lpSize Size of the considered stream component
+     *  \return Returns a void pointer to the data
+     */
+
     lp_Void_t * lp_stream_read(
 
         const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDev,
-        const lp_Char_t * const lpName,
-        const lp_Char_t * const lpPS__,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule,
         const lp_Char_t * const lpType,
         lp_Size_t lpSize
 
     );
 
+    /*! \brief Stream component data writer
+     *  
+     *  Writes the memory data into the desired stream component.
+     *  
+     *  \param lpPath Path to the CSPS structure
+     *  \param lpDevice Device type
+     *  \param lpTag Device name
+     *  \param lpModule CSPS stream component to write
+     *  \param lpType Type of the data stored by the considered stream
+     *  \param lpStream Void pointer to the memory data
+     *  \param lpSize Size, in bytes, of the memory data
+     */
+
     lp_Void_t lp_stream_write(
 
         const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDev,
-        const lp_Char_t * const lpName,
-        const lp_Char_t * const lpPS__,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule,
         const lp_Char_t * const lpType,
         const lp_Void_t * const lpStream,
         lp_Size_t lpSize

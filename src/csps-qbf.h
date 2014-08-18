@@ -36,6 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-qbf.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  GPS signal quality buffer management
+     */
 
 /*
     Header - Include guard
@@ -108,11 +113,36 @@
     Header - Function prototypes
  */
 
+    /*! \brief GPS signal quality threshold function
+     *  
+     *  This function determine if GPS signal quality is above an
+     *  required minimum. This threshold is based on signal fix,
+     *  the satellite count and the horizontal dilution of position.
+     *  
+     *  If GPS signal quality is too low, the threshold condition
+     *  is triggered and the function returns true (LP_TRUE).
+     *  
+     *  \param lpQBFValue Quality buffer associated with the tested GPS signal
+     *  \return Returns true if signal trigger the threshold
+     */
+
     lp_Enum_t lp_qbf_threshold(
 
         lp_SQBF_t lpQBFValue
 
     );
+
+    /*! \brief Create quality buffer
+     *  
+     *  Compose a quality buffer on the base of GPS signal fix,
+     *  satellite count and 100 times the horizontal dilution of
+     *  position.
+     *  
+     *  \param lpFix GPS signal fix
+     *  \param lpSat Satellite count
+     *  \param HDOP times 100
+     *  \return Returns composed quality buffer
+     */
 
     lp_SQBF_t lp_qbf_compose(
 
@@ -122,17 +152,42 @@
 
     );
 
+    /*! \brief GPS signal fix extractor
+     *  
+     *  Extract GPS signal fix from the given quality buffer.
+     *  
+     *  \param lpQBF Quality buffer
+     *  \return Returns extracted GPS signal fix
+     */
+
     lp_Enum_t lp_qbf_fix(
 
         lp_SQBF_t lpQBF
 
     );
 
+    /*! \brief Satellite count extractor
+     *  
+     *  Extract satellite count from the given quality buffer
+     *  
+     *  \param lpQBF Quality buffer
+     *  \return Returns extracted satellite count
+     */
+
     lp_Size_t lp_qbf_sat(
 
         lp_SQBF_t lpQBF
 
     );
+
+    /*! \brief HDOP times 100 extractor
+     *  
+     *  Extract horizontal dilution of position times 100 from
+     *  the given quality buffer.
+     *  
+     *  \param lpQBF Quality buffer
+     *  \return Returns extracted HDOP times 100
+     */
 
     lp_Size_t lp_qbf_hdop100(
 

@@ -50,9 +50,9 @@
     lp_Size_t lp_stream_size(
 
         const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDev,
-        const lp_Char_t * const lpName,
-        const lp_Char_t * const lpPS__,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule,
         const lp_Char_t * const lpType
 
     ) {
@@ -67,7 +67,7 @@
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
         /* Build stream path */
-        lp_path( lpPath, lpDev, lpName, lpPS__, lpType, lpStreamp );
+        lp_path( lpPath, lpDevice, lpTag, lpModule, lpType, lpStreamp );
 
         /* Open stream file */
         lpStreamf = fopen( lpStreamp, "rb" );
@@ -111,9 +111,9 @@
     lp_Void_t * lp_stream_read(
 
         const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDev,
-        const lp_Char_t * const lpName,
-        const lp_Char_t * const lpPS__,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule,
         const lp_Char_t * const lpType,
         lp_Size_t lpSize
 
@@ -129,7 +129,7 @@
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
         /* Build stream path */
-        lp_path( lpPath, lpDev, lpName, lpPS__, lpType, lpStreamp );
+        lp_path( lpPath, lpDevice, lpTag, lpModule, lpType, lpStreamp );
 
         /* Allocate buffer memory */
         lpStream = malloc( lpSize );
@@ -155,9 +155,9 @@
     lp_Void_t lp_stream_write(
 
         const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDev,
-        const lp_Char_t * const lpName,
-        const lp_Char_t * const lpPS__,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule,
         const lp_Char_t * const lpType,
         const lp_Void_t * const lpStream,
         lp_Size_t lpSize
@@ -171,7 +171,7 @@
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
         /* Build stream path */
-        lp_path( lpPath, lpDev, lpName, lpPS__, lpType, lpStreamp );
+        lp_path( lpPath, lpDevice, lpTag, lpModule, lpType, lpStreamp );
 
         /* Open stream file */
         lpStreamf = fopen( lpStreamp, "wb" );
