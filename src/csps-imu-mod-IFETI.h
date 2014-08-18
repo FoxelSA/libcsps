@@ -36,6 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-imu-mod-IFETI.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  IMU frame explicit time-integration module (IFETI - Inertial Frame Explicit Time Integration)
+     */
 
 /*
     Header - Include guard
@@ -89,6 +94,16 @@
 /*
     Header - Function prototypes
  */
+
+    /*! \brief IMU frame explicit time-integration
+     *  
+     *  Integrate the IMU frame over time using explicit numerical schemes.
+     *  
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice IMU device descriptor
+     *  \param lpPSgr Gyroscopic stream module name
+     *  \return Returns lpDevice structure
+     */
 
     lp_IMU lp_imu_mod_IFETI(
 

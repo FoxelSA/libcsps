@@ -36,6 +36,12 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-imu-mod-DSIDE.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  IMU signal extraction module (DSIDE - Device-Specitic Initial Data
+     *  Extraction)
+     */
 
 /*
     Header - Include guard
@@ -86,12 +92,30 @@
     Header - Function prototypes
  */
 
+    /*! \brief IMU signal extraction switch
+     *  
+     *  Switch on device-specific initial data extractor.
+     *
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice Device descriptor structure
+     *  \return Returns lpDevice structure
+     */
+
     lp_IMU lp_imu_mod_DSIDE(
 
         const lp_Char_t * const lpPath,
         lp_IMU lpDevice
 
     );
+
+    /*! \brief ADIS16375 IMU specific initial data extractor
+     *
+     *  ADIS16375 IMU specific initial data extraction procedure.
+     *
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice Device descriptor structure
+     *  \return Returns lpDevice structure
+     */
 
     lp_IMU lp_imu_DSIDE_ADIS16375(
 

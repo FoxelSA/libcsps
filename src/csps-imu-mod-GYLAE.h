@@ -36,6 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-imu-mod-GYLAE.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  IMU gravity removal module (GYLAE - GravitY-Less Acceleration Extraction)
+     */
 
 /*
     Header - Include guard
@@ -86,6 +91,18 @@
 /*
     Header - Function prototypes
  */
+
+    /*! \brief Gravity-less acceleration extraction
+     *  
+     *  This module removes the gravity from the acceleration signals
+     *  of IMUs.
+     *  
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice IMU device descriptor
+     *  \param lpPSac Acceleration stream component module name
+     *  \param lpPSac Gyroscope stream component module name
+     *  \return Return lpDevice structure
+     */
 
     lp_IMU lp_imu_mod_GYLAE(
 

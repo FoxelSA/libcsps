@@ -36,6 +36,12 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-gps-mod-DSIDE.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  GPS signal extraction module (DSIDE - Device-Specitic Initial Data
+     *  Extraction)
+     */
 
 /*
     Header - Include guard
@@ -87,12 +93,30 @@
     Header - Function prototypes
  */
 
+    /*! \brief GPS signal extraction switch
+     *  
+     *  Switch on device-specific initial data extractor.
+     *
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice Device descriptor structure
+     *  \return Returns lpDevice structure
+     */
+
     lp_GPS lp_gps_mod_DSIDE(
 
         const lp_Char_t * const lpPath,
         lp_GPS lpDevice
 
     );
+
+    /*! \brief LS20031 GPS specific initial data extractor
+     *
+     *  LS20031 GPS specific initial data extraction procedure.
+     *
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice Device descriptor structure
+     *  \return Returns lpDevice structure
+     */
 
     lp_GPS lp_gps_DSIDE_LS20031(
 

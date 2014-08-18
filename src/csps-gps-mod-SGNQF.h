@@ -36,6 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-gps-mod-SGNQF.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  GPS signal quality filtering module (SGNQF - SiGNal Quality Filtering)
+     */
 
 /*
     Header - Include guard
@@ -76,9 +81,6 @@
     # define LP_GPS_MODSGNQF_MOD "mod-SGNQF"
     # define LP_GPS_MODSGNQF_DES "SiGNal Quality Filtering"
 
-    /* Define derivative computation range */
-    //# define LP_GPS_MODRS_BOUND lp_Size_s( 8 )
-
 /*
     Header - Typedefs
  */
@@ -100,6 +102,7 @@
      *  \param lpDevice GPS device descriptor
      *  \param lpName GPS device name
      *  \param CSPS input stream
+     *  \return Returns lpDevice structure
      */
 
     lp_GPS lp_gps_mod_SGNQF(

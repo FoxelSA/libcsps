@@ -36,6 +36,12 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-cam-mod-DSIDE.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  Camera signal extraction module (DSIDE - Device-Specitic Initial Data
+     *  Extraction)
+     */
 
 /*
     Header - Include guard
@@ -86,12 +92,13 @@
     Header - Function prototypes
  */
 
-    /*! \brief Camera extraction switch
+    /*! \brief Camera signal extraction switch
      *  
      *  Switch on device-specific initial data extractor.
      *
      *  \param lpPath Path to CSPS structure
      *  \param lpDevice Device descriptor structure
+     *  \return Returns lpDevice structure
      */
 
     lp_CAM lp_cam_mod_DSIDE(
@@ -107,6 +114,7 @@
      *
      *  \param lpPath Path to CSPS structure
      *  \param lpDevice Device descriptor structure
+     *  \return Returns lpDevice structure
      */
 
     lp_CAM lp_cam_DSIDE_EYESIS4PI(
