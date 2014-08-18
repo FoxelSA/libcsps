@@ -41,13 +41,13 @@
     Source - Includes
  */
 
-    # include "csps-gps-modrs.h"
+    # include "csps-gps-mod-SGNQF.h"
 
 /*
     Source - GPS signal loss compensator
  */
 
-    lp_GPS lp_gps_modrs(
+    lp_GPS lp_gps_mod_SGNQF(
 
         const lp_Char_t * const lpPath,
         lp_GPS lpDevice,
@@ -70,16 +70,16 @@
         lp_Time_t * lpDEVqbf = NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, LP_GPS_MODRS_DEV, lpDevice.dvTag, lpPS__, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_GPS_MODSGNQF_DEV, lpDevice.dvTag, lpPS__, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        lpDEVlat = lp_stream_read( lpPath, LP_GPS_MODRS_DEV, lpDevice.dvTag, lpPS__, "lat", sizeof( lp_Real_t ) * lpSize );
-        lpDEVlon = lp_stream_read( lpPath, LP_GPS_MODRS_DEV, lpDevice.dvTag, lpPS__, "lon", sizeof( lp_Real_t ) * lpSize );
-        lpDEValt = lp_stream_read( lpPath, LP_GPS_MODRS_DEV, lpDevice.dvTag, lpPS__, "alt", sizeof( lp_Real_t ) * lpSize );
-        lpDEVsyn = lp_stream_read( lpPath, LP_GPS_MODRS_DEV, lpDevice.dvTag, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
-        lpDEVqbf = lp_stream_read( lpPath, LP_GPS_MODRS_DEV, lpDevice.dvTag, lpPS__, "qbf", sizeof( lp_Time_t ) * lpSize );
+        lpDEVlat = lp_stream_read( lpPath, LP_GPS_MODSGNQF_DEV, lpDevice.dvTag, lpPS__, "lat", sizeof( lp_Real_t ) * lpSize );
+        lpDEVlon = lp_stream_read( lpPath, LP_GPS_MODSGNQF_DEV, lpDevice.dvTag, lpPS__, "lon", sizeof( lp_Real_t ) * lpSize );
+        lpDEValt = lp_stream_read( lpPath, LP_GPS_MODSGNQF_DEV, lpDevice.dvTag, lpPS__, "alt", sizeof( lp_Real_t ) * lpSize );
+        lpDEVsyn = lp_stream_read( lpPath, LP_GPS_MODSGNQF_DEV, lpDevice.dvTag, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
+        lpDEVqbf = lp_stream_read( lpPath, LP_GPS_MODSGNQF_DEV, lpDevice.dvTag, lpPS__, "qbf", sizeof( lp_Time_t ) * lpSize );
 
-        /* Frame integration procedure */
+        /* Signal quality filtering */
         for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize - lp_Size_s( 1 ) ; lpParse ++ ) {
 
             /* Check signal QBF threshold */
@@ -105,11 +105,11 @@
         }
 
         /* Write stream data */
-        lp_stream_write( lpPath, LP_GPS_MODRS_DEV, lpDevice.dvTag, LP_GPS_MODRS_MOD, "lat", lpDEVlat, sizeof( lp_Real_t ) * lpIndex );
-        lp_stream_write( lpPath, LP_GPS_MODRS_DEV, lpDevice.dvTag, LP_GPS_MODRS_MOD, "lon", lpDEVlon, sizeof( lp_Real_t ) * lpIndex );
-        lp_stream_write( lpPath, LP_GPS_MODRS_DEV, lpDevice.dvTag, LP_GPS_MODRS_MOD, "alt", lpDEValt, sizeof( lp_Real_t ) * lpIndex );
-        lp_stream_write( lpPath, LP_GPS_MODRS_DEV, lpDevice.dvTag, LP_GPS_MODRS_MOD, "syn", lpDEVsyn, sizeof( lp_Time_t ) * lpIndex );
-        lp_stream_write( lpPath, LP_GPS_MODRS_DEV, lpDevice.dvTag, LP_GPS_MODRS_MOD, "qbf", lpDEVqbf, sizeof( lp_Time_t ) * lpIndex );
+        lp_stream_write( lpPath, LP_GPS_MODSGNQF_DEV, lpDevice.dvTag, LP_GPS_MODSGNQF_MOD, "lat", lpDEVlat, sizeof( lp_Real_t ) * lpIndex );
+        lp_stream_write( lpPath, LP_GPS_MODSGNQF_DEV, lpDevice.dvTag, LP_GPS_MODSGNQF_MOD, "lon", lpDEVlon, sizeof( lp_Real_t ) * lpIndex );
+        lp_stream_write( lpPath, LP_GPS_MODSGNQF_DEV, lpDevice.dvTag, LP_GPS_MODSGNQF_MOD, "alt", lpDEValt, sizeof( lp_Real_t ) * lpIndex );
+        lp_stream_write( lpPath, LP_GPS_MODSGNQF_DEV, lpDevice.dvTag, LP_GPS_MODSGNQF_MOD, "syn", lpDEVsyn, sizeof( lp_Time_t ) * lpIndex );
+        lp_stream_write( lpPath, LP_GPS_MODSGNQF_DEV, lpDevice.dvTag, LP_GPS_MODSGNQF_MOD, "qbf", lpDEVqbf, sizeof( lp_Time_t ) * lpIndex );
 
         /* Unallocate buffer memory */
         free( lpDEVlat );

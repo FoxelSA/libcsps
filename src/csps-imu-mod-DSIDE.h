@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_MODDN__
-    # define __LP_IMU_MODDN__
+    # ifndef __LP_IMU_MODDSIDE__
+    # define __LP_IMU_MODDSIDE__
 
 /*
     Header - C/C++ compatibility
@@ -59,7 +59,6 @@
     # include "csps.h"
     # include "csps-device.h"
     # include "csps-path.h"
-    # include "csps-stream.h"
     # include "csps-timestamp.h"
 
 /*
@@ -67,8 +66,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_MODDN_DEV "imu"
-    # define LP_IMU_MODDN_MOD "moddn"
+    # define LP_IMU_MODDSIDE_DEV "imu"
+    # define LP_IMU_MODDSIDE_MOD "mod-DSIDE"
+    # define LP_IMU_MODDSIDE_DES "Device-Specitic Initial Data Extraction"
 
 /*
     Header - Preprocessor macros
@@ -86,20 +86,17 @@
     Header - Function prototypes
  */
 
-    lp_IMU lp_imu_moddn(
+    lp_IMU lp_imu_mod_DSIDE(
 
         const lp_Char_t * const lpPath,
-        lp_IMU lpDevice,
-        const lp_Char_t * const lpPS__
+        lp_IMU lpDevice
 
     );
 
-    lp_Real_t * lp_imu_moddn_tvic(
+    lp_IMU lp_imu_DSIDE_ADIS16375(
 
-        const lp_Real_t * const lpSignal,
-        lp_Size_t lpSize,
-        lp_Size_t lpRegularity,
-        lp_Size_t lpIteration
+        const lp_Char_t * const lpPath,
+        lp_IMU cspsDevice
 
     );
 

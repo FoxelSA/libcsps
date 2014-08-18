@@ -41,19 +41,19 @@
     Source - Includes
  */
 
-    # include "csps-cam-modde.h"
+    # include "csps-cam-mod-DSIDE.h"
 
 /*
     Source - Camera data extractor module
  */
 
-    lp_CAM lp_cam_modde( const lp_Char_t * const lpPath, lp_CAM lpDevice ) {
+    lp_CAM lp_cam_mod_DSIDE( const lp_Char_t * const lpPath, lp_CAM lpDevice ) {
 
         /* Select device */
         if ( strcmp( lpDevice.dvName, LP_DEVICE_CAM_EYESIS4PI ) == 0 ) {
 
             /* Eyesis4pi specific process */
-            return( lp_cam_EYESIS4PI( lpPath, lpDevice ) );
+            return( lp_cam_DSIDE_EYESIS4PI( lpPath, lpDevice ) );
 
         } else {
 
@@ -68,7 +68,7 @@
     Source - Camera EYESIS4PI specific extractor
  */
 
-    lp_CAM lp_cam_EYESIS4PI( const lp_Char_t * const lpPath, lp_CAM lpDevice ) {
+    lp_CAM lp_cam_DSIDE_EYESIS4PI( const lp_Char_t * const lpPath, lp_CAM lpDevice ) {
 
         /* FPGA record buffer */
         lp_Byte_t lpRec[LP_DEVICE_CAM_EYESIS4PI_RECLEN];
@@ -96,8 +96,8 @@
         lp_path( lpPath, LP_DEVICE_CAM_EYESIS4PI, NULL, NULL, NULL, lpDEVlogp );
 
         /* Build file paths */
-        lp_path( lpPath, LP_CAM_MODDE_DEV, lpDevice.dvTag, LP_CAM_MODDE_MOD, "mas", lpDEVmasp );
-        lp_path( lpPath, LP_CAM_MODDE_DEV, lpDevice.dvTag, LP_CAM_MODDE_MOD, "syn", lpDEVsynp );
+        lp_path( lpPath, LP_CAM_MODDSIDE_DEV, lpDevice.dvTag, LP_CAM_MODDSIDE_MOD, "mas", lpDEVmasp );
+        lp_path( lpPath, LP_CAM_MODDSIDE_DEV, lpDevice.dvTag, LP_CAM_MODDSIDE_MOD, "syn", lpDEVsynp );
 
         /* Open file streams */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );

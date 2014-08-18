@@ -41,19 +41,19 @@
     Source - Includes
  */
 
-    # include "csps-gps-modde.h"
+    # include "csps-gps-mod-DSIDE.h"
 
 /*
     Source - GPS data extractor module
  */
 
-    lp_GPS lp_gps_modde( const lp_Char_t * const lpPath, lp_GPS lpDevice) {
+    lp_GPS lp_gps_mod_DSIDE( const lp_Char_t * const lpPath, lp_GPS lpDevice) {
 
         /* Select device */
         if ( strcmp( lpDevice.dvName, LP_DEVICE_GPS_LS20031 ) == 0 ) {
 
             /* ADIS16375 specific process */
-            return ( lp_gps_LS20031( lpPath, lpDevice ) );
+            return ( lp_gps_DSIDE_LS20031( lpPath, lpDevice ) );
 
         } else {
 
@@ -68,7 +68,7 @@
     Source - GPS LS20031 specific extractor
  */
 
-    lp_GPS lp_gps_LS20031( const lp_Char_t * const lpPath, lp_GPS lpDevice ) {
+    lp_GPS lp_gps_DSIDE_LS20031( const lp_Char_t * const lpPath, lp_GPS lpDevice ) {
 
         /* FPGA record buffer */
         lp_Byte_t lpRec[LP_DEVICE_CAM_EYESIS4PI_RECLEN];
@@ -119,11 +119,11 @@
         lp_path( lpPath, LP_DEVICE_GPS_LS20031, NULL, NULL, NULL, lpDEVlogp );
 
         /* Build file paths */
-        lp_path( lpPath, LP_GPS_MODDE_DEV, lpDevice.dvTag, LP_GPS_MODDE_MOD, "lat", lpDEVlatp );
-        lp_path( lpPath, LP_GPS_MODDE_DEV, lpDevice.dvTag, LP_GPS_MODDE_MOD, "lon", lpDEVlonp );
-        lp_path( lpPath, LP_GPS_MODDE_DEV, lpDevice.dvTag, LP_GPS_MODDE_MOD, "alt", lpDEValtp );
-        lp_path( lpPath, LP_GPS_MODDE_DEV, lpDevice.dvTag, LP_GPS_MODDE_MOD, "qbf", lpDEVqbfp );
-        lp_path( lpPath, LP_GPS_MODDE_DEV, lpDevice.dvTag, LP_GPS_MODDE_MOD, "syn", lpDEVsynp );
+        lp_path( lpPath, LP_GPS_MODDSIDE_DEV, lpDevice.dvTag, LP_GPS_MODDSIDE_MOD, "lat", lpDEVlatp );
+        lp_path( lpPath, LP_GPS_MODDSIDE_DEV, lpDevice.dvTag, LP_GPS_MODDSIDE_MOD, "lon", lpDEVlonp );
+        lp_path( lpPath, LP_GPS_MODDSIDE_DEV, lpDevice.dvTag, LP_GPS_MODDSIDE_MOD, "alt", lpDEValtp );
+        lp_path( lpPath, LP_GPS_MODDSIDE_DEV, lpDevice.dvTag, LP_GPS_MODDSIDE_MOD, "qbf", lpDEVqbfp );
+        lp_path( lpPath, LP_GPS_MODDSIDE_DEV, lpDevice.dvTag, LP_GPS_MODDSIDE_MOD, "syn", lpDEVsynp );
 
         /* Open file streams */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );

@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_MODRD__
-    # define __LP_IMU_MODRD__
+    # ifndef __LP_IMU_MODIOISA__
+    # define __LP_IMU_MODIOISA__
 
 /*
     Header - C/C++ compatibility
@@ -67,8 +67,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_MODRD_DEV "imu"
-    # define LP_IMU_MODRD_MOD "modrd"
+    # define LP_IMU_MODIOISA_DEV "imu"
+    # define LP_IMU_MODIOISA_MOD "mod-IOISA"
+    # define LP_IMU_MODIOISA_DES "Initial Orientation Inertial Self-Alignment"
 
 /*
     Header - Preprocessor macros
@@ -86,7 +87,7 @@
     Header - Function prototypes
  */
 
-    lp_IMU lp_imu_modrd(
+    lp_IMU lp_imu_mod_IOISA(
 
         const lp_Char_t * const lpPath,
         lp_IMU lpDevice,

@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_GPS_MODRS__
-    # define __LP_GPS_MODRS__
+    # ifndef __LP_IMU_MODGYLAE__
+    # define __LP_IMU_MODGYLAE__
 
 /*
     Header - C/C++ compatibility
@@ -59,7 +59,6 @@
     # include "csps.h"
     # include "csps-device.h"
     # include "csps-path.h"
-    # include "csps-qbf.h"
     # include "csps-stream.h"
     # include "csps-timestamp.h"
 
@@ -67,16 +66,14 @@
     Header - Preprocessor definitions
  */
 
+    /* CSPS module identification */
+    # define LP_IMU_MODGYLAE_DEV "imu"
+    # define LP_IMU_MODGYLAE_MOD "mod-GYLAE"
+    # define LP_IMU_MODGYLAE_DES "GravitY-Less Acceleration Extraction"
+
 /*
     Header - Preprocessor macros
  */
-
-    /* CSPS module identification */
-    # define LP_GPS_MODRS_DEV "gps"
-    # define LP_GPS_MODRS_MOD "modrs"
-
-    /* Define derivative computation range */
-    # define LP_GPS_MODRS_BOUND lp_Size_s( 8 )
 
 /*
     Header - Typedefs
@@ -90,22 +87,12 @@
     Header - Function prototypes
  */
 
-    /*! \brief GPS signal loss component removal module
-     *  
-     *  This module removes GPS measure on the base of the signal quality. The
-     *  output stream contains only measure that have a satisfying quality.
-     *  
-     *  \param lpPath Path to the CSPS directory structure
-     *  \param lpDevice GPS device descriptor
-     *  \param lpName GPS device name
-     *  \param CSPS input stream
-     */
-
-    lp_GPS lp_gps_modrs(
+    lp_IMU lp_imu_mod_GYLAE(
 
         const lp_Char_t * const lpPath,
-        lp_GPS lpDevice,
-        const lp_Char_t * const lpPS__
+        lp_IMU lpDevice,
+        const lp_Char_t * const lpPSac,
+        const lp_Char_t * const lpPSf_
 
     );
 

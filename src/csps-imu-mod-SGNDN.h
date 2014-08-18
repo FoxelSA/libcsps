@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_MODDE__
-    # define __LP_IMU_MODDE__
+    # ifndef __LP_IMU_MODSGNDN__
+    # define __LP_IMU_MODSGNDN__
 
 /*
     Header - C/C++ compatibility
@@ -59,6 +59,7 @@
     # include "csps.h"
     # include "csps-device.h"
     # include "csps-path.h"
+    # include "csps-stream.h"
     # include "csps-timestamp.h"
 
 /*
@@ -66,8 +67,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_MODDE_DEV "imu"
-    # define LP_IMU_MODDE_MOD "modde"
+    # define LP_IMU_MODSGNDN_DEV "imu"
+    # define LP_IMU_MODSGNDN_MOD "mod-SGNDN"
+    # define LP_IMU_MODSGNDN_DES "SiGNal DeNoising"
 
 /*
     Header - Preprocessor macros
@@ -85,17 +87,20 @@
     Header - Function prototypes
  */
 
-    lp_IMU lp_imu_modde(
+    lp_IMU lp_imu_mod_SGNDN(
 
         const lp_Char_t * const lpPath,
-        lp_IMU lpDevice
+        lp_IMU lpDevice,
+        const lp_Char_t * const lpPS__
 
     );
 
-    lp_IMU lp_imu_ADIS16375(
+    lp_Real_t * lp_imu_mod_SGNDN_tvic(
 
-        const lp_Char_t * const lpPath,
-        lp_IMU cspsDevice
+        const lp_Real_t * const lpSignal,
+        lp_Size_t lpSize,
+        lp_Size_t lpRegularity,
+        lp_Size_t lpIteration
 
     );
 

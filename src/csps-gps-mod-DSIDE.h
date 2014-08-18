@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_MODFI__
-    # define __LP_IMU_MODFI__
+    # ifndef __LP_GPS_MODDSIDE__
+    # define __LP_GPS_MODDSIDE__
 
 /*
     Header - C/C++ compatibility
@@ -58,8 +58,8 @@
 
     # include "csps.h"
     # include "csps-device.h"
+    # include "csps-nmea.h"
     # include "csps-path.h"
-    # include "csps-stream.h"
     # include "csps-timestamp.h"
 
 /*
@@ -67,11 +67,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_MODFI_DEV "imu"
-    # define LP_IMU_MODFI_MOD "modfi"
-
-    /* Define integration boundaries */
-    # define LP_IMU_FRAME_BOUND lp_Size_s( 6 )
+    # define LP_GPS_MODDSIDE_DEV "gps"
+    # define LP_GPS_MODDSIDE_MOD "mod-DSIDE"
+    # define LP_GPS_MODDSIDE_DES "Device-Specitic Initial Data Extraction"
 
 /*
     Header - Preprocessor macros
@@ -89,11 +87,17 @@
     Header - Function prototypes
  */
 
-    lp_IMU lp_imu_modfi(
+    lp_GPS lp_gps_mod_DSIDE(
 
         const lp_Char_t * const lpPath,
-        lp_IMU lpDevice,
-        const lp_Char_t * const lpPSgr
+        lp_GPS lpDevice
+
+    );
+
+    lp_GPS lp_gps_DSIDE_LS20031(
+
+        const lp_Char_t * const lpPath,
+        lp_GPS lpDevice
 
     );
 

@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_MODGA__
-    # define __LP_IMU_MODGA__
+    # ifndef __LP_IMU_MODSGSFR__
+    # define __LP_IMU_MODSGSFR__
 
 /*
     Header - C/C++ compatibility
@@ -67,8 +67,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_MODGA_DEV "imu"
-    # define LP_IMU_MODGA_MOD "modga"
+    # define LP_IMU_MODSGSFR_DEV "imu"
+    # define LP_IMU_MODSGSFR_MOD "mod-SGSFR"
+    # define LP_IMU_MODSGSFR_DES "SiGnal Sampling Frequency Reduction"
 
 /*
     Header - Preprocessor macros
@@ -86,7 +87,7 @@
     Header - Function prototypes
  */
 
-    lp_IMU lp_imu_modsa(
+    lp_IMU lp_imu_mod_SGSFR(
 
         const lp_Char_t * const lpPath,
         lp_IMU lpDevice,

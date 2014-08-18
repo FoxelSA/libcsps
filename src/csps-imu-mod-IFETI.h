@@ -41,8 +41,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_GPS_MODDE__
-    # define __LP_GPS_MODDE__
+    # ifndef __LP_IMU_MODIFETI__
+    # define __LP_IMU_MODIFETI__
 
 /*
     Header - C/C++ compatibility
@@ -58,8 +58,8 @@
 
     # include "csps.h"
     # include "csps-device.h"
-    # include "csps-nmea.h"
     # include "csps-path.h"
+    # include "csps-stream.h"
     # include "csps-timestamp.h"
 
 /*
@@ -67,8 +67,12 @@
  */
 
     /* CSPS module identification */
-    # define LP_GPS_MODDE_DEV "gps"
-    # define LP_GPS_MODDE_MOD "modde"
+    # define LP_IMU_MODIFETI_DEV "imu"
+    # define LP_IMU_MODIFETI_MOD "mod-IFETI"
+    # define LP_IMU_MODIFETI_DES "Inertial Frame Explicit Time Integration"
+
+    /* Define integration boundaries */
+    # define LP_IMU_FRAME_BOUND lp_Size_s( 6 )
 
 /*
     Header - Preprocessor macros
@@ -86,17 +90,11 @@
     Header - Function prototypes
  */
 
-    lp_GPS lp_gps_modde(
+    lp_IMU lp_imu_mod_IFETI(
 
         const lp_Char_t * const lpPath,
-        lp_GPS lpDevice
-
-    );
-
-    lp_GPS lp_gps_LS20031(
-
-        const lp_Char_t * const lpPath,
-        lp_GPS lpDevice
+        lp_IMU lpDevice,
+        const lp_Char_t * const lpPSgr
 
     );
 

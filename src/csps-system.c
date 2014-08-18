@@ -57,23 +57,23 @@
         /* CSPS create devices */
         lpCAM  = lp_device_CAM( LP_DEVICE_CAM_EYESIS4PI, "eyesis4pi" );
         lpADIS = lp_device_IMU( LP_DEVICE_IMU_ADIS16375, "adis16375" );
-        lpLS   = lp_device_GPS( LP_DEVICE_GPS_LS20031  , "ls20031" );
+        lpLS   = lp_device_GPS( LP_DEVICE_GPS_LS20031  , "ls20031"   );
 
         /* CSPS data extractors */
-        lpCAM  = lp_cam_modde( lpPath, lpCAM  );
-        lpADIS = lp_imu_modde( lpPath, lpADIS );
-        lpLS   = lp_gps_modde( lpPath, lpLS   );
+        lpCAM  = lp_cam_mod_DSIDE( lpPath, lpCAM  );
+        lpADIS = lp_imu_mod_DSIDE( lpPath, lpADIS );
+        lpLS   = lp_gps_mod_DSIDE( lpPath, lpLS   );
 
         /* CSPS GPS process line */
-        lpLS   = lp_gps_modrs( lpPath, lpLS, "modde" );
+        lpLS   = lp_gps_mod_SGNQF( lpPath, lpLS, "mod-DSIDE" );
 
         /* CSPS IMU process line */
-        lpADIS = lp_imu_modrd( lpPath, lpADIS, "modde" );
-        lpADIS = lp_imu_mod_ISRAD( lpPath, lpADIS, "modrd" );
-        lpADIS = lp_imu_moddn( lpPath, lpADIS, "modrd" );
-        lpADIS = lp_imu_modsa( lpPath, lpADIS, "modrd" );
-        lpADIS = lp_imu_modfi( lpPath, lpADIS, "modrd" );
-        lpADIS = lp_imu_modaa( lpPath, lpADIS, "modrd", "modfi" );
+        lpADIS = lp_imu_mod_SGSFR( lpPath, lpADIS, "mod-DSIDE" );
+        lpADIS = lp_imu_mod_ISRAD( lpPath, lpADIS, "mod-SGSFR" );
+        lpADIS = lp_imu_mod_SGNDN( lpPath, lpADIS, "mod-SGSFR" );
+        lpADIS = lp_imu_mod_IOISA( lpPath, lpADIS, "mod-SGSFR" );
+        lpADIS = lp_imu_mod_IFETI( lpPath, lpADIS, "mod-SGNDN" );
+        lpADIS = lp_imu_mod_GYLAE( lpPath, lpADIS, "mod-SGNDN", "mod-IFETI" );
 
     }
 
