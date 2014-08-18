@@ -62,6 +62,7 @@
  */
 
     # include "csps.h"
+    # include "csps-timestamp.h"
 
 /*
     Header - Preprocessor definitions
@@ -199,6 +200,10 @@
         lp_Real_t dvfzx;
         lp_Real_t dvfzy;
         lp_Real_t dvfzz;
+
+        /* Inertial still range */
+        lp_Time_t dvMin;
+        lp_Time_t dvMax;
 
         /* IMU frequencies */
         lp_Size_t dvifreq;

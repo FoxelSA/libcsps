@@ -61,8 +61,9 @@
         /* Stream management variables */
         lp_Size_t lpSize = lp_Size_s( 0 );
 
-        /* Still range boundary variables */
+        /* Still range description variables */
         lp_Size_t lpBound = lp_Size_s( 0 );
+        lp_Size_t lpWidth = lp_Size_s( 0 );
 
         /* Accumulator variables */
         lp_Real_t lpAccumGRX = lp_Real_s( 0.0 );
@@ -82,7 +83,6 @@
         lp_Real_t * lpDEVacx = NULL;
         lp_Real_t * lpDEVacy = NULL;
         lp_Real_t * lpDEVacz = NULL;
-        lp_Size_t * lpDEVisr = NULL;
         lp_Time_t * lpDEVsyn = NULL;
 
         /* Obtain stream size */
@@ -96,9 +96,6 @@
         lpDEVacy = lp_stream_read( lpPath, LP_IMU_MODISRAD_DEV, lpDevice.dvTag, lpPS__, "acy", sizeof( lp_Real_t ) * lpSize );
         lpDEVacz = lp_stream_read( lpPath, LP_IMU_MODISRAD_DEV, lpDevice.dvTag, lpPS__, "acz", sizeof( lp_Real_t ) * lpSize );
         lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODISRAD_DEV, lpDevice.dvTag, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
-
-        /* Create still range buffer */
-        lpDEVisr = lp_stream_create( sizeof( lp_Size_t ) * lpSize );
 
         /* Inertial still range automatic detection */
         for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize ; lpParse ++ ) {
@@ -129,25 +126,22 @@
                 /* Check statistical accumulation minimum */
                 if ( ( lpParse - 1 - lpBound ) > lp_Size_s( 32 ) ) {
 
-                    /* Update still range buffer */
-                    for ( ; lpBound < lpParse ; lpBound ++ ) {
+                    /* Select maximum width range */
+                    if ( ( lpParse - 1 - lpBound ) > lpWidth ) {
 
-                        /* Assign value */
-                        lpDEVisr[lpBound] = lp_Size_s( 1 );
+                        /* Assign range boundaries */
+                        lpDevice.dvMin = lpDEVsyn[lpBound];
+                        lpDevice.dvMax = lpDEVsyn[lpParse - 1];
 
-                    }
-
-                } else {
-
-                    /* Update still range buffer */
-                    for ( ; lpBound < lpParse ; lpBound ++ ) {
-
-                        /* Assign value */
-                        lpDEVisr[lpBound] = lp_Size_s( 0 );
+                        /* Assign selected range width */
+                        lpWidth = lpParse - 1 - lpBound;
 
                     }
 
                 }
+
+                /* Reset search boundary */
+                lpBound = lpParse;
 
                 /* Reset accumulators */
                 lpAccumGRX = lp_Real_s( 0.0 );
@@ -164,16 +158,6 @@
 
         }
 
-        /* Write stream data */
-        lp_stream_write( lpPath, LP_IMU_MODISRAD_DEV, lpDevice.dvTag, LP_IMU_MODISRAD_MOD, "grx", lpDEVgrx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODISRAD_DEV, lpDevice.dvTag, LP_IMU_MODISRAD_MOD, "gry", lpDEVgry, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODISRAD_DEV, lpDevice.dvTag, LP_IMU_MODISRAD_MOD, "grz", lpDEVgrz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODISRAD_DEV, lpDevice.dvTag, LP_IMU_MODISRAD_MOD, "acx", lpDEVacx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODISRAD_DEV, lpDevice.dvTag, LP_IMU_MODISRAD_MOD, "acy", lpDEVacy, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODISRAD_DEV, lpDevice.dvTag, LP_IMU_MODISRAD_MOD, "acz", lpDEVacz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODISRAD_DEV, lpDevice.dvTag, LP_IMU_MODISRAD_MOD, "isr", lpDEVacz, sizeof( lp_Size_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODISRAD_DEV, lpDevice.dvTag, LP_IMU_MODISRAD_MOD, "syn", lpDEVsyn, sizeof( lp_Time_t ) * lpSize );
-
         /* Liberate stream buffers */
         free( lpDEVgrx );
         free( lpDEVgry );
@@ -186,5 +170,5 @@
         /* Return device descriptor */
         return( lpDevice );
  
-
     }
+

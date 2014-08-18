@@ -110,6 +110,10 @@
             lpDevice.dvfzy = lp_Real_s( 0.0 );
             lpDevice.dvfzz = lp_Real_s( 1.0 );
 
+            /* Assign configuration - Default interial still range */
+            lpDevice.dvMin = lp_timestamp_compose( lp_Time_s( 0 ), lp_Time_s( 0 ) );
+            lpDevice.dvMax = lp_timestamp_compose( lp_Time_s( 0 ), lp_Time_s( 0 ) );
+
             /* Assign configuration - Frequency */
             lpDevice.dvifreq = lp_Size_s( 2460 );
             lpDevice.dvdfreq = lp_Size_s(   60 );
