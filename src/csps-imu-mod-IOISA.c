@@ -44,7 +44,7 @@
     # include "csps-imu-mod-IOISA.h"
 
 /*
-    Source - Gravity alignment procedure
+    Source - Earth self-alignment
  */
 
     lp_IMU lp_imu_mod_IOISA( 
@@ -91,7 +91,7 @@
         lpDEVgrz = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPS__, "grz", sizeof( lp_Real_t ) * lpSize );
         lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
 
-        /* Downsampling procedure */
+        /* Quantities accumulation */
         while ( lpParse < ( lp_Size_s( 5 ) * lpDevice.dvdfreq ) ) {
 
             /* Accelerometer signal accumulation */
@@ -144,6 +144,14 @@
         lpDevice.dvfyx = - lpACCacy * lpACCgrz + lpACCacz * lpACCgry;
         lpDevice.dvfyy = - lpACCacz * lpACCgrx + lpACCacx * lpACCgrz;
         lpDevice.dvfyz = - lpACCacx * lpACCgry + lpACCacy * lpACCgrx;
+
+        /* Compute y-vector norm */
+        lpACCnrm = sqrt( lpDevice.dvfyx * lpDevice.dvfyx + lpDevice.dvfyy * lpDevice.dvfyy + lpDevice.dvfyz * lpDevice.dvfyz );
+
+        /* Normalize y-vector */
+        lpDevice.dvfyx /= lpACCnrm;
+        lpDevice.dvfyy /= lpACCnrm;
+        lpDevice.dvfyz /= lpACCnrm;
 
         /* Align y-vector to x-z crossed product */
         lpDevice.dvfxx = - lpDevice.dvfyy * lpDevice.dvfzz + lpDevice.dvfyz * lpDevice.dvfzy;

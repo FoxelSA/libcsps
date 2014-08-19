@@ -104,6 +104,9 @@
     Header - Preprocessor definitions
  */
 
+    /* Define debug flag */
+    # define LP_DEBUG
+
     /* Define default truth values */
     # define LP_FALSE           lp_Enum_s( 0 )
     # define LP_TRUE            lp_Enum_s( 1 )
