@@ -129,7 +129,7 @@
             while ( ( lpDichU - lpDichD ) > lp_Size_s( 1 ) ) {
 
                 /* Compute range middle */
-                lpDichM = ( lpDichD + lpDichU ) << lp_Size_s( 1 );
+                lpDichM = ( lpDichD + lpDichU ) >> lp_Size_s( 1 );
 
                 /* Check sub-range position */
                 if ( lp_timestamp_ge( lpT, lpBuffer[lpDichM] ) == LP_TRUE ) {

@@ -132,17 +132,14 @@
         lpVPDalt = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "alt", sizeof( lp_Real_t ) * lpSize );
         lpVPDsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "syn", sizeof( lp_Time_t ) * lpSize );
 
-        /* Verify time range */
-        if ( ( lp_timestamp_ge( lpTimestamp, lpVPDsyn[0] ) == LP_TRUE ) && ( lp_timestamp_ge( lpVPDsyn[lpSize-1], lpTimestamp ) == LP_TRUE ) ) {
-
-            /* Search position by timestamp */
-            while ( lp_timestamp_ge( lpTimestamp, lpVPDsyn[++lpParse] ) == LP_TRUE );
+        /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
+        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpVPDsyn, lpSize ) ) != LP_TIMESTAMP_FAULT ) {
 
             /* Compute quantity interpolation sampling nodes */
-            lpSample0 = LP_RNG( lpParse - 2, 0, lpSize - lp_Size_s( 1 ) );
-            lpSample1 = LP_RNG( lpParse - 1, 0, lpSize - lp_Size_s( 1 ) );
-            lpSample2 = LP_RNG( lpParse    , 0, lpSize - lp_Size_s( 1 ) );
-            lpSample3 = LP_RNG( lpParse + 1, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample0 = LP_RNG( lpParse - 1, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample1 = LP_RNG( lpParse    , 0, lpSize - lp_Size_s( 1 ) );
+            lpSample2 = LP_RNG( lpParse + 1, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample3 = LP_RNG( lpParse + 2, 0, lpSize - lp_Size_s( 1 ) );
 
             /* Compute time interpolation variable */
             lpTimeI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpVPDsyn[lpSample0] ) );
@@ -260,17 +257,14 @@
         lpVPDfzz = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fzz", sizeof( lp_Real_t ) * lpSize );
         lpVPDsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "syn", sizeof( lp_Time_t ) * lpSize );
 
-        /* Verify time range */
-        if ( ( lp_timestamp_ge( lpTimestamp, lpVPDsyn[0] ) == LP_TRUE ) && ( lp_timestamp_ge( lpVPDsyn[lpSize-1], lpTimestamp ) == LP_TRUE ) ) {
-
-            /* Search position by timestamp */
-            while ( lp_timestamp_ge( lpTimestamp, lpVPDsyn[++lpParse] ) == LP_TRUE );
+        /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
+        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpVPDsyn, lpSize ) ) != LP_TIMESTAMP_FAULT ) {
 
             /* Compute quantity interpolation sampling nodes */
-            lpSample0 = LP_RNG( lpParse - 2, 0, lpSize - lp_Size_s( 1 ) );
-            lpSample1 = LP_RNG( lpParse - 1, 0, lpSize - lp_Size_s( 1 ) );
-            lpSample2 = LP_RNG( lpParse    , 0, lpSize - lp_Size_s( 1 ) );
-            lpSample3 = LP_RNG( lpParse + 1, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample0 = LP_RNG( lpParse - 1, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample1 = LP_RNG( lpParse    , 0, lpSize - lp_Size_s( 1 ) );
+            lpSample2 = LP_RNG( lpParse + 1, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample3 = LP_RNG( lpParse + 2, 0, lpSize - lp_Size_s( 1 ) );
 
             /* Compute time interpolation variable */
             lpTimeI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpVPDsyn[lpSample0] ) );
