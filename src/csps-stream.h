@@ -132,7 +132,7 @@
         const lp_Char_t * const lpTag,
         const lp_Char_t * const lpModule,
         const lp_Char_t * const lpType,
-        lp_Size_t lpSize
+        lp_Size_t               lpSize
 
     );
 
@@ -157,7 +157,7 @@
         const lp_Char_t * const lpModule,
         const lp_Char_t * const lpType,
         const lp_Void_t * const lpStream,
-        lp_Size_t lpSize
+        lp_Size_t               lpSize
 
     );
 

@@ -47,7 +47,13 @@
     Source - GPS signal loss compensator
  */
 
-    lp_GPS lp_gps_mod_SGNQF( const lp_Char_t * const lpPath, lp_GPS lpDevice, const lp_Char_t * const lpPS__ ) {
+    lp_GPS lp_gps_mod_SGNQF( 
+
+        const lp_Char_t * const lpPath, 
+        lp_GPS                  lpDevice, 
+        const lp_Char_t * const lpPS__ 
+
+    ) {
 
         /* Integration variables */
         lp_Size_t lpParse = lp_Size_s( 0 );

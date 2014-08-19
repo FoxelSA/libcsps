@@ -47,7 +47,12 @@
     Source - IMU data extractor module
  */
 
-    lp_IMU lp_imu_mod_DSIDE( const lp_Char_t * const lpPath, lp_IMU lpDevice ) {
+    lp_IMU lp_imu_mod_DSIDE( 
+
+        const lp_Char_t * const lpPath, 
+        lp_IMU                  lpDevice
+
+    ) {
 
         /* Select device */
         if ( strcmp( lpDevice.dvName, LP_DEVICE_IMU_ADIS16375 ) == 0 ) {
@@ -68,7 +73,12 @@
     Source - IMU ADIS16375 specific extractor
  */
 
-    lp_IMU lp_imu_DSIDE_ADIS16375( const lp_Char_t * const lpPath, lp_IMU lpDevice ) {
+    lp_IMU lp_imu_DSIDE_ADIS16375( 
+
+        const lp_Char_t * const lpPath, 
+        lp_IMU                  lpDevice 
+
+    ) {
 
         /* FPGA record buffer */
         lp_Byte_t lpRec[LP_DEVICE_CAM_EYESIS4PI_RECLEN];

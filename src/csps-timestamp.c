@@ -47,7 +47,11 @@
     Source - FPGA timestamp reader
  */
 
-    lp_Time_t lp_timestamp( const lp_Void_t * const lpRec ) {
+    lp_Time_t lp_timestamp( 
+
+        const lp_Void_t * const lpRec
+
+    ) {
 
         /* Return filtered timestamp value - 32HSb for unix time and 20LSb for microseconds */
         return( lp_Time_s( 0xFFFFFFFF000FFFFF ) & ( * ( ( uint64_t * ) lpRec ) ) );
@@ -59,7 +63,12 @@
     Source - Timestamp composer
  */
 
-    lp_Time_t lp_timestamp_compose( lp_Time_t lpSec, lp_Time_t lpUsec ) {
+    lp_Time_t lp_timestamp_compose( 
+
+        lp_Time_t lpSec, 
+        lp_Time_t lpUsec
+
+    ) {
 
         /* Return composed timestamp */
         return( ( lpSec << lp_Size_s( 32 ) ) | lpUsec );
@@ -70,14 +79,22 @@
     Source - Timestamp decomposer
  */
 
-    lp_Time_t lp_timestamp_sec( lp_Time_t lpT ) {
+    lp_Time_t lp_timestamp_sec( 
+
+        lp_Time_t lpT 
+
+    ) {
 
         /* Return time stamp seconds */
         return( lpT >> lp_Size_s( 32 ) );
 
     }
 
-    lp_Time_t lp_timestamp_usec( lp_Time_t lpT ) {
+    lp_Time_t lp_timestamp_usec( 
+
+        lp_Time_t lpT 
+
+    ) {
 
         /* Return time stamp microseconds */
         return( lpT & lp_Time_s( 0x00000000000FFFFF ) );
@@ -88,7 +105,13 @@
     Source - Timestamp search
  */
 
-    lp_Size_t lp_timestamp_index( lp_Time_t lpT, lp_Time_t * lpBuffer, lp_Size_t lpSize ) {
+    lp_Size_t lp_timestamp_index( 
+
+        lp_Time_t   lpT, 
+        lp_Time_t * lpBuffer, 
+        lp_Size_t   lpSize
+
+    ) {
 
         /* Check timestamp range */
         if ( ( lp_timestamp_ge( lpBuffer[0], lpT ) == LP_TRUE ) || ( lp_timestamp_ge( lpT, lpBuffer[lpSize - 1] ) == LP_TRUE ) ) {
@@ -144,7 +167,12 @@
     Source - Timestamp comparison
  */
 
-    lp_Enum_t lp_timestamp_eq( lp_Time_t lpTa, lp_Time_t lpTb ) {
+    lp_Enum_t lp_timestamp_eq( 
+
+        lp_Time_t lpTa, 
+        lp_Time_t lpTb
+
+    ) {
 
         /* Verify timestamp equality */
         if ( lpTa == lpTb ) {
@@ -161,7 +189,12 @@
 
     }
 
-    lp_Enum_t lp_timestamp_ge( lp_Time_t lpTa, lp_Time_t lpTb ) {
+    lp_Enum_t lp_timestamp_ge( 
+
+        lp_Time_t lpTa, 
+        lp_Time_t lpTb
+
+    ) {
 
         /* Timestamp decomposition */
         lp_Time_t cspsSeca  = lp_timestamp_sec ( lpTa );
@@ -208,7 +241,12 @@
     Source - Timestamp arithmetic
  */
 
-    lp_Time_t lp_timestamp_add( const lp_Time_t lpTa, const lp_Time_t lpTb ) {
+    lp_Time_t lp_timestamp_add( 
+
+        const lp_Time_t lpTa, 
+        const lp_Time_t lpTb
+
+    ) {
 
         /* Compute addition by parts */
         lp_Time_t lpSec  = lp_timestamp_sec ( lpTa ) + lp_timestamp_sec ( lpTb );
@@ -219,7 +257,12 @@
 
     }
 
-    lp_Time_t lp_timestamp_diff( lp_Time_t lpTa, lp_Time_t lpTb ) {
+    lp_Time_t lp_timestamp_diff( 
+
+        lp_Time_t lpTa, 
+        lp_Time_t lpTb
+
+    ) {
 
         /* Verify timestamp equality */
         if ( lp_timestamp_eq( lpTa, lpTb ) == LP_TRUE ) {
@@ -259,7 +302,11 @@
     Source - Timestamp convertion
  */
 
-    lp_Real_t lp_timestamp_float( lp_Time_t lpT ) {
+    lp_Real_t lp_timestamp_float( 
+
+        lp_Time_t lpT
+
+    ) {
 
         /* Conversion variable */
         lp_Real_t lpSec  = ( lp_Real_t ) lp_timestamp_sec ( lpT );
@@ -274,7 +321,12 @@
     Source - UTC to localtime converter
  */
 
-    lp_Time_t lp_timestamp_local( const lp_Char_t * const lpZone, lp_Time_t lpUTC ) {
+    lp_Time_t lp_timestamp_local( 
+
+        const lp_Char_t * const lpZone, 
+        lp_Time_t               lpUTC
+
+    ) {
 
         /* Select zone */
         if ( strcmp( lpZone, LP_TIMESTAMP_ZONE_WET ) == 0 ) {

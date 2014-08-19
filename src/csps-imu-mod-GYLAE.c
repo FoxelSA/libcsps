@@ -47,7 +47,14 @@
     Source - IMU absolute acceleration computation module
  */
 
-    lp_IMU lp_imu_mod_GYLAE( const lp_Char_t * const lpPath, lp_IMU lpDevice, const lp_Char_t * const lpPSac, const lp_Char_t * const lpPSf_ ) {
+    lp_IMU lp_imu_mod_GYLAE( 
+
+        const lp_Char_t * const lpPath, 
+        lp_IMU                  lpDevice, 
+        const lp_Char_t * const lpPSac, 
+        const lp_Char_t * const lpPSf_ 
+
+    ) {
 
         /* Integration variables */
         lp_Size_t lpParse = 0;

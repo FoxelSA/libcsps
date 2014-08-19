@@ -93,7 +93,7 @@
         const lp_Char_t * const lpDevice,
         const lp_Char_t * const lpTag,
         const lp_Char_t * const lpModule,
-        lp_Time_t lpTimestamp
+        lp_Time_t               lpTimestamp
 
     ) {
 
@@ -209,7 +209,7 @@
         const lp_Char_t * const lpDevice,
         const lp_Char_t * const lpTag,
         const lp_Char_t * const lpModule,
-        lp_Time_t lpTimestamp
+        lp_Time_t               lpTimestamp
 
     ) {
 

@@ -209,7 +209,11 @@
     Source - GPS NMEA sentence validation
  */
 
-    lp_Enum_t lp_nmea_gga_validate( const lp_Char_t * const lpSentence ) {
+    lp_Enum_t lp_nmea_gga_validate( 
+
+        const lp_Char_t * const lpSentence 
+
+    ) {
 
         /* Parse variables */
         lp_Size_t lpIndex = lp_Size_s( 0 );
@@ -257,7 +261,13 @@
     Source - GPS NMEA sentence reader
  */
 
-    lp_Enum_t lp_nmea_sentence( const lp_Byte_t * const lpRec, const lp_Size_t lpSize, lp_Char_t * const lpSentence ) {
+    lp_Enum_t lp_nmea_sentence( 
+
+        const lp_Byte_t * const lpRec, 
+        const lp_Size_t         lpSize, 
+        lp_Char_t * const       lpSentence 
+
+    ) {
 
         /* Sentence element models */
         const lp_Char_t * const lpModel[LP_NMEA_IDENT_MAX] = { 
@@ -372,7 +382,12 @@
     Source - GPS NMEA sentence quartet reader from FPGA logs
  */
 
-    lp_Byte_t lp_nmea_quartet( const lp_Byte_t * const lpRec, lp_Size_t lpOffset ) {
+    lp_Byte_t lp_nmea_quartet( 
+
+        const lp_Byte_t * const lpRec, 
+        lp_Size_t               lpOffset 
+
+    ) {
 
         /* Return quartet value according to offset */
         return( ( lpRec[ lpOffset >> 1 ] >> ( ( lpOffset % lp_Size_s( 2 ) ) * lp_Size_s( 4 ) ) ) % lp_Size_s( 16 ) );

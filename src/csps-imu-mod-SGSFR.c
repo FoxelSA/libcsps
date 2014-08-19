@@ -47,7 +47,13 @@
     Source - IMU relative quantities downsampling module
  */
 
-    lp_IMU lp_imu_mod_SGSFR( const lp_Char_t * const lpPath, lp_IMU lpDevice, const lp_Char_t * const lpPS__ ) {
+    lp_IMU lp_imu_mod_SGSFR( 
+
+        const lp_Char_t * const lpPath, 
+        lp_IMU                  lpDevice, 
+        const lp_Char_t * const lpPS__ 
+
+    ) {
 
         /* Downsampling variables */
         lp_Size_t lpParse = lp_Size_s( 0 );

@@ -47,7 +47,11 @@
     Source - CSPS main module
  */
 
-    lp_Void_t lp_system( const lp_Char_t * const lpPath ) {
+    lp_Void_t lp_system( 
+
+        const lp_Char_t * const lpPath 
+
+    ) {
 
         /* CSPS devices */
         lp_CAM lpCAM;

@@ -47,7 +47,13 @@
     Source - Gravity alignment procedure
  */
 
-    lp_IMU lp_imu_mod_IOISA( const lp_Char_t * const lpPath, lp_IMU lpDevice, const lp_Char_t * const lpPS__ ) {
+    lp_IMU lp_imu_mod_IOISA( 
+
+        const lp_Char_t * const lpPath, 
+        lp_IMU                  lpDevice, 
+        const lp_Char_t * const lpPS__ 
+
+    ) {
 
         /* Downsampling variables */
         lp_Size_t lpParse = lp_Size_s( 0 );

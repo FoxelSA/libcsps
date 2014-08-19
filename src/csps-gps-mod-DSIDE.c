@@ -47,7 +47,12 @@
     Source - GPS data extractor module
  */
 
-    lp_GPS lp_gps_mod_DSIDE( const lp_Char_t * const lpPath, lp_GPS lpDevice) {
+    lp_GPS lp_gps_mod_DSIDE( 
+
+        const lp_Char_t * const lpPath, 
+        lp_GPS                  lpDevice
+
+    ) {
 
         /* Select device */
         if ( strcmp( lpDevice.dvName, LP_DEVICE_GPS_LS20031 ) == 0 ) {
@@ -68,7 +73,12 @@
     Source - GPS LS20031 specific extractor
  */
 
-    lp_GPS lp_gps_DSIDE_LS20031( const lp_Char_t * const lpPath, lp_GPS lpDevice ) {
+    lp_GPS lp_gps_DSIDE_LS20031( 
+
+        const lp_Char_t * const lpPath, 
+        lp_GPS                  lpDevice 
+
+    ) {
 
         /* FPGA record buffer */
         lp_Byte_t lpRec[LP_DEVICE_CAM_EYESIS4PI_RECLEN];
