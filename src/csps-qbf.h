@@ -79,8 +79,8 @@
     # define LP_QBF_FIX_SIMULATION    lp_Enum_s( 8 )
 
     /* Define threshold parameters */
-    # define LP_QBF_THR_MINSAT        lp_Size_s(   7 )
-    # define LP_QBF_THR_MINHDP        lp_Size_s( 200 )
+    # define LP_QBF_THR_MINSAT        lp_Size_s(   6 )
+    # define LP_QBF_THR_MINHDP        lp_Size_s( 400 )
 
 /*
     Header - Preprocessor macros

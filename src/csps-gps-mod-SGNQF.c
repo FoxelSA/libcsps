@@ -85,20 +85,15 @@
             /* Check signal QBF threshold */
             if ( lp_qbf_threshold( lpDEVqbf[lpParse] ) == LP_FALSE ) {
 
-                /* Check indexes differency */
-                if ( lpIndex < lpParse ) {
+                /* Rethrow values */
+                lpDEVlat[lpIndex] = lpDEVlat[lpParse];
+                lpDEVlon[lpIndex] = lpDEVlon[lpParse];
+                lpDEValt[lpIndex] = lpDEValt[lpParse];
+                lpDEVsyn[lpIndex] = lpDEVsyn[lpParse];
+                lpDEVqbf[lpIndex] = lpDEVqbf[lpParse];
 
-                    /* Rethrow values */
-                    lpDEVlat[lpIndex] = lpDEVlat[lpParse];
-                    lpDEVlon[lpIndex] = lpDEVlon[lpParse];
-                    lpDEValt[lpIndex] = lpDEValt[lpParse];
-                    lpDEVsyn[lpIndex] = lpDEVsyn[lpParse];
-                    lpDEVqbf[lpIndex] = lpDEVqbf[lpParse];
-
-                    /* Update rethrown value index */
-                    lpIndex ++;
-
-                }
+                /* Update rethrown value index */
+                lpIndex ++;
 
             }
 
