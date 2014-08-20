@@ -73,8 +73,8 @@
 
         /* CSPS IMU process line */
         lpADIS = lp_imu_mod_SGSFR( lpPath, lpADIS, "mod-DSIDE" );
-        lpADIS = lp_imu_mod_ISRAD( lpPath, lpADIS, "mod-SGSFR" );
         lpADIS = lp_imu_mod_SGNDN( lpPath, lpADIS, "mod-SGSFR" );
+        lpADIS = lp_imu_mod_ISRAD( lpPath, lpADIS, "mod-SGSFR" );
         lpADIS = lp_imu_mod_IOISA( lpPath, lpADIS, "mod-SGSFR" );
         lpADIS = lp_imu_mod_IFETI( lpPath, lpADIS, "mod-SGNDN" );
         lpADIS = lp_imu_mod_GYLAE( lpPath, lpADIS, "mod-SGNDN", "mod-IFETI" );

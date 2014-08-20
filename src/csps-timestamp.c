@@ -116,8 +116,28 @@
         /* Check timestamp range */
         if ( ( lp_timestamp_ge( lpBuffer[0], lpT ) == LP_TRUE ) || ( lp_timestamp_ge( lpT, lpBuffer[lpSize - 1] ) == LP_TRUE ) ) {
 
-            /* Return range fault */
-            return( LP_TIMESTAMP_FAULT );
+            /* Check boundaries equality */
+            if ( lp_timestamp_eq( lpBuffer[0], lpT ) == LP_TRUE ) {
+
+                /* Return exact index */
+                return( lp_Size_s( 0 ) );
+
+            } else {
+
+                /* Check boundaries equality */
+                if ( lp_timestamp_eq( lpBuffer[lpSize - 1], lpT ) == LP_TRUE ) {
+
+                    /* Return exact index */
+                    return( lpSize - lp_Size_s( 1 ) );
+
+                } else {
+
+                    /* Return range fault */
+                    return( LP_TIMESTAMP_FAULT );
+
+                }
+
+            }
 
         } else {
 

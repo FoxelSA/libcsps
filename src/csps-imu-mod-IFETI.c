@@ -62,6 +62,10 @@
         /* Files size */
         lp_Size_t lpSize = lp_Size_s( 0 );
 
+        /* Initial condition range variables */
+        lp_Size_t lpICDw = lp_Size_s( 0 );
+        lp_Size_t lpICUp = lp_Size_s( 0 );
+
         /* Data buffers */
         lp_Real_t * lpDEVgrx = NULL;
         lp_Real_t * lpDEVgry = NULL;
@@ -97,8 +101,15 @@
         lpDEVfzy = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
         lpDEVfzz = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
 
+        /* Compute time step value */
+        lpDelta = lp_Real_s( 1.0 ) / ( ( lp_Real_t ) lpDevice.dvdfreq );
+
+        /* Search intertial still range boundaries timestamps index */
+        lpICDw = lp_timestamp_index( lpDevice.dvMin, lpDEVsyn, lpSize );
+        lpICUp = lp_timestamp_index( lpDevice.dvMax, lpDEVsyn, lpSize );
+
         /* Setting initial conditions */
-        for ( lpParse = lp_Size_s( 0 ) ; lpParse < LP_IMU_FRAME_BOUND ; lpParse ++ ) {
+        for ( lpParse = lpICDw ; lpParse <= lpICUp ; lpParse ++ ) {
 
             /* Assign initial condition on IMU frame */
             lpDEVfxx[lpParse] = lpDevice.dvfxx;
@@ -113,119 +124,175 @@
 
         }
 
-        /* Compute time step value */
-        lpDelta = lp_Real_s( 1.0 ) / ( ( lp_Real_t ) lpDevice.dvdfreq );
+        /* Frame explicit time-integration - Prograde segment */
+        for ( lpParse = lpICUp + lp_Size_s( 1 ) ; lpParse < lpSize ; lpParse ++ ) {
 
-        /* Frame integration procedure */
-        for ( lpParse = LP_IMU_FRAME_BOUND ; lpParse < lpSize ; lpParse ++ ) {
+            /* Integration - Advance frame x-vector - x-component */
+            lpDEVfxx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-            /* Integration - Advance frame x-vector x-component */
-            lpDEVfxx[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
-                                  + ( lpDelta                                 ) * lpDEVfxz[lpParse-1] * lpDEVgry[lpParse-1]
-                                  - ( lpDelta                                 ) * lpDEVfxy[lpParse-1] * lpDEVgrz[lpParse-1]
-                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfxx[lpParse-1]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfxx[lpParse-2]
-                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfxx[lpParse-3]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfxx[lpParse-4]
-                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfxx[lpParse-5]
-                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfxx[lpParse-6]
-                                  );
+                                    + lpDEVgry[lpParse-1] * lpDEVfxz[lpParse-1] 
+                                    - lpDEVgrz[lpParse-1] * lpDEVfxy[lpParse-1] 
 
-            /* Integration - Advance frame x-vector y-component */
-            lpDEVfxy[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
-                                  + ( lpDelta                                 ) * lpDEVfxx[lpParse-1] * lpDEVgrz[lpParse-1]
-                                  - ( lpDelta                                 ) * lpDEVfxz[lpParse-1] * lpDEVgrx[lpParse-1]
-                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfxy[lpParse-1]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfxy[lpParse-2]
-                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfxy[lpParse-3]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfxy[lpParse-4]
-                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfxy[lpParse-5]
-                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfxy[lpParse-6]
-                                  );
+                                )
+                                + lpDEVfxx[lpParse-2];
 
-            /* Integration - Advance frame x-vector z-component */
-            lpDEVfxz[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
-                                  + ( lpDelta                                 ) * lpDEVfxy[lpParse-1] * lpDEVgrx[lpParse-1]
-                                  - ( lpDelta                                 ) * lpDEVfxx[lpParse-1] * lpDEVgry[lpParse-1]
-                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfxz[lpParse-1]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfxz[lpParse-2]
-                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfxz[lpParse-3]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfxz[lpParse-4]
-                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfxz[lpParse-5]
-                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfxz[lpParse-6]
-                                  );
+            /* Integration - Advance frame x-vector - y-component */
+            lpDEVfxy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-            /* Integration - Advance frame y-vector x-component */
-            lpDEVfyx[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
-                                  + ( lpDelta                                 ) * lpDEVfyz[lpParse-1] * lpDEVgry[lpParse-1]
-                                  - ( lpDelta                                 ) * lpDEVfyy[lpParse-1] * lpDEVgrz[lpParse-1]
-                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfyx[lpParse-1]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfyx[lpParse-2]
-                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfyx[lpParse-3]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfyx[lpParse-4]
-                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfyx[lpParse-5]
-                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfyx[lpParse-6]
-                                  );
+                                    + lpDEVgrz[lpParse-1] * lpDEVfxx[lpParse-1] 
+                                    - lpDEVgrx[lpParse-1] * lpDEVfxz[lpParse-1] 
 
-            /* Integration - Advance frame y-vector y-component */
-            lpDEVfyy[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
-                                  + ( lpDelta                                 ) * lpDEVfyx[lpParse-1] * lpDEVgrz[lpParse-1]
-                                  - ( lpDelta                                 ) * lpDEVfyz[lpParse-1] * lpDEVgrx[lpParse-1]
-                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfyy[lpParse-1]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfyy[lpParse-2]
-                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfyy[lpParse-3]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfyy[lpParse-4]
-                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfyy[lpParse-5]
-                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfyy[lpParse-6]
-                                  );
+                                )
+                                + lpDEVfxy[lpParse-2];
 
-            /* Integration - Advance frame y-vector z-component */
-            lpDEVfyz[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
-                                  + ( lpDelta                                 ) * lpDEVfyy[lpParse-1] * lpDEVgrx[lpParse-1]
-                                  - ( lpDelta                                 ) * lpDEVfyx[lpParse-1] * lpDEVgry[lpParse-1]
-                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfyz[lpParse-1]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfyz[lpParse-2]
-                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfyz[lpParse-3]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfyz[lpParse-4]
-                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfyz[lpParse-5]
-                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfyz[lpParse-6]
-                                  );
+            /* Integration - Advance frame x-vector - z-component */
+            lpDEVfxz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-            /* Integration - Advance frame z-vector x-component */
-            lpDEVfzx[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
-                                  + ( lpDelta                                 ) * lpDEVfzz[lpParse-1] * lpDEVgry[lpParse-1]
-                                  - ( lpDelta                                 ) * lpDEVfzy[lpParse-1] * lpDEVgrz[lpParse-1]
-                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfzx[lpParse-1]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfzx[lpParse-2]
-                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfzx[lpParse-3]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfzx[lpParse-4]
-                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfzx[lpParse-5]
-                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfzx[lpParse-6]
-                                  );
+                                    + lpDEVgrx[lpParse-1] * lpDEVfxy[lpParse-1] 
+                                    - lpDEVgry[lpParse-1] * lpDEVfxx[lpParse-1] 
 
-            /* Integration - Advance frame z-vector y-component */
-            lpDEVfzy[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
-                                  + ( lpDelta                                 ) * lpDEVfzx[lpParse-1] * lpDEVgrz[lpParse-1]
-                                  - ( lpDelta                                 ) * lpDEVfzz[lpParse-1] * lpDEVgrx[lpParse-1]
-                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfzy[lpParse-1]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfzy[lpParse-2]
-                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfzy[lpParse-3]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfzy[lpParse-4]
-                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfzy[lpParse-5]
-                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfzy[lpParse-6]
-                                  );
+                                )
+                                + lpDEVfxz[lpParse-2];
 
-            /* Integration - Advance frame z-vector z-component */
-            lpDEVfzz[lpParse] = ( lp_Real_s( 20.0 ) / lp_Real_s( 49.0 ) ) * (
-                                  + ( lpDelta                                 ) * lpDEVfzy[lpParse-1] * lpDEVgrx[lpParse-1]
-                                  - ( lpDelta                                 ) * lpDEVfzx[lpParse-1] * lpDEVgry[lpParse-1]
-                                  + ( lp_Real_s(  6.0 )                       ) * lpDEVfzz[lpParse-1]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  2.0 ) ) * lpDEVfzz[lpParse-2]
-                                  + ( lp_Real_s( 20.0 ) / lp_Real_s(  3.0 ) ) * lpDEVfzz[lpParse-3]
-                                  - ( lp_Real_s( 15.0 ) / lp_Real_s(  4.0 ) ) * lpDEVfzz[lpParse-4]
-                                  + ( lp_Real_s(  6.0 ) / lp_Real_s(  5.0 ) ) * lpDEVfzz[lpParse-5]
-                                  - ( lp_Real_s(  1.0 ) / lp_Real_s(  6.0 ) ) * lpDEVfzz[lpParse-6]
-                                  );
+            /* Integration - Advance frame y-vector - x-component */
+            lpDEVfyx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    + lpDEVgry[lpParse-1] * lpDEVfyz[lpParse-1] 
+                                    - lpDEVgrz[lpParse-1] * lpDEVfyy[lpParse-1] 
+
+                                )
+                                + lpDEVfyx[lpParse-2];
+
+            /* Integration - Advance frame y-vector - y-component */
+            lpDEVfyy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    + lpDEVgrz[lpParse-1] * lpDEVfyx[lpParse-1] 
+                                    - lpDEVgrx[lpParse-1] * lpDEVfyz[lpParse-1] 
+
+                                )
+                                + lpDEVfyy[lpParse-2];
+
+            /* Integration - Advance frame y-vector - z-component */
+            lpDEVfyz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    + lpDEVgrx[lpParse-1] * lpDEVfyy[lpParse-1] 
+                                    - lpDEVgry[lpParse-1] * lpDEVfyx[lpParse-1] 
+
+                                )
+                                + lpDEVfyz[lpParse-2];
+
+            /* Integration - Advance frame z-vector - x-component */
+            lpDEVfzx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    + lpDEVgry[lpParse-1] * lpDEVfzz[lpParse-1] 
+                                    - lpDEVgrz[lpParse-1] * lpDEVfzy[lpParse-1] 
+
+                                )
+                                + lpDEVfzx[lpParse-2];
+
+            /* Integration - Advance frame z-vector - y-component */
+            lpDEVfzy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    + lpDEVgrz[lpParse-1] * lpDEVfzx[lpParse-1] 
+                                    - lpDEVgrx[lpParse-1] * lpDEVfzz[lpParse-1] 
+
+                                )
+                                + lpDEVfzy[lpParse-2];
+
+            /* Integration - Advance frame z-vector - z-component */
+            lpDEVfzz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    + lpDEVgrx[lpParse-1] * lpDEVfzy[lpParse-1] 
+                                    - lpDEVgry[lpParse-1] * lpDEVfzx[lpParse-1] 
+
+                                )
+                                + lpDEVfzz[lpParse-2];
+
+        }
+
+        /* Frame explicit time-integration - Retrograde segment */
+        for ( lpParse = lpICDw - lp_Size_s( 1 ) ; lpParse >= 0 ; lpParse -- ) {
+
+            /* Integration - Step back frame x-vector - x-component */
+            lpDEVfxx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    - lpDEVgry[lpParse+1] * lpDEVfxz[lpParse+1] 
+                                    + lpDEVgrz[lpParse+1] * lpDEVfxy[lpParse+1] 
+
+                                )
+                                + lpDEVfxx[lpParse+2];
+
+            /* Integration - Step back frame x-vector - y-component */
+            lpDEVfxy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    - lpDEVgrz[lpParse+1] * lpDEVfxx[lpParse+1] 
+                                    + lpDEVgrx[lpParse+1] * lpDEVfxz[lpParse+1] 
+
+                                )
+                                + lpDEVfxy[lpParse+2];
+
+            /* Integration - Step back frame x-vector - z-component */
+            lpDEVfxz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    - lpDEVgrx[lpParse+1] * lpDEVfxy[lpParse+1] 
+                                    + lpDEVgry[lpParse+1] * lpDEVfxx[lpParse+1] 
+
+                                )
+                                + lpDEVfxz[lpParse+2];
+
+            /* Integration - Step back frame x-vector - x-component */
+            lpDEVfyx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    - lpDEVgry[lpParse+1] * lpDEVfyz[lpParse+1] 
+                                    + lpDEVgrz[lpParse+1] * lpDEVfyy[lpParse+1] 
+
+                                )
+                                + lpDEVfyx[lpParse+2];
+
+            /* Integration - Step back frame x-vector - y-component */
+            lpDEVfyy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    - lpDEVgrz[lpParse+1] * lpDEVfyx[lpParse+1] 
+                                    + lpDEVgrx[lpParse+1] * lpDEVfyz[lpParse+1] 
+
+                                )
+                                + lpDEVfyy[lpParse+2];
+
+            /* Integration - Step back frame x-vector - z-component */
+            lpDEVfyz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    - lpDEVgrx[lpParse+1] * lpDEVfyy[lpParse+1] 
+                                    + lpDEVgry[lpParse+1] * lpDEVfyx[lpParse+1] 
+
+                                )
+                                + lpDEVfyz[lpParse+2];
+
+            /* Integration - Step back frame z-vector - x-component */
+            lpDEVfzx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    - lpDEVgry[lpParse+1] * lpDEVfzz[lpParse+1] 
+                                    + lpDEVgrz[lpParse+1] * lpDEVfzy[lpParse+1] 
+
+                                )
+                                + lpDEVfzx[lpParse+2];
+
+            /* Integration - Step back frame z-vector - y-component */
+            lpDEVfzy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    - lpDEVgrz[lpParse+1] * lpDEVfzx[lpParse+1] 
+                                    + lpDEVgrx[lpParse+1] * lpDEVfzz[lpParse+1] 
+
+                                )
+                                + lpDEVfzy[lpParse+2];
+
+            /* Integration - Step back frame z-vector - z-component */
+            lpDEVfzz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+
+                                    - lpDEVgrx[lpParse+1] * lpDEVfzy[lpParse+1] 
+                                    + lpDEVgry[lpParse+1] * lpDEVfzx[lpParse+1] 
+
+                                )
+                                + lpDEVfzz[lpParse+2];
 
         }
 

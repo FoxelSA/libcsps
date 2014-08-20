@@ -177,23 +177,6 @@
 
             );
 
-            # if defined LP_DEBUG
-
-                //fprintf( stderr, "%" lp_Size_p " %" lp_Real_p " %" lp_Real_p " %" lp_Real_p " %" lp_Real_p " %" lp_Real_p "\n", 
-
-                //    lpParse,
-                //    lpTimeI,
-                //    lpTime0,
-                //    lpTime1,
-                //    lpTime2,
-                //    lpTime3
-
-                //);
-
-                fprintf( stderr, "%" lp_Size_p " %" lp_Real_p " %" lp_Real_p " %" lp_Real_p "\n", lpParse, lpPosition.qrLatitude, lpPosition.qrLongitude, lpPosition.qrAltitude );
-
-            # endif
-
             /* Update query status */
             lpPosition.qrStatus = LP_TRUE;
 

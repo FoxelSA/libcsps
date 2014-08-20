@@ -114,12 +114,12 @@
             /* Apply detection condition */
             if ( ( lpParse + 1 == lpSize ) || (
 
-                ( lpAccumGRX / lp_Real_c( lpAccumIDX ) > 0.05 ) ||
-                ( lpAccumGRY / lp_Real_c( lpAccumIDX ) > 0.05 ) ||
-                ( lpAccumGRZ / lp_Real_c( lpAccumIDX ) > 0.05 ) ||
-                ( lpAccumACX / lp_Real_c( lpAccumIDX ) > 0.50 ) ||
-                ( lpAccumACY / lp_Real_c( lpAccumIDX ) > 0.50 ) ||
-                ( lpAccumACZ / lp_Real_c( lpAccumIDX ) > 0.50 )
+                ( abs( lpDEVgrx[lpParse] - ( lpAccumGRX / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
+                ( abs( lpDEVgry[lpParse] - ( lpAccumGRY / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
+                ( abs( lpDEVgrz[lpParse] - ( lpAccumGRZ / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
+                ( abs( lpDEVacx[lpParse] - ( lpAccumACX / lp_Real_c( lpAccumIDX ) ) ) > 0.50 ) ||
+                ( abs( lpDEVacy[lpParse] - ( lpAccumACY / lp_Real_c( lpAccumIDX ) ) ) > 0.50 ) ||
+                ( abs( lpDEVacz[lpParse] - ( lpAccumACZ / lp_Real_c( lpAccumIDX ) ) ) > 0.50 )
 
             ) ) {
 
