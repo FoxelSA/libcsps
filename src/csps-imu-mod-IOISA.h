@@ -99,7 +99,8 @@
      *  
      *  \param lpPath Path to CSPS structure
      *  \param lpDevice IMU device descriptor
-     *  \param lpPS__ Acceleration and gyroscopic module name
+     *  \param lpPMimu IMU module stream name
+     *  \param lpPMgps GPS module stream name
      *  \return Returns lpDevice structure
      */
 
@@ -107,7 +108,8 @@
 
         const lp_Char_t * const lpPath,
         lp_IMU                  lpDevice,
-        const lp_Char_t * const lpPS__
+        const lp_Char_t * const lpPMimu,
+        const lp_Char_t * const lpPMgps
 
     );
 

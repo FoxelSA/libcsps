@@ -51,17 +51,18 @@
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpDevice, 
-        const lp_Char_t * const lpPS__ 
+        const lp_Char_t * const lpPMimu,
+        const lp_Char_t * const lpPMgps 
 
     ) {
 
         /* Downsampling variables */
         lp_Size_t lpParse = lp_Size_s( 0 );
 
-        /* Files size */
+        /* Files size variables */
         lp_Size_t lpSize = lp_Size_s( 0 );
 
-        /* Acceleration accumulation */
+        /* Accumulators variables */
         lp_Real_t lpACCacx = lp_Real_s( 0.0 );
         lp_Real_t lpACCacy = lp_Real_s( 0.0 );
         lp_Real_t lpACCacz = lp_Real_s( 0.0 );
@@ -70,7 +71,7 @@
         lp_Real_t lpACCgrz = lp_Real_s( 0.0 );
         lp_Real_t lpACCnrm = lp_Real_s( 0.0 );
 
-        /* Data buffers */
+        /* Data buffers variables */
         lp_Real_t * lpDEVacx = NULL;
         lp_Real_t * lpDEVacy = NULL;
         lp_Real_t * lpDEVacz = NULL;
@@ -78,21 +79,31 @@
         lp_Real_t * lpDEVgry = NULL;
         lp_Real_t * lpDEVgrz = NULL;
         lp_Time_t * lpDEVsyn = NULL;
+        //lp_Real_t * lpGPSlat = NULL;
+        //lp_Time_t * lpGPSsyn = NULL;
+
+        /* Still range boundaries variables */
+        lp_Time_t lpIMUsrDw = lp_Time_s( 0 );
+        lp_Time_t lpIMUsrUp = lp_Time_s( 0 );
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPS__, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        lpDEVacx = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPS__, "acx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacy = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPS__, "acy", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacz = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPS__, "acz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPS__, "grx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgry = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPS__, "gry", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPS__, "grz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
+        lpDEVacx = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "acx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacy = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "acy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacz = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "acz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "grx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgry = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "gry", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "grz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "syn", sizeof( lp_Time_t ) * lpSize );
+
+        /* Obtain still range boundaries index */
+        lpIMUsrDw = lp_timestamp_index( lpDevice.dvMin, lpDEVsyn, lpSize );
+        lpIMUsrUp = lp_timestamp_index( lpDevice.dvMax, lpDEVsyn, lpSize );
 
         /* Quantities accumulation */
-        while ( lpParse < ( lp_Size_s( 5 ) * lpDevice.dvdfreq ) ) {
+        for ( lpParse = lpIMUsrDw ; lpParse <= lpIMUsrUp ; lpParse ++ ) {
 
             /* Accelerometer signal accumulation */
             lpACCacx += lpDEVacx[lpParse];
