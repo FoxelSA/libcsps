@@ -50,7 +50,8 @@
     lp_IMU lp_imu_mod_IOISA( 
 
         const lp_Char_t * const lpPath, 
-        lp_IMU                  lpDevice, 
+        lp_IMU                  lpIMU,
+        lp_GPS                  lpGPS,
         const lp_Char_t * const lpPMimu,
         const lp_Char_t * const lpPMgps 
 
@@ -69,7 +70,10 @@
         lp_Real_t lpACCgrx = lp_Real_s( 0.0 );
         lp_Real_t lpACCgry = lp_Real_s( 0.0 );
         lp_Real_t lpACCgrz = lp_Real_s( 0.0 );
-        lp_Real_t lpACCnrm = lp_Real_s( 0.0 );
+        lp_Real_t lpACClat = lp_Real_s( 0.0 );
+        lp_Real_t lpACCacn = lp_Real_s( 0.0 );
+        lp_Real_t lpACCgrn = lp_Real_s( 0.0 );
+        lp_Real_t lpACCabs = lp_Real_s( 0.0 );
 
         /* Data buffers variables */
         lp_Real_t * lpDEVacx = NULL;
@@ -79,28 +83,28 @@
         lp_Real_t * lpDEVgry = NULL;
         lp_Real_t * lpDEVgrz = NULL;
         lp_Time_t * lpDEVsyn = NULL;
-        //lp_Real_t * lpGPSlat = NULL;
-        //lp_Time_t * lpGPSsyn = NULL;
+        lp_Real_t * lpGPSlat = NULL;
+        lp_Time_t * lpGPSsyn = NULL;
 
         /* Still range boundaries variables */
         lp_Time_t lpIMUsrDw = lp_Time_s( 0 );
         lp_Time_t lpIMUsrUp = lp_Time_s( 0 );
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        lpDEVacx = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "acx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacy = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "acy", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacz = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "acz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "grx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgry = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "gry", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "grz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA__DEV, lpDevice.dvTag, lpPMimu, "syn", sizeof( lp_Time_t ) * lpSize );
+        lpDEVacx = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "acx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacy = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "acy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacz = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "acz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "grx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgry = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "gry", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "grz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Obtain still range boundaries index */
-        lpIMUsrDw = lp_timestamp_index( lpDevice.dvMin, lpDEVsyn, lpSize );
-        lpIMUsrUp = lp_timestamp_index( lpDevice.dvMax, lpDEVsyn, lpSize );
+        lpIMUsrDw = lp_timestamp_index( lpIMU.dvMin, lpDEVsyn, lpSize );
+        lpIMUsrUp = lp_timestamp_index( lpIMU.dvMax, lpDEVsyn, lpSize );
 
         /* Quantities accumulation */
         for ( lpParse = lpIMUsrDw ; lpParse <= lpIMUsrUp ; lpParse ++ ) {
@@ -115,59 +119,7 @@
             lpACCgry += lpDEVgry[lpParse];
             lpACCgrz += lpDEVgrz[lpParse];
 
-            /* Update parse index */
-            lpParse += lp_Size_s( 1 );
-
         }
-
-        /* Accelerometer accumulation average */
-        lpACCacx /= lpParse;
-        lpACCacy /= lpParse;
-        lpACCacz /= lpParse;
-
-        /* Compute average acceleration norm */
-        lpACCnrm = sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy + lpACCacz * lpACCacz );
-
-        /* Normalize acceleration vector */
-        lpACCacx /= lpACCnrm;
-        lpACCacy /= lpACCnrm;
-        lpACCacz /= lpACCnrm;
-
-        /* Gyroscope accumulation average */
-        lpACCgrx /= lpParse;
-        lpACCgry /= lpParse;
-        lpACCgrz /= lpParse;
-
-        /* Compute average acceleration norm */
-        lpACCnrm = sqrt( lpACCgrx * lpACCgrx + lpACCgry * lpACCgry + lpACCgrz * lpACCgrz );
-
-        /* Normalize acceleration vector */
-        lpACCgrx /= lpACCnrm;
-        lpACCgry /= lpACCnrm;
-        lpACCgrz /= lpACCnrm;
-
-        /* Align z-vector to gravity reaction */
-        lpDevice.dvfzx = + lpACCacx;
-        lpDevice.dvfzy = + lpACCacy;
-        lpDevice.dvfzz = + lpACCacz;
-
-        /* Align x-vector to gravity/earth rate normal */
-        lpDevice.dvfyx = - lpACCacy * lpACCgrz + lpACCacz * lpACCgry;
-        lpDevice.dvfyy = - lpACCacz * lpACCgrx + lpACCacx * lpACCgrz;
-        lpDevice.dvfyz = - lpACCacx * lpACCgry + lpACCacy * lpACCgrx;
-
-        /* Compute y-vector norm */
-        lpACCnrm = sqrt( lpDevice.dvfyx * lpDevice.dvfyx + lpDevice.dvfyy * lpDevice.dvfyy + lpDevice.dvfyz * lpDevice.dvfyz );
-
-        /* Normalize y-vector */
-        lpDevice.dvfyx /= lpACCnrm;
-        lpDevice.dvfyy /= lpACCnrm;
-        lpDevice.dvfyz /= lpACCnrm;
-
-        /* Align y-vector to x-z crossed product */
-        lpDevice.dvfxx = - lpDevice.dvfyy * lpDevice.dvfzz + lpDevice.dvfyz * lpDevice.dvfzy;
-        lpDevice.dvfxy = - lpDevice.dvfyz * lpDevice.dvfzx + lpDevice.dvfyx * lpDevice.dvfzz;
-        lpDevice.dvfxz = - lpDevice.dvfyx * lpDevice.dvfzy + lpDevice.dvfyy * lpDevice.dvfzx;
 
         /* Unallocate buffer memory */
         free( lpDEVacx );
@@ -178,8 +130,78 @@
         free( lpDEVgrz );
         free( lpDEVsyn );
 
+        /* Accelerometer average computation */
+        lpACCacx /= ( lpIMUsrUp - lpIMUsrDw + lp_Size_s( 1 ) );
+        lpACCacy /= ( lpIMUsrUp - lpIMUsrDw + lp_Size_s( 1 ) );
+        lpACCacz /= ( lpIMUsrUp - lpIMUsrDw + lp_Size_s( 1 ) );
+
+        /* Compute acceleration norm */
+        lpACCacn = sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy + lpACCacz * lpACCacz );
+
+        /* Gyroscope average computation */
+        lpACCgrx /= ( lpIMUsrUp - lpIMUsrDw + lp_Size_s( 1 ) );
+        lpACCgry /= ( lpIMUsrUp - lpIMUsrDw + lp_Size_s( 1 ) );
+        lpACCgrz /= ( lpIMUsrUp - lpIMUsrDw + lp_Size_s( 1 ) );
+
+        /* Compute angular velocity norm */
+        lpACCgrn = sqrt( lpACCgrx * lpACCgrx + lpACCgry * lpACCgry + lpACCgrz * lpACCgrz );
+
+        /* Obtain stream size */
+        lpSize = lp_stream_size( lpPath, "gps", lpGPS.dvTag, lpPMgps, "syn" ) / sizeof( lp_Time_t );
+
+        /* Read streams data */
+        lpGPSlat = lp_stream_read( lpPath, "gps", lpGPS.dvTag, lpPMgps, "lat", sizeof( lp_Real_t ) * lpSize );
+        lpGPSsyn = lp_stream_read( lpPath, "gps", lpGPS.dvTag, lpPMgps, "syn", sizeof( lp_Time_t ) * lpSize );
+
+        /* Obtain still range boundaries index */
+        lpIMUsrDw = lp_timestamp_index( lpIMU.dvMin, lpGPSsyn, lpSize );
+        lpIMUsrUp = lp_timestamp_index( lpIMU.dvMax, lpGPSsyn, lpSize );
+
+        /* Quantities accumulation */
+        for ( lpParse = lpIMUsrDw ; lpParse <= lpIMUsrUp ; lpParse ++ ) {
+
+            /* Latitude signal accumulation */
+            lpACClat += lpGPSlat[lpParse];
+
+        }
+
+        /* Unallocate buffer memory */
+        free( lpGPSlat );
+        free( lpGPSsyn );
+
+        /* Latitude average computation */
+        lpACClat /= ( lpIMUsrUp - lpIMUsrDw + lp_Size_s( 1 ) );
+
+        /* Frame z-vector gravity alignment */
+        lpIMU.dvfzx = - lpACCacx / lpACCacn;
+        lpIMU.dvfzy = - lpACCacy / lpACCacn;
+        lpIMU.dvfzz = - lpACCacz / lpACCacn;
+
+        /* Frame x-vector coarse heading alignment */
+        lpIMU.dvfxx = - ( tan( lpACClat ) / lpACCacn ) * lpACCacx + ( lp_Real_s( 1.0 ) / ( lpACCgrn * cos( lpACClat ) ) ) * lpACCgrx;
+        lpIMU.dvfxy = - ( tan( lpACClat ) / lpACCacn ) * lpACCacy + ( lp_Real_s( 1.0 ) / ( lpACCgrn * cos( lpACClat ) ) ) * lpACCgry;
+        lpIMU.dvfxz = - ( tan( lpACClat ) / lpACCacn ) * lpACCacz + ( lp_Real_s( 1.0 ) / ( lpACCgrn * cos( lpACClat ) ) ) * lpACCgrz;
+
+        /* Frame y-vector computation */
+        lpIMU.dvfyx = lpIMU.dvfzy * lpIMU.dvfxz - lpIMU.dvfzz * lpIMU.dvfxy;
+        lpIMU.dvfyy = lpIMU.dvfzz * lpIMU.dvfxx - lpIMU.dvfzx * lpIMU.dvfxz;
+        lpIMU.dvfyz = lpIMU.dvfzx * lpIMU.dvfxy - lpIMU.dvfzy * lpIMU.dvfxx;
+
+        /* Compute y-vector norm */
+        lpACCabs = sqrt( lpIMU.dvfyx * lpIMU.dvfyx + lpIMU.dvfyy * lpIMU.dvfyy + lpIMU.dvfyz * lpIMU.dvfyz );
+
+        /* Frame y-vector normalization */
+        lpIMU.dvfyx /= lpACCabs;
+        lpIMU.dvfyy /= lpACCabs;
+        lpIMU.dvfyz /= lpACCabs;
+
+        /* Frame x-vector orthogonal alignment */
+        lpIMU.dvfxx = lpIMU.dvfyy * lpIMU.dvfzz - lpIMU.dvfyz * lpIMU.dvfzy;
+        lpIMU.dvfxy = lpIMU.dvfyz * lpIMU.dvfzx - lpIMU.dvfyx * lpIMU.dvfzz;
+        lpIMU.dvfxz = lpIMU.dvfyx * lpIMU.dvfzy - lpIMU.dvfyy * lpIMU.dvfzx;
+
         /* Return device descriptor */
-        return( lpDevice );
+        return( lpIMU );
 
     }
 

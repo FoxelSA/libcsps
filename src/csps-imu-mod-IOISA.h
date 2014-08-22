@@ -46,8 +46,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_MODULE_IOISA___
-    # define __LP_IMU_MODULE_IOISA___
+    # ifndef __LP_IMU_MODULE_IOISA__
+    # define __LP_IMU_MODULE_IOISA__
 
 /*
     Header - C/C++ compatibility
@@ -72,9 +72,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_MODULE_IOISA__DEV "imu"
-    # define LP_IMU_MODULE_IOISA__MOD "mod-IOISA"
-    # define LP_IMU_MODULE_IOISA__DES "Initial Orientation Inertial Self-Alignment"
+    # define LP_IMU_MODULE_IOISA_DEV "imu"
+    # define LP_IMU_MODULE_IOISA_MOD "mod-IOISA"
+    # define LP_IMU_MODULE_IOISA_DES "Initial Orientation Inertial Self-Alignment"
 
 /*
     Header - Preprocessor macros
@@ -98,7 +98,8 @@
      *  an inertial still range.
      *  
      *  \param lpPath Path to CSPS structure
-     *  \param lpDevice IMU device descriptor
+     *  \param lpIMU IMU device descriptor
+     *  \param lpGPS GPS device descriptor
      *  \param lpPMimu IMU module stream name
      *  \param lpPMgps GPS module stream name
      *  \return Returns lpDevice structure
@@ -106,10 +107,11 @@
 
     lp_IMU lp_imu_mod_IOISA(
 
-        const lp_Char_t * const lpPath,
-        lp_IMU                  lpDevice,
+        const lp_Char_t * const lpPath, 
+        lp_IMU                  lpIMU,
+        lp_GPS                  lpGPS,
         const lp_Char_t * const lpPMimu,
-        const lp_Char_t * const lpPMgps
+        const lp_Char_t * const lpPMgps 
 
     );
 
