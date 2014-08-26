@@ -72,7 +72,6 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_IFETI_DEV "imu"
     # define LP_IMU_IFETI_MOD "mod-IFETI"
     # define LP_IMU_IFETI_DES "Inertial Frame Explicit Time Integration"
 

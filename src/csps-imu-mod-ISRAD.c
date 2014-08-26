@@ -86,16 +86,16 @@
         lp_Time_t * lpDEVsyn = NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, LP_IMU_ISRAD__DEV, lpDevice.dvTag, lpPS__ );
+        lpSize = lp_stream_size( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__ );
 
         /* Obtain streams data */
-        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_ISRAD__DEV, lpDevice.dvTag, lpPS__, "grx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgry = lp_stream_read( lpPath, LP_IMU_ISRAD__DEV, lpDevice.dvTag, lpPS__, "gry", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_ISRAD__DEV, lpDevice.dvTag, lpPS__, "grz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacx = lp_stream_read( lpPath, LP_IMU_ISRAD__DEV, lpDevice.dvTag, lpPS__, "acx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacy = lp_stream_read( lpPath, LP_IMU_ISRAD__DEV, lpDevice.dvTag, lpPS__, "acy", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacz = lp_stream_read( lpPath, LP_IMU_ISRAD__DEV, lpDevice.dvTag, lpPS__, "acz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_ISRAD__DEV, lpDevice.dvTag, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
+        lpDEVgrx = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
+        lpDEVgry = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrz = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
+        lpDEVacx = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
+        lpDEVacy = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
+        lpDEVacz = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
+        lpDEVsyn = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
         /* Inertial still range automatic detection */
         for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize ; lpParse ++ ) {

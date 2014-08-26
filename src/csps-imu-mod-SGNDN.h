@@ -73,7 +73,6 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_SGNDN_DEV "imu"
     # define LP_IMU_SGNDN_MOD "mod-SGNDN"
     # define LP_IMU_SGNDN_DES "SiGNal DeNoising"
 

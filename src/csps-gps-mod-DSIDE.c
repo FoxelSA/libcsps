@@ -129,11 +129,11 @@
         lp_path_dside( lpPath, LP_DEVICE_LS20031, LP_DEVICE_LS20031_LOG_FPGA, lpDEVlogp );
 
         /* Build file paths */
-        lp_path_stream( lpPath, LP_GPS_DSIDE_DEV, lpDevice.dvTag, LP_GPS_DSIDE_MOD, "lat", lpDEVlatp );
-        lp_path_stream( lpPath, LP_GPS_DSIDE_DEV, lpDevice.dvTag, LP_GPS_DSIDE_MOD, "lon", lpDEVlonp );
-        lp_path_stream( lpPath, LP_GPS_DSIDE_DEV, lpDevice.dvTag, LP_GPS_DSIDE_MOD, "alt", lpDEValtp );
-        lp_path_stream( lpPath, LP_GPS_DSIDE_DEV, lpDevice.dvTag, LP_GPS_DSIDE_MOD, "qbf", lpDEVqbfp );
-        lp_path_stream( lpPath, LP_GPS_DSIDE_DEV, lpDevice.dvTag, LP_GPS_DSIDE_MOD, "syn", lpDEVsynp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LAT, lpDEVlatp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LON, lpDEVlonp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_ALT, lpDEValtp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_QBF, lpDEVqbfp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_SYN, lpDEVsynp );
 
         /* Open file streams */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );

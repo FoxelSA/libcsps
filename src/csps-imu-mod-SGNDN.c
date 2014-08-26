@@ -68,16 +68,16 @@
         lp_Time_t * lpDEVsyn = NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__ );
+        lpSize = lp_stream_size( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__ );
 
         /* Read streams data */
-        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "grx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgry = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "gry", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "grz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacx = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "acx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacy = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "acy", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacz = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "acz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
+        lpDEVgrx = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
+        lpDEVgry = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrz = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
+        lpDEVacx = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
+        lpDEVacy = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
+        lpDEVacz = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
+        lpDEVsyn = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
         /* Denoising procedure */
         lp_noise_tvic( lpDEVgrx, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
@@ -88,13 +88,13 @@
         lp_noise_tvic( lpDEVacz, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
 
         /* Write stream data */
-        lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "grx", lpDEVgrx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "gry", lpDEVgry, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "grz", lpDEVgrz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "acx", lpDEVacx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "acy", lpDEVacy, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "acz", lpDEVacz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "syn", lpDEVsyn, sizeof( lp_Time_t ) * lpSize );
+        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRX, lpDEVgrx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRY, lpDEVgry, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRZ, lpDEVgrz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACX, lpDEVacx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACY, lpDEVacy, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACZ, lpDEVacz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_SYN, lpDEVsyn, sizeof( lp_Time_t ) * lpSize );
 
         /* Unallocate buffer memory */
         free( lpDEVgrx );

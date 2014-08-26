@@ -72,7 +72,6 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_IOISA_DEV "imu"
     # define LP_IMU_IOISA_MOD "mod-IOISA"
     # define LP_IMU_IOISA_DES "Initial Orientation Inertial Self-Alignment"
 

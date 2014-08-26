@@ -72,7 +72,6 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_GYLAE_DEV "imu"
     # define LP_IMU_GYLAE_MOD "mod-GYLAE"
     # define LP_IMU_GYLAE_DES "GravitY-Less Acceleration Extraction"
 

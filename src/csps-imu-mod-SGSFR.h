@@ -72,7 +72,6 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_SGSFR_DEV "imu"
     # define LP_IMU_SGSFR_MOD "mod-SGSFR"
     # define LP_IMU_SGSFR_DES "SiGnal Sampling Frequency Reduction"
 

@@ -77,7 +77,6 @@
  */
 
     /* CSPS module identification */
-    # define LP_GPS_SGNQF_DEV "gps"
     # define LP_GPS_SGNQF_MOD "mod-SGNQF"
     # define LP_GPS_SGNQF_DES "SiGNal Quality Filtering"
 

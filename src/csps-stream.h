@@ -69,8 +69,38 @@
     Header - Preprocessor definitions
  */
 
-    /* Define stream component types */
-    # define LP_STREAM_C_SYN "syn" /* Synchronization */
+    /* Define stream component - Shot time */
+    # define LP_STREAM_CPN_SHO      "sho"
+
+    /* Define stream component - GPS measure */
+    # define LP_STREAM_CPN_LAT      "lat"
+    # define LP_STREAM_CPN_LON      "lon"
+    # define LP_STREAM_CPN_ALT      "alt"
+    # define LP_STREAM_CPN_QBF      "qbf"
+
+    /* Define stream component - Acceleration */
+    # define LP_STREAM_CPN_ACX      "acx"
+    # define LP_STREAM_CPN_ACY      "acy"
+    # define LP_STREAM_CPN_ACZ      "acz"
+
+    /* Define stream component - Gyroscope */
+    # define LP_STREAM_CPN_GRX      "grx"
+    # define LP_STREAM_CPN_GRY      "gry"
+    # define LP_STREAM_CPN_GRZ      "grz"
+
+    /* Define stream component - Frame */
+    # define LP_STREAM_CPN_FXX      "fxx"
+    # define LP_STREAM_CPN_FXY      "fxy"
+    # define LP_STREAM_CPN_FXZ      "fxz"
+    # define LP_STREAM_CPN_FYX      "fyx"
+    # define LP_STREAM_CPN_FYY      "fyy"
+    # define LP_STREAM_CPN_FYZ      "fyz"
+    # define LP_STREAM_CPN_FZX      "fzx"
+    # define LP_STREAM_CPN_FZY      "fzy"
+    # define LP_STREAM_CPN_FZZ      "fzz"
+
+    /* Define stream component - Synchronization */
+    # define LP_STREAM_CPN_SYN      "syn"
 
 /*
     Header - Preprocessor macros

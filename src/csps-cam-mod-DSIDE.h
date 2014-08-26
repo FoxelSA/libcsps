@@ -65,6 +65,7 @@
     # include "csps.h"
     # include "csps-device.h"
     # include "csps-path.h"
+    # include "csps-stream.h"
     # include "csps-timestamp.h"
 
 /*
@@ -72,7 +73,6 @@
  */
 
     /* CSPS module identification */
-    # define LP_CAM_DSIDE_DEV "cam"
     # define LP_CAM_DSIDE_MOD "mod-DSIDE"
     # define LP_CAM_DSIDE_DES "Device-Specitic Initial Data Extraction"
 

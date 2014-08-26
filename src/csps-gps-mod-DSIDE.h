@@ -66,6 +66,7 @@
     # include "csps-device.h"
     # include "csps-nmea.h"
     # include "csps-path.h"
+    # include "csps-stream.h"
     # include "csps-timestamp.h"
 
 /*
@@ -73,7 +74,6 @@
  */
 
     /* CSPS module identification */
-    # define LP_GPS_DSIDE_DEV "gps"
     # define LP_GPS_DSIDE_MOD "mod-DSIDE"
     # define LP_GPS_DSIDE_DES "Device-Specitic Initial Data Extraction"
 

@@ -99,7 +99,7 @@
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
         /* Build stream path */
-        lp_path_stream( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_C_SYN, lpStreamp );
+        lp_path_stream( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, lpStreamp );
 
         /* Open stream file */
         lpStreamf = fopen( lpStreamp, "rb" );
