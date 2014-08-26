@@ -83,23 +83,23 @@
         lp_Time_t * lpDEVsyn = NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSac, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSac, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        lpDEVacx = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSac, "acx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacy = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSac, "acy", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacz = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSac, "acz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVasy = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSac, "syn", sizeof( lp_Time_t ) * lpSize );
-        lpDEVfxx = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fxx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVfxy = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fxy", sizeof( lp_Real_t ) * lpSize );
-        lpDEVfxz = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fxz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVfyx = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fyx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVfyy = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fyy", sizeof( lp_Real_t ) * lpSize );
-        lpDEVfyz = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fyz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVfzx = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fzx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVfzy = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fzy", sizeof( lp_Real_t ) * lpSize );
-        lpDEVfzz = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fzz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVfsy = lp_stream_read( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "syn", sizeof( lp_Time_t ) * lpSize );
+        lpDEVacx = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSac, "acx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacy = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSac, "acy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacz = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSac, "acz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVasy = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSac, "syn", sizeof( lp_Time_t ) * lpSize );
+        lpDEVfxx = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fxx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfxy = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fxy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfxz = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fxz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfyx = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fyx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfyy = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fyy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfyz = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fyz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfzx = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fzx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfzy = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fzy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfzz = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "fzz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVfsy = lp_stream_read( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, lpPSf_, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Allocate stream memory */
         lpDEVaax = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
@@ -128,10 +128,10 @@
         }
 
         /* Write stream data */
-        lp_stream_write( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, LP_IMU_MODULE_GYLAE__MOD, "aax", lpDEVaax, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, LP_IMU_MODULE_GYLAE__MOD, "aay", lpDEVaay, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, LP_IMU_MODULE_GYLAE__MOD, "aaz", lpDEVaaz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, LP_IMU_MODULE_GYLAE__DEV, lpDevice.dvTag, LP_IMU_MODULE_GYLAE__MOD, "syn", lpDEVaaz, sizeof( lp_Time_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, LP_IMU_GYLAE__MOD, "aax", lpDEVaax, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, LP_IMU_GYLAE__MOD, "aay", lpDEVaay, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, LP_IMU_GYLAE__MOD, "aaz", lpDEVaaz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_GYLAE__DEV, lpDevice.dvTag, LP_IMU_GYLAE__MOD, "syn", lpDEVaaz, sizeof( lp_Time_t ) * lpSize );
 
         /* Unallocate buffer memory */
         free( lpDEVacx );

@@ -46,8 +46,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_MODULE_ISRAD___
-    # define __LP_IMU_MODULE_ISRAD___
+    # ifndef __LP_IMU_ISRAD___
+    # define __LP_IMU_ISRAD___
 
 /*
     Header - C/C++ compatibility
@@ -72,9 +72,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_MODULE_ISRAD__DEV "imu"
-    # define LP_IMU_MODULE_ISRAD__MOD "mod-ISRAD"
-    # define LP_IMU_MODULE_ISRAD__DES "Inertial Still Range Automatic Detection"
+    # define LP_IMU_ISRAD__DEV "imu"
+    # define LP_IMU_ISRAD__MOD "mod-ISRAD"
+    # define LP_IMU_ISRAD__DES "Inertial Still Range Automatic Detection"
 
 /*
     Header - Preprocessor macros

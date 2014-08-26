@@ -46,8 +46,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_GPS_MODULE_SGNQF__
-    # define __LP_GPS_MODULE_SGNQF__
+    # ifndef __LP_GPS_SGNQF__
+    # define __LP_GPS_SGNQF__
 
 /*
     Header - C/C++ compatibility
@@ -77,9 +77,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_GPS_MODULE_SGNQF_DEV "gps"
-    # define LP_GPS_MODULE_SGNQF_MOD "mod-SGNQF"
-    # define LP_GPS_MODULE_SGNQF_DES "SiGNal Quality Filtering"
+    # define LP_GPS_SGNQF_DEV "gps"
+    # define LP_GPS_SGNQF_MOD "mod-SGNQF"
+    # define LP_GPS_SGNQF_DES "SiGNal Quality Filtering"
 
 /*
     Header - Typedefs

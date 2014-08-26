@@ -47,8 +47,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_CAM_MODULE_DSIDE__
-    # define __LP_CAM_MODULE_DSIDE__
+    # ifndef __LP_CAM_DSIDE__
+    # define __LP_CAM_DSIDE__
 
 /*
     Header - C/C++ compatibility
@@ -72,9 +72,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_CAM_MODULE_DSIDE_DEV "cam"
-    # define LP_CAM_MODULE_DSIDE_MOD "mod-DSIDE"
-    # define LP_CAM_MODULE_DSIDE_DES "Device-Specitic Initial Data Extraction"
+    # define LP_CAM_DSIDE_DEV "cam"
+    # define LP_CAM_DSIDE_MOD "mod-DSIDE"
+    # define LP_CAM_DSIDE_DES "Device-Specitic Initial Data Extraction"
 
 /*
     Header - Preprocessor macros

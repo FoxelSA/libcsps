@@ -47,8 +47,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_MODULE_DSIDE__
-    # define __LP_IMU_MODULE_DSIDE__
+    # ifndef __LP_IMU_DSIDE__
+    # define __LP_IMU_DSIDE__
 
 /*
     Header - C/C++ compatibility
@@ -72,9 +72,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_MODULE_DSIDE_DEV "imu"
-    # define LP_IMU_MODULE_DSIDE_MOD "mod-DSIDE"
-    # define LP_IMU_MODULE_DSIDE_DES "Device-Specitic Initial Data Extraction"
+    # define LP_IMU_DSIDE_DEV "imu"
+    # define LP_IMU_DSIDE_MOD "mod-DSIDE"
+    # define LP_IMU_DSIDE_DES "Device-Specitic Initial Data Extraction"
 
 /*
     Header - Preprocessor macros

@@ -279,22 +279,6 @@
 
     );
 
-    /*! \brief Convert UTC time to local time
-     *  
-     *  Convert an UTC timestamp to local time timestamp.
-     *  
-     *  \param lpZone Targetted local time zone
-     *  \param lpUTC UTC timestamp
-     *  \return Returns local time timestamp
-     */
-
-    lp_Time_t lp_timestamp_local(
-
-        const lp_Char_t * const lpZone,
-        lp_Time_t               lpUTC
-
-    );
-
 /*
     Header - C/C++ compatibility
  */

@@ -121,13 +121,13 @@
         lp_path_dside( lpPath, LP_DEVICE_ADIS16375, LP_DEVICE_ADIS16375_LOG_FPGA, lpDEVlogp );
 
         /* Build file paths */
-        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "grx", lpDEVgrxp );
-        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "gry", lpDEVgryp );
-        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "grz", lpDEVgrzp );
-        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "acx", lpDEVacxp );
-        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "acy", lpDEVacyp );
-        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "acz", lpDEVaczp );
-        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "syn", lpDEVsynp );
+        lp_path_stream( lpPath, LP_IMU_DSIDE_DEV, lpDevice.dvTag, LP_IMU_DSIDE_MOD, "grx", lpDEVgrxp );
+        lp_path_stream( lpPath, LP_IMU_DSIDE_DEV, lpDevice.dvTag, LP_IMU_DSIDE_MOD, "gry", lpDEVgryp );
+        lp_path_stream( lpPath, LP_IMU_DSIDE_DEV, lpDevice.dvTag, LP_IMU_DSIDE_MOD, "grz", lpDEVgrzp );
+        lp_path_stream( lpPath, LP_IMU_DSIDE_DEV, lpDevice.dvTag, LP_IMU_DSIDE_MOD, "acx", lpDEVacxp );
+        lp_path_stream( lpPath, LP_IMU_DSIDE_DEV, lpDevice.dvTag, LP_IMU_DSIDE_MOD, "acy", lpDEVacyp );
+        lp_path_stream( lpPath, LP_IMU_DSIDE_DEV, lpDevice.dvTag, LP_IMU_DSIDE_MOD, "acz", lpDEVaczp );
+        lp_path_stream( lpPath, LP_IMU_DSIDE_DEV, lpDevice.dvTag, LP_IMU_DSIDE_MOD, "syn", lpDEVsynp );
 
         /* Open file streams */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );

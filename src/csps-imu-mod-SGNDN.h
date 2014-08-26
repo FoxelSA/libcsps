@@ -46,8 +46,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_MODULE_SGNDN___
-    # define __LP_IMU_MODULE_SGNDN___
+    # ifndef __LP_IMU_SGNDN___
+    # define __LP_IMU_SGNDN___
 
 /*
     Header - C/C++ compatibility
@@ -72,9 +72,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_MODULE_SGNDN__DEV "imu"
-    # define LP_IMU_MODULE_SGNDN__MOD "mod-SGNDN"
-    # define LP_IMU_MODULE_SGNDN__DES "SiGNal DeNoising"
+    # define LP_IMU_SGNDN__DEV "imu"
+    # define LP_IMU_SGNDN__MOD "mod-SGNDN"
+    # define LP_IMU_SGNDN__DES "SiGNal DeNoising"
 
 /*
     Header - Preprocessor macros

@@ -46,8 +46,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_MODULE_IOISA__
-    # define __LP_IMU_MODULE_IOISA__
+    # ifndef __LP_IMU_IOISA__
+    # define __LP_IMU_IOISA__
 
 /*
     Header - C/C++ compatibility
@@ -72,9 +72,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_MODULE_IOISA_DEV "imu"
-    # define LP_IMU_MODULE_IOISA_MOD "mod-IOISA"
-    # define LP_IMU_MODULE_IOISA_DES "Initial Orientation Inertial Self-Alignment"
+    # define LP_IMU_IOISA_DEV "imu"
+    # define LP_IMU_IOISA_MOD "mod-IOISA"
+    # define LP_IMU_IOISA_DES "Initial Orientation Inertial Self-Alignment"
 
 /*
     Header - Preprocessor macros

@@ -91,16 +91,16 @@
         lp_Time_t lpIMUsrUp = lp_Time_s( 0 );
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_IOISA_DEV, lpIMU.dvTag, lpPMimu, "syn" ) / sizeof( lp_Time_t );
 
         /* Read streams data */
-        lpDEVacx = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "acx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacy = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "acy", sizeof( lp_Real_t ) * lpSize );
-        lpDEVacz = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "acz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "grx", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgry = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "gry", sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "grz", sizeof( lp_Real_t ) * lpSize );
-        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_MODULE_IOISA_DEV, lpIMU.dvTag, lpPMimu, "syn", sizeof( lp_Time_t ) * lpSize );
+        lpDEVacx = lp_stream_read( lpPath, LP_IMU_IOISA_DEV, lpIMU.dvTag, lpPMimu, "acx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacy = lp_stream_read( lpPath, LP_IMU_IOISA_DEV, lpIMU.dvTag, lpPMimu, "acy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacz = lp_stream_read( lpPath, LP_IMU_IOISA_DEV, lpIMU.dvTag, lpPMimu, "acz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_IOISA_DEV, lpIMU.dvTag, lpPMimu, "grx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgry = lp_stream_read( lpPath, LP_IMU_IOISA_DEV, lpIMU.dvTag, lpPMimu, "gry", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_IOISA_DEV, lpIMU.dvTag, lpPMimu, "grz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVsyn = lp_stream_read( lpPath, LP_IMU_IOISA_DEV, lpIMU.dvTag, lpPMimu, "syn", sizeof( lp_Time_t ) * lpSize );
 
         /* Obtain still range boundaries index */
         lpIMUsrDw = lp_timestamp_index( lpIMU.dvMin, lpDEVsyn, lpSize );
