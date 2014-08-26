@@ -59,125 +59,54 @@
         lp_Size_t lpSize = lp_Size_s( 0 );
 
         /* Data buffers */
-        lp_Real_t * lpDEVgen = NULL;
-        lp_Real_t * lpDEVden = NULL;
+        lp_Real_t * lpDEVgrx = NULL;
+        lp_Real_t * lpDEVgry = NULL;
+        lp_Real_t * lpDEVgrz = NULL;
+        lp_Real_t * lpDEVacx = NULL;
+        lp_Real_t * lpDEVacy = NULL;
+        lp_Real_t * lpDEVacz = NULL;
         lp_Time_t * lpDEVsyn = NULL;
-
-        /* Stream element name array */
-        lp_Char_t * cspsElement[6] = { "grx", "gry", "grz", "acx", "acy", "acz" };
-
-        /* Processing variables */
-        lp_Size_t lpIndex = lp_Size_s( 0 );
 
         /* Obtain stream size */
         lpSize = lp_stream_size( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__ );
 
         /* Read streams data */
+        lpDEVgrx = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "grx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgry = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "gry", sizeof( lp_Real_t ) * lpSize );
+        lpDEVgrz = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "grz", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacx = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "acx", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacy = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "acy", sizeof( lp_Real_t ) * lpSize );
+        lpDEVacz = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "acz", sizeof( lp_Real_t ) * lpSize );
         lpDEVsyn = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, "syn", sizeof( lp_Time_t ) * lpSize );
 
+        /* Denoising procedure */
+        lp_noise_tvic( lpDEVgrx, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
+        lp_noise_tvic( lpDEVgry, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
+        lp_noise_tvic( lpDEVgrz, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
+        lp_noise_tvic( lpDEVacx, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
+        lp_noise_tvic( lpDEVacy, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
+        lp_noise_tvic( lpDEVacz, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
+
         /* Write stream data */
+        lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "grx", lpDEVgrx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "gry", lpDEVgry, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "grz", lpDEVgrz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "acx", lpDEVacx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "acy", lpDEVacy, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "acz", lpDEVacz, sizeof( lp_Real_t ) * lpSize );
         lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, "syn", lpDEVsyn, sizeof( lp_Time_t ) * lpSize );
 
         /* Unallocate buffer memory */
+        free( lpDEVgrx );
+        free( lpDEVgry );
+        free( lpDEVgrz );
+        free( lpDEVacx );
+        free( lpDEVacy );
+        free( lpDEVacz );
         free( lpDEVsyn );
-
-        /* Stream element denoising loop */
-        for ( lpIndex = lp_Size_s( 0 ); lpIndex < lp_Size_s( 6 ); lpIndex ++ ) {
-
-            /* Read streams data */
-            lpDEVgen = lp_stream_read( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, lpPS__, cspsElement[lpIndex], sizeof( lp_Real_t ) * lpSize );
-
-            /* Denoising procedure */
-            lpDEVden = lp_imu_mod_SGNDNtvic( lpDEVgen, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
-
-            /* Write stream data */
-            lp_stream_write( lpPath, LP_IMU_SGNDN_DEV, lpDevice.dvTag, LP_IMU_SGNDN_MOD, cspsElement[lpIndex], lpDEVden, sizeof( lp_Real_t ) * lpSize );
-
-            /* Unallocate buffer memory */
-            free( lpDEVden );
-
-        }
 
         /* Return device descriptor */
         return( lpDevice );
-
-    }
-
-/*
-    Source - Total variation denoising with iterative clipping algorithm
- */
-
-    lp_Real_t * lp_imu_mod_SGNDNtvic( 
-
-        const lp_Real_t * const lpSignal, 
-        lp_Size_t               lpSize, 
-        lp_Size_t               lpRegularity, 
-        lp_Size_t               lpIteration 
-
-    ) {
-
-        /* Allocate denoised signal memory */
-        lp_Real_t * lpDenoised = malloc( lpSize * sizeof( double ) );
-
-        /* Allocate differential array */
-        lp_Real_t * lpDiff = malloc( ( lpSize - 1 ) * sizeof( double ) );
-
-        /* Iteration index */
-        lp_Size_t lpIter = lp_Size_s( 0 );
-
-        /* Algorithm variables */
-        lp_Size_t lpIndex = lp_Size_s( 0 );
-        lp_Size_t lpPrevi = lp_Size_s( 0 );
-        lp_Real_t lpClip  = lpRegularity * lp_Real_s( 0.5 );
-
-        /* Iteration loop */
-        while ( ( lpIter ++ ) < lpIteration ) {
-
-            /* Optimized algorithm */
-            for ( lpIndex = lp_Size_s( 0 ); lpIndex < lpSize; lpIndex ++ ) {
-
-                /* Boundaries managment */
-                if ( lpIndex == lp_Size_s( 0 ) ) {
-
-                    /* Compute part of y - D'z */
-                    lpDenoised[lpIndex] = lpSignal[lpIndex] + lpDiff[0];
-
-                } else {
-
-                    /* Compute previous index - optimization */
-                    lpPrevi = lpIndex - lp_Size_s( 1 );
-
-                    /* Boundaries managment */
-                    if ( lpIndex == ( lpSize - lp_Size_s( 1 ) ) ) {
-
-                        /* Compute part of y - D'z */
-                        lpDenoised[lpIndex] = lpSignal[lpIndex] - lpDiff[lpSize-2];
-
-                    } else {
-
-                        /* Compute part of y - D'z */
-                        lpDenoised[lpIndex] = lpSignal[lpIndex] - lpDiff[lpPrevi] + lpDiff[lpIndex];
-
-                    }
-
-                    /* Compute z + (1/alpha)Dz */
-                    lpDiff[lpPrevi] = lpDiff[lpPrevi] + ( lp_Real_s( 1.0 ) / lp_Real_s( 3.0 ) ) * ( lpDenoised[lpIndex] - lpDenoised[lpPrevi] );
-
-                    /* Apply iterative clipping */
-                    if ( lpDiff[lpPrevi] < - lpClip ) lpDiff[lpPrevi] = - lpClip;
-                    if ( lpDiff[lpPrevi] > + lpClip ) lpDiff[lpPrevi] = + lpClip;
-
-                }
-
-            }
-
-        }
-
-        /* Unallocate differential array */
-        free( lpDiff );
-
-        /* Return pointer to denoised signal */
-        return( lpDenoised );
 
     }
 

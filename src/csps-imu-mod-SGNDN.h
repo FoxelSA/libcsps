@@ -66,6 +66,7 @@
     # include "csps-path.h"
     # include "csps-stream.h"
     # include "csps-timestamp.h"
+    # include "csps-noise.h"
 
 /*
     Header - Preprocessor definitions
