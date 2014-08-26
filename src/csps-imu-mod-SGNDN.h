@@ -46,8 +46,8 @@
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_SGNDN___
-    # define __LP_IMU_SGNDN___
+    # ifndef __LP_IMU_SGNDN__
+    # define __LP_IMU_SGNDN__
 
 /*
     Header - C/C++ compatibility
@@ -72,9 +72,9 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_SGNDN__DEV "imu"
-    # define LP_IMU_SGNDN__MOD "mod-SGNDN"
-    # define LP_IMU_SGNDN__DES "SiGNal DeNoising"
+    # define LP_IMU_SGNDN_DEV "imu"
+    # define LP_IMU_SGNDN_MOD "mod-SGNDN"
+    # define LP_IMU_SGNDN_DES "SiGNal DeNoising"
 
 /*
     Header - Preprocessor macros
@@ -123,7 +123,7 @@
      *  \return Returns an allocated buffer that stores denoised signal
      */
 
-    lp_Real_t * lp_imu_mod_SGNDN_tvic(
+    lp_Real_t * lp_imu_mod_SGNDNtvic(
 
         const lp_Real_t * const lpSignal,
         lp_Size_t               lpSize,

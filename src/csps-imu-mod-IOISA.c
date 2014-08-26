@@ -91,7 +91,7 @@
         lp_Time_t lpIMUsrUp = lp_Time_s( 0 );
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, LP_IMU_IOISA_DEV, lpIMU.dvTag, lpPMimu, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_IOISA_DEV, lpIMU.dvTag, lpPMimu );
 
         /* Read streams data */
         lpDEVacx = lp_stream_read( lpPath, LP_IMU_IOISA_DEV, lpIMU.dvTag, lpPMimu, "acx", sizeof( lp_Real_t ) * lpSize );
@@ -147,7 +147,7 @@
         lpACCgrn = sqrt( lpACCgrx * lpACCgrx + lpACCgry * lpACCgry + lpACCgrz * lpACCgrz );
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, "gps", lpGPS.dvTag, lpPMgps, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, "gps", lpGPS.dvTag, lpPMgps );
 
         /* Read streams data */
         lpGPSlat = lp_stream_read( lpPath, "gps", lpGPS.dvTag, lpPMgps, "lat", sizeof( lp_Real_t ) * lpSize );

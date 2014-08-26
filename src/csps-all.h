@@ -68,6 +68,7 @@
     # include "csps-imu-mod-SGNDN.h"
     # include "csps-imu-mod-SGSFR.h"
     # include "csps-nmea.h"
+    # include "csps-noise.h"
     # include "csps-path.h"
     # include "csps-qbf.h"
     # include "csps-query.h"

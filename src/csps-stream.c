@@ -44,50 +44,7 @@
     # include "csps-stream.h"
 
 /*
-    Source - Stream size
- */
-
-    lp_Size_t lp_stream_size(
-
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule,
-        const lp_Char_t * const lpType
-
-    ) {
-
-        /* Stream handle */
-        lp_File_t lpStreamf = NULL;
-
-        /* Stream size */
-        lp_Size_t lpSize = lp_Size_s( 0 );
-
-        /* Stream path */
-        lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
-
-        /* Build stream path */
-        lp_path_stream( lpPath, lpDevice, lpTag, lpModule, lpType, lpStreamp );
-
-        /* Open stream file */
-        lpStreamf = fopen( lpStreamp, "rb" );
-
-        /* Read pointer to EOF */
-        fseek( lpStreamf, 0L, SEEK_END );
-
-        /* Read pointer value */
-        lpSize = ftell( lpStreamf );
-
-        /* Close stream file */
-        fclose( lpStreamf );
-
-        /* Return stream buffer */
-        return( lpSize );
-
-    }
-
-/*
-    Source - Stream create
+    Source - Stream basic management
  */
 
     lp_Void_t * lp_stream_create(
@@ -101,6 +58,63 @@
 
         /* Return pointer */
         return( lpStream );
+
+    }
+
+    lp_Void_t * lp_stream_delete(
+
+        lp_Void_t * lpStream
+
+    ) {
+
+        /* Verify memory allocation and memory unallocate */
+        if ( lpStream != NULL ) free( lpStream );
+
+        /* Return invalid pointer */
+        return( NULL );
+
+    }
+
+
+/*
+    Source - Stream size
+ */
+
+    lp_Size_t lp_stream_size(
+
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule
+
+    ) {
+
+        /* Stream handle */
+        lp_File_t lpStreamf = NULL;
+
+        /* Stream size */
+        lp_Size_t lpSize = lp_Size_s( 0 );
+
+        /* Stream path */
+        lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
+
+        /* Build stream path */
+        lp_path_stream( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_C_SYN, lpStreamp );
+
+        /* Open stream file */
+        lpStreamf = fopen( lpStreamp, "rb" );
+
+        /* Read pointer to EOF */
+        fseek( lpStreamf, 0L, SEEK_END );
+
+        /* Read pointer value */
+        lpSize = ftell( lpStreamf ) / sizeof( lp_Time_t );
+
+        /* Close stream file */
+        fclose( lpStreamf );
+
+        /* Return stream buffer */
+        return( lpSize );
 
     }
 

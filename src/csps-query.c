@@ -66,7 +66,7 @@
         lp_QueryTime lpTime;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
 
         /* Read streams data */
         lpVPDsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "syn", sizeof( lp_Time_t ) * lpSize );
@@ -125,7 +125,7 @@
         lp_Time_t * lpVPDsyn = NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
 
         /* Read streams data */
         lpVPDlat = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "lat", sizeof( lp_Real_t ) * lpSize );
@@ -246,7 +246,7 @@
         lp_Time_t * lpVPDsyn = NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
 
         /* Read streams data */
         lpVPDfxx = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fxx", sizeof( lp_Real_t ) * lpSize );

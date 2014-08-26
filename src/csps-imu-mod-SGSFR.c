@@ -74,7 +74,7 @@
         lp_Time_t * lpDEVsyn = NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, LP_IMU_SGSFR_DEV, lpDevice.dvTag, lpPS__, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_IMU_SGSFR_DEV, lpDevice.dvTag, lpPS__ );
 
         /* Read streams data */
         lpDEVgrx = lp_stream_read( lpPath, LP_IMU_SGSFR_DEV, lpDevice.dvTag, lpPS__, "grx", sizeof( lp_Real_t ) * lpSize );

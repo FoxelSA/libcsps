@@ -36,18 +36,18 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   csps-imu-mod-IFETI.h
+    /*! \file   csps-noise.h
      *  \author Nils Hamel (n.hamel@foxel.ch)
      *
-     *  IMU frame explicit time-integration module (IFETI - Inertial Frame Explicit Time Integration)
+     *  Noise reduction algorithms
      */
 
 /*
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_IFETI__
-    # define __LP_IMU_IFETI__
+    # ifndef __LP_NOISE__
+    # define __LP_NOISE__
 
 /*
     Header - C/C++ compatibility
@@ -62,22 +62,10 @@
  */
 
     # include "csps.h"
-    # include "csps-device.h"
-    # include "csps-path.h"
-    # include "csps-stream.h"
-    # include "csps-timestamp.h"
 
 /*
     Header - Preprocessor definitions
  */
-
-    /* CSPS module identification */
-    # define LP_IMU_IFETI_DEV "imu"
-    # define LP_IMU_IFETI_MOD "mod-IFETI"
-    # define LP_IMU_IFETI_DES "Inertial Frame Explicit Time Integration"
-
-    /* Define integration boundaries */
-    # define LP_IMU_FRAME_BOUND lp_Size_s( 6 )
 
 /*
     Header - Preprocessor macros
@@ -95,21 +83,24 @@
     Header - Function prototypes
  */
 
-    /*! \brief IMU frame explicit time-integration
+    /*! \brief Total variation with iterative clipping
      *  
-     *  Integrate the IMU frame over time using explicit numerical schemes.
+     *  Performs a total variation with iterative clipping denoising
+     *  of the input data. The denoised signal is then copied in the
+     *  array of the input signal.
      *  
-     *  \param lpPath Path to CSPS structure
-     *  \param lpDevice IMU device descriptor
-     *  \param lpPSgr Gyroscopic stream module name
-     *  \return Returns lpDevice structure
+     *  \param lpSignal Pointer to signal data
+     *  \param lpSize Size of the signal, in type units
+     *  \param lpRegulation Total variation regularity parameter
+     *  \param lpIteration Number of iterations
      */
 
-    lp_IMU lp_imu_mod_IFETI(
+    lp_Void_t lp_noise_tvic( 
 
-        const lp_Char_t * const lpPath,
-        lp_IMU                  lpDevice,
-        const lp_Char_t * const lpPSgr
+        lp_Real_t * const lpSignal, 
+        lp_Size_t         lpSize, 
+        lp_Size_t         lpRegularity, 
+        lp_Size_t         lpIteration 
 
     );
 

@@ -63,10 +63,14 @@
 
     # include "csps.h"
     # include "csps-path.h"
+    # include "csps-timestamp.h"
 
 /*
     Header - Preprocessor definitions
  */
+
+    /* Define stream component types */
+    # define LP_STREAM_C_SYN "syn" /* Synchronization */
 
 /*
     Header - Preprocessor macros
@@ -84,15 +88,43 @@
     Header - Function prototypes
  */
 
+    /*! \brief Stream basic manipulation
+     *  
+     *  Create a stream component memory allocation.
+     * 
+     *  \param lpSize Size, in bytes, of the component size to create
+     *  \return Returns pointer to the allocated memory
+     */
+
+    lp_Void_t * lp_stream_create(
+
+        lp_Size_t lpSize
+
+    );
+
+    /*! \brief Stream basic manipulation
+     *  
+     *  Delete a stream component memory allocation.
+     * 
+     *  \param lpStream Pointer to stream component to unallocate
+     *  \return Returns always an invalid pointer
+     */
+
+    lp_Void_t * lp_stream_delete(
+
+        lp_Void_t * lpStream
+
+    );
+
     /*! \brief Stream component size extractor
      *  
-     *  Extract the size, in bytes, of the desired stream component.
+     *  Extract the size, in type unit, of the desired stream component
+     *  on the base of the size of the synchronization component.
      *  
      *  \param lpPath Path to the CSPS structure
      *  \param lpDevice Device type
      *  \param lpTag Device name
-     *  \param lpModule CSPS stream component to consider
-     *  \param lpType Type of the data stored by the considered stream
+     *  \param lpModule CSPS module to consider
      *  \return Returns the size of the stream in bytes
      */
 
@@ -101,14 +133,7 @@
         const lp_Char_t * const lpPath,
         const lp_Char_t * const lpDevice,
         const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule,
-        const lp_Char_t * const lpType
-
-    );
-
-    lp_Void_t * lp_stream_create(
-
-        lp_Size_t lpSize
+        const lp_Char_t * const lpModule
 
     );
 
@@ -119,8 +144,8 @@
      *  \param lpPath Path to the CSPS structure
      *  \param lpDevice Device type
      *  \param lpTag Device name
-     *  \param lpModule CSPS stream component to consider
-     *  \param lpType Type of the data stored by the considered stream
+     *  \param lpModule CSPS module to consider
+     *  \param lpType Type of the data stored by the considered stream component
      *  \param lpSize Size of the considered stream component
      *  \return Returns a void pointer to the data
      */
@@ -143,8 +168,8 @@
      *  \param lpPath Path to the CSPS structure
      *  \param lpDevice Device type
      *  \param lpTag Device name
-     *  \param lpModule CSPS stream component to write
-     *  \param lpType Type of the data stored by the considered stream
+     *  \param lpModule CSPS module to consider
+     *  \param lpType Type of the data stored by the considered stream component
      *  \param lpStream Void pointer to the memory data
      *  \param lpSize Size, in bytes, of the memory data
      */

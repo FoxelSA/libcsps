@@ -70,7 +70,7 @@
         lp_Time_t * lpDEVqbf = NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, LP_GPS_SGNQF_DEV, lpDevice.dvTag, lpPS__, "syn" ) / sizeof( lp_Time_t );
+        lpSize = lp_stream_size( lpPath, LP_GPS_SGNQF_DEV, lpDevice.dvTag, lpPS__ );
 
         /* Read streams data */
         lpDEVlat = lp_stream_read( lpPath, LP_GPS_SGNQF_DEV, lpDevice.dvTag, lpPS__, "lat", sizeof( lp_Real_t ) * lpSize );
