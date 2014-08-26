@@ -55,7 +55,7 @@
     ) {
 
         /* Select device */
-        if ( strcmp( lpDevice.dvName, LP_DEVICE_IMU_ADIS16375 ) == 0 ) {
+        if ( strcmp( lpDevice.dvName, LP_DEVICE_ADIS16375 ) == 0 ) {
 
             /* ADIS16375 specific process */
             return( lp_imu_DSIDE_ADIS16375( lpPath, lpDevice ) );
@@ -81,7 +81,7 @@
     ) {
 
         /* FPGA record buffer */
-        lp_Byte_t lpRec[LP_DEVICE_CAM_EYESIS4PI_RECLEN];
+        lp_Byte_t lpRec[LP_DEVICE_EYESIS4PI_RECLEN];
 
         /* Reading variables */
         lp_Enum_t lpReading = LP_TRUE;
@@ -118,16 +118,16 @@
         lp_Time_t * lpDEVsyn = NULL;
 
         /* Build raw log file paths */
-        lp_path( lpPath, LP_DEVICE_IMU_ADIS16375, NULL, NULL, NULL, lpDEVlogp );
+        lp_path_dside( lpPath, LP_DEVICE_ADIS16375, LP_DEVICE_ADIS16375_LOG_FPGA, lpDEVlogp );
 
         /* Build file paths */
-        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "grx", lpDEVgrxp );
-        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "gry", lpDEVgryp );
-        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "grz", lpDEVgrzp );
-        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "acx", lpDEVacxp );
-        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "acy", lpDEVacyp );
-        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "acz", lpDEVaczp );
-        lp_path( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "syn", lpDEVsynp );
+        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "grx", lpDEVgrxp );
+        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "gry", lpDEVgryp );
+        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "grz", lpDEVgrzp );
+        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "acx", lpDEVacxp );
+        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "acy", lpDEVacyp );
+        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "acz", lpDEVaczp );
+        lp_path_stream( lpPath, LP_IMU_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_IMU_MODULE_DSIDE_MOD, "syn", lpDEVsynp );
 
         /* Open file streams */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );
@@ -158,13 +158,13 @@
             while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpDevice.dvBlock ) ) {
 
                 /* Read FPGA record */
-                lpReaded = fread( lpRec, 1, LP_DEVICE_CAM_EYESIS4PI_RECLEN, lpDEVlogf );
+                lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf );
 
                 /* Verify FPGA record reading */
-                if ( lpReaded == LP_DEVICE_CAM_EYESIS4PI_RECLEN ) {
+                if ( lpReaded == LP_DEVICE_EYESIS4PI_RECLEN ) {
 
                     /* IMU signal filter */
-                    if ( ( lpRec[3] & lp_Byte_s( 0x0F ) ) == LP_DEVICE_CAM_EYESIS4PI_IMUEVT ) {
+                    if ( ( lpRec[3] & lp_Byte_s( 0x0F ) ) == LP_DEVICE_EYESIS4PI_IMUEVT ) {
 
                         /* Assign readed data */
                         lpDEVgrx[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[2] ) * lpDevice.dvGYRx;

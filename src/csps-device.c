@@ -58,10 +58,10 @@
         lp_CAM lpDevice;
 
         /* Detect type of camera */
-        if ( strcmp( lpName, LP_DEVICE_CAM_EYESIS4PI ) == 0 ) {
+        if ( strcmp( lpName, LP_DEVICE_EYESIS4PI ) == 0 ) {
 
             /* Assign device model name */
-            sprintf( lpDevice.dvName, "%s", LP_DEVICE_CAM_EYESIS4PI );
+            sprintf( lpDevice.dvName, "%s", LP_DEVICE_EYESIS4PI );
 
             /* Assign device name */
             sprintf( lpDevice.dvTag, "%s", lpTag );
@@ -91,10 +91,10 @@
         lp_IMU lpDevice;
 
         /* Detect type of IMU */
-        if ( strcmp( lpName, LP_DEVICE_IMU_ADIS16375 ) == 0 ) {
+        if ( strcmp( lpName, LP_DEVICE_ADIS16375 ) == 0 ) {
 
             /* Assign device model name */
-            sprintf( lpDevice.dvName, "%s", LP_DEVICE_IMU_ADIS16375 );
+            sprintf( lpDevice.dvName, "%s", LP_DEVICE_ADIS16375 );
 
             /* Assign device name */
             sprintf( lpDevice.dvTag, "%s", lpTag );
@@ -153,10 +153,10 @@
         lp_GPS lpDevice;
 
         /* Detect type of GPS */
-        if ( strcmp( lpName, LP_DEVICE_GPS_LS20031 ) == 0 ) {
+        if ( strcmp( lpName, LP_DEVICE_LS20031 ) == 0 ) {
 
             /* Assign device model name */
-            sprintf( lpDevice.dvName, "%s", LP_DEVICE_GPS_LS20031 );
+            sprintf( lpDevice.dvName, "%s", LP_DEVICE_LS20031 );
 
             /* Assign device name */
             sprintf( lpDevice.dvTag, "%s", lpTag );

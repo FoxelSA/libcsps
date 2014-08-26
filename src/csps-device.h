@@ -69,21 +69,24 @@
  */
 
     /* Define camera device name */
-    # define LP_DEVICE_CAM_EYESIS4PI          "EYESIS4PI"
+    # define LP_DEVICE_EYESIS4PI            "EYESIS4PI"
+    # define LP_DEVICE_EYESIS4PI_LOG_FPGA   "LOG-FPGA"
 
     /* Define IMU device name */
-    # define LP_DEVICE_IMU_ADIS16375          "ADIS16375"
+    # define LP_DEVICE_ADIS16375            "ADIS16375"
+    # define LP_DEVICE_ADIS16375_LOG_FPGA   "LOG-FPGA"
 
     /* Define GPS device name */
-    # define LP_DEVICE_GPS_LS20031            "LS20031"
+    # define LP_DEVICE_LS20031              "LS20031"
+    # define LP_DEVICE_LS20031_LOG_FPGA     "LOG-FPGA"
 
     /* Define eyesis4pi fpga log record size */
-    # define LP_DEVICE_CAM_EYESIS4PI_RECLEN   lp_Size_s( 64 )
+    # define LP_DEVICE_EYESIS4PI_RECLEN   lp_Size_s( 64 )
 
     /* Define eyesis4pi event flags */
-    # define LP_DEVICE_CAM_EYESIS4PI_IMUEVT   lp_Enum_s(  0 )
-    # define LP_DEVICE_CAM_EYESIS4PI_GPSEVT   lp_Enum_s(  1 )
-    # define LP_DEVICE_CAM_EYESIS4PI_MASEVT   lp_Enum_s(  2 )
+    # define LP_DEVICE_EYESIS4PI_IMUEVT   lp_Enum_s(  0 )
+    # define LP_DEVICE_EYESIS4PI_GPSEVT   lp_Enum_s(  1 )
+    # define LP_DEVICE_EYESIS4PI_MASEVT   lp_Enum_s(  2 )
 
 /*
     Header - Preprocessor macros

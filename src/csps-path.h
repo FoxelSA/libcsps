@@ -72,6 +72,12 @@
     # define LP_PATH_CSPS     "stream_CSPS"
     # define LP_PATH_FGPA     "stream_Logs"
 
+    /* Define csps device directory */
+    # define LP_PATH_DEVICES    "csps/devices"
+
+    /* Define csps stream directory */
+    # define LP_PATH_STREAMS  "csps/streams"
+
 /*
     Header - Preprocessor macros
  */
@@ -88,26 +94,47 @@
     Header - Function prototypes
  */
 
-    /*! \brief Standard path manager
+    /*! \brief CSPS devices path builder
      *  
-     *  Build and return standard file path according to CSPS structure.
+     *  Build standard path for DSIDE module logs and returns it in
+     *  char array.
      *  
-     *  \param lpBase Path to the CSPS structure
-     *  \param lpDevice Device related path
-     *  \param lpTag Device specific name
-     *  \param lpModule Modulde related path
-     *  \param lpType Type of the data
-     *  \param lpPath Pointer to the built path string
+     *  \param lpBase CSPS structure main path
+     *  \param lpDevice Device name
+     *  \param lpLogs Logs to consider
+     *  \param lpPath Pointer to string that recieve path
      */
 
-    void lp_path(
+    lp_Void_t lp_path_dside(
 
-        const lp_Char_t * lpBase,
-        const lp_Char_t * lpDevice,
-        const lp_Char_t * lpTag,
-        const lp_Char_t * lpModule,
-        const lp_Char_t * lpType,
-        lp_Char_t * const lpPath
+        const lp_Char_t * const lpBase,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpLogs,
+        lp_Char_t * const       lpPath
+
+    );
+
+    /*! \brief CSPS streams path builder
+     *  
+     *  Build standard path for module streams components and returns it
+     *  in char array.
+     *  
+     *  \param lpBase CSPS structure main path
+     *  \param lpDevice Device type
+     *  \param lpTag Device specific name
+     *  \param lpModule Modulde name
+     *  \param lpType Component data type
+     *  \param lpPath Pointer to string that recieve path
+     */
+
+    lp_Void_t lp_path_stream( 
+
+        const lp_Char_t * const lpBase,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule,
+        const lp_Char_t * const lpType,
+        lp_Char_t * const       lpPath
 
     );
 

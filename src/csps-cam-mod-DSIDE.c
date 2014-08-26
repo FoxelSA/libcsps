@@ -55,7 +55,7 @@
     ) {
 
         /* Select device */
-        if ( strcmp( lpDevice.dvName, LP_DEVICE_CAM_EYESIS4PI ) == 0 ) {
+        if ( strcmp( lpDevice.dvName, LP_DEVICE_EYESIS4PI ) == 0 ) {
 
             /* Eyesis4pi specific process */
             return( lp_cam_DSIDE_EYESIS4PI( lpPath, lpDevice ) );
@@ -81,7 +81,7 @@
     ) {
 
         /* FPGA record buffer */
-        lp_Byte_t lpRec[LP_DEVICE_CAM_EYESIS4PI_RECLEN];
+        lp_Byte_t lpRec[LP_DEVICE_EYESIS4PI_RECLEN];
 
         /* Reading variables */
         lp_Enum_t lpReading = LP_TRUE;
@@ -103,11 +103,11 @@
         lp_Time_t * lpDEVsyn = NULL;
 
         /* Build raw log file paths */
-        lp_path( lpPath, LP_DEVICE_CAM_EYESIS4PI, NULL, NULL, NULL, lpDEVlogp );
+        lp_path_dside( lpPath, LP_DEVICE_EYESIS4PI, LP_DEVICE_EYESIS4PI_LOG_FPGA, lpDEVlogp );
 
         /* Build file paths */
-        lp_path( lpPath, LP_CAM_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_CAM_MODULE_DSIDE_MOD, "mas", lpDEVmasp );
-        lp_path( lpPath, LP_CAM_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_CAM_MODULE_DSIDE_MOD, "syn", lpDEVsynp );
+        lp_path_stream( lpPath, LP_CAM_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_CAM_MODULE_DSIDE_MOD, "mas", lpDEVmasp );
+        lp_path_stream( lpPath, LP_CAM_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_CAM_MODULE_DSIDE_MOD, "syn", lpDEVsynp );
 
         /* Open file streams */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );
@@ -128,13 +128,13 @@
             while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpDevice.dvBlock ) ) {
 
                 /* Read FPGA record */
-                lpReaded = fread( lpRec, 1, LP_DEVICE_CAM_EYESIS4PI_RECLEN, lpDEVlogf );
+                lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf );
 
                 /* Verify FPGA record reading */
-                if ( lpReaded == LP_DEVICE_CAM_EYESIS4PI_RECLEN ) {
+                if ( lpReaded == LP_DEVICE_EYESIS4PI_RECLEN ) {
 
                     /* Master signal filter */
-                    if ( ( lpRec[3] & lp_Byte_s( 0x0F ) ) == LP_DEVICE_CAM_EYESIS4PI_MASEVT ) {
+                    if ( ( lpRec[3] & lp_Byte_s( 0x0F ) ) == LP_DEVICE_EYESIS4PI_MASEVT ) {
 
                         /* Retrieve FPGA master timestamp */
                         lpDEVmas[lpIndex] = lp_timestamp( ( lp_Void_t * ) ( lpRec + lp_Size_s( 8 ) ) );

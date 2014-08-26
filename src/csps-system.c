@@ -59,12 +59,12 @@
         lp_GPS lpLS;
 
         /* CSPS create devices */
-        lpCAM  = lp_device_CAM( LP_DEVICE_CAM_EYESIS4PI, "eyesis4pi" );
-        lpADIS = lp_device_IMU( LP_DEVICE_IMU_ADIS16375, "adis16375" );
-        lpLS   = lp_device_GPS( LP_DEVICE_GPS_LS20031  , "ls20031"   );
+        lpCAM  = lp_device_CAM( LP_DEVICE_EYESIS4PI, "eyesis4pi" );
+        lpADIS = lp_device_IMU( LP_DEVICE_ADIS16375, "adis16375" );
+        lpLS   = lp_device_GPS( LP_DEVICE_LS20031  , "ls20031"   );
 
         /* CSPS data extractors */
-        lpCAM  = lp_cam_mod_DSIDE( lpPath, lpCAM  );
+        lpCAM  = lp_cam_mod_DSIDE( lpPath, lpCAM  ); 
         lpADIS = lp_imu_mod_DSIDE( lpPath, lpADIS );
         lpLS   = lp_gps_mod_DSIDE( lpPath, lpLS   );
 

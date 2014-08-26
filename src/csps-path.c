@@ -44,57 +44,70 @@
     # include "csps-path.h"
 
 /*
-    Source - General path database
+    Source - General DSIDE path builder
  */
 
-    void lp_path(
+    lp_Void_t lp_path_dside(
 
-        const lp_Char_t * lpBase,
-        const lp_Char_t * lpDevice,
-        const lp_Char_t * lpTag,
-        const lp_Char_t * lpModule,
-        const lp_Char_t * lpType,
-        lp_Char_t * const lpPath
+        const lp_Char_t * const lpBase,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpLogs,
+        lp_Char_t * const       lpPath
 
     ) {
 
-        /* Select type of path */
-        if ( strcmp( lpDevice, LP_DEVICE_IMU_ADIS16375 ) == 0 ) {
+        /* Select device */
+        if ( strcmp( lpDevice, LP_DEVICE_EYESIS4PI ) == 0 ) {
 
-            /* Path for ADIS16375 IMU FPGA log file */
-            sprintf( lpPath, "%s/" LP_PATH_FGPA "/log-data.bin", lpBase );
+            /* Select logs */
+            if ( strcmp( lpLogs, LP_DEVICE_EYESIS4PI_LOG_FPGA ) == 0 ) {
 
-        /* Select type of path */
-        } else if ( strcmp( lpDevice, LP_DEVICE_GPS_LS20031 ) == 0 ) {
+                /* Build path */
+                sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpBase );
 
-            /* Path for LS20031 GPS FPGA log file */
-            sprintf( lpPath, "%s/" LP_PATH_FGPA "/log-data.bin", lpBase );
+            }
 
-        /* Select type of path */
-        } else if ( strcmp( lpDevice, LP_DEVICE_CAM_EYESIS4PI ) == 0 ) {
+        } else if ( strcmp( lpDevice, LP_DEVICE_ADIS16375 ) == 0 ) {
 
-            /* Path for EYESIS4PI GPS FPGA log file */
-            sprintf( lpPath, "%s/" LP_PATH_FGPA "/log-data.bin", lpBase );
+            /* Select logs */
+            if ( strcmp( lpLogs, LP_DEVICE_ADIS16375_LOG_FPGA ) == 0 ) {
 
-        /* Select type of path */
-        } else if ( strcmp( lpDevice, "gps" ) == 0 ) {
+                /* Build path */
+                sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpBase );
 
-            /* Path to GPS data stream files */
-            sprintf( lpPath, "%s/" LP_PATH_CSPS "/csps-stream-gps-%s-%s-%s.bin", lpBase, lpTag, lpModule, lpType );
+            }
 
-        /* Select type of path */
-        } else if ( strcmp( lpDevice, "imu" ) == 0 ) {
+        } else if ( strcmp( lpDevice, LP_DEVICE_LS20031 ) == 0 ) {
 
-            /* Path to IMU data stream files */
-            sprintf( lpPath, "%s/" LP_PATH_CSPS "/csps-stream-imu-%s-%s-%s.bin", lpBase, lpTag, lpModule, lpType );
+            /* Select logs */
+            if ( strcmp( lpLogs, LP_DEVICE_LS20031_LOG_FPGA ) == 0 ) {
 
-        /* Select type of path */
-        } else if ( strcmp( lpDevice, "cam" ) == 0 ) {
+                /* Build path */
+                sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpBase );
 
-            /* Path to IMU data stream files */
-            sprintf( lpPath, "%s/" LP_PATH_CSPS "/csps-stream-cam-%s-%s-%s.bin", lpBase, lpTag, lpModule, lpType );
+            }
 
         }
+
+    }
+
+/*
+    Source - General stream path builder
+ */
+
+    lp_Void_t lp_path_stream( 
+
+        const lp_Char_t * const lpBase,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule,
+        const lp_Char_t * const lpType,
+        lp_Char_t * const       lpPath
+
+    ) {
+
+        /* Build path */
+        sprintf( lpPath, "%s/" LP_PATH_STREAMS "/csps-stream-%s-%s-%s-%s.bin", lpBase, lpDevice, lpTag, lpModule, lpType );
 
     }
 

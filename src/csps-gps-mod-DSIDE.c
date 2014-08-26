@@ -55,7 +55,7 @@
     ) {
 
         /* Select device */
-        if ( strcmp( lpDevice.dvName, LP_DEVICE_GPS_LS20031 ) == 0 ) {
+        if ( strcmp( lpDevice.dvName, LP_DEVICE_LS20031 ) == 0 ) {
 
             /* ADIS16375 specific process */
             return ( lp_gps_DSIDE_LS20031( lpPath, lpDevice ) );
@@ -81,7 +81,7 @@
     ) {
 
         /* FPGA record buffer */
-        lp_Byte_t lpRec[LP_DEVICE_CAM_EYESIS4PI_RECLEN];
+        lp_Byte_t lpRec[LP_DEVICE_EYESIS4PI_RECLEN];
 
         /* GPS NMEA sentence buffer */
         lp_Char_t lpSentence[LP_STR_LEN] = LP_STR_INI;
@@ -126,14 +126,14 @@
         lp_Time_t * lpDEVsyn = NULL;
 
         /* Build raw log file paths */
-        lp_path( lpPath, LP_DEVICE_GPS_LS20031, NULL, NULL, NULL, lpDEVlogp );
+        lp_path_dside( lpPath, LP_DEVICE_LS20031, LP_DEVICE_LS20031_LOG_FPGA, lpDEVlogp );
 
         /* Build file paths */
-        lp_path( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "lat", lpDEVlatp );
-        lp_path( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "lon", lpDEVlonp );
-        lp_path( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "alt", lpDEValtp );
-        lp_path( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "qbf", lpDEVqbfp );
-        lp_path( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "syn", lpDEVsynp );
+        lp_path_stream( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "lat", lpDEVlatp );
+        lp_path_stream( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "lon", lpDEVlonp );
+        lp_path_stream( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "alt", lpDEValtp );
+        lp_path_stream( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "qbf", lpDEVqbfp );
+        lp_path_stream( lpPath, LP_GPS_MODULE_DSIDE_DEV, lpDevice.dvTag, LP_GPS_MODULE_DSIDE_MOD, "syn", lpDEVsynp );
 
         /* Open file streams */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );
@@ -160,16 +160,16 @@
             while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpDevice.dvBlock ) ) {
 
                 /* Read FPGA record */
-                lpReaded = fread( lpRec, 1, LP_DEVICE_CAM_EYESIS4PI_RECLEN, lpDEVlogf );
+                lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf );
 
                 /* Verify FPGA record reading */
-                if ( lpReaded == LP_DEVICE_CAM_EYESIS4PI_RECLEN ) {
+                if ( lpReaded == LP_DEVICE_EYESIS4PI_RECLEN ) {
 
                     /* GPS signal filter */
-                    if ( ( lpRec[3] & lp_Byte_s( 0x0F ) ) == LP_DEVICE_CAM_EYESIS4PI_GPSEVT ) {
+                    if ( ( lpRec[3] & lp_Byte_s( 0x0F ) ) == LP_DEVICE_EYESIS4PI_GPSEVT ) {
 
                         /* Read GPS NMEA sentence and retrieve type */
-                        lpSentenceType = lp_nmea_sentence( lpRec + lp_Size_s( 8 ), ( LP_DEVICE_CAM_EYESIS4PI_RECLEN - lp_Size_s( 8 ) ) << 1, lpSentence );
+                        lpSentenceType = lp_nmea_sentence( lpRec + lp_Size_s( 8 ), ( LP_DEVICE_EYESIS4PI_RECLEN - lp_Size_s( 8 ) ) << 1, lpSentence );
 
                         /* GPS NMEA GGA sentence filter */
                         if ( lpSentenceType == LP_NMEA_IDENT_GGA ) {
