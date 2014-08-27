@@ -94,11 +94,12 @@
 
     /*! \brief IMU signal extraction switch
      *  
-     *  Switch on device-specific initial data extractor.
+     *  Switch on device-specific extractor. On the base of the descriptor
+     *  given as parameter, the device-specific extractor is called.
      *
-     *  \param lpPath Path to CSPS structure
-     *  \param lpDevice Device descriptor structure
-     *  \return Returns lpDevice structure
+     *  \param lpPath Path CSPS structure
+     *  \param lpDevice Device descriptor
+     *  \return Returns device descriptor
      */
 
     lp_IMU lp_imu_mod_DSIDE(
@@ -110,11 +111,11 @@
 
     /*! \brief ADIS16375 IMU specific initial data extractor
      *
-     *  ADIS16375 IMU specific initial data extraction procedure.
+     *  ADIS16375 IMU device specific extraction sub-module.
      *
-     *  \param lpPath Path to CSPS structure
-     *  \param lpDevice Device descriptor structure
-     *  \return Returns lpDevice structure
+     *  \param lpPath Path CSPS structure
+     *  \param lpDevice Device descriptor
+     *  \return Returns device descriptor
      */
 
     lp_IMU lp_imu_DSIDE_ADIS16375(

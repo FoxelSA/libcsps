@@ -44,7 +44,7 @@
     # include "csps-imu-mod-DSIDE.h"
 
 /*
-    Source - IMU data extractor module
+    Source - IMU device extractor module
  */
 
     lp_IMU lp_imu_mod_DSIDE( 
@@ -70,7 +70,7 @@
     }
 
 /*
-    Source - IMU ADIS16375 specific extractor
+    Source - ADIS16375 IMU specific extractor
  */
 
     lp_IMU lp_imu_DSIDE_ADIS16375( 
@@ -80,73 +80,73 @@
 
     ) {
 
-        /* FPGA record buffer */
+        /* FPGA record buffer variables */
         lp_Byte_t lpRec[LP_DEVICE_EYESIS4PI_RECLEN];
 
         /* Reading variables */
         lp_Enum_t lpReading = LP_TRUE;
-        lp_Size_t lpIndex = lp_Size_s( 0 );
-        lp_Size_t lpReaded = lp_Size_s( 0 );
+        lp_Size_t lpIndex   = lp_Size_s( 0 );
+        lp_Size_t lpReaded  = lp_Size_s( 0 );
 
-        /* Paths string buffer */
+        /* Paths stream path variables */
         lp_Char_t lpDEVlogp[LP_STR_LEN] = LP_STR_INI;
-        lp_Char_t lpDEVgrxp[LP_STR_LEN] = LP_STR_INI;
-        lp_Char_t lpDEVgryp[LP_STR_LEN] = LP_STR_INI;
-        lp_Char_t lpDEVgrzp[LP_STR_LEN] = LP_STR_INI;
-        lp_Char_t lpDEVacxp[LP_STR_LEN] = LP_STR_INI;
-        lp_Char_t lpDEVacyp[LP_STR_LEN] = LP_STR_INI;
-        lp_Char_t lpDEVaczp[LP_STR_LEN] = LP_STR_INI;
-        lp_Char_t lpDEVsynp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpIMUgrxp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpIMUgryp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpIMUgrzp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpIMUacxp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpIMUacyp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpIMUaczp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpIMUsynp[LP_STR_LEN] = LP_STR_INI;
 
-        /* Stream handles */
+        /* Stream file variables */
         lp_File_t lpDEVlogf = NULL;
-        lp_File_t lpDEVgrxf = NULL;
-        lp_File_t lpDEVgryf = NULL;
-        lp_File_t lpDEVgrzf = NULL;
-        lp_File_t lpDEVacxf = NULL;
-        lp_File_t lpDEVacyf = NULL;
-        lp_File_t lpDEVaczf = NULL;
-        lp_File_t lpDEVsynf = NULL;
+        lp_File_t lpIMUgrxf = NULL;
+        lp_File_t lpIMUgryf = NULL;
+        lp_File_t lpIMUgrzf = NULL;
+        lp_File_t lpIMUacxf = NULL;
+        lp_File_t lpIMUacyf = NULL;
+        lp_File_t lpIMUaczf = NULL;
+        lp_File_t lpIMUsynf = NULL;
 
-        /* Data buffers */
-        lp_Real_t * lpDEVgrx = NULL;
-        lp_Real_t * lpDEVgry = NULL;
-        lp_Real_t * lpDEVgrz = NULL;
-        lp_Real_t * lpDEVacx = NULL;
-        lp_Real_t * lpDEVacy = NULL;
-        lp_Real_t * lpDEVacz = NULL;
-        lp_Time_t * lpDEVsyn = NULL;
+        /* Stream memory variables */
+        lp_Real_t * lpIMUgrx = NULL;
+        lp_Real_t * lpIMUgry = NULL;
+        lp_Real_t * lpIMUgrz = NULL;
+        lp_Real_t * lpIMUacx = NULL;
+        lp_Real_t * lpIMUacy = NULL;
+        lp_Real_t * lpIMUacz = NULL;
+        lp_Time_t * lpIMUsyn = NULL;
 
-        /* Build raw log file paths */
+        /* Build device log file paths */
         lp_path_dside( lpPath, LP_DEVICE_ADIS16375, LP_DEVICE_ADIS16375_LOG_FPGA, lpDEVlogp );
 
-        /* Build file paths */
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRX, lpDEVgrxp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRY, lpDEVgryp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRZ, lpDEVgrzp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACX, lpDEVacxp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACY, lpDEVacyp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACZ, lpDEVaczp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_SYN, lpDEVsynp );
+        /* Build stream file paths */
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRX, lpIMUgrxp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRY, lpIMUgryp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRZ, lpIMUgrzp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACX, lpIMUacxp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACY, lpIMUacyp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACZ, lpIMUaczp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_SYN, lpIMUsynp );
 
-        /* Open file streams */
+        /* Open stream files */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );
-        lpDEVgrxf = fopen( lpDEVgrxp, "wb" );
-        lpDEVgryf = fopen( lpDEVgryp, "wb" );
-        lpDEVgrzf = fopen( lpDEVgrzp, "wb" );
-        lpDEVacxf = fopen( lpDEVacxp, "wb" );
-        lpDEVacyf = fopen( lpDEVacyp, "wb" );
-        lpDEVaczf = fopen( lpDEVaczp, "wb" );
-        lpDEVsynf = fopen( lpDEVsynp, "wb" );
+        lpIMUgrxf = fopen( lpIMUgrxp, "wb" );
+        lpIMUgryf = fopen( lpIMUgryp, "wb" );
+        lpIMUgrzf = fopen( lpIMUgrzp, "wb" );
+        lpIMUacxf = fopen( lpIMUacxp, "wb" );
+        lpIMUacyf = fopen( lpIMUacyp, "wb" );
+        lpIMUaczf = fopen( lpIMUaczp, "wb" );
+        lpIMUsynf = fopen( lpIMUsynp, "wb" );
 
-        /* Allocate buffer memory */
-        lpDEVgrx = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpDEVgry = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpDEVgrz = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpDEVacx = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpDEVacy = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpDEVacz = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpDEVsyn = ( lp_Time_t * ) malloc( sizeof( lp_Time_t ) * lpDevice.dvBlock );
+        /* Allocate stream memory */
+        lpIMUgrx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpIMUgry = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpIMUgrz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpIMUacx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpIMUacy = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpIMUacz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpIMUsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpDevice.dvBlock );
 
         /* FPGA records reading loop */
         while ( lpReading == LP_TRUE ) {
@@ -154,28 +154,25 @@
             /* Reset reading index */
             lpIndex = lp_Size_s( 0 );
 
-            /* Reading of FPGA record by group */
+            /* Reading of FPGA record by block */
             while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpDevice.dvBlock ) ) {
 
-                /* Read FPGA record */
-                lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf );
-
                 /* Verify FPGA record reading */
-                if ( lpReaded == LP_DEVICE_EYESIS4PI_RECLEN ) {
+                if ( ( lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf ) ) == LP_DEVICE_EYESIS4PI_RECLEN ) {
 
                     /* IMU signal filter */
                     if ( ( lpRec[3] & lp_Byte_s( 0x0F ) ) == LP_DEVICE_EYESIS4PI_IMUEVT ) {
 
                         /* Assign readed data */
-                        lpDEVgrx[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[2] ) * lpDevice.dvGYRx;
-                        lpDEVgry[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[3] ) * lpDevice.dvGYRy;
-                        lpDEVgrz[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[4] ) * lpDevice.dvGYRz;
-                        lpDEVacx[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[5] ) * lpDevice.dvACCx;
-                        lpDEVacy[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[6] ) * lpDevice.dvACCy;
-                        lpDEVacz[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[7] ) * lpDevice.dvACCz;
+                        lpIMUgrx[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[2] ) * lpDevice.dvGYRx;
+                        lpIMUgry[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[3] ) * lpDevice.dvGYRy;
+                        lpIMUgrz[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[4] ) * lpDevice.dvGYRz;
+                        lpIMUacx[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[5] ) * lpDevice.dvACCx;
+                        lpIMUacy[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[6] ) * lpDevice.dvACCy;
+                        lpIMUacz[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[7] ) * lpDevice.dvACCz;
 
                         /* Retrieve FPGA timestamp */
-                        lpDEVsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
+                        lpIMUsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
 
                         /* Update reading index */
                         lpIndex += lp_Size_s( 1 );
@@ -195,36 +192,36 @@
             if ( lpIndex > lp_Size_s( 0 ) ) {
 
                 /* Export block in output streams */
-                fwrite( lpDEVgrx, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVgrxf );
-                fwrite( lpDEVgry, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVgryf );
-                fwrite( lpDEVgrz, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVgrzf );
-                fwrite( lpDEVacx, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVacxf );
-                fwrite( lpDEVacy, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVacyf );
-                fwrite( lpDEVacz, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVaczf );
-                fwrite( lpDEVsyn, sizeof( lp_Time_t ) * lpIndex, 1, lpDEVsynf );
+                fwrite( lpIMUgrx, sizeof( lp_Real_t ) * lpIndex, 1, lpIMUgrxf );
+                fwrite( lpIMUgry, sizeof( lp_Real_t ) * lpIndex, 1, lpIMUgryf );
+                fwrite( lpIMUgrz, sizeof( lp_Real_t ) * lpIndex, 1, lpIMUgrzf );
+                fwrite( lpIMUacx, sizeof( lp_Real_t ) * lpIndex, 1, lpIMUacxf );
+                fwrite( lpIMUacy, sizeof( lp_Real_t ) * lpIndex, 1, lpIMUacyf );
+                fwrite( lpIMUacz, sizeof( lp_Real_t ) * lpIndex, 1, lpIMUaczf );
+                fwrite( lpIMUsyn, sizeof( lp_Time_t ) * lpIndex, 1, lpIMUsynf );
 
             }
 
         }
 
-        /* Close file stream */
+        /* Close stream files */
         fclose( lpDEVlogf );
-        fclose( lpDEVgrxf );
-        fclose( lpDEVgryf );
-        fclose( lpDEVgrzf );
-        fclose( lpDEVacxf );
-        fclose( lpDEVacyf );
-        fclose( lpDEVaczf );
-        fclose( lpDEVsynf );
+        fclose( lpIMUgrxf );
+        fclose( lpIMUgryf );
+        fclose( lpIMUgrzf );
+        fclose( lpIMUacxf );
+        fclose( lpIMUacyf );
+        fclose( lpIMUaczf );
+        fclose( lpIMUsynf );
 
-        /* Unallocate buffer memory */
-        free( lpDEVgrx );
-        free( lpDEVgry );
-        free( lpDEVgrz );
-        free( lpDEVacx );
-        free( lpDEVacy );
-        free( lpDEVacz );
-        free( lpDEVsyn );
+        /* Unallocate stream memory */
+        lpIMUgrx = lp_stream_delete( lpIMUgrx );
+        lpIMUgry = lp_stream_delete( lpIMUgry );
+        lpIMUgrz = lp_stream_delete( lpIMUgrz );
+        lpIMUacx = lp_stream_delete( lpIMUacx );
+        lpIMUacy = lp_stream_delete( lpIMUacy );
+        lpIMUacz = lp_stream_delete( lpIMUacz );
+        lpIMUsyn = lp_stream_delete( lpIMUsyn );
 
         /* Return device descriptor */
         return( lpDevice );

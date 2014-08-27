@@ -44,7 +44,7 @@
     # include "csps-gps-mod-DSIDE.h"
 
 /*
-    Source - GPS data extractor module
+    Source - GPS device extractor module
  */
 
     lp_GPS lp_gps_mod_DSIDE( 
@@ -57,7 +57,7 @@
         /* Select device */
         if ( strcmp( lpDevice.dvName, LP_DEVICE_LS20031 ) == 0 ) {
 
-            /* ADIS16375 specific process */
+            /* LS20031 specific process */
             return ( lp_gps_DSIDE_LS20031( lpPath, lpDevice ) );
 
         } else {
@@ -70,7 +70,7 @@
     }
 
 /*
-    Source - GPS LS20031 specific extractor
+    Source - LS20031 GPS specific extractor
  */
 
     lp_GPS lp_gps_DSIDE_LS20031( 
@@ -102,7 +102,7 @@
         /* FPGA GPS event logger microsecond rebuilding variables */
         lp_Size_t lpModShift = lp_Size_s( 0 );
 
-        /* Paths stream path variables */
+        /* Stream path variables */
         lp_Char_t lpDEVlogp[LP_STR_LEN] = LP_STR_INI;
         lp_Char_t lpGPSlatp[LP_STR_LEN] = LP_STR_INI;
         lp_Char_t lpGPSlonp[LP_STR_LEN] = LP_STR_INI;
@@ -118,7 +118,7 @@
         lp_File_t lpGPSqbff = LP_NULL;
         lp_File_t lpGPSsynf = LP_NULL;
 
-        /* Data stream memory variables */
+        /* Stream memory variables */
         lp_Real_t * lpGPSlat = LP_NULL;
         lp_Real_t * lpGPSlon = LP_NULL;
         lp_Real_t * lpGPSalt = LP_NULL;
@@ -272,7 +272,7 @@
 
         }
 
-        /* Close file stream */
+        /* Close stream files */
         fclose( lpDEVlogf );
         fclose( lpGPSlatf );
         fclose( lpGPSlonf );

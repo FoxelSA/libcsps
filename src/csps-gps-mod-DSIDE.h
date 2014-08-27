@@ -95,11 +95,12 @@
 
     /*! \brief GPS signal extraction switch
      *  
-     *  Switch on device-specific initial data extractor.
+     *  Switch on device-specific extractor. On the base of the descriptor
+     *  given as parameter, the device-specific extractor is called.
      *
-     *  \param lpPath Path to CSPS structure
-     *  \param lpDevice Device descriptor structure
-     *  \return Returns lpDevice structure
+     *  \param lpPath Path CSPS structure
+     *  \param lpDevice Device descriptor
+     *  \return Returns device descriptor
      */
 
     lp_GPS lp_gps_mod_DSIDE(
@@ -111,11 +112,11 @@
 
     /*! \brief LS20031 GPS specific initial data extractor
      *
-     *  LS20031 GPS specific initial data extraction procedure.
+     *  LS20031 GPS device specific extraction sub-module.
      *
-     *  \param lpPath Path to CSPS structure
-     *  \param lpDevice Device descriptor structure
-     *  \return Returns lpDevice structure
+     *  \param lpPath Path CSPS structure
+     *  \param lpDevice Device descriptor
+     *  \return Returns device descriptor
      */
 
     lp_GPS lp_gps_DSIDE_LS20031(
