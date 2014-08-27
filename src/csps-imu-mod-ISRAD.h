@@ -72,8 +72,8 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_ISRAD__MOD "mod-ISRAD"
-    # define LP_IMU_ISRAD__DES "Inertial Still Range Automatic Detection"
+    # define LP_IMU_ISRAD_MOD "mod-ISRAD"
+    # define LP_IMU_ISRAD_DES "Inertial Still Range Automatic Detection"
 
 /*
     Header - Preprocessor macros

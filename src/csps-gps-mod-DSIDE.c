@@ -122,7 +122,7 @@
         lp_Real_t * lpGPSlat = LP_NULL;
         lp_Real_t * lpGPSlon = LP_NULL;
         lp_Real_t * lpGPSalt = LP_NULL;
-        lp_Time_t * lpGPSqbf = LP_NULL;
+        lp_SQBF_t * lpGPSqbf = LP_NULL;
         lp_Time_t * lpGPSsyn = LP_NULL;
 
         /* Build device log file paths */
@@ -147,7 +147,7 @@
         lpGPSlat = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
         lpGPSlon = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
         lpGPSalt = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpGPSqbf = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpDevice.dvBlock );
+        lpGPSqbf = ( lp_Time_t * ) lp_stream_create( sizeof( lp_SQBF_t ) * lpDevice.dvBlock );
         lpGPSsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpDevice.dvBlock );
 
         /* FPGA records reading loop */
@@ -265,7 +265,7 @@
                 fwrite( lpGPSlat, sizeof( lp_Real_t ) * lpIndex, 1, lpGPSlatf );
                 fwrite( lpGPSlon, sizeof( lp_Real_t ) * lpIndex, 1, lpGPSlonf );
                 fwrite( lpGPSalt, sizeof( lp_Real_t ) * lpIndex, 1, lpGPSaltf );
-                fwrite( lpGPSqbf, sizeof( lp_Time_t ) * lpIndex, 1, lpGPSqbff );
+                fwrite( lpGPSqbf, sizeof( lp_SQBF_t ) * lpIndex, 1, lpGPSqbff );
                 fwrite( lpGPSsyn, sizeof( lp_Time_t ) * lpIndex, 1, lpGPSsynf );
 
             }

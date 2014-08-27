@@ -72,6 +72,9 @@
     /* Define stream component - Shot time */
     # define LP_STREAM_CPN_SHO      "sho"
 
+    /* Define stream component - Tag */
+    # define LP_STREAM_CPN_TAG      "tag"
+
     /* Define stream component - GPS measure */
     # define LP_STREAM_CPN_LAT      "lat"
     # define LP_STREAM_CPN_LON      "lon"

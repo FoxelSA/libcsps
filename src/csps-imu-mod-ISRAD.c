@@ -77,36 +77,40 @@
         lp_Size_t lpAccumIDX = lp_Size_s( 0 );
 
         /* Stream memory variables */
-        lp_Real_t * lpDEVgrx = LP_NULL;
-        lp_Real_t * lpDEVgry = LP_NULL;
-        lp_Real_t * lpDEVgrz = LP_NULL;
-        lp_Real_t * lpDEVacx = LP_NULL;
-        lp_Real_t * lpDEVacy = LP_NULL;
-        lp_Real_t * lpDEVacz = LP_NULL;
-        lp_Time_t * lpDEVsyn = LP_NULL;
+        lp_Real_t * lpIMUgrx = LP_NULL;
+        lp_Real_t * lpIMUgry = LP_NULL;
+        lp_Real_t * lpIMUgrz = LP_NULL;
+        lp_Real_t * lpIMUacx = LP_NULL;
+        lp_Real_t * lpIMUacy = LP_NULL;
+        lp_Real_t * lpIMUacz = LP_NULL;
+        lp_Time_t * lpIMUtag = LP_NULL;
+        lp_Time_t * lpIMUsyn = LP_NULL;
 
         /* Obtain stream size */
         lpSize = lp_stream_size( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod );
 
         /* Read streams */
-        lpDEVgrx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
-        lpDEVgry = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
-        lpDEVacx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
-        lpDEVacy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
-        lpDEVacz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
-        lpDEVsyn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+        lpIMUgrx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUgry = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUgrz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUsyn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+
+        /* Create streams */
+        lpIMUtag = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpSize );
 
         /* Inertial still range automatic detection */
         for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize ; lpParse ++ ) {
 
             /* Update accumulators */
-            lpAccumGRX += lpDEVgrx[lpParse];
-            lpAccumGRY += lpDEVgry[lpParse];
-            lpAccumGRZ += lpDEVgrz[lpParse];
-            lpAccumACX += lpDEVacx[lpParse];
-            lpAccumACY += lpDEVacy[lpParse];
-            lpAccumACZ += lpDEVacz[lpParse];
+            lpAccumGRX += lpIMUgrx[lpParse];
+            lpAccumGRY += lpIMUgry[lpParse];
+            lpAccumGRZ += lpIMUgrz[lpParse];
+            lpAccumACX += lpIMUacx[lpParse];
+            lpAccumACY += lpIMUacy[lpParse];
+            lpAccumACZ += lpIMUacz[lpParse];
 
             /* Update accumulators index */
             lpAccumIDX ++; 
@@ -114,12 +118,12 @@
             /* Apply detection condition */
             if ( ( lpParse + 1 == lpSize ) || (
 
-                ( abs( lpDEVgrx[lpParse] - ( lpAccumGRX / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
-                ( abs( lpDEVgry[lpParse] - ( lpAccumGRY / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
-                ( abs( lpDEVgrz[lpParse] - ( lpAccumGRZ / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
-                ( abs( lpDEVacx[lpParse] - ( lpAccumACX / lp_Real_c( lpAccumIDX ) ) ) > 0.50 ) ||
-                ( abs( lpDEVacy[lpParse] - ( lpAccumACY / lp_Real_c( lpAccumIDX ) ) ) > 0.50 ) ||
-                ( abs( lpDEVacz[lpParse] - ( lpAccumACZ / lp_Real_c( lpAccumIDX ) ) ) > 0.50 )
+                ( abs( lpIMUgrx[lpParse] - ( lpAccumGRX / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
+                ( abs( lpIMUgry[lpParse] - ( lpAccumGRY / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
+                ( abs( lpIMUgrz[lpParse] - ( lpAccumGRZ / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
+                ( abs( lpIMUacx[lpParse] - ( lpAccumACX / lp_Real_c( lpAccumIDX ) ) ) > 0.50 ) ||
+                ( abs( lpIMUacy[lpParse] - ( lpAccumACY / lp_Real_c( lpAccumIDX ) ) ) > 0.50 ) ||
+                ( abs( lpIMUacz[lpParse] - ( lpAccumACZ / lp_Real_c( lpAccumIDX ) ) ) > 0.50 )
 
             ) ) {
 
@@ -130,8 +134,8 @@
                     if ( ( lpParse - lp_Size_s( 1 ) - lpBound ) > lpWidth ) {
 
                         /* Assign range boundaries */
-                        lpIMU.dvMin = lpDEVsyn[lpBound];
-                        lpIMU.dvMax = lpDEVsyn[lpParse - 1];
+                        lpIMU.dvMin = lpIMUsyn[lpBound];
+                        lpIMU.dvMax = lpIMUsyn[lpParse - 1];
 
                         /* Assign selected range width */
                         lpWidth = lpParse - lp_Size_s( 1 ) - lpBound;
@@ -158,14 +162,17 @@
 
         }
 
+        /* Write streams */
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_ISRAD_MOD, LP_STREAM_CPN_TAG, lpIMUtag, sizeof( lp_Time_t ) * lpSize );
+
         /* Unallocate streams memory */
-        lpDEVgrx = lp_stream_delete( lpDEVgrx );
-        lpDEVgry = lp_stream_delete( lpDEVgry );
-        lpDEVgrz = lp_stream_delete( lpDEVgrz );
-        lpDEVacx = lp_stream_delete( lpDEVacx );
-        lpDEVacy = lp_stream_delete( lpDEVacy );
-        lpDEVacz = lp_stream_delete( lpDEVacz );
-        lpDEVsyn = lp_stream_delete( lpDEVsyn );
+        lpIMUgrx = lp_stream_delete( lpIMUgrx );
+        lpIMUgry = lp_stream_delete( lpIMUgry );
+        lpIMUgrz = lp_stream_delete( lpIMUgrz );
+        lpIMUacx = lp_stream_delete( lpIMUacx );
+        lpIMUacy = lp_stream_delete( lpIMUacy );
+        lpIMUacz = lp_stream_delete( lpIMUacz );
+        lpIMUsyn = lp_stream_delete( lpIMUsyn );
 
         /* Return device descriptor */
         return( lpIMU );
