@@ -92,43 +92,22 @@
     Header - Function prototypes
  */
 
-    /*! \brief IMU signal denoising
+    /*! \brief IMU signal denosing
      *  
-     *  Denoise the signals comming from the IMU device. The implemented
+     *  Denoise the signals coming from the IMU device. The implemented
      *  algorithm is currently the total variation with iterative clipping.
      *  
-     *  \param lpPath Path to CSPS structure
-     *  \param lpDevice IMU device descriptor
-     *  \param lpPS__ Acceleration and gyroscopic module name
-     *  \return Return lpDevice structure
+     *  \param lpPath  Path CSPS structure
+     *  \param lpIMU IMU device descriptor
+     *  \param lpIMUmod IMU related input stream
+     *  \return Return IMU device descriptor
      */
 
     lp_IMU lp_imu_mod_SGNDN(
 
-        const lp_Char_t * const lpPath,
-        lp_IMU                  lpDevice,
-        const lp_Char_t * const lpPS__
-
-    );
-
-    /*! \brief Total variation with iterative clipping denoising
-     *  
-     *  Perform a total variation with iterative clipping densoing
-     *  on the input data.
-     *  
-     *  \param lpSignal Pointer to signal data
-     *  \param lpSize Size of the signal, in type units
-     *  \param lpRegulation Total variation regularity (smoothing) parameter
-     *  \param lpIteration Number of iterations
-     *  \return Returns an allocated buffer that stores denoised signal
-     */
-
-    lp_Real_t * lp_imu_mod_SGNDNtvic(
-
-        const lp_Real_t * const lpSignal,
-        lp_Size_t               lpSize,
-        lp_Size_t               lpRegularity,
-        lp_Size_t               lpIteration
+        const lp_Char_t * const lpPath, 
+        lp_IMU                  lpIMU, 
+        const lp_Char_t * const lpIMUmod
 
     );
 

@@ -44,69 +44,69 @@
     # include "csps-imu-mod-SGNDN.h"
 
 /*
-    Source - Total variation denoising with iterative clipping IMU signal denoising
+    Source - IMU signal denosing
  */
 
     lp_IMU lp_imu_mod_SGNDN( 
 
         const lp_Char_t * const lpPath, 
-        lp_IMU                  lpDevice, 
-        const lp_Char_t * const lpPS__ 
+        lp_IMU                  lpIMU, 
+        const lp_Char_t * const lpIMUmod
 
     ) {
         
-        /* Files size */
+        /* Stream size variables */
         lp_Size_t lpSize = lp_Size_s( 0 );
 
-        /* Data buffers */
-        lp_Real_t * lpDEVgrx = NULL;
-        lp_Real_t * lpDEVgry = NULL;
-        lp_Real_t * lpDEVgrz = NULL;
-        lp_Real_t * lpDEVacx = NULL;
-        lp_Real_t * lpDEVacy = NULL;
-        lp_Real_t * lpDEVacz = NULL;
-        lp_Time_t * lpDEVsyn = NULL;
+        /* Stream memory variables */
+        lp_Real_t * lpIMUgrx = LP_NULL;
+        lp_Real_t * lpIMUgry = LP_NULL;
+        lp_Real_t * lpIMUgrz = LP_NULL;
+        lp_Real_t * lpIMUacx = LP_NULL;
+        lp_Real_t * lpIMUacy = LP_NULL;
+        lp_Real_t * lpIMUacz = LP_NULL;
+        lp_Time_t * lpIMUsyn = LP_NULL;
 
-        /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__ );
+        /* Stream size */
+        lpSize = lp_stream_size( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod );
 
         /* Read streams data */
-        lpDEVgrx = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
-        lpDEVgry = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrz = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
-        lpDEVacx = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
-        lpDEVacy = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
-        lpDEVacz = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
-        lpDEVsyn = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+        lpIMUgrx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUgry = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUgrz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUsyn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
-        /* Denoising procedure */
-        lp_noise_tvic( lpDEVgrx, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
-        lp_noise_tvic( lpDEVgry, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
-        lp_noise_tvic( lpDEVgrz, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
-        lp_noise_tvic( lpDEVacx, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
-        lp_noise_tvic( lpDEVacy, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
-        lp_noise_tvic( lpDEVacz, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
+        /* Denoising procedure - Total variation with iterative clipping */
+        lp_noise_tvic( lpIMUgrx, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
+        lp_noise_tvic( lpIMUgry, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
+        lp_noise_tvic( lpIMUgrz, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
+        lp_noise_tvic( lpIMUacx, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
+        lp_noise_tvic( lpIMUacy, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
+        lp_noise_tvic( lpIMUacz, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
 
-        /* Write stream data */
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRX, lpDEVgrx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRY, lpDEVgry, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRZ, lpDEVgrz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACX, lpDEVacx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACY, lpDEVacy, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACZ, lpDEVacz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_SYN, lpDEVsyn, sizeof( lp_Time_t ) * lpSize );
+        /* Write streams */
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRX, lpIMUgrx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRY, lpIMUgry, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRZ, lpIMUgrz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACX, lpIMUacx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACY, lpIMUacy, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACZ, lpIMUacz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_SYN, lpIMUsyn, sizeof( lp_Time_t ) * lpSize );
 
-        /* Unallocate buffer memory */
-        free( lpDEVgrx );
-        free( lpDEVgry );
-        free( lpDEVgrz );
-        free( lpDEVacx );
-        free( lpDEVacy );
-        free( lpDEVacz );
-        free( lpDEVsyn );
+        /* Unallocate streams memory */
+        lpIMUgrx = lp_stream_delete( lpIMUgrx );
+        lpIMUgry = lp_stream_delete( lpIMUgry );
+        lpIMUgrz = lp_stream_delete( lpIMUgrz );
+        lpIMUacx = lp_stream_delete( lpIMUacx );
+        lpIMUacy = lp_stream_delete( lpIMUacy );
+        lpIMUacz = lp_stream_delete( lpIMUacz );
+        lpIMUsyn = lp_stream_delete( lpIMUsyn );
 
         /* Return device descriptor */
-        return( lpDevice );
+        return( lpIMU );
 
     }
 

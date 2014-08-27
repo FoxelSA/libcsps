@@ -131,7 +131,7 @@
 
         }
 
-        /* Write stream data */
+        /* Write streams */
         lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_GRX, lpIMUgrx, sizeof( lp_Real_t ) * lpShift );
         lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_GRY, lpIMUgry, sizeof( lp_Real_t ) * lpShift );
         lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_GRZ, lpIMUgrz, sizeof( lp_Real_t ) * lpShift );
@@ -140,7 +140,7 @@
         lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_ACZ, lpIMUacz, sizeof( lp_Real_t ) * lpShift );
         lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_SYN, lpIMUsyn, sizeof( lp_Time_t ) * lpShift );
 
-        /* Unallocate buffer memory */
+        /* Unallocate streams memory */
         lpIMUgrx = lp_stream_delete( lpIMUgrx );
         lpIMUgry = lp_stream_delete( lpIMUgry );
         lpIMUgrz = lp_stream_delete( lpIMUgrz );
