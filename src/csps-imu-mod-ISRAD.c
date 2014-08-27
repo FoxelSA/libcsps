@@ -101,6 +101,9 @@
         /* Create streams */
         lpIMUtag = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpSize );
 
+        /* Stream initial clear */
+        lp_stream_clear( lpIMUtag, sizeof( lp_Time_t ) * lpSize );
+
         /* Inertial still range automatic detection */
         for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize ; lpParse ++ ) {
 
@@ -116,7 +119,7 @@
             lpAccumIDX ++; 
 
             /* Apply detection condition */
-            if ( ( lpParse + 1 == lpSize ) || (
+            if ( ( lpParse + lp_Size_s( 1 ) == lpSize ) || (
 
                 ( abs( lpIMUgrx[lpParse] - ( lpAccumGRX / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
                 ( abs( lpIMUgry[lpParse] - ( lpAccumGRY / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
@@ -128,7 +131,7 @@
             ) ) {
 
                 /* Check statistical accumulation minimum */
-                if ( ( lpParse - lp_Size_s( 1 ) - lpBound ) > lp_Size_s( 32 ) ) {
+                if ( ( lpParse - lp_Size_s( 1 ) - lpBound ) > lp_Size_s( 32 ) ) {                   
 
                     /* Select maximum width range */
                     if ( ( lpParse - lp_Size_s( 1 ) - lpBound ) > lpWidth ) {
@@ -142,10 +145,15 @@
 
                     }
 
-                }
+                    /* Assign still range tags */
+                    for ( ; lpBound < lpParse; lpBound ++ ) lpIMUtag[lpBound] = LP_TRUE;
 
-                /* Reset search boundary */
-                lpBound = lpParse;
+                } else {
+
+                    /* Reset search boundary */
+                    lpBound = lpParse;
+
+                }
 
                 /* Reset accumulators */
                 lpAccumGRX = lp_Real_s( 0.0 );
@@ -172,6 +180,7 @@
         lpIMUacx = lp_stream_delete( lpIMUacx );
         lpIMUacy = lp_stream_delete( lpIMUacy );
         lpIMUacz = lp_stream_delete( lpIMUacz );
+        lpIMUtag = lp_stream_delete( lpIMUtag );
         lpIMUsyn = lp_stream_delete( lpIMUsyn );
 
         /* Return device descriptor */

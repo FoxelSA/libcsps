@@ -137,6 +137,21 @@
 
     /*! \brief Stream basic manipulation
      *  
+     *  Initialize stream value to zero.
+     * 
+     *  \param lpStream Pointer to stream component to initialized
+     *  \param lpSize Size, in bytes, of the component size to initialized
+     */
+
+    lp_Void_t lp_stream_clear(
+
+        lp_Void_t * lpStream,
+        lp_Size_t   lpSize
+
+    );
+
+    /*! \brief Stream basic manipulation
+     *  
      *  Delete a stream component memory allocation.
      * 
      *  \param lpStream Pointer to stream component to unallocate

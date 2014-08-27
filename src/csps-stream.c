@@ -61,6 +61,18 @@
 
     }
 
+    lp_Void_t lp_stream_clear(
+
+        lp_Void_t * lpStream,
+        lp_Size_t   lpSize
+
+    ) {
+
+        /* Clear stream memory to zero */
+        memset( lpStream, ( int ) 0, lpSize );
+
+    }
+
     lp_Void_t * lp_stream_delete(
 
         lp_Void_t * lpStream
