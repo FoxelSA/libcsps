@@ -92,23 +92,22 @@
     Header - Function prototypes
  */
 
-    /*! \brief GPS signal loss component removal module
+    /*! \brief GPS signal quality filtering
      *  
-     *  This module removes GPS measure on the base of the signal quality. The
-     *  output stream contains only measure that have a satisfying quality.
+     *  This module removes GPS measures on the base of the signal quality. The
+     *  output stream contains only measures that have a satisfying quality.
      *  
-     *  \param lpPath Path to the CSPS directory structure
-     *  \param lpDevice GPS device descriptor
-     *  \param lpName GPS device name
-     *  \param CSPS input stream
-     *  \return Returns lpDevice structure
+     *  \param lpPath Path CSPS structure
+     *  \param lpGPS GPS device descriptor
+     *  \param lpGPSmod GPS related input stream name
+     *  \return Returns GPS device descriptor
      */
 
     lp_GPS lp_gps_mod_SGNQF(
 
-        const lp_Char_t * const lpPath,
-        lp_GPS                  lpDevice,
-        const lp_Char_t * const lpPS__
+        const lp_Char_t * const lpPath, 
+        lp_GPS                  lpGPS, 
+        const lp_Char_t * const lpGPSmod 
 
     );
 
