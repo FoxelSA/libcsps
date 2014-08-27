@@ -104,9 +104,6 @@
     Header - Preprocessor definitions
  */
 
-    /* Define debug flag */
-    # define LP_DEBUG
-
     /* Define default truth values */
     # define LP_FALSE           lp_Enum_s( 0 )
     # define LP_TRUE            lp_Enum_s( 1 )
@@ -116,6 +113,9 @@
 
     /* Define default initializer */
     # define LP_STR_INI         { '\0' }
+
+    /* Define default pointer initializer */
+    # define LP_NULL            NULL
 
     /* Declare mathematical constants */
     # define LP_PI              lp_Real_s( 3.14159265358979323846264338327 )

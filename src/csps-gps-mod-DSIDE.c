@@ -80,75 +80,75 @@
 
     ) {
 
-        /* FPGA record buffer */
+        /* FPGA record buffer variables */
         lp_Byte_t lpRec[LP_DEVICE_EYESIS4PI_RECLEN];
 
-        /* GPS NMEA sentence buffer */
+        /* GPS NMEA sentence buffer variables */
         lp_Char_t lpSentence[LP_STR_LEN] = LP_STR_INI;
 
-        /* GPS NMEA sentence type */
+        /* GPS NMEA sentence type variables */
         lp_Enum_t lpSentenceType = lp_Enum_s( 0 );
 
         /* Reading variables */
         lp_Enum_t lpReading = LP_TRUE;
-        lp_Size_t lpIndex = lp_Size_s( 0 );
-        lp_Size_t lpParse = lp_Size_s( 0 );
-        lp_Size_t lpReaded = lp_Size_s( 0 );
+        lp_Size_t lpIndex   = lp_Size_s( 0 );
+        lp_Size_t lpParse   = lp_Size_s( 0 );
+        lp_Size_t lpReaded  = lp_Size_s( 0 );
 
-        /* Timestamp buffer value */
+        /* Timestamp buffer variables */
         lp_Time_t lpTimestamp = lp_Time_s( 0 );
         lp_Time_t lpInitBreak = lp_Time_s( 0 );
 
-        /* FPGA GPS event logger microsecond rebuilding variable */
+        /* FPGA GPS event logger microsecond rebuilding variables */
         lp_Size_t lpModShift = lp_Size_s( 0 );
 
-        /* Paths string buffer */
+        /* Paths stream path variables */
         lp_Char_t lpDEVlogp[LP_STR_LEN] = LP_STR_INI;
-        lp_Char_t lpDEVsynp[LP_STR_LEN] = LP_STR_INI;
-        lp_Char_t lpDEVlatp[LP_STR_LEN] = LP_STR_INI;
-        lp_Char_t lpDEVlonp[LP_STR_LEN] = LP_STR_INI;
-        lp_Char_t lpDEValtp[LP_STR_LEN] = LP_STR_INI;
-        lp_Char_t lpDEVqbfp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpGPSlatp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpGPSlonp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpGPSaltp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpGPSqbfp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpGPSsynp[LP_STR_LEN] = LP_STR_INI;
 
-        /* Stream handles */
-        lp_File_t lpDEVlogf = NULL;
-        lp_File_t lpDEVsynf = NULL;
-        lp_File_t lpDEVlatf = NULL;
-        lp_File_t lpDEVlonf = NULL;
-        lp_File_t lpDEValtf = NULL;
-        lp_File_t lpDEVqbff = NULL;
+        /* Stream stream file variables */
+        lp_File_t lpDEVlogf = LP_NULL;
+        lp_File_t lpGPSlatf = LP_NULL;
+        lp_File_t lpGPSlonf = LP_NULL;
+        lp_File_t lpGPSaltf = LP_NULL;
+        lp_File_t lpGPSqbff = LP_NULL;
+        lp_File_t lpGPSsynf = LP_NULL;
 
-        /* Data buffers */
-        lp_Real_t * lpDEVlat = NULL;
-        lp_Real_t * lpDEVlon = NULL;
-        lp_Real_t * lpDEValt = NULL;
-        lp_Time_t * lpDEVqbf = NULL;
-        lp_Time_t * lpDEVsyn = NULL;
+        /* Data stream memory variables */
+        lp_Real_t * lpGPSlat = LP_NULL;
+        lp_Real_t * lpGPSlon = LP_NULL;
+        lp_Real_t * lpGPSalt = LP_NULL;
+        lp_Time_t * lpGPSqbf = LP_NULL;
+        lp_Time_t * lpGPSsyn = LP_NULL;
 
-        /* Build raw log file paths */
+        /* Build device log file paths */
         lp_path_dside( lpPath, LP_DEVICE_LS20031, LP_DEVICE_LS20031_LOG_FPGA, lpDEVlogp );
 
-        /* Build file paths */
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LAT, lpDEVlatp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LON, lpDEVlonp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_ALT, lpDEValtp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_QBF, lpDEVqbfp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_SYN, lpDEVsynp );
+        /* Build stream file paths */
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LAT, lpGPSlatp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LON, lpGPSlonp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_ALT, lpGPSaltp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_QBF, lpGPSqbfp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_SYN, lpGPSsynp );
 
-        /* Open file streams */
+        /* Open stream files */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );
-        lpDEVlatf = fopen( lpDEVlatp, "wb" );
-        lpDEVlonf = fopen( lpDEVlonp, "wb" );
-        lpDEValtf = fopen( lpDEValtp, "wb" );
-        lpDEVqbff = fopen( lpDEVqbfp, "wb" );
-        lpDEVsynf = fopen( lpDEVsynp, "wb" );
+        lpGPSlatf = fopen( lpGPSlatp, "wb" );
+        lpGPSlonf = fopen( lpGPSlonp, "wb" );
+        lpGPSaltf = fopen( lpGPSaltp, "wb" );
+        lpGPSqbff = fopen( lpGPSqbfp, "wb" );
+        lpGPSsynf = fopen( lpGPSsynp, "wb" );
 
-        /* Allocate buffer memory */
-        lpDEVlat = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpDEVlon = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpDEValt = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpDEVqbf = ( lp_Time_t * ) malloc( sizeof( lp_Time_t ) * lpDevice.dvBlock );
-        lpDEVsyn = ( lp_Time_t * ) malloc( sizeof( lp_Time_t ) * lpDevice.dvBlock );
+        /* Allocate stream memory */
+        lpGPSlat = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpGPSlon = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpGPSalt = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
+        lpGPSqbf = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpDevice.dvBlock );
+        lpGPSsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpDevice.dvBlock );
 
         /* FPGA records reading loop */
         while ( lpReading == LP_TRUE ) {
@@ -156,14 +156,11 @@
             /* Reset reading index */
             lpIndex = lp_Size_s( 0 );
 
-            /* Reading of FPGA record by group */
+            /* Reading of FPGA record by block */
             while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpDevice.dvBlock ) ) {
 
-                /* Read FPGA record */
-                lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf );
-
-                /* Verify FPGA record reading */
-                if ( lpReaded == LP_DEVICE_EYESIS4PI_RECLEN ) {
+                /* Read and verify FPGA record reading */
+                if ( ( lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf ) ) == LP_DEVICE_EYESIS4PI_RECLEN ) {
 
                     /* GPS signal filter */
                     if ( ( lpRec[3] & lp_Byte_s( 0x0F ) ) == LP_DEVICE_EYESIS4PI_GPSEVT ) {
@@ -178,27 +175,27 @@
                             if ( lp_nmea_gga_validate( lpSentence ) == LP_TRUE ) {
 
                                 /* Decompose NMEA GGA sentence */
-                                lp_nmea_gga( lpSentence, NULL,
+                                lp_nmea_gga( lpSentence, LP_NULL,
 
-                                    /* Sending data buffers to decomposer */
-                                    lpDEVlat + lpIndex,
-                                    lpDEVlon + lpIndex,
-                                    lpDEValt + lpIndex,
-                                    lpDEVqbf + lpIndex
+                                    /* Sending data buffers to sentence decomposer */
+                                    lpGPSlat + lpIndex,
+                                    lpGPSlon + lpIndex,
+                                    lpGPSalt + lpIndex,
+                                    lpGPSqbf + lpIndex
 
                                 );
 
-                                /* Check rebuilding mode */
+                                /* Verify FPGA timestamp rebuilding mode */
                                 if ( lpModShift == lp_Size_s( 0 ) ) {
 
                                     /* Rebuild FPGA timestamp based on 1pps trigger */
                                     if ( lpParse == lp_Size_s( 0 ) ) {
 
                                         /* Consider FPGA initial timestamp for first segment reconstruction */
-                                        lpDEVsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
+                                        lpGPSsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
 
                                         /* Memorize initial unix timestamp second */
-                                        lpInitBreak = lp_timestamp_sec( lpDEVsyn[lpIndex] );
+                                        lpInitBreak = lp_timestamp_sec( lpGPSsyn[lpIndex] );
 
                                     } else {
 
@@ -206,12 +203,12 @@
                                         if ( lp_timestamp_sec( lp_timestamp( ( lp_Void_t * ) lpRec ) ) == lpInitBreak ) {
 
                                             /* Build current timestamp based on previous */
-                                            lpDEVsyn[lpIndex] = lp_timestamp_add( lpTimestamp, lp_Time_s( 200000 ) );
+                                            lpGPSsyn[lpIndex] = lp_timestamp_add( lpTimestamp, lp_Time_s( 200000 ) );
 
                                         } else {
 
                                             /* Consider FPGA timestamp for initial reset */
-                                            lpDEVsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
+                                            lpGPSsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
 
                                             /* Set the modular shift parameter */
                                             lpModShift = lpParse;
@@ -222,23 +219,23 @@
 
                                 } else {
 
-                                    /* Verify congurence reset condition */
+                                    /* Verify congruence reset condition */
                                     if ( ( ( lpParse - lpModShift ) % lpDevice.dvifreq ) == 0 ) {
 
                                         /* Consider FPGA timestamp for periodic reset */
-                                        lpDEVsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
+                                        lpGPSsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
 
                                     } else {
 
                                         /* Build current timestamp based on previous */
-                                        lpDEVsyn[lpIndex] = lp_timestamp_add( lpTimestamp, lp_Time_s( 200000 ) );
+                                        lpGPSsyn[lpIndex] = lp_timestamp_add( lpTimestamp, lp_Time_s( 200000 ) );
 
                                     }
 
                                 }
 
                                 /* Memorize current timestemp */
-                                lpTimestamp = lpDEVsyn[lpIndex];
+                                lpTimestamp = lpGPSsyn[lpIndex];
 
                                 /* Update reading index */
                                 lpIndex += lp_Size_s( 1 );
@@ -265,11 +262,11 @@
             if ( lpIndex > lp_Size_s( 0 ) ) {
 
                 /* Export block in output streams */
-                fwrite( lpDEVlat, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVlatf );
-                fwrite( lpDEVlon, sizeof( lp_Real_t ) * lpIndex, 1, lpDEVlonf );
-                fwrite( lpDEValt, sizeof( lp_Real_t ) * lpIndex, 1, lpDEValtf );
-                fwrite( lpDEVqbf, sizeof( lp_Time_t ) * lpIndex, 1, lpDEVqbff );
-                fwrite( lpDEVsyn, sizeof( lp_Time_t ) * lpIndex, 1, lpDEVsynf );
+                fwrite( lpGPSlat, sizeof( lp_Real_t ) * lpIndex, 1, lpGPSlatf );
+                fwrite( lpGPSlon, sizeof( lp_Real_t ) * lpIndex, 1, lpGPSlonf );
+                fwrite( lpGPSalt, sizeof( lp_Real_t ) * lpIndex, 1, lpGPSaltf );
+                fwrite( lpGPSqbf, sizeof( lp_Time_t ) * lpIndex, 1, lpGPSqbff );
+                fwrite( lpGPSsyn, sizeof( lp_Time_t ) * lpIndex, 1, lpGPSsynf );
 
             }
 
@@ -277,18 +274,18 @@
 
         /* Close file stream */
         fclose( lpDEVlogf );
-        fclose( lpDEVlatf );
-        fclose( lpDEVlonf );
-        fclose( lpDEValtf );
-        fclose( lpDEVqbff );
-        fclose( lpDEVsynf );
+        fclose( lpGPSlatf );
+        fclose( lpGPSlonf );
+        fclose( lpGPSaltf );
+        fclose( lpGPSqbff );
+        fclose( lpGPSsynf );
 
-        /* Unallocate buffer memory */
-        free( lpDEVsyn );
-        free( lpDEVlat );
-        free( lpDEVlon );
-        free( lpDEValt );
-        free( lpDEVqbf );
+        /* Unallocate stream memory */
+        lpGPSlat = lp_stream_delete( lpGPSlat );
+        lpGPSlon = lp_stream_delete( lpGPSlon );
+        lpGPSalt = lp_stream_delete( lpGPSalt );
+        lpGPSqbf = lp_stream_delete( lpGPSqbf );
+        lpGPSsyn = lp_stream_delete( lpGPSsyn );
 
         /* Return device descriptor */
         return( lpDevice );
