@@ -110,7 +110,7 @@
 
     );
 
-    /*! \brief LS20031 GPS specific initial data extractor
+    /*! \brief LS20031 GPS specific extractor
      *
      *  LS20031 GPS device specific extraction sub-module.
      *

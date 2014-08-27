@@ -44,7 +44,7 @@
     # include "csps-imu-mod-DSIDE.h"
 
 /*
-    Source - IMU device extractor module
+    Source - IMU signal extraction switch
  */
 
     lp_IMU lp_imu_mod_DSIDE( 

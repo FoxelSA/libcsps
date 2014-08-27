@@ -44,14 +44,14 @@
     # include "csps-imu-mod-SGSFR.h"
 
 /*
-    Source - IMU relative quantities downsampling module
+    Source - IMU signals frequency reduction
  */
 
     lp_IMU lp_imu_mod_SGSFR( 
 
         const lp_Char_t * const lpPath, 
-        lp_IMU                  lpDevice, 
-        const lp_Char_t * const lpPS__ 
+        lp_IMU                  lpIMU, 
+        const lp_Char_t * const lpIMUmod 
 
     ) {
 
@@ -61,34 +61,34 @@
         lp_Size_t lpShift  = lp_Size_s( 0 );
         lp_Size_t lpReduce = lp_Size_s( 0 );
 
-        /* Files size */
+        /* Stream size variables */
         lp_Size_t lpSize = lp_Size_s( 0 );
 
-        /* Data buffers */
-        lp_Real_t * lpDEVgrx = NULL;
-        lp_Real_t * lpDEVgry = NULL;
-        lp_Real_t * lpDEVgrz = NULL;
-        lp_Real_t * lpDEVacx = NULL;
-        lp_Real_t * lpDEVacy = NULL;
-        lp_Real_t * lpDEVacz = NULL;
-        lp_Time_t * lpDEVsyn = NULL;
+        /* Stream memory variables */
+        lp_Real_t * lpIMUgrx = LP_NULL;
+        lp_Real_t * lpIMUgry = LP_NULL;
+        lp_Real_t * lpIMUgrz = LP_NULL;
+        lp_Real_t * lpIMUacx = LP_NULL;
+        lp_Real_t * lpIMUacy = LP_NULL;
+        lp_Real_t * lpIMUacz = LP_NULL;
+        lp_Time_t * lpIMUsyn = LP_NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__ );
+        lpSize = lp_stream_size( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod );
 
-        /* Read streams data */
-        lpDEVgrx = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
-        lpDEVgry = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrz = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
-        lpDEVacx = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
-        lpDEVacy = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
-        lpDEVacz = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
-        lpDEVsyn = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPS__, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+        /* Read streams */
+        lpIMUgrx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUgry = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUgrz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUsyn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
         /* Compute downsampling reduction factor */
-        lpReduce = lpDevice.dvifreq / lpDevice.dvdfreq;
+        lpReduce = lpIMU.dvifreq / lpIMU.dvdfreq;
 
-        /* Set file size to last lpReduce multiple */
+        /* Set file size to last multiple */
         lpSize = ( lpSize / lpReduce ) * lpReduce;
 
         /* Downsampling procedure */
@@ -97,34 +97,34 @@
             /* Downsampling accumulation */
             for ( lpIndex = lp_Size_s( 1 ) ; lpIndex < lpReduce ; lpIndex ++ ) {
 
-                /* Sampling accumulation */
-                lpDEVgrx[lpParse] += lpDEVgrx[lpParse + lpIndex];
-                lpDEVgry[lpParse] += lpDEVgry[lpParse + lpIndex];
-                lpDEVgrz[lpParse] += lpDEVgrz[lpParse + lpIndex];
-                lpDEVacx[lpParse] += lpDEVacx[lpParse + lpIndex];
-                lpDEVacy[lpParse] += lpDEVacy[lpParse + lpIndex];
-                lpDEVacz[lpParse] += lpDEVacz[lpParse + lpIndex];
+                /* Quantities accumulation */
+                lpIMUgrx[lpParse] += lpIMUgrx[lpParse + lpIndex];
+                lpIMUgry[lpParse] += lpIMUgry[lpParse + lpIndex];
+                lpIMUgrz[lpParse] += lpIMUgrz[lpParse + lpIndex];
+                lpIMUacx[lpParse] += lpIMUacx[lpParse + lpIndex];
+                lpIMUacy[lpParse] += lpIMUacy[lpParse + lpIndex];
+                lpIMUacz[lpParse] += lpIMUacz[lpParse + lpIndex];
 
             }
 
             /* Downsampling mean computation */
-            lpDEVgrx[lpParse] /= lpReduce;
-            lpDEVgry[lpParse] /= lpReduce;
-            lpDEVgrz[lpParse] /= lpReduce;
-            lpDEVacx[lpParse] /= lpReduce;
-            lpDEVacy[lpParse] /= lpReduce;
-            lpDEVacz[lpParse] /= lpReduce;
+            lpIMUgrx[lpParse] /= lpReduce;
+            lpIMUgry[lpParse] /= lpReduce;
+            lpIMUgrz[lpParse] /= lpReduce;
+            lpIMUacx[lpParse] /= lpReduce;
+            lpIMUacy[lpParse] /= lpReduce;
+            lpIMUacz[lpParse] /= lpReduce;
 
             /* Downsampling reindexation */
-            lpDEVgrx[lpShift] = lpDEVgrx[lpParse];
-            lpDEVgry[lpShift] = lpDEVgry[lpParse];
-            lpDEVgrz[lpShift] = lpDEVgrz[lpParse];
-            lpDEVacx[lpShift] = lpDEVacx[lpParse];
-            lpDEVacy[lpShift] = lpDEVacy[lpParse];
-            lpDEVacz[lpShift] = lpDEVacz[lpParse];
+            lpIMUgrx[lpShift] = lpIMUgrx[lpParse];
+            lpIMUgry[lpShift] = lpIMUgry[lpParse];
+            lpIMUgrz[lpShift] = lpIMUgrz[lpParse];
+            lpIMUacx[lpShift] = lpIMUacx[lpParse];
+            lpIMUacy[lpShift] = lpIMUacy[lpParse];
+            lpIMUacz[lpShift] = lpIMUacz[lpParse];
 
             /* Timestamp specific downsampling */
-            lpDEVsyn[lpShift++] = lpDEVsyn[lpParse + lpIndex - 1];
+            lpIMUsyn[lpShift++] = lpIMUsyn[lpParse + lpIndex - 1];
 
             /* Update donwsampling parser */
             lpParse += lpReduce;
@@ -132,25 +132,25 @@
         }
 
         /* Write stream data */
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_GRX, lpDEVgrx, sizeof( lp_Real_t ) * lpShift );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_GRY, lpDEVgry, sizeof( lp_Real_t ) * lpShift );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_GRZ, lpDEVgrz, sizeof( lp_Real_t ) * lpShift );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_ACX, lpDEVacx, sizeof( lp_Real_t ) * lpShift );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_ACY, lpDEVacy, sizeof( lp_Real_t ) * lpShift );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_ACZ, lpDEVacz, sizeof( lp_Real_t ) * lpShift );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_SYN, lpDEVsyn, sizeof( lp_Time_t ) * lpShift );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_GRX, lpIMUgrx, sizeof( lp_Real_t ) * lpShift );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_GRY, lpIMUgry, sizeof( lp_Real_t ) * lpShift );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_GRZ, lpIMUgrz, sizeof( lp_Real_t ) * lpShift );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_ACX, lpIMUacx, sizeof( lp_Real_t ) * lpShift );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_ACY, lpIMUacy, sizeof( lp_Real_t ) * lpShift );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_ACZ, lpIMUacz, sizeof( lp_Real_t ) * lpShift );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGSFR_MOD, LP_STREAM_CPN_SYN, lpIMUsyn, sizeof( lp_Time_t ) * lpShift );
 
         /* Unallocate buffer memory */
-        free( lpDEVgrx );
-        free( lpDEVgry );
-        free( lpDEVgrz );
-        free( lpDEVacx );
-        free( lpDEVacy );
-        free( lpDEVacz );
-        free( lpDEVsyn );
+        lpIMUgrx = lp_stream_delete( lpIMUgrx );
+        lpIMUgry = lp_stream_delete( lpIMUgry );
+        lpIMUgrz = lp_stream_delete( lpIMUgrz );
+        lpIMUacx = lp_stream_delete( lpIMUacx );
+        lpIMUacy = lp_stream_delete( lpIMUacy );
+        lpIMUacz = lp_stream_delete( lpIMUacz );
+        lpIMUsyn = lp_stream_delete( lpIMUsyn );
 
         /* Return device descriptor */
-        return( lpDevice );
+        return( lpIMU );
 
     }
 

@@ -109,7 +109,7 @@
 
     );
 
-    /*! \brief ADIS16375 IMU specific initial data extractor
+    /*! \brief ADIS16375 IMU specific extractor
      *
      *  ADIS16375 IMU device specific extraction sub-module.
      *

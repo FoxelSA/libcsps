@@ -93,19 +93,20 @@
 
     /*! \brief IMU signals frequency reduction
      *  
-     *  Reduce the sampling rate of the IMU signals.
+     *  This function reduces the sampling frequency of the acceleration
+     *  and gyroscopic sensor signal.
      *  
-     *  \param lpPath Path to CSPS structure
-     *  \param lpDevice IMU device descriptor
-     *  \param lpPS__ Signals module name
-     *  \return Returns lpDevice structure
+     *  \param lpPath  Path CSPS structure
+     *  \param lpIMU IMU device descriptor
+     *  \param lpIMUmod IMU related input stream
+     *  \return Returns IMU device descriptor
      */
 
     lp_IMU lp_imu_mod_SGSFR(
 
-        const lp_Char_t * const lpPath,
-        lp_IMU                  lpDevice,
-        const lp_Char_t * const lpPS__
+        const lp_Char_t * const lpPath, 
+        lp_IMU                  lpIMU, 
+        const lp_Char_t * const lpIMUmod 
 
     );
 

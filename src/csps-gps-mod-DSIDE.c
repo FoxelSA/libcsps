@@ -44,7 +44,7 @@
     # include "csps-gps-mod-DSIDE.h"
 
 /*
-    Source - GPS device extractor module
+    Source - GPS signal extraction switch
  */
 
     lp_GPS lp_gps_mod_DSIDE( 
