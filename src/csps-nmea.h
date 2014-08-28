@@ -87,7 +87,7 @@
     Header - Preprocessor macros
  */
 
-    /* Define sexagesimal to floating degree */
+    /* Define sexagesimal to floating degrees */
     # define LP_NMEA_S2D(x)   ((\
                               lp_trunc((x)/lp_Real_s(100.0))\
                               )+(\

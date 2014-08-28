@@ -50,11 +50,11 @@
     lp_Void_t lp_nmea_gga(
 
         const lp_Char_t * const lpSentence,
-        lp_Real_t * const lpUTC,
-        lp_Real_t * const lpLat,
-        lp_Real_t * const lpLon,
-        lp_Real_t * const lpAlt,
-        lp_SQBF_t * const lpQBF
+        lp_Real_t * const       lpUTC,
+        lp_Real_t * const       lpLat,
+        lp_Real_t * const       lpLon,
+        lp_Real_t * const       lpAlt,
+        lp_SQBF_t * const       lpQBF
 
     ) {
 
@@ -62,7 +62,7 @@
         lp_Size_t lpParse = lp_Size_s( 0 );
         lp_Size_t lpIndex = lp_Size_s( 0 );
 
-        /* Reading buffers */
+        /* Reading variables */
         lp_Char_t lpBuf = lp_Char_s( 0 );
         lp_Enum_t lpFix = lp_Enum_s( 0 );
         lp_Size_t lpSat = lp_Size_s( 0 );
@@ -280,14 +280,14 @@
         };
 
         /* Reading variables */
-        lp_Size_t lpOffset = lp_Size_s( 0 );
+        lp_Size_t lpOffset  = lp_Size_s( 0 );
         lp_Size_t lpPointer = lp_Size_s( 0 );
-        lp_Size_t lpParse = lp_Size_s( 0 );
+        lp_Size_t lpParse   = lp_Size_s( 0 );
 
-        /* Reading element buffer */
+        /* Binary element variables */
         lp_Byte_t lpElement = lp_Char_s( 0 );
 
-        /* Element model length */
+        /* Element model length variables */
         lp_Size_t lpModelLen = lp_Size_s( 0 );
 
         /* Obtain sentence type */
@@ -379,7 +379,7 @@
     }
 
 /*
-    Source - GPS NMEA sentence quartet reader from FPGA logs
+    Source - GPS NMEA sentence quartet reader
  */
 
     lp_Byte_t lp_nmea_quartet( 

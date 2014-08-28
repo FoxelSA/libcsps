@@ -98,7 +98,7 @@
      *  
      *  Work in progress. Please wait a while.
      *  
-     *  \param lpPath Path to the CSPS structure
+     *  \param lpPath Path to CSPS structure
      */
 
     lp_Void_t lp_system(

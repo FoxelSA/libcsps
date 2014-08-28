@@ -106,7 +106,7 @@
         lp_path_dside( lpPath, LP_DEVICE_EYESIS4PI, LP_DEVICE_EYESIS4PI_LOG_FPGA, lpDEVlogp );
 
         /* Build stream file paths */
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_CAM_DSIDE_MOD, LP_STREAM_CPN_SHO, lpDEVmasp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_CAM_DSIDE_MOD, LP_STREAM_CPN_TAG, lpDEVmasp );
         lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_CAM_DSIDE_MOD, LP_STREAM_CPN_SYN, lpDEVsynp );
 
         /* Open stream files */

@@ -68,12 +68,8 @@
     Header - Preprocessor definitions
  */
 
-    /* Define relative root paths */
-    # define LP_PATH_CSPS     "stream_CSPS"
-    # define LP_PATH_FGPA     "stream_Logs"
-
     /* Define csps device directory */
-    # define LP_PATH_DEVICES    "csps/devices"
+    # define LP_PATH_DEVICES  "csps/devices"
 
     /* Define csps stream directory */
     # define LP_PATH_STREAMS  "csps/streams"

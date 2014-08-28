@@ -68,18 +68,19 @@
     Header - Preprocessor definitions
  */
 
-    /* Define device enumeration */
+    /* Define device types */
     # define LP_DEVICE_TYPE_CAM             "cam"
     # define LP_DEVICE_TYPE_GPS             "gps"
     # define LP_DEVICE_TYPE_IMU             "imu"
 
-    /* Define camera device name */
+    /* Define camera device */
     # define LP_DEVICE_EYESIS4PI            "EYESIS4PI"
+    //# define LP_DEVICE_NC353L369IMUGPS      "NC353L-369-IMU-GPS"
 
-    /* Define eyesis4pi log file */
+    /* Define Eyesis4pi log file */
     # define LP_DEVICE_EYESIS4PI_LOG_FPGA   "LOG-FPGA"
 
-    /* Define eyesis4pi log constant */
+    /* Define Eyesis4pi log constant */
     # define LP_DEVICE_EYESIS4PI_RECLEN     lp_Size_s( 64 )
     # define LP_DEVICE_EYESIS4PI_IMUEVT     lp_Enum_s(  0 )
     # define LP_DEVICE_EYESIS4PI_GPSEVT     lp_Enum_s(  1 )

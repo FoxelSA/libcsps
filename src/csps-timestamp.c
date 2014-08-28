@@ -146,6 +146,7 @@
             lp_Size_t lpDichM = lp_Size_s( 0 );
             lp_Size_t lpDichU = lpSize - lp_Size_s( 1 );
 
+            /* Dichotomous search */
             while ( ( lpDichU - lpDichD ) > lp_Size_s( 1 ) ) {
 
                 /* Compute range middle */

@@ -110,13 +110,13 @@
 
     ) {
 
-        /* Compose quality buffer (UUUUUUUUUUUUUUUUDDDDDDDDSSSSSSFF - Unused HDOP100 Fix)  */
+        /* Compose quality buffer (UUUUUUUUUUUUUUUUDDDDDDDDSSSSSSFF - Unused hDop100 Satellite Fix)  */
         return( ( ( lp_Size_t ) lpFix ) | ( lpSat << lp_Size_s( 4 ) ) | ( lpHDP100 << lp_Size_s( 10 ) ) );
 
     }
 
 /*
-    Source - GPS signal quality buffer decomposer
+    Source - GPS signal quality buffer decomposers
  */
 
     lp_Enum_t lp_qbf_fix( 
@@ -136,7 +136,7 @@
 
     ) {
 
-        /* Return fix value */
+        /* Return satellite count value */
         return( ( lpQBF >> lp_SQBF_s( 4 ) ) % lp_SQBF_s( 64 ) );
 
     }
@@ -147,7 +147,7 @@
 
     ) {
 
-        /* Return fix value */
+        /* Return dilution of precision times 100 value */
         return( ( lpQBF >> lp_SQBF_s( 10 ) ) % lp_SQBF_s( 65536 ) );
 
     }

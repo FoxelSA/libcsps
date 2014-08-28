@@ -53,7 +53,7 @@
 
     ) {
 
-        /* Stream buffer */
+        /* Create stream buffer */
         lp_Void_t * lpStream = malloc( lpSize );
 
         /* Return pointer */
@@ -68,10 +68,10 @@
     ) {
 
         /* Verify memory allocation and memory unallocate */
-        if ( lpStream != NULL ) free( lpStream );
+        if ( lpStream != LP_NULL ) free( lpStream );
 
         /* Return invalid pointer */
-        return( NULL );
+        return( LP_NULL );
 
     }
 
@@ -89,13 +89,13 @@
 
     ) {
 
-        /* Stream handle */
-        lp_File_t lpStreamf = NULL;
+        /* Stream handle variables */
+        lp_File_t lpStreamf = LP_NULL;
 
-        /* Stream size */
+        /* Stream size variables */
         lp_Size_t lpSize = lp_Size_s( 0 );
 
-        /* Stream path */
+        /* Stream path variables */
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
         /* Build stream path */
@@ -104,7 +104,7 @@
         /* Open stream file */
         lpStreamf = fopen( lpStreamp, "rb" );
 
-        /* Read pointer to EOF */
+        /* Set pointer to EOF */
         fseek( lpStreamf, 0L, SEEK_END );
 
         /* Read pointer value */
@@ -133,13 +133,13 @@
 
     ) {
 
-        /* Stream handle */
-        lp_File_t lpStreamf = NULL;
+        /* Stream handle variables */
+        lp_File_t lpStreamf = LP_NULL;
 
-        /* Stream buffer */
-        lp_Void_t * lpStream = NULL;
+        /* Stream buffer variables */
+        lp_Void_t * lpStream = LP_NULL;
 
-        /* Stream path */
+        /* Stream path variables */
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
         /* Build stream path */
@@ -178,13 +178,13 @@
 
     ) {
 
-        /* Stream handle */
-        lp_File_t lpStreamf = NULL;
+        /* Stream handle variables */
+        lp_File_t lpStreamf = LP_NULL;
 
-        /* Stream path */
+        /* Stream path variables */
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
-        /* Build stream path */
+        /* Build stream path variables */
         lp_path_stream( lpPath, lpDevice, lpTag, lpModule, lpType, lpStreamp );
 
         /* Open stream file */

@@ -69,9 +69,6 @@
     Header - Preprocessor definitions
  */
 
-    /* Define stream component - Shot time */
-    # define LP_STREAM_CPN_SHO      "sho"
-
     /* Define stream component - Quality buffer */
     # define LP_STREAM_CPN_QBF      "qbf"
 

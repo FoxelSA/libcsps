@@ -96,7 +96,7 @@
 
     typedef struct lp_QueryTime_struct {
 
-        /* Timestamp range boundaries */
+        /* Time boundaries descriptor */
         lp_Time_t qrInitial;
         lp_Time_t qrFinal;
 
@@ -122,7 +122,7 @@
         /* Query status */
         lp_Enum_t qrStatus;
 
-        /* Position descriptors */
+        /* Position descriptor */
         lp_Real_t qrLatitude;
         lp_Real_t qrLongitude;
         lp_Real_t qrAltitude;
@@ -185,7 +185,7 @@
      *  in a given synchronization stream component.
      *  
      *  \param lpPath Path to CSPS structure
-     *  \param lpDevice Device type
+     *  \param lpDevice Device descriptor
      *  \param lpTag Device name
      *  \param lpModule CSPS stream to consider
      *  \return Returns a time boundaries structure
@@ -207,7 +207,7 @@
      *  outside of the range, the query fails.
      *  
      *  \param lpPath Path to CSPS structure
-     *  \param lpDevice Device type
+     *  \param lpDevice Device descriptor
      *  \param lpTag Device name
      *  \param lpModule CSPS stream to consider
      *  \param lpTimestamp Reference timestamp
@@ -231,7 +231,7 @@
      *  the range, the query fails.
      *  
      *  \param lpPath Path to CSPS structure
-     *  \param lpDevice Device type
+     *  \param lpDevice Device descriptor
      *  \param lpTag Device name
      *  \param lpModule CSPS stream to consider
      *  \param lpTimestamp Reference timestamp
