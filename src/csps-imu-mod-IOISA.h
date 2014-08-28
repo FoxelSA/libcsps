@@ -93,15 +93,15 @@
 
     /*! \brief IMU earth self-alignment
      *  
-     *  This function performs IMU earth self-alignment based on
-     *  an inertial still range.
+     *  This function performs IMU earth self-alignment. The process
+     *  consider measures performed during inertial still ranges.
      *  
      *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
      *  \param lpGPS GPS device descriptor
-     *  \param lpPMimu IMU module stream name
-     *  \param lpPMgps GPS module stream name
-     *  \return Returns lpDevice structure
+     *  \param lpIMUmod IMU module stream name
+     *  \param lpGPSmod GPS module stream name
+     *  \return Returns IMU device descriptor
      */
 
     lp_IMU lp_imu_mod_IOISA(
@@ -109,8 +109,9 @@
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU,
         lp_GPS                  lpGPS,
-        const lp_Char_t * const lpPMimu,
-        const lp_Char_t * const lpPMgps 
+        const lp_Char_t * const lpIMUmod,
+        const lp_Char_t * const lpIMUmod_tag,
+        const lp_Char_t * const lpGPSmod 
 
     );
 

@@ -44,287 +44,309 @@
     # include "csps-imu-mod-IFETI.h"
 
 /*
-    Source - IMU frame explicit time-integration module
+    Source - IMU frame explicit time-integration
  */
 
     lp_IMU lp_imu_mod_IFETI( 
 
         const lp_Char_t * const lpPath, 
-        lp_IMU                  lpDevice, 
-        const lp_Char_t * const lpPSgr 
+        lp_IMU                  lpIMU, 
+        const lp_Char_t * const lpIMUmodI__,
+        const lp_Char_t * const lpIMUmodGR_
 
     ) {
 
+        /* Parsing variables */
+        lp_Size_t lpParse = lp_Size_s( 0 );
+
         /* Integration variables */
         lp_Real_t lpDelta = lp_Real_s( 0.0 );
-        lp_Size_t lpParse = lp_Size_s( 0 );
 
         /* Files size */
         lp_Size_t lpSize = lp_Size_s( 0 );
 
         /* Initial condition range variables */
-        lp_Size_t lpICDw = lp_Size_s( 0 );
-        lp_Size_t lpICUp = lp_Size_s( 0 );
+        lp_Size_t lpISRdwi = lp_Size_s( 0 );
+        lp_Size_t lpISRupi = lp_Size_s( 0 );
 
-        /* Data buffers */
-        lp_Real_t * lpDEVgrx = NULL;
-        lp_Real_t * lpDEVgry = NULL;
-        lp_Real_t * lpDEVgrz = NULL;
-        lp_Real_t * lpDEVfxx = NULL;
-        lp_Real_t * lpDEVfxy = NULL;
-        lp_Real_t * lpDEVfxz = NULL;
-        lp_Real_t * lpDEVfyx = NULL;
-        lp_Real_t * lpDEVfyy = NULL;
-        lp_Real_t * lpDEVfyz = NULL;
-        lp_Real_t * lpDEVfzx = NULL;
-        lp_Real_t * lpDEVfzy = NULL;
-        lp_Real_t * lpDEVfzz = NULL;
-        lp_Time_t * lpDEVsyn = NULL;
+        /* Stream memory variables */
+        lp_Real_t * lpIMUgrx = LP_NULL;
+        lp_Real_t * lpIMUgry = LP_NULL;
+        lp_Real_t * lpIMUgrz = LP_NULL;
+        lp_Time_t * lpIMUgsn = LP_NULL;
+        lp_Real_t * lpIMUixx = LP_NULL;
+        lp_Real_t * lpIMUixy = LP_NULL;
+        lp_Real_t * lpIMUixz = LP_NULL;
+        lp_Real_t * lpIMUiyx = LP_NULL;
+        lp_Real_t * lpIMUiyy = LP_NULL;
+        lp_Real_t * lpIMUiyz = LP_NULL;
+        lp_Real_t * lpIMUizx = LP_NULL;
+        lp_Real_t * lpIMUizy = LP_NULL;
+        lp_Real_t * lpIMUizz = LP_NULL;
+        lp_Time_t * lpIMUisn = LP_NULL;
+        lp_Real_t * lpIMUfxx = LP_NULL;
+        lp_Real_t * lpIMUfxy = LP_NULL;
+        lp_Real_t * lpIMUfxz = LP_NULL;
+        lp_Real_t * lpIMUfyx = LP_NULL;
+        lp_Real_t * lpIMUfyy = LP_NULL;
+        lp_Real_t * lpIMUfyz = LP_NULL;
+        lp_Real_t * lpIMUfzx = LP_NULL;
+        lp_Real_t * lpIMUfzy = LP_NULL;
+        lp_Real_t * lpIMUfzz = LP_NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSgr );
+        lpSize = lp_stream_size( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodGR_ );
 
-        /* Read streams data */
-        lpDEVgrx = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSgr, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
-        lpDEVgry = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSgr, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
-        lpDEVgrz = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSgr, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
-        lpDEVsyn = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSgr, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+        /* Read streams */
+        lpIMUgrx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodGR_, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUgry = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodGR_, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUgrz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodGR_, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUgsn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodGR_, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
-        /* Allocate stream memory */
-        lpDEVfxx = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
-        lpDEVfxy = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
-        lpDEVfxz = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
-        lpDEVfyx = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
-        lpDEVfyy = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
-        lpDEVfyz = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
-        lpDEVfzx = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
-        lpDEVfzy = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
-        lpDEVfzz = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
+        /* Create streams */
+        lpIMUfxx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+        lpIMUfxy = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+        lpIMUfxz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+        lpIMUfyx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+        lpIMUfyy = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+        lpIMUfyz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+        lpIMUfzx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+        lpIMUfzy = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+        lpIMUfzz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
 
-        /* Compute time step value */
-        lpDelta = lp_Real_s( 1.0 ) / ( ( lp_Real_t ) lpDevice.dvdfreq );
+        /* Read streams */
+        lpIMUixx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodI__, LP_STREAM_CPN_IXX, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+        lpIMUixy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodI__, LP_STREAM_CPN_IXY, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+        lpIMUixz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodI__, LP_STREAM_CPN_IXZ, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+        lpIMUiyx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodI__, LP_STREAM_CPN_IYX, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+        lpIMUiyy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodI__, LP_STREAM_CPN_IYY, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+        lpIMUiyz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodI__, LP_STREAM_CPN_IYZ, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+        lpIMUizx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodI__, LP_STREAM_CPN_IZX, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+        lpIMUizy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodI__, LP_STREAM_CPN_IZY, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+        lpIMUizz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodI__, LP_STREAM_CPN_IZZ, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+        lpIMUisn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodI__, LP_STREAM_CPN_SYN, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
 
         /* Search intertial still range boundaries timestamps index */
-        lpICDw = lp_timestamp_index( lpDevice.dvMin, lpDEVsyn, lpSize );
-        lpICUp = lp_timestamp_index( lpDevice.dvMax, lpDEVsyn, lpSize );
+        lpISRdwi = lp_timestamp_index( lpIMUisn[0], lpIMUgsn, lpSize );
+        lpISRupi = lp_timestamp_index( lpIMUisn[1], lpIMUgsn, lpSize );
 
         /* Setting initial conditions */
-        for ( lpParse = lpICDw ; lpParse <= lpICUp ; lpParse ++ ) {
+        for ( lpParse = lpISRdwi ; lpParse <= lpISRupi ; lpParse ++ ) {
 
-            /* Assign initial condition on IMU frame */
-            lpDEVfxx[lpParse] = lpDevice.dvfxx;
-            lpDEVfxy[lpParse] = lpDevice.dvfxy;
-            lpDEVfxz[lpParse] = lpDevice.dvfxz;
-            lpDEVfyx[lpParse] = lpDevice.dvfyx;
-            lpDEVfyy[lpParse] = lpDevice.dvfyy;
-            lpDEVfyz[lpParse] = lpDevice.dvfyz;
-            lpDEVfzx[lpParse] = lpDevice.dvfzx;
-            lpDEVfzy[lpParse] = lpDevice.dvfzy;
-            lpDEVfzz[lpParse] = lpDevice.dvfzz;
+            /* Assign initial condition on frame unit vectors */
+            lpIMUfxx[lpParse] = lpIMUixx[0];
+            lpIMUfxy[lpParse] = lpIMUixy[0];
+            lpIMUfxz[lpParse] = lpIMUixz[0];
+            lpIMUfyx[lpParse] = lpIMUiyx[0];
+            lpIMUfyy[lpParse] = lpIMUiyy[0];
+            lpIMUfyz[lpParse] = lpIMUiyz[0];
+            lpIMUfzx[lpParse] = lpIMUizx[0];
+            lpIMUfzy[lpParse] = lpIMUizy[0];
+            lpIMUfzz[lpParse] = lpIMUizz[0];
 
         }
 
+        /* Unallocate streams */
+        lpIMUixx = lp_stream_delete( lpIMUixx );
+        lpIMUixy = lp_stream_delete( lpIMUixy );
+        lpIMUixz = lp_stream_delete( lpIMUixz );
+        lpIMUiyx = lp_stream_delete( lpIMUiyx );
+        lpIMUiyy = lp_stream_delete( lpIMUiyy );
+        lpIMUiyz = lp_stream_delete( lpIMUiyz );
+        lpIMUizx = lp_stream_delete( lpIMUizx );
+        lpIMUizy = lp_stream_delete( lpIMUizy );
+        lpIMUizz = lp_stream_delete( lpIMUizz );
+        lpIMUisn = lp_stream_delete( lpIMUisn );
+
         /* Frame explicit time-integration - Prograde segment */
-        for ( lpParse = lpICUp + lp_Size_s( 1 ) ; lpParse < lpSize ; lpParse ++ ) {
+        for ( lpParse = lpISRupi + lp_Size_s( 1 ) ; lpParse < lpSize ; lpParse ++ ) {
+
+            /* Compute current time step */
+            lpDelta = lp_timestamp_float( lp_timestamp_diff( lpIMUgsn[lpParse], lpIMUgsn[lpParse-1] ) );
 
             /* Integration - Advance frame x-vector - x-component */
-            lpDEVfxx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfxx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpDEVgry[lpParse-1] * lpDEVfxz[lpParse-1] 
-                                    - lpDEVgrz[lpParse-1] * lpDEVfxy[lpParse-1] 
+                                    + lpIMUgry[lpParse-1] * lpIMUfxz[lpParse-1] 
+                                    - lpIMUgrz[lpParse-1] * lpIMUfxy[lpParse-1] 
 
-                                )
-                                + lpDEVfxx[lpParse-2];
+                                ) + lpIMUfxx[lpParse-2];
 
             /* Integration - Advance frame x-vector - y-component */
-            lpDEVfxy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfxy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpDEVgrz[lpParse-1] * lpDEVfxx[lpParse-1] 
-                                    - lpDEVgrx[lpParse-1] * lpDEVfxz[lpParse-1] 
+                                    + lpIMUgrz[lpParse-1] * lpIMUfxx[lpParse-1] 
+                                    - lpIMUgrx[lpParse-1] * lpIMUfxz[lpParse-1] 
 
-                                )
-                                + lpDEVfxy[lpParse-2];
+                                ) + lpIMUfxy[lpParse-2];
 
             /* Integration - Advance frame x-vector - z-component */
-            lpDEVfxz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfxz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpDEVgrx[lpParse-1] * lpDEVfxy[lpParse-1] 
-                                    - lpDEVgry[lpParse-1] * lpDEVfxx[lpParse-1] 
+                                    + lpIMUgrx[lpParse-1] * lpIMUfxy[lpParse-1] 
+                                    - lpIMUgry[lpParse-1] * lpIMUfxx[lpParse-1] 
 
-                                )
-                                + lpDEVfxz[lpParse-2];
+                                ) + lpIMUfxz[lpParse-2];
 
             /* Integration - Advance frame y-vector - x-component */
-            lpDEVfyx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfyx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpDEVgry[lpParse-1] * lpDEVfyz[lpParse-1] 
-                                    - lpDEVgrz[lpParse-1] * lpDEVfyy[lpParse-1] 
+                                    + lpIMUgry[lpParse-1] * lpIMUfyz[lpParse-1] 
+                                    - lpIMUgrz[lpParse-1] * lpIMUfyy[lpParse-1] 
 
-                                )
-                                + lpDEVfyx[lpParse-2];
+                                ) + lpIMUfyx[lpParse-2];
 
             /* Integration - Advance frame y-vector - y-component */
-            lpDEVfyy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfyy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpDEVgrz[lpParse-1] * lpDEVfyx[lpParse-1] 
-                                    - lpDEVgrx[lpParse-1] * lpDEVfyz[lpParse-1] 
+                                    + lpIMUgrz[lpParse-1] * lpIMUfyx[lpParse-1] 
+                                    - lpIMUgrx[lpParse-1] * lpIMUfyz[lpParse-1] 
 
-                                )
-                                + lpDEVfyy[lpParse-2];
+                                ) + lpIMUfyy[lpParse-2];
 
             /* Integration - Advance frame y-vector - z-component */
-            lpDEVfyz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfyz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpDEVgrx[lpParse-1] * lpDEVfyy[lpParse-1] 
-                                    - lpDEVgry[lpParse-1] * lpDEVfyx[lpParse-1] 
+                                    + lpIMUgrx[lpParse-1] * lpIMUfyy[lpParse-1] 
+                                    - lpIMUgry[lpParse-1] * lpIMUfyx[lpParse-1] 
 
-                                )
-                                + lpDEVfyz[lpParse-2];
+                                ) + lpIMUfyz[lpParse-2];
 
             /* Integration - Advance frame z-vector - x-component */
-            lpDEVfzx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfzx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpDEVgry[lpParse-1] * lpDEVfzz[lpParse-1] 
-                                    - lpDEVgrz[lpParse-1] * lpDEVfzy[lpParse-1] 
+                                    + lpIMUgry[lpParse-1] * lpIMUfzz[lpParse-1] 
+                                    - lpIMUgrz[lpParse-1] * lpIMUfzy[lpParse-1] 
 
-                                )
-                                + lpDEVfzx[lpParse-2];
+                                ) + lpIMUfzx[lpParse-2];
 
             /* Integration - Advance frame z-vector - y-component */
-            lpDEVfzy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfzy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpDEVgrz[lpParse-1] * lpDEVfzx[lpParse-1] 
-                                    - lpDEVgrx[lpParse-1] * lpDEVfzz[lpParse-1] 
+                                    + lpIMUgrz[lpParse-1] * lpIMUfzx[lpParse-1] 
+                                    - lpIMUgrx[lpParse-1] * lpIMUfzz[lpParse-1] 
 
-                                )
-                                + lpDEVfzy[lpParse-2];
+                                ) + lpIMUfzy[lpParse-2];
 
             /* Integration - Advance frame z-vector - z-component */
-            lpDEVfzz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfzz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpDEVgrx[lpParse-1] * lpDEVfzy[lpParse-1] 
-                                    - lpDEVgry[lpParse-1] * lpDEVfzx[lpParse-1] 
+                                    + lpIMUgrx[lpParse-1] * lpIMUfzy[lpParse-1] 
+                                    - lpIMUgry[lpParse-1] * lpIMUfzx[lpParse-1] 
 
-                                )
-                                + lpDEVfzz[lpParse-2];
+                                ) + lpIMUfzz[lpParse-2];
 
         }
 
         /* Frame explicit time-integration - Retrograde segment */
-        for ( lpParse = lpICDw - lp_Size_s( 1 ) ; lpParse >= 0 ; lpParse -- ) {
+        for ( lpParse = lpISRdwi - lp_Size_s( 1 ) ; lpParse >= 0 ; lpParse -- ) {
+
+            /* Compute current time step */
+            lpDelta = lp_timestamp_float( lp_timestamp_diff( lpIMUgsn[lpParse+1], lpIMUgsn[lpParse] ) );
 
             /* Integration - Step back frame x-vector - x-component */
-            lpDEVfxx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfxx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpDEVgry[lpParse+1] * lpDEVfxz[lpParse+1] 
-                                    + lpDEVgrz[lpParse+1] * lpDEVfxy[lpParse+1] 
+                                    - lpIMUgry[lpParse+1] * lpIMUfxz[lpParse+1] 
+                                    + lpIMUgrz[lpParse+1] * lpIMUfxy[lpParse+1] 
 
-                                )
-                                + lpDEVfxx[lpParse+2];
+                                ) + lpIMUfxx[lpParse+2];
 
             /* Integration - Step back frame x-vector - y-component */
-            lpDEVfxy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfxy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpDEVgrz[lpParse+1] * lpDEVfxx[lpParse+1] 
-                                    + lpDEVgrx[lpParse+1] * lpDEVfxz[lpParse+1] 
+                                    - lpIMUgrz[lpParse+1] * lpIMUfxx[lpParse+1] 
+                                    + lpIMUgrx[lpParse+1] * lpIMUfxz[lpParse+1] 
 
-                                )
-                                + lpDEVfxy[lpParse+2];
+                                ) + lpIMUfxy[lpParse+2];
 
             /* Integration - Step back frame x-vector - z-component */
-            lpDEVfxz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfxz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpDEVgrx[lpParse+1] * lpDEVfxy[lpParse+1] 
-                                    + lpDEVgry[lpParse+1] * lpDEVfxx[lpParse+1] 
+                                    - lpIMUgrx[lpParse+1] * lpIMUfxy[lpParse+1] 
+                                    + lpIMUgry[lpParse+1] * lpIMUfxx[lpParse+1] 
 
-                                )
-                                + lpDEVfxz[lpParse+2];
+                                ) + lpIMUfxz[lpParse+2];
 
             /* Integration - Step back frame x-vector - x-component */
-            lpDEVfyx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfyx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpDEVgry[lpParse+1] * lpDEVfyz[lpParse+1] 
-                                    + lpDEVgrz[lpParse+1] * lpDEVfyy[lpParse+1] 
+                                    - lpIMUgry[lpParse+1] * lpIMUfyz[lpParse+1] 
+                                    + lpIMUgrz[lpParse+1] * lpIMUfyy[lpParse+1] 
 
-                                )
-                                + lpDEVfyx[lpParse+2];
+                                ) + lpIMUfyx[lpParse+2];
 
             /* Integration - Step back frame x-vector - y-component */
-            lpDEVfyy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfyy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpDEVgrz[lpParse+1] * lpDEVfyx[lpParse+1] 
-                                    + lpDEVgrx[lpParse+1] * lpDEVfyz[lpParse+1] 
+                                    - lpIMUgrz[lpParse+1] * lpIMUfyx[lpParse+1] 
+                                    + lpIMUgrx[lpParse+1] * lpIMUfyz[lpParse+1] 
 
-                                )
-                                + lpDEVfyy[lpParse+2];
+                                ) + lpIMUfyy[lpParse+2];
 
             /* Integration - Step back frame x-vector - z-component */
-            lpDEVfyz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfyz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpDEVgrx[lpParse+1] * lpDEVfyy[lpParse+1] 
-                                    + lpDEVgry[lpParse+1] * lpDEVfyx[lpParse+1] 
+                                    - lpIMUgrx[lpParse+1] * lpIMUfyy[lpParse+1] 
+                                    + lpIMUgry[lpParse+1] * lpIMUfyx[lpParse+1] 
 
-                                )
-                                + lpDEVfyz[lpParse+2];
+                                ) + lpIMUfyz[lpParse+2];
 
             /* Integration - Step back frame z-vector - x-component */
-            lpDEVfzx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfzx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpDEVgry[lpParse+1] * lpDEVfzz[lpParse+1] 
-                                    + lpDEVgrz[lpParse+1] * lpDEVfzy[lpParse+1] 
+                                    - lpIMUgry[lpParse+1] * lpIMUfzz[lpParse+1] 
+                                    + lpIMUgrz[lpParse+1] * lpIMUfzy[lpParse+1] 
 
-                                )
-                                + lpDEVfzx[lpParse+2];
+                                ) + lpIMUfzx[lpParse+2];
 
             /* Integration - Step back frame z-vector - y-component */
-            lpDEVfzy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfzy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpDEVgrz[lpParse+1] * lpDEVfzx[lpParse+1] 
-                                    + lpDEVgrx[lpParse+1] * lpDEVfzz[lpParse+1] 
+                                    - lpIMUgrz[lpParse+1] * lpIMUfzx[lpParse+1] 
+                                    + lpIMUgrx[lpParse+1] * lpIMUfzz[lpParse+1] 
 
-                                )
-                                + lpDEVfzy[lpParse+2];
+                                ) + lpIMUfzy[lpParse+2];
 
             /* Integration - Step back frame z-vector - z-component */
-            lpDEVfzz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
+            lpIMUfzz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpDEVgrx[lpParse+1] * lpDEVfzy[lpParse+1] 
-                                    + lpDEVgry[lpParse+1] * lpDEVfzx[lpParse+1] 
+                                    - lpIMUgrx[lpParse+1] * lpIMUfzy[lpParse+1] 
+                                    + lpIMUgry[lpParse+1] * lpIMUfzx[lpParse+1] 
 
-                                )
-                                + lpDEVfzz[lpParse+2];
+                                ) + lpIMUfzz[lpParse+2];
 
         }
 
-        /* Write stream data */
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FXX, lpDEVfxx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FXY, lpDEVfxy, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FXZ, lpDEVfxz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FYX, lpDEVfyx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FYY, lpDEVfyy, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FYZ, lpDEVfyz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FZX, lpDEVfzx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FZY, lpDEVfzy, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FZZ, lpDEVfzz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_SYN, lpDEVsyn, sizeof( lp_Time_t ) * lpSize );
+        /* Write streams */
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FXX, lpIMUfxx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FXY, lpIMUfxy, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FXZ, lpIMUfxz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FYX, lpIMUfyx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FYY, lpIMUfyy, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FYZ, lpIMUfyz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FZX, lpIMUfzx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FZY, lpIMUfzy, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_FZZ, lpIMUfzz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_SYN, lpIMUgsn, sizeof( lp_Time_t ) * lpSize );
 
-        /* Unallocate buffer memory */
-        free( lpDEVgrx );
-        free( lpDEVgry );
-        free( lpDEVgrz );
-        free( lpDEVfxx );
-        free( lpDEVfxy );
-        free( lpDEVfxz );
-        free( lpDEVfyx );
-        free( lpDEVfyy );
-        free( lpDEVfyz );
-        free( lpDEVfzx );
-        free( lpDEVfzy );
-        free( lpDEVfzz );
-        free( lpDEVsyn );
+        /* Unallocate streams */
+        lpIMUgrx = lp_stream_delete( lpIMUgrx );
+        lpIMUgry = lp_stream_delete( lpIMUgry );
+        lpIMUgrz = lp_stream_delete( lpIMUgrz );
+        lpIMUfxx = lp_stream_delete( lpIMUfxx );
+        lpIMUfxy = lp_stream_delete( lpIMUfxy );
+        lpIMUfxz = lp_stream_delete( lpIMUfxz );
+        lpIMUfyx = lp_stream_delete( lpIMUfyx );
+        lpIMUfyy = lp_stream_delete( lpIMUfyy );
+        lpIMUfyz = lp_stream_delete( lpIMUfyz );
+        lpIMUfzx = lp_stream_delete( lpIMUfzx );
+        lpIMUfzy = lp_stream_delete( lpIMUfzy );
+        lpIMUfzz = lp_stream_delete( lpIMUfzz );
+        lpIMUgsn = lp_stream_delete( lpIMUgsn );
 
         /* Return device descriptor */
-        return( lpDevice );
+        return( lpIMU );
 
     }
 

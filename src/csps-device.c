@@ -115,6 +115,9 @@
             lpDevice.dvACCy = ( lp_Real_s( 0.8192 ) * lp_Real_s( 9.80665 ) ) / ( lp_Real_s( 65536000.0 ) );
             lpDevice.dvACCz = ( lp_Real_s( 0.8192 ) * lp_Real_s( 9.80665 ) ) / ( lp_Real_s( 65536000.0 ) );
 
+            /* Assign configuration - ISR maximum count */
+            lpDevice.dvISRmax = lp_Size_s( 256 );
+
             /* Assign configuration - Default initial frame */
             lpDevice.dvfxx = lp_Real_s( 1.0 );
             lpDevice.dvfxy = lp_Real_s( 0.0 );

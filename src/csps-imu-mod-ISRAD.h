@@ -72,8 +72,8 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_ISRAD_MOD "mod-ISRAD"
-    # define LP_IMU_ISRAD_DES "Inertial Still Range Automatic Detection"
+    # define LP_IMU_ISRAD_MOD   "mod-ISRAD"
+    # define LP_IMU_ISRAD_DES   "Inertial Still Range Automatic Detection"
 
 /*
     Header - Preprocessor macros
@@ -91,7 +91,7 @@
     Header - Function prototypes
  */
 
-    /*! \brief IMU inertial still range detection
+    /*! \brief IMU Inertial still range automatic detection
      *  
      *  This function detect the largest intertial still range.
      *  

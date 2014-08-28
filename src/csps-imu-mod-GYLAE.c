@@ -12,7 +12,7 @@
  *
  * This file is part of the FOXEL project <http://foxel.ch>.
  *
- * This program is free software: you can redistribute it and/or modify
+ * This program is lp_stream_delete software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -44,117 +44,115 @@
     # include "csps-imu-mod-GYLAE.h"
 
 /*
-    Source - IMU absolute acceleration computation module
+    Source - IMU Gravity-less acceleration extraction
  */
 
     lp_IMU lp_imu_mod_GYLAE( 
 
         const lp_Char_t * const lpPath, 
-        lp_IMU                  lpDevice, 
-        const lp_Char_t * const lpPSac, 
-        const lp_Char_t * const lpPSf_ 
+        lp_IMU                  lpIMU, 
+        const lp_Char_t * const lpIMUmodACC, 
+        const lp_Char_t * const lpIMUmodFRM
 
     ) {
 
-        /* Integration variables */
+        /* Parsing variables */
         lp_Size_t lpParse = 0;
 
-        /* Files size */
+        /* Stream size variables */
         lp_Size_t lpSize = 0;
 
-        /* Data buffers */
-        lp_Real_t * lpDEVacx = NULL;
-        lp_Real_t * lpDEVacy = NULL;
-        lp_Real_t * lpDEVacz = NULL;
-        lp_Time_t * lpDEVasy = NULL;
-        lp_Real_t * lpDEVfxx = NULL;
-        lp_Real_t * lpDEVfxy = NULL;
-        lp_Real_t * lpDEVfxz = NULL;
-        lp_Real_t * lpDEVfyx = NULL;
-        lp_Real_t * lpDEVfyy = NULL;
-        lp_Real_t * lpDEVfyz = NULL;
-        lp_Real_t * lpDEVfzx = NULL;
-        lp_Real_t * lpDEVfzy = NULL;
-        lp_Real_t * lpDEVfzz = NULL;
-        lp_Time_t * lpDEVfsy = NULL;
-        lp_Real_t * lpDEVaax = NULL;
-        lp_Real_t * lpDEVaay = NULL;
-        lp_Real_t * lpDEVaaz = NULL;
-        lp_Time_t * lpDEVsyn = NULL;
+        /* Stream memory variables */
+        lp_Real_t * lpIMUacx = LP_NULL;
+        lp_Real_t * lpIMUacy = LP_NULL;
+        lp_Real_t * lpIMUacz = LP_NULL;
+        lp_Time_t * lpIMUasn = LP_NULL;
+        lp_Real_t * lpIMUfxx = LP_NULL;
+        lp_Real_t * lpIMUfxy = LP_NULL;
+        lp_Real_t * lpIMUfxz = LP_NULL;
+        lp_Real_t * lpIMUfyx = LP_NULL;
+        lp_Real_t * lpIMUfyy = LP_NULL;
+        lp_Real_t * lpIMUfyz = LP_NULL;
+        lp_Real_t * lpIMUfzx = LP_NULL;
+        lp_Real_t * lpIMUfzy = LP_NULL;
+        lp_Real_t * lpIMUfzz = LP_NULL;
+        lp_Time_t * lpIMUfsn = LP_NULL;
+        lp_Real_t * lpIMUaax = LP_NULL;
+        lp_Real_t * lpIMUaay = LP_NULL;
+        lp_Real_t * lpIMUaaz = LP_NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSac );
+        lpSize = lp_stream_size( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodACC );
 
-        /* Read streams data */
-        lpDEVacx = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSac, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
-        lpDEVacy = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSac, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
-        lpDEVacz = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSac, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
-        lpDEVasy = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSac, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
-        lpDEVfxx = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSf_, LP_STREAM_CPN_FXX, sizeof( lp_Real_t ) * lpSize );
-        lpDEVfxy = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSf_, LP_STREAM_CPN_FXY, sizeof( lp_Real_t ) * lpSize );
-        lpDEVfxz = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSf_, LP_STREAM_CPN_FXZ, sizeof( lp_Real_t ) * lpSize );
-        lpDEVfyx = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSf_, LP_STREAM_CPN_FYX, sizeof( lp_Real_t ) * lpSize );
-        lpDEVfyy = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSf_, LP_STREAM_CPN_FYY, sizeof( lp_Real_t ) * lpSize );
-        lpDEVfyz = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSf_, LP_STREAM_CPN_FYZ, sizeof( lp_Real_t ) * lpSize );
-        lpDEVfzx = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSf_, LP_STREAM_CPN_FZX, sizeof( lp_Real_t ) * lpSize );
-        lpDEVfzy = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSf_, LP_STREAM_CPN_FZY, sizeof( lp_Real_t ) * lpSize );
-        lpDEVfzz = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSf_, LP_STREAM_CPN_FZZ, sizeof( lp_Real_t ) * lpSize );
-        lpDEVfsy = lp_stream_read( lpPath, lpDevice.dvType, lpDevice.dvTag, lpPSf_, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+        /* Read streams */
+        lpIMUacx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodACC, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodACC, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodACC, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUasn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodACC, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+        lpIMUfxx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FXX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUfxy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FXY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUfxz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FXZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUfyx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FYX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUfyy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FYY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUfyz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FYZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUfzx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FZX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUfzy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FZY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUfzz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FZZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUfsn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
-        /* Allocate stream memory */
-        lpDEVaax = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
-        lpDEVaay = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
-        lpDEVaaz = ( lp_Real_t * ) malloc( sizeof( lp_Real_t ) * lpSize );
-        lpDEVsyn = ( lp_Time_t * ) malloc( sizeof( lp_Time_t ) * lpSize );
+        /* Create streams */
+        lpIMUaax = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+        lpIMUaay = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+        lpIMUaaz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+        lpIMUfsn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpSize );
 
-        /* Frame integration procedure */
+        /* Gravity-less acceleration extraction */
         for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize ; lpParse ++ ) {
 
-            /* Computation - Advance absolute acceleration x-vector */
-            lpDEVaax[lpParse] = lpDEVacx[lpParse] * lpDEVfxx[lpParse] +
-                                lpDEVacy[lpParse] * lpDEVfyx[lpParse] +
-                                lpDEVacz[lpParse] * lpDEVfzx[lpParse];
+            /* Gravity-less acceleration x-component */
+            lpIMUaax[lpParse] = lpIMUacx[lpParse] * lpIMUfxx[lpParse] +
+                                lpIMUacy[lpParse] * lpIMUfyx[lpParse] +
+                                lpIMUacz[lpParse] * lpIMUfzx[lpParse];
 
-            /* Computation - Advance absolute acceleration y-vector */
-            lpDEVaax[lpParse] = lpDEVacx[lpParse] * lpDEVfxy[lpParse] +
-                                lpDEVacy[lpParse] * lpDEVfyy[lpParse] +
-                                lpDEVacz[lpParse] * lpDEVfzy[lpParse];
+            /* Gravity-less acceleration y-component */
+            lpIMUaay[lpParse] = lpIMUacx[lpParse] * lpIMUfxy[lpParse] +
+                                lpIMUacy[lpParse] * lpIMUfyy[lpParse] +
+                                lpIMUacz[lpParse] * lpIMUfzy[lpParse];
 
-            /* Computation - Advance absolute acceleration z-vector */
-            lpDEVaax[lpParse] = lpDEVacx[lpParse] * lpDEVfxz[lpParse] +
-                                lpDEVacy[lpParse] * lpDEVfyz[lpParse] +
-                                lpDEVacz[lpParse] * lpDEVfzz[lpParse];
+            /* Gravity-less acceleration z-component */
+            lpIMUaaz[lpParse] = lpIMUacx[lpParse] * lpIMUfxz[lpParse] +
+                                lpIMUacy[lpParse] * lpIMUfyz[lpParse] +
+                                lpIMUacz[lpParse] * lpIMUfzz[lpParse] - lp_Real_s( 9.80665 );
 
         }
 
-        /* Write stream data */
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_GYLAE_MOD, LP_STREAM_CPN_ACX, lpDEVaax, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_GYLAE_MOD, LP_STREAM_CPN_ACY, lpDEVaay, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_GYLAE_MOD, LP_STREAM_CPN_ACZ, lpDEVaaz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_GYLAE_MOD, LP_STREAM_CPN_SYN, lpDEVaaz, sizeof( lp_Time_t ) * lpSize );
+        /* Write streams */
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_GYLAE_MOD, LP_STREAM_CPN_ACX, lpIMUaax, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_GYLAE_MOD, LP_STREAM_CPN_ACY, lpIMUaay, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_GYLAE_MOD, LP_STREAM_CPN_ACZ, lpIMUaaz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_GYLAE_MOD, LP_STREAM_CPN_SYN, lpIMUasn, sizeof( lp_Time_t ) * lpSize );
 
-        /* Unallocate buffer memory */
-        free( lpDEVacx );
-        free( lpDEVacy );
-        free( lpDEVacz );
-        free( lpDEVasy );
-        free( lpDEVfxx );
-        free( lpDEVfxy );
-        free( lpDEVfxz );
-        free( lpDEVfyx );
-        free( lpDEVfyy );
-        free( lpDEVfyz );
-        free( lpDEVfzx );
-        free( lpDEVfzy );
-        free( lpDEVfzz );
-        free( lpDEVfsy );
-        free( lpDEVaax );
-        free( lpDEVaay );
-        free( lpDEVaaz );
-        free( lpDEVsyn );
+        /* Unallocate streams */
+        lpIMUacx = lp_stream_delete( lpIMUacx );
+        lpIMUacy = lp_stream_delete( lpIMUacy );
+        lpIMUacz = lp_stream_delete( lpIMUacz );
+        lpIMUasn = lp_stream_delete( lpIMUasn );
+        lpIMUfxx = lp_stream_delete( lpIMUfxx );
+        lpIMUfxy = lp_stream_delete( lpIMUfxy );
+        lpIMUfxz = lp_stream_delete( lpIMUfxz );
+        lpIMUfyx = lp_stream_delete( lpIMUfyx );
+        lpIMUfyy = lp_stream_delete( lpIMUfyy );
+        lpIMUfyz = lp_stream_delete( lpIMUfyz );
+        lpIMUfzx = lp_stream_delete( lpIMUfzx );
+        lpIMUfzy = lp_stream_delete( lpIMUfzy );
+        lpIMUfzz = lp_stream_delete( lpIMUfzz );
+        lpIMUfsn = lp_stream_delete( lpIMUfsn );
+        lpIMUaax = lp_stream_delete( lpIMUaax );
+        lpIMUaay = lp_stream_delete( lpIMUaay );
+        lpIMUaaz = lp_stream_delete( lpIMUaaz );
 
         /* Return device descriptor */
-        return( lpDevice );
+        return( lpIMU );
 
     }
 

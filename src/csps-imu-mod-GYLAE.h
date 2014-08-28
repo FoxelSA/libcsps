@@ -91,7 +91,7 @@
     Header - Function prototypes
  */
 
-    /*! \brief Gravity-less acceleration extraction
+    /*! \brief IMU Gravity-less acceleration extraction
      *  
      *  This module removes the gravity from the acceleration signals
      *  of IMUs.

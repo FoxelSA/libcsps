@@ -44,7 +44,7 @@
     # include "csps-imu-mod-ISRAD.h"
 
 /*
-    Source - Inertial still range automatic detection
+    Source - IMU Inertial still range automatic detection
  */
 
     lp_IMU lp_imu_mod_ISRAD( 
@@ -57,6 +57,7 @@
 
         /* Parsing variables */
         lp_Size_t lpParse = lp_Size_s( 0 );
+        lp_Size_t lpIndex = lp_Size_s( 2 );
 
         /* Stream size variables */
         lp_Size_t lpSize = lp_Size_s( 0 );
@@ -65,7 +66,7 @@
         lp_Size_t lpBound = lp_Size_s( 0 );
         lp_Size_t lpWidth = lp_Size_s( 0 );
 
-        /* Accumulators variables */
+        /* Accumulator variables */
         lp_Real_t lpAccumGRX = lp_Real_s( 0.0 );
         lp_Real_t lpAccumGRY = lp_Real_s( 0.0 );
         lp_Real_t lpAccumGRZ = lp_Real_s( 0.0 );
@@ -99,10 +100,7 @@
         lpIMUsyn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
         /* Create streams */
-        lpIMUtag = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpSize );
-
-        /* Stream initial clear */
-        lp_stream_clear( lpIMUtag, sizeof( lp_Time_t ) * lpSize );
+        lpIMUtag = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpIMU.dvISRmax );
 
         /* Inertial still range automatic detection */
         for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize ; lpParse ++ ) {
@@ -133,27 +131,31 @@
                 /* Check statistical accumulation minimum */
                 if ( ( lpParse - lp_Size_s( 1 ) - lpBound ) > lp_Size_s( 32 ) ) {                   
 
-                    /* Select maximum width range */
-                    if ( ( lpParse - lp_Size_s( 1 ) - lpBound ) > lpWidth ) {
+                    /* Verify range count maximum */
+                    if ( lpIndex < lpIMU.dvISRmax ) {
 
-                        /* Assign range boundaries */
-                        lpIMU.dvMin = lpIMUsyn[lpBound];
-                        lpIMU.dvMax = lpIMUsyn[lpParse - 1];
+                        /* Assign found range */
+                        lpIMUtag[lpIndex ++] = lpIMUsyn[lpBound];
+                        lpIMUtag[lpIndex ++] = lpIMUsyn[lpParse - 1];
 
-                        /* Assign selected range width */
-                        lpWidth = lpParse - lp_Size_s( 1 ) - lpBound;
+                        /* Select maximum width range */
+                        if ( ( lpParse - lp_Size_s( 1 ) - lpBound ) > lpWidth ) {
+
+                            /* Assign range boundaries */
+                            lpIMUtag[0] = lpIMUsyn[lpBound];
+                            lpIMUtag[1] = lpIMUsyn[lpParse - 1];
+
+                            /* Assign selected range width */
+                            lpWidth = lpParse - lp_Size_s( 1 ) - lpBound;
+
+                        }
 
                     }
 
-                    /* Assign still range tags */
-                    for ( ; lpBound < lpParse; lpBound ++ ) lpIMUtag[lpBound] = LP_TRUE;
-
-                } else {
-
-                    /* Reset search boundary */
-                    lpBound = lpParse;
-
                 }
+
+                /* Reset search boundary */
+                lpBound = lpParse;
 
                 /* Reset accumulators */
                 lpAccumGRX = lp_Real_s( 0.0 );
@@ -171,7 +173,7 @@
         }
 
         /* Write streams */
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_ISRAD_MOD, LP_STREAM_CPN_TAG, lpIMUtag, sizeof( lp_Time_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_ISRAD_MOD, LP_STREAM_CPN_TAG, lpIMUtag, sizeof( lp_Time_t ) * lpIndex );
 
         /* Unallocate streams memory */
         lpIMUgrx = lp_stream_delete( lpIMUgrx );

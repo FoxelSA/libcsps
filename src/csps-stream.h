@@ -72,6 +72,9 @@
     /* Define stream component - Shot time */
     # define LP_STREAM_CPN_SHO      "sho"
 
+    /* Define stream component - Quality buffer */
+    # define LP_STREAM_CPN_QBF      "qbf"
+
     /* Define stream component - Tag */
     # define LP_STREAM_CPN_TAG      "tag"
 
@@ -79,7 +82,6 @@
     # define LP_STREAM_CPN_LAT      "lat"
     # define LP_STREAM_CPN_LON      "lon"
     # define LP_STREAM_CPN_ALT      "alt"
-    # define LP_STREAM_CPN_QBF      "qbf"
 
     /* Define stream component - Acceleration */
     # define LP_STREAM_CPN_ACX      "acx"
@@ -101,6 +103,17 @@
     # define LP_STREAM_CPN_FZX      "fzx"
     # define LP_STREAM_CPN_FZY      "fzy"
     # define LP_STREAM_CPN_FZZ      "fzz"
+
+    /* Define stream component - Initial condition */
+    # define LP_STREAM_CPN_IXX      "ixx"
+    # define LP_STREAM_CPN_IXY      "ixy"
+    # define LP_STREAM_CPN_IXZ      "ixz"
+    # define LP_STREAM_CPN_IYX      "iyx"
+    # define LP_STREAM_CPN_IYY      "iyy"
+    # define LP_STREAM_CPN_IYZ      "iyz"
+    # define LP_STREAM_CPN_IZX      "izx"
+    # define LP_STREAM_CPN_IZY      "izy"
+    # define LP_STREAM_CPN_IZZ      "izz"
 
     /* Define stream component - Synchronization */
     # define LP_STREAM_CPN_SYN      "syn"
@@ -132,21 +145,6 @@
     lp_Void_t * lp_stream_create(
 
         lp_Size_t lpSize
-
-    );
-
-    /*! \brief Stream basic manipulation
-     *  
-     *  Initialize stream value to zero.
-     * 
-     *  \param lpStream Pointer to stream component to initialized
-     *  \param lpSize Size, in bytes, of the component size to initialized
-     */
-
-    lp_Void_t lp_stream_clear(
-
-        lp_Void_t * lpStream,
-        lp_Size_t   lpSize
 
     );
 

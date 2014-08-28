@@ -161,6 +161,8 @@
      *  Accelerometer factory scale factor for y component
      *  \var lp_IMU_struct::dvACCz
      *  Accelerometer factory scale factor for z component
+     *  \var lp_IMU_struct::dvISRmax
+     *  Maximum number of detectable inertial still ranges
      *  \var lp_IMU_struct::dvfxx
      *  IMU frame x-component of x-vector 
      *  \var lp_IMU_struct::dvfxy
@@ -211,6 +213,9 @@
         lp_Real_t dvACCx;
         lp_Real_t dvACCy;
         lp_Real_t dvACCz;
+
+        /* Inertial still range count maximum */
+        lp_Size_t dvISRmax;
 
         /* Initial frame parameters */
         lp_Real_t dvfxx;
