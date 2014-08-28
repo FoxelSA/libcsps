@@ -44,7 +44,7 @@
     # include "csps-cam-mod-DSIDE.h"
 
 /*
-    Source - Camera data extractor module
+    Source - Camera signal extraction switch
  */
 
     lp_CAM lp_cam_mod_DSIDE( 
@@ -70,7 +70,7 @@
     }
 
 /*
-    Source - Camera EYESIS4PI specific extractor
+    Source - Camera Eyesis4pi specific extractor
  */
 
     lp_CAM lp_cam_DSIDE_EYESIS4PI( 
@@ -80,7 +80,7 @@
 
     ) {
 
-        /* FPGA record buffer */
+        /* FPGA record buffer variables */
         lp_Byte_t lpRec[LP_DEVICE_EYESIS4PI_RECLEN];
 
         /* Reading variables */
@@ -88,35 +88,35 @@
         lp_Size_t lpIndex   = lp_Size_s( 0 );
         lp_Size_t lpReaded  = lp_Size_s( 0 );
 
-        /* Paths string buffer */
+        /* Stream path variables */
         lp_Char_t lpDEVlogp[LP_STR_LEN] = LP_STR_INI;
         lp_Char_t lpDEVmasp[LP_STR_LEN] = LP_STR_INI;
         lp_Char_t lpDEVsynp[LP_STR_LEN] = LP_STR_INI;
 
-        /* Stream handles */
-        lp_File_t lpDEVlogf = NULL;
-        lp_File_t lpDEVmasf = NULL;
-        lp_File_t lpDEVsynf = NULL;
+        /* Stream file variables */
+        lp_File_t lpDEVlogf = LP_NULL;
+        lp_File_t lpDEVmasf = LP_NULL;
+        lp_File_t lpDEVsynf = LP_NULL;
 
-        /* Data buffers */
-        lp_Time_t * lpDEVmas = NULL;
-        lp_Time_t * lpDEVsyn = NULL;
+        /* Stream memory variables */
+        lp_Time_t * lpDEVmas = LP_NULL;
+        lp_Time_t * lpDEVsyn = LP_NULL;
 
-        /* Build raw log file paths */
+        /* Build device log file paths */
         lp_path_dside( lpPath, LP_DEVICE_EYESIS4PI, LP_DEVICE_EYESIS4PI_LOG_FPGA, lpDEVlogp );
 
-        /* Build file paths */
+        /* Build stream file paths */
         lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_CAM_DSIDE_MOD, LP_STREAM_CPN_SHO, lpDEVmasp );
         lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_CAM_DSIDE_MOD, LP_STREAM_CPN_SYN, lpDEVsynp );
 
-        /* Open file streams */
+        /* Open stream files */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );
         lpDEVmasf = fopen( lpDEVmasp, "wb" );
         lpDEVsynf = fopen( lpDEVsynp, "wb" );
 
-        /* Allocate buffer memory */
-        lpDEVmas = ( lp_Time_t * ) malloc( sizeof( lp_Time_t ) * lpDevice.dvBlock );
-        lpDEVsyn = ( lp_Time_t * ) malloc( sizeof( lp_Time_t ) * lpDevice.dvBlock );
+        /* Create streams */
+        lpDEVmas = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpDevice.dvBlock );
+        lpDEVsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpDevice.dvBlock );
 
         /* FPGA records reading loop */
         while ( lpReading == LP_TRUE ) {
@@ -124,16 +124,13 @@
             /* Reset reading index */
             lpIndex = lp_Size_s( 0 );
 
-            /* Reading of FPGA record by group */
+            /* Reading of FPGA record by block */
             while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpDevice.dvBlock ) ) {
 
-                /* Read FPGA record */
-                lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf );
+                /* Read and verify FPGA record */
+                if ( ( lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf ) ) == LP_DEVICE_EYESIS4PI_RECLEN ) {
 
-                /* Verify FPGA record reading */
-                if ( lpReaded == LP_DEVICE_EYESIS4PI_RECLEN ) {
-
-                    /* Master signal filter */
+                    /* Camera signal filter */
                     if ( ( lpRec[3] & lp_Byte_s( 0x0F ) ) == LP_DEVICE_EYESIS4PI_MASEVT ) {
 
                         /* Retrieve FPGA master timestamp */
@@ -167,12 +164,12 @@
 
         }
 
-        /* Close file stream */
+        /* Close stream files */
         fclose( lpDEVlogf );
         fclose( lpDEVmasf );
         fclose( lpDEVsynf );
 
-        /* Unallocate buffer memory */
+        /* Unallocate streams */
         free( lpDEVmas );
         free( lpDEVsyn );
 

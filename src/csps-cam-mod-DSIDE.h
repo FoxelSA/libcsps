@@ -94,11 +94,12 @@
 
     /*! \brief Camera signal extraction switch
      *  
-     *  Switch on device-specific initial data extractor.
+     *  Switch on device-specific extractor. On the base of the
+     *  descriptor, the device-specific extractor is called.
      *
-     *  \param lpPath Path to CSPS structure
-     *  \param lpDevice Device descriptor structure
-     *  \return Returns lpDevice structure
+     *  \param lpPath Path CSPS structure
+     *  \param lpDevice Device descriptor
+     *  \return Returns device descriptor
      */
 
     lp_CAM lp_cam_mod_DSIDE(
@@ -110,11 +111,11 @@
 
     /*! \brief Eyesis4PI specific initial data extractor
      *
-     *  Eyesis4PI specific initial data extraction procedure.
+     *  Eyesis4PI device specific extraction sub-module.
      *
-     *  \param lpPath Path to CSPS structure
-     *  \param lpDevice Device descriptor structure
-     *  \return Returns lpDevice structure
+     *  \param lpPath Path CSPS structure
+     *  \param lpDevice Device descriptor
+     *  \return Returns device descriptor
      */
 
     lp_CAM lp_cam_DSIDE_EYESIS4PI(

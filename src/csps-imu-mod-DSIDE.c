@@ -88,7 +88,7 @@
         lp_Size_t lpIndex   = lp_Size_s( 0 );
         lp_Size_t lpReaded  = lp_Size_s( 0 );
 
-        /* Paths stream path variables */
+        /* Stream path variables */
         lp_Char_t lpDEVlogp[LP_STR_LEN] = LP_STR_INI;
         lp_Char_t lpIMUgrxp[LP_STR_LEN] = LP_STR_INI;
         lp_Char_t lpIMUgryp[LP_STR_LEN] = LP_STR_INI;
@@ -139,7 +139,7 @@
         lpIMUaczf = fopen( lpIMUaczp, "wb" );
         lpIMUsynf = fopen( lpIMUsynp, "wb" );
 
-        /* Allocate stream memory */
+        /* Create streams */
         lpIMUgrx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
         lpIMUgry = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
         lpIMUgrz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
@@ -157,7 +157,7 @@
             /* Reading of FPGA record by block */
             while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpDevice.dvBlock ) ) {
 
-                /* Verify FPGA record reading */
+                /* Read and verify FPGA record */
                 if ( ( lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf ) ) == LP_DEVICE_EYESIS4PI_RECLEN ) {
 
                     /* IMU signal filter */
@@ -214,7 +214,7 @@
         fclose( lpIMUaczf );
         fclose( lpIMUsynf );
 
-        /* Unallocate stream memory */
+        /* Unallocate streams */
         lpIMUgrx = lp_stream_delete( lpIMUgrx );
         lpIMUgry = lp_stream_delete( lpIMUgry );
         lpIMUgrz = lp_stream_delete( lpIMUgrz );

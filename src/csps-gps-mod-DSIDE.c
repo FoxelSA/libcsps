@@ -110,7 +110,7 @@
         lp_Char_t lpGPSqbfp[LP_STR_LEN] = LP_STR_INI;
         lp_Char_t lpGPSsynp[LP_STR_LEN] = LP_STR_INI;
 
-        /* Stream stream file variables */
+        /* Stream file variables */
         lp_File_t lpDEVlogf = LP_NULL;
         lp_File_t lpGPSlatf = LP_NULL;
         lp_File_t lpGPSlonf = LP_NULL;
@@ -143,7 +143,7 @@
         lpGPSqbff = fopen( lpGPSqbfp, "wb" );
         lpGPSsynf = fopen( lpGPSsynp, "wb" );
 
-        /* Allocate stream memory */
+        /* Create streams */
         lpGPSlat = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
         lpGPSlon = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
         lpGPSalt = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
@@ -159,7 +159,7 @@
             /* Reading of FPGA record by block */
             while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpDevice.dvBlock ) ) {
 
-                /* Read and verify FPGA record reading */
+                /* Read and verify FPGA record */
                 if ( ( lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf ) ) == LP_DEVICE_EYESIS4PI_RECLEN ) {
 
                     /* GPS signal filter */
@@ -280,7 +280,7 @@
         fclose( lpGPSqbff );
         fclose( lpGPSsynf );
 
-        /* Unallocate stream memory */
+        /* Unallocate streams */
         lpGPSlat = lp_stream_delete( lpGPSlat );
         lpGPSlon = lp_stream_delete( lpGPSlon );
         lpGPSalt = lp_stream_delete( lpGPSalt );
