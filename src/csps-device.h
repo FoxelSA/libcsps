@@ -163,7 +163,13 @@
      *  \var lp_IMU_struct::dvACCz
      *  Accelerometer factory scale factor for z component
      *  \var lp_IMU_struct::dvISRmax
-     *  Maximum number of detectable inertial still ranges
+     *  Maximum number of indexable still ranges
+     *  \var lp_IMU_struct::dvISRacc
+     *  Minimum quantites accumulation number for dynamic mean computation
+     *  \var lp_IMU_struct::dvISRgrt
+     *  Gyroscope signal dynamic mean distance threshold
+     *  \var lp_IMU_struct::dvISRact
+     *  Acceleration signal dynamic mean distance threshold
      *  \var lp_IMU_struct::dvifreq 
      *  Device output sampling frequency
      *  \var lp_IMU_struct::dvdfreq 
@@ -193,8 +199,11 @@
         lp_Real_t dvACCy;
         lp_Real_t dvACCz;
 
-        /* Inertial still range count maximum */
+        /* Inertial still ranges automatic detection */
         lp_Size_t dvISRmax;
+        lp_Size_t dvISRacc;
+        lp_Real_t dvISRgrt;
+        lp_Real_t dvISRact;
 
         /* IMU frequencies */
         lp_Size_t dvifreq;

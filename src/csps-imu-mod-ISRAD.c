@@ -119,17 +119,17 @@
             /* Apply detection condition */
             if ( ( lpParse + lp_Size_s( 1 ) == lpSize ) || (
 
-                ( abs( lpIMUgrx[lpParse] - ( lpAccumGRX / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
-                ( abs( lpIMUgry[lpParse] - ( lpAccumGRY / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
-                ( abs( lpIMUgrz[lpParse] - ( lpAccumGRZ / lp_Real_c( lpAccumIDX ) ) ) > 0.05 ) ||
-                ( abs( lpIMUacx[lpParse] - ( lpAccumACX / lp_Real_c( lpAccumIDX ) ) ) > 0.50 ) ||
-                ( abs( lpIMUacy[lpParse] - ( lpAccumACY / lp_Real_c( lpAccumIDX ) ) ) > 0.50 ) ||
-                ( abs( lpIMUacz[lpParse] - ( lpAccumACZ / lp_Real_c( lpAccumIDX ) ) ) > 0.50 )
+                ( abs( lpIMUgrx[lpParse] - ( lpAccumGRX / lp_Real_c( lpAccumIDX ) ) ) > lpIMU.dvISRgrt ) ||
+                ( abs( lpIMUgry[lpParse] - ( lpAccumGRY / lp_Real_c( lpAccumIDX ) ) ) > lpIMU.dvISRgrt ) ||
+                ( abs( lpIMUgrz[lpParse] - ( lpAccumGRZ / lp_Real_c( lpAccumIDX ) ) ) > lpIMU.dvISRgrt ) ||
+                ( abs( lpIMUacx[lpParse] - ( lpAccumACX / lp_Real_c( lpAccumIDX ) ) ) > lpIMU.dvISRact ) ||
+                ( abs( lpIMUacy[lpParse] - ( lpAccumACY / lp_Real_c( lpAccumIDX ) ) ) > lpIMU.dvISRact ) ||
+                ( abs( lpIMUacz[lpParse] - ( lpAccumACZ / lp_Real_c( lpAccumIDX ) ) ) > lpIMU.dvISRact )
 
             ) ) {
 
                 /* Check statistical accumulation minimum */
-                if ( ( lpParse - lp_Size_s( 1 ) - lpBound ) > lp_Size_s( 32 ) ) {                   
+                if ( ( lpParse - lp_Size_s( 1 ) - lpBound ) > lpIMU.dvISRacc ) {                   
 
                     /* Verify range count maximum */
                     if ( lpIndex < lpIMU.dvISRmax ) {
