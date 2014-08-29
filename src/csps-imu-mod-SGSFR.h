@@ -99,10 +99,9 @@
      *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
      *  \param lpIMUmod Gyroscope and acceleration stream initiator module name
-     *  \return Returns IMU device descriptor
      */
 
-    lp_IMU lp_imu_mod_SGSFR(
+    lp_Void_t lp_imu_mod_SGSFR(
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU, 

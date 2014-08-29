@@ -47,7 +47,7 @@
     Source - IMU Inertial still range automatic detection
  */
 
-    lp_IMU lp_imu_mod_ISRAD( 
+    lp_Void_t lp_imu_mod_ISRAD( 
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU, 
@@ -184,9 +184,6 @@
         lpIMUacz = lp_stream_delete( lpIMUacz );
         lpIMUtag = lp_stream_delete( lpIMUtag );
         lpIMUsyn = lp_stream_delete( lpIMUsyn );
-
-        /* Return device descriptor */
-        return( lpIMU );
  
     }
 

@@ -102,10 +102,9 @@
      *  \param lpIMU IMU device descriptor
      *  \param lpIMUmodGYR Gyroscope stream initiator module name
      *  \param lpIMUmodFRM Frame stream initiator module name
-     *  \return Returns IMU device descriptor
      */
 
-    lp_IMU lp_imu_mod_IFETI(
+    lp_Void_t lp_imu_mod_IFETI(
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU, 

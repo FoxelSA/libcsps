@@ -100,10 +100,9 @@
      *  \param lpDevice IMU device descriptor
      *  \param lpIMUmodACC Acceleration stream initiator module name
      *  \param lpIMUmodFRM Frame stream initiator module name
-     *  \return Return lpDevice structure
      */
 
-    lp_IMU lp_imu_mod_GYLAE(
+    lp_Void_t lp_imu_mod_GYLAE(
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU, 

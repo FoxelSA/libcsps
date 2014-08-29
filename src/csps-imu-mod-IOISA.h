@@ -102,10 +102,9 @@
      *  \param lpIMUmodISD Gyroscope and acceleration stream initiator module name
      *  \param lpIMUmodTAG Inertial still range stream initiator module name
      *  \param lpIMUmodGEO Geographic position stream initiator module name
-     *  \return Returns IMU device descriptor
      */
 
-    lp_IMU lp_imu_mod_IOISA(
+    lp_Void_t lp_imu_mod_IOISA(
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU,

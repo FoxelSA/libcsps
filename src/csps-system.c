@@ -69,15 +69,15 @@
         lp_gps_mod_DSIDE( lpPath, lpLS   );
 
         /* CSPS GPS process line */
-        lpLS   = lp_gps_mod_SGNQF( lpPath, lpLS, "mod-DSIDE" );
+        lp_gps_mod_SGNQF( lpPath, lpLS, "mod-DSIDE" );
 
         /* CSPS IMU process line */
-        lpADIS = lp_imu_mod_SGSFR( lpPath, lpADIS, "mod-DSIDE" );
-        lpADIS = lp_imu_mod_SGNDN( lpPath, lpADIS, "mod-SGSFR" );
-        lpADIS = lp_imu_mod_ISRAD( lpPath, lpADIS, "mod-SGSFR" );
-        lpADIS = lp_imu_mod_IOISA( lpPath, lpADIS, lpLS, "mod-DSIDE", "mod-ISRAD", "mod-SGNQF" );
-        lpADIS = lp_imu_mod_IFETI( lpPath, lpADIS, "mod-SGNDN", "mod-IOISA" );
-        lpADIS = lp_imu_mod_GYLAE( lpPath, lpADIS, "mod-SGNDN", "mod-IFETI" );
+        lp_imu_mod_SGSFR( lpPath, lpADIS, "mod-DSIDE" );
+        lp_imu_mod_SGNDN( lpPath, lpADIS, "mod-SGSFR" );
+        lp_imu_mod_ISRAD( lpPath, lpADIS, "mod-SGSFR" );
+        lp_imu_mod_IOISA( lpPath, lpADIS, lpLS, "mod-DSIDE", "mod-ISRAD", "mod-SGNQF" );
+        lp_imu_mod_IFETI( lpPath, lpADIS, "mod-SGNDN", "mod-IOISA" );
+        lp_imu_mod_GYLAE( lpPath, lpADIS, "mod-SGNDN", "mod-IFETI" );
 
     }
 

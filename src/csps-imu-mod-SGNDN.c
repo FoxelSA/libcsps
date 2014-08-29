@@ -47,7 +47,7 @@
     Source - IMU signal denosing
  */
 
-    lp_IMU lp_imu_mod_SGNDN( 
+    lp_Void_t lp_imu_mod_SGNDN( 
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU, 
@@ -104,9 +104,6 @@
         lpIMUacy = lp_stream_delete( lpIMUacy );
         lpIMUacz = lp_stream_delete( lpIMUacz );
         lpIMUsyn = lp_stream_delete( lpIMUsyn );
-
-        /* Return device descriptor */
-        return( lpIMU );
 
     }
 

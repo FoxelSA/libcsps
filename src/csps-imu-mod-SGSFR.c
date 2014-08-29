@@ -47,7 +47,7 @@
     Source - IMU signals frequency reduction
  */
 
-    lp_IMU lp_imu_mod_SGSFR( 
+    lp_Void_t lp_imu_mod_SGSFR( 
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU, 
@@ -148,9 +148,6 @@
         lpIMUacy = lp_stream_delete( lpIMUacy );
         lpIMUacz = lp_stream_delete( lpIMUacz );
         lpIMUsyn = lp_stream_delete( lpIMUsyn );
-
-        /* Return device descriptor */
-        return( lpIMU );
 
     }
 

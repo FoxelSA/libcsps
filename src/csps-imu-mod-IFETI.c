@@ -47,7 +47,7 @@
     Source - IMU frame explicit time-integration
  */
 
-    lp_IMU lp_imu_mod_IFETI( 
+    lp_Void_t lp_imu_mod_IFETI( 
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU, 
@@ -344,9 +344,6 @@
         lpIMUfzy = lp_stream_delete( lpIMUfzy );
         lpIMUfzz = lp_stream_delete( lpIMUfzz );
         lpIMUgsn = lp_stream_delete( lpIMUgsn );
-
-        /* Return device descriptor */
-        return( lpIMU );
 
     }
 

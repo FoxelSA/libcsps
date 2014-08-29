@@ -47,7 +47,7 @@
     Source - GPS signal quality filtering
  */
 
-    lp_GPS lp_gps_mod_SGNQF( 
+    lp_Void_t lp_gps_mod_SGNQF( 
 
         const lp_Char_t * const lpPath, 
         lp_GPS                  lpGPS, 
@@ -112,9 +112,6 @@
         lpGPSalt = lp_stream_delete( lpGPSalt );
         lpGPSsyn = lp_stream_delete( lpGPSsyn );
         lpGPSqbf = lp_stream_delete( lpGPSqbf );
-
-        /* Return device descriptor */
-        return( lpGPS );
 
     }
 

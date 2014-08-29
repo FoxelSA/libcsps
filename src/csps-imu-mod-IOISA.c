@@ -47,7 +47,7 @@
     Source - IMU earth self-alignment
  */
 
-    lp_IMU lp_imu_mod_IOISA( 
+    lp_Void_t lp_imu_mod_IOISA( 
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU,
@@ -276,9 +276,6 @@
         lpIMUizy = lp_stream_delete( lpIMUizy );
         lpIMUizz = lp_stream_delete( lpIMUizz );
         lpIMUsyn = lp_stream_delete( lpIMUsyn );
-
-        /* Return device descriptor */
-        return( lpIMU );
 
     }
 

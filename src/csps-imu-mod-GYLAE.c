@@ -47,7 +47,7 @@
     Source - IMU Gravity-less acceleration extraction
  */
 
-    lp_IMU lp_imu_mod_GYLAE( 
+    lp_Void_t lp_imu_mod_GYLAE( 
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU, 
@@ -150,9 +150,6 @@
         lpIMUaax = lp_stream_delete( lpIMUaax );
         lpIMUaay = lp_stream_delete( lpIMUaay );
         lpIMUaaz = lp_stream_delete( lpIMUaaz );
-
-        /* Return device descriptor */
-        return( lpIMU );
 
     }
 
