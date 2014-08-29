@@ -57,7 +57,7 @@
 
         /* Parsing variables */
         lp_Size_t lpParse = lp_Size_s( 0 );
-        lp_Size_t lpIndex = lp_Size_s( 2 );
+        lp_Size_t lpIndex = lp_Size_s( 1 );
 
         /* Stream size variables */
         lp_Size_t lpSize = lp_Size_s( 0 );
@@ -84,8 +84,9 @@
         lp_Real_t * lpIMUacx = LP_NULL;
         lp_Real_t * lpIMUacy = LP_NULL;
         lp_Real_t * lpIMUacz = LP_NULL;
+        lp_Time_t * lpIMUisn = LP_NULL;
         lp_Time_t * lpIMUtag = LP_NULL;
-        lp_Time_t * lpIMUsyn = LP_NULL;
+        lp_Time_t * lpIMUrsn = LP_NULL;
 
         /* Obtain stream size */
         lpSize = lp_stream_size( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod );
@@ -97,10 +98,11 @@
         lpIMUacx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
         lpIMUacy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
         lpIMUacz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
-        lpIMUsyn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+        lpIMUisn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
         /* Create streams */
         lpIMUtag = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpIMU.dvISRmax );
+        lpIMUrsn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpIMU.dvISRmax );
 
         /* Inertial still range automatic detection */
         for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize ; lpParse ++ ) {
@@ -135,20 +137,23 @@
                     if ( lpIndex < lpIMU.dvISRmax ) {
 
                         /* Assign found range */
-                        lpIMUtag[lpIndex ++] = lpIMUsyn[lpBound];
-                        lpIMUtag[lpIndex ++] = lpIMUsyn[lpParse - 1];
+                        lpIMUrsn[lpIndex] = lpIMUisn[lpBound];
+                        lpIMUtag[lpIndex] = lpIMUisn[lpParse - 1];
 
                         /* Select maximum width range */
                         if ( ( lpParse - lp_Size_s( 1 ) - lpBound ) > lpWidth ) {
 
                             /* Assign range boundaries */
-                            lpIMUtag[0] = lpIMUsyn[lpBound];
-                            lpIMUtag[1] = lpIMUsyn[lpParse - 1];
+                            lpIMUrsn[0] = lpIMUrsn[lpIndex];
+                            lpIMUtag[0] = lpIMUtag[lpIndex];
 
                             /* Assign selected range width */
                             lpWidth = lpParse - lp_Size_s( 1 ) - lpBound;
 
                         }
+
+                        /* Update index */
+                        lpIndex ++;
 
                     }
 
@@ -174,6 +179,7 @@
 
         /* Write streams */
         lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_ISRAD_MOD, LP_STREAM_CPN_TAG, lpIMUtag, sizeof( lp_Time_t ) * lpIndex );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_ISRAD_MOD, LP_STREAM_CPN_SYN, lpIMUrsn, sizeof( lp_Time_t ) * lpIndex );
 
         /* Unallocate streams memory */
         lpIMUgrx = lp_stream_delete( lpIMUgrx );
@@ -182,8 +188,9 @@
         lpIMUacx = lp_stream_delete( lpIMUacx );
         lpIMUacy = lp_stream_delete( lpIMUacy );
         lpIMUacz = lp_stream_delete( lpIMUacz );
+        lpIMUisn = lp_stream_delete( lpIMUisn );
         lpIMUtag = lp_stream_delete( lpIMUtag );
-        lpIMUsyn = lp_stream_delete( lpIMUsyn );
+        lpIMUrsn = lp_stream_delete( lpIMUrsn );
  
     }
 
