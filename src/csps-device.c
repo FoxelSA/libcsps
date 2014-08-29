@@ -118,21 +118,6 @@
             /* Assign configuration - ISR maximum count */
             lpDevice.dvISRmax = lp_Size_s( 256 );
 
-            /* Assign configuration - Default initial frame */
-            lpDevice.dvfxx = lp_Real_s( 1.0 );
-            lpDevice.dvfxy = lp_Real_s( 0.0 );
-            lpDevice.dvfxz = lp_Real_s( 0.0 );
-            lpDevice.dvfyx = lp_Real_s( 0.0 );
-            lpDevice.dvfyy = lp_Real_s( 1.0 );
-            lpDevice.dvfyz = lp_Real_s( 0.0 );
-            lpDevice.dvfzx = lp_Real_s( 0.0 );
-            lpDevice.dvfzy = lp_Real_s( 0.0 );
-            lpDevice.dvfzz = lp_Real_s( 1.0 );
-
-            /* Assign configuration - Default interial still range */
-            lpDevice.dvMin = lp_timestamp_compose( lp_Time_s( 0 ), lp_Time_s( 0 ) );
-            lpDevice.dvMax = lp_timestamp_compose( lp_Time_s( 0 ), lp_Time_s( 0 ) );
-
             /* Assign configuration - Frequency */
             lpDevice.dvifreq = lp_Size_s( 2460 );
             lpDevice.dvdfreq = lp_Size_s(   60 );

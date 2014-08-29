@@ -253,17 +253,6 @@
         lpIMUsyn[0] = lpISRdwt;
         lpIMUsyn[1] = lpISRupt;
 
-        /* Temporary */
-        lpIMU.dvfxx = lpIMUixx[0];
-        lpIMU.dvfxy = lpIMUixy[0];
-        lpIMU.dvfxz = lpIMUixz[0];
-        lpIMU.dvfyx = lpIMUiyx[0];
-        lpIMU.dvfyy = lpIMUiyy[0];
-        lpIMU.dvfyz = lpIMUiyz[0];
-        lpIMU.dvfzx = lpIMUizx[0];
-        lpIMU.dvfzy = lpIMUizy[0];
-        lpIMU.dvfzz = lpIMUizz[0];
-
         /* Write streams */
         lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IXX, lpIMUixx, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
         lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IXY, lpIMUixy, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );

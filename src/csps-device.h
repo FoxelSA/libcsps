@@ -164,32 +164,10 @@
      *  Accelerometer factory scale factor for z component
      *  \var lp_IMU_struct::dvISRmax
      *  Maximum number of detectable inertial still ranges
-     *  \var lp_IMU_struct::dvfxx
-     *  IMU frame x-component of x-vector 
-     *  \var lp_IMU_struct::dvfxy
-     *  IMU frame y-component of x-vector 
-     *  \var lp_IMU_struct::dvfxz
-     *  IMU frame z-component of x-vector 
-     *  \var lp_IMU_struct::dvfyx
-     *  IMU frame x-component of y-vector 
-     *  \var lp_IMU_struct::dvfyy
-     *  IMU frame y-component of y-vector 
-     *  \var lp_IMU_struct::dvfyz
-     *  IMU frame z-component of y-vector 
-     *  \var lp_IMU_struct::dvfzx
-     *  IMU frame x-component of z-vector 
-     *  \var lp_IMU_struct::dvfzy
-     *  IMU frame y-component of z-vector 
-     *  \var lp_IMU_struct::dvfzz
-     *  IMU frame z-component of z-vector 
      *  \var lp_IMU_struct::dvifreq 
      *  Device output sampling frequency
      *  \var lp_IMU_struct::dvdfreq 
      *  Output sampling reduced frequency
-     *  \var lp_IMU_struct::dvMin 
-     *  Largest intertial still range minimum timestamp value
-     *  \var lp_IMU_struct::dvMax 
-     *  Largest intertial still range maximum timestamp value
      *  \var lp_IMU_struct::dvBlock 
      *  Stores the importation block size
      */ 
@@ -217,21 +195,6 @@
 
         /* Inertial still range count maximum */
         lp_Size_t dvISRmax;
-
-        /* Initial frame parameters */
-        lp_Real_t dvfxx;
-        lp_Real_t dvfxy;
-        lp_Real_t dvfxz;
-        lp_Real_t dvfyx;
-        lp_Real_t dvfyy;
-        lp_Real_t dvfyz;
-        lp_Real_t dvfzx;
-        lp_Real_t dvfzy;
-        lp_Real_t dvfzz;
-
-        /* Inertial still range */
-        lp_Time_t dvMin;
-        lp_Time_t dvMax;
 
         /* IMU frequencies */
         lp_Size_t dvifreq;
