@@ -55,7 +55,12 @@
     ) {
 
         /* Select device */
-        if ( strcmp( lpDevice.dvName, LP_DEVICE_EYESIS4PI ) == 0 ) {
+        if ( 
+
+            ( strcmp( lpDevice.dvName, LP_DEVICE_EYESIS4PI       ) == 0 ) || 
+            ( strcmp( lpDevice.dvName, LP_DEVICE_NC353L369IMUGPS ) == 0 ) 
+
+        ) {
 
             /* Eyesis4pi specific process */
             lp_cam_DSIDE_EYESIS4PI( lpPath, lpDevice );

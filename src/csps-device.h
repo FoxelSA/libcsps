@@ -75,7 +75,7 @@
 
     /* Define camera device */
     # define LP_DEVICE_EYESIS4PI            "EYESIS4PI"
-    //# define LP_DEVICE_NC353L369IMUGPS      "NC353L-369-IMU-GPS"
+    # define LP_DEVICE_NC353L369IMUGPS      "NC353L-369-IMU-GPS"
 
     /* Define Eyesis4pi log file */
     # define LP_DEVICE_EYESIS4PI_LOG_FPGA   "LOG-FPGA"

@@ -94,7 +94,12 @@
         lp_IMU lpDevice;
 
         /* Detect type of IMU */
-        if ( strcmp( lpName, LP_DEVICE_ADIS16375 ) == 0 ) {
+        if ( 
+
+            ( strcmp( lpName, LP_DEVICE_ADIS16375       ) == 0 ) ||
+            ( strcmp( lpName, LP_DEVICE_NC353L369IMUGPS ) == 0 )
+            
+        ) {
 
             /* Assign device type name */
             sprintf( lpDevice.dvType, "%s", LP_DEVICE_TYPE_IMU );
