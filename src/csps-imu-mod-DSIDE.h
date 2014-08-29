@@ -99,10 +99,9 @@
      *
      *  \param lpPath Path CSPS structure
      *  \param lpDevice Device descriptor
-     *  \return Returns device descriptor
      */
 
-    lp_IMU lp_imu_mod_DSIDE(
+    lp_Void_t lp_imu_mod_DSIDE(
 
         const lp_Char_t * const lpPath,
         lp_IMU                  lpDevice
@@ -115,10 +114,9 @@
      *
      *  \param lpPath Path CSPS structure
      *  \param lpDevice Device descriptor
-     *  \return Returns device descriptor
      */
 
-    lp_IMU lp_imu_DSIDE_ADIS16375(
+    lp_Void_t lp_imu_DSIDE_ADIS16375(
 
         const lp_Char_t * const lpPath,
         lp_IMU                  lpDevice

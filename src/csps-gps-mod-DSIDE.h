@@ -100,10 +100,9 @@
      *
      *  \param lpPath Path CSPS structure
      *  \param lpDevice Device descriptor
-     *  \return Returns device descriptor
      */
 
-    lp_GPS lp_gps_mod_DSIDE(
+    lp_Void_t lp_gps_mod_DSIDE(
 
         const lp_Char_t * const lpPath,
         lp_GPS                  lpDevice
@@ -116,10 +115,9 @@
      *
      *  \param lpPath Path CSPS structure
      *  \param lpDevice Device descriptor
-     *  \return Returns device descriptor
      */
 
-    lp_GPS lp_gps_DSIDE_LS20031(
+    lp_Void_t lp_gps_DSIDE_LS20031(
 
         const lp_Char_t * const lpPath,
         lp_GPS                  lpDevice

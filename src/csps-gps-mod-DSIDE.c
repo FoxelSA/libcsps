@@ -47,7 +47,7 @@
     Source - GPS signal extraction switch
  */
 
-    lp_GPS lp_gps_mod_DSIDE( 
+    lp_Void_t lp_gps_mod_DSIDE( 
 
         const lp_Char_t * const lpPath, 
         lp_GPS                  lpDevice
@@ -58,12 +58,7 @@
         if ( strcmp( lpDevice.dvName, LP_DEVICE_LS20031 ) == 0 ) {
 
             /* LS20031 specific process */
-            return ( lp_gps_DSIDE_LS20031( lpPath, lpDevice ) );
-
-        } else {
-
-            /* Unknown device - Return descriptor */
-            return( lpDevice );
+            lp_gps_DSIDE_LS20031( lpPath, lpDevice );
 
         }
 
@@ -73,7 +68,7 @@
     Source - LS20031 GPS specific extractor
  */
 
-    lp_GPS lp_gps_DSIDE_LS20031( 
+    lp_Void_t lp_gps_DSIDE_LS20031( 
 
         const lp_Char_t * const lpPath, 
         lp_GPS                  lpDevice 
@@ -286,9 +281,6 @@
         lpGPSalt = lp_stream_delete( lpGPSalt );
         lpGPSqbf = lp_stream_delete( lpGPSqbf );
         lpGPSsyn = lp_stream_delete( lpGPSsyn );
-
-        /* Return device descriptor */
-        return( lpDevice );
 
     }
 

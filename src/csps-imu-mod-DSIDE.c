@@ -47,7 +47,7 @@
     Source - IMU signal extraction switch
  */
 
-    lp_IMU lp_imu_mod_DSIDE( 
+    lp_Void_t lp_imu_mod_DSIDE( 
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpDevice
@@ -58,12 +58,7 @@
         if ( strcmp( lpDevice.dvName, LP_DEVICE_ADIS16375 ) == 0 ) {
 
             /* ADIS16375 specific process */
-            return( lp_imu_DSIDE_ADIS16375( lpPath, lpDevice ) );
-
-        } else {
-
-            /* Unknown device - Return descriptor */
-            return( lpDevice );
+            lp_imu_DSIDE_ADIS16375( lpPath, lpDevice );
 
         }
 
@@ -73,7 +68,7 @@
     Source - ADIS16375 IMU specific extractor
  */
 
-    lp_IMU lp_imu_DSIDE_ADIS16375( 
+    lp_Void_t lp_imu_DSIDE_ADIS16375( 
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpDevice 
@@ -222,9 +217,6 @@
         lpIMUacy = lp_stream_delete( lpIMUacy );
         lpIMUacz = lp_stream_delete( lpIMUacz );
         lpIMUsyn = lp_stream_delete( lpIMUsyn );
-
-        /* Return device descriptor */
-        return( lpDevice );
 
     }
 

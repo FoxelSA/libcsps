@@ -99,10 +99,9 @@
      *
      *  \param lpPath Path CSPS structure
      *  \param lpDevice Device descriptor
-     *  \return Returns device descriptor
      */
 
-    lp_CAM lp_cam_mod_DSIDE(
+    lp_Void_t lp_cam_mod_DSIDE(
 
         const lp_Char_t * const lpPath,
         lp_CAM                  lpDevice
@@ -115,10 +114,9 @@
      *
      *  \param lpPath Path CSPS structure
      *  \param lpDevice Device descriptor
-     *  \return Returns device descriptor
      */
 
-    lp_CAM lp_cam_DSIDE_EYESIS4PI(
+    lp_Void_t lp_cam_DSIDE_EYESIS4PI(
 
         const lp_Char_t * const lpPath,
         lp_CAM                  lpDevice

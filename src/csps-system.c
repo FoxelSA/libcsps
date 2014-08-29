@@ -64,9 +64,9 @@
         lpLS   = lp_device_GPS( LP_DEVICE_LS20031  , "ls20031"   );
 
         /* CSPS data extractors */
-        lpCAM  = lp_cam_mod_DSIDE( lpPath, lpCAM  ); 
-        lpADIS = lp_imu_mod_DSIDE( lpPath, lpADIS );
-        lpLS   = lp_gps_mod_DSIDE( lpPath, lpLS   );
+        lp_cam_mod_DSIDE( lpPath, lpCAM  ); 
+        lp_imu_mod_DSIDE( lpPath, lpADIS );
+        lp_gps_mod_DSIDE( lpPath, lpLS   );
 
         /* CSPS GPS process line */
         lpLS   = lp_gps_mod_SGNQF( lpPath, lpLS, "mod-DSIDE" );

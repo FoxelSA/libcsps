@@ -47,7 +47,7 @@
     Source - Camera signal extraction switch
  */
 
-    lp_CAM lp_cam_mod_DSIDE( 
+    lp_Void_t lp_cam_mod_DSIDE( 
 
         const lp_Char_t * const lpPath, 
         lp_CAM                  lpDevice 
@@ -58,12 +58,7 @@
         if ( strcmp( lpDevice.dvName, LP_DEVICE_EYESIS4PI ) == 0 ) {
 
             /* Eyesis4pi specific process */
-            return( lp_cam_DSIDE_EYESIS4PI( lpPath, lpDevice ) );
-
-        } else {
-
-            /* Unknown device - Return descriptor */
-            return( lpDevice );
+            lp_cam_DSIDE_EYESIS4PI( lpPath, lpDevice );
 
         }
 
@@ -73,7 +68,7 @@
     Source - Camera Eyesis4pi specific extractor
  */
 
-    lp_CAM lp_cam_DSIDE_EYESIS4PI( 
+    lp_Void_t lp_cam_DSIDE_EYESIS4PI( 
 
         const lp_Char_t * const lpPath, 
         lp_CAM                  lpDevice 
@@ -172,9 +167,6 @@
         /* Unallocate streams */
         free( lpDEVmas );
         free( lpDEVsyn );
-
-        /* Return device descriptor */
-        return( lpDevice );
 
     }
 
