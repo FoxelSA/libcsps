@@ -76,7 +76,7 @@
         lpADIS = lp_imu_mod_SGNDN( lpPath, lpADIS, "mod-SGSFR" );
         lpADIS = lp_imu_mod_ISRAD( lpPath, lpADIS, "mod-SGSFR" );
         lpADIS = lp_imu_mod_IOISA( lpPath, lpADIS, lpLS, "mod-DSIDE", "mod-ISRAD", "mod-SGNQF" );
-        lpADIS = lp_imu_mod_IFETI( lpPath, lpADIS, "mod-IOISA", "mod-SGNDN" );
+        lpADIS = lp_imu_mod_IFETI( lpPath, lpADIS, "mod-SGNDN", "mod-IOISA" );
         lpADIS = lp_imu_mod_GYLAE( lpPath, lpADIS, "mod-SGNDN", "mod-IFETI" );
 
     }

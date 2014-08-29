@@ -96,16 +96,16 @@
      *  This function detect the largest intertial still range.
      *  
      *  \param lpPath Path to CSPS structure
-     *  \param lpDevice IMU device descriptor
-     *  \param lpPS__ Acceleration and gyroscopic module name
+     *  \param lpIMU IMU device descriptor
+     *  \param lpIMUmod Gyroscope and acceleration stream initiator module name
      *  \return Returns lpDevice structure
      */
 
     lp_IMU lp_imu_mod_ISRAD(
 
-        const lp_Char_t * const lpPath,
-        lp_IMU                  lpDevice,
-        const lp_Char_t * const lpPS__
+        const lp_Char_t * const lpPath, 
+        lp_IMU                  lpIMU, 
+        const lp_Char_t * const lpIMUmod 
 
     );
 

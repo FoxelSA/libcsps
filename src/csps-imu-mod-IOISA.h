@@ -99,8 +99,9 @@
      *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
      *  \param lpGPS GPS device descriptor
-     *  \param lpIMUmod IMU module stream name
-     *  \param lpGPSmod GPS module stream name
+     *  \param lpIMUmodISD Gyroscope and acceleration stream initiator module name
+     *  \param lpIMUmodTAG Inertial still range stream initiator module name
+     *  \param lpIMUmodGEO Geographic position stream initiator module name
      *  \return Returns IMU device descriptor
      */
 
@@ -109,9 +110,9 @@
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU,
         lp_GPS                  lpGPS,
-        const lp_Char_t * const lpIMUmod,
-        const lp_Char_t * const lpIMUmod_tag,
-        const lp_Char_t * const lpGPSmod 
+        const lp_Char_t * const lpIMUmodISD,
+        const lp_Char_t * const lpIMUmodTAG,
+        const lp_Char_t * const lpIMUmodGEO  
 
     );
 

@@ -97,9 +97,9 @@
      *  Denoise the signals coming from the IMU device. The implemented
      *  algorithm is currently the total variation with iterative clipping.
      *  
-     *  \param lpPath  Path CSPS structure
+     *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
-     *  \param lpIMUmod IMU related input stream
+     *  \param lpIMUmod Gyroscope and acceleration stream initiator module name
      *  \return Return IMU device descriptor
      */
 

@@ -99,7 +99,7 @@
      *  
      *  \param lpPath Path CSPS structure
      *  \param lpGPS GPS device descriptor
-     *  \param lpGPSmod GPS related input stream name
+     *  \param lpGPSmod Geographic and signal quality stream initiator module name
      *  \return Returns GPS device descriptor
      */
 
@@ -107,7 +107,7 @@
 
         const lp_Char_t * const lpPath, 
         lp_GPS                  lpGPS, 
-        const lp_Char_t * const lpGPSmod 
+        const lp_Char_t * const lpGPSmod
 
     );
 

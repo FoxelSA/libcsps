@@ -96,9 +96,9 @@
      *  This function reduces the sampling frequency of the acceleration
      *  and gyroscopic sensor signal.
      *  
-     *  \param lpPath  Path CSPS structure
+     *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
-     *  \param lpIMUmod IMU related input stream
+     *  \param lpIMUmod Gyroscope and acceleration stream initiator module name
      *  \return Returns IMU device descriptor
      */
 

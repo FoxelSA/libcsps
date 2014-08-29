@@ -100,8 +100,8 @@
      *  
      *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
-     *  \param lpIMUmodI__ Initial condition stream
-     *  \param lpIMUmodGR_ Gyroscope stream
+     *  \param lpIMUmodGYR Gyroscope stream initiator module name
+     *  \param lpIMUmodFRM Frame stream initiator module name
      *  \return Returns IMU device descriptor
      */
 
@@ -109,8 +109,8 @@
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU, 
-        const lp_Char_t * const lpIMUmodI__,
-        const lp_Char_t * const lpIMUmodGR_
+        const lp_Char_t * const lpIMUmodGYR,
+        const lp_Char_t * const lpIMUmodFRM
 
     );
 

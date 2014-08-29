@@ -98,17 +98,17 @@
      *  
      *  \param lpPath Path to CSPS structure
      *  \param lpDevice IMU device descriptor
-     *  \param lpPSac Acceleration stream component module name
-     *  \param lpPSac Gyroscope stream component module name
+     *  \param lpIMUmodACC Acceleration stream initiator module name
+     *  \param lpIMUmodFRM Frame stream initiator module name
      *  \return Return lpDevice structure
      */
 
     lp_IMU lp_imu_mod_GYLAE(
 
-        const lp_Char_t * const lpPath,
-        lp_IMU                  lpDevice,
-        const lp_Char_t * const lpPSac,
-        const lp_Char_t * const lpPSf_
+        const lp_Char_t * const lpPath, 
+        lp_IMU                  lpIMU, 
+        const lp_Char_t * const lpIMUmodACC, 
+        const lp_Char_t * const lpIMUmodFRM
 
     );
 
