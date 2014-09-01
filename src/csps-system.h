@@ -78,6 +78,33 @@
     Header - Preprocessor definitions
  */
 
+    /* Define maximum number of token */
+    # define LP_SYSTEM_TOKEN        lp_Size_s( 16 )
+
+    /* Define maximum number of devices */
+    # define LP_SYSTEM_DEVICE       lp_Size_s( 1024 )
+
+    /* Define maximum number of modules */
+    # define LP_SYSTEM_MODULE       lp_Size_s( 1024 )
+
+    /* Define invalid device */
+    # define LP_SYSTEM_NODEVICE     lp_Size_s( -1 )
+
+    /* Define topology keywords */
+    # define LP_SYSTEM_KW_DEVICE    "device"
+    # define LP_SYSTEM_KW_MODULE    "module"
+    # define LP_SYSTEM_KW_ENDLIN    "end"
+    # define LP_SYSTEM_KW_DVTYPE    "type"
+    # define LP_SYSTEM_KW_DVTAGS    "tag"
+
+    /* Define topology analysis modes */
+    # define LP_SYSTEM_MODE_MAIN    lp_Enum_s( 0 )
+    # define LP_SYSTEM_MODE_IDEV    lp_Enum_s( 1 )
+    # define LP_SYSTEM_MODE_XMOD    lp_Enum_s( 2 )
+    # define LP_SYSTEM_MODE_ICAM    lp_Enum_s( 3 )
+    # define LP_SYSTEM_MODE_IGPS    lp_Enum_s( 4 )
+    # define LP_SYSTEM_MODE_IIMU    lp_Enum_s( 5 )
+
 /*
     Header - Preprocessor macros
  */
@@ -94,16 +121,62 @@
     Header - Function prototypes
  */
 
-    /*! \brief CSPS library front-end
-     *  
-     *  Work in progress. Please wait a while.
-     *  
-     *  \param lpPath Path to CSPS structure
+    /*! \brief CSPS front-end
+     *
+     * This function provides a front-end between CSPS module
+     * and the library users. It reads a file that contains the
+     * CSPS topology and execute it.
+     *
+     * \param lpPath Path to CSPS structure
+     * \param lpFile Path to the file containing the CSPS topology
      */
 
     lp_Void_t lp_system(
 
-        const lp_Char_t * const lpPath
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpFile
+
+    );
+
+    /*! \brief File token reader
+     *
+     * This function simply reads token from specified file. It
+     * returns the pointer to read token buffer.
+     * 
+     * \param lpFile File from which token is read
+     * \param lpToken Read token buffer
+     * \return Returns pointer to string allocation that contains read token
+     */
+
+    lp_Char_t * lp_system_token(
+
+        FILE      * lpFile,
+        lp_Char_t * lpToken
+
+    );
+
+    /*! \brief Device search in stack
+     * 
+     * This function is a coprocess of topology file interpreter. It
+     * searches in devices stack the index of device defined by the
+     * specified tag. If the device is not found, an invalid code
+     * is returned.
+     *
+     * \param lpTag Tag of the device to search in stack
+     * \param lpType Type of the device to search
+     * \param lpIndex Size of the devices stack in device unit
+     * \param lpType Devices type stack array
+     * \param lpDesc Devices descriptor stack array
+     * \return Return device index in the stack or invalid value
+     */
+
+    lp_Size_t lp_system_device_by_tag(
+
+        const lp_Char_t * const lpTag,
+        const lp_Enum_t         lpType,
+        lp_Size_t               lpIndex,
+        lp_Enum_t *             lpTypes,
+        lp_Void_t **            lpDescs
 
     );
 

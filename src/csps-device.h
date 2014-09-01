@@ -68,6 +68,11 @@
     Header - Preprocessor definitions
  */
 
+    /* Define device type indexes */
+    # define LP_DEVICE_ID_CAM               lp_Enum_s( 1 )
+    # define LP_DEVICE_ID_GPS               lp_Enum_s( 2 )
+    # define LP_DEVICE_ID_IMU               lp_Enum_s( 3 )
+
     /* Define device types */
     # define LP_DEVICE_TYPE_CAM             "cam"
     # define LP_DEVICE_TYPE_GPS             "gps"
