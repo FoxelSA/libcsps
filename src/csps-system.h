@@ -94,7 +94,7 @@
     # define LP_SYSTEM_KW_DEVICE    "device"
     # define LP_SYSTEM_KW_MODULE    "module"
     # define LP_SYSTEM_KW_ENDLIN    "end"
-    # define LP_SYSTEM_KW_DVTYPE    "type"
+    # define LP_SYSTEM_KW_DVTYPE    "model"
     # define LP_SYSTEM_KW_DVTAGS    "tag"
 
     /* Define topology analysis modes */
