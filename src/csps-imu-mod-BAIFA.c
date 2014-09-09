@@ -161,16 +161,19 @@
         lpIMUizy[0] = + lp_Real_s( 0.0 );
         lpIMUizz[0] = + lp_Real_s( 1.0 );
 
-        /* Rotation */
+        /* Rotation - HARD CODED - TEMPORARY */
         lp_Real_t a = lpIMUixx[0] * cos( 90.0 * ( LP_PI / 180.0 ) ) - lpIMUixy[0] * sin( 90.0 * ( LP_PI / 180.0 ) );
         lp_Real_t b = lpIMUixx[0] * sin( 90.0 * ( LP_PI / 180.0 ) ) + lpIMUixy[0] * cos( 90.0 * ( LP_PI / 180.0 ) );
 
+        /* Rotation - HARD CODED - TEMPORARY */
         lpIMUixx[0] = a;
         lpIMUixy[0] = b;        
 
+        /* Rotation - HARD CODED - TEMPORARY */
         a = lpIMUiyx[0] * cos( 90.0 * ( LP_PI / 180.0 ) ) - lpIMUiyy[0] * sin( 90.0 * ( LP_PI / 180.0 ) );
         b = lpIMUiyx[0] * sin( 90.0 * ( LP_PI / 180.0 ) ) + lpIMUiyy[0] * cos( 90.0 * ( LP_PI / 180.0 ) );
 
+        /* Rotation - HARD CODED - TEMPORARY */
         lpIMUiyx[0] = a;
         lpIMUiyy[0] = b;
 
