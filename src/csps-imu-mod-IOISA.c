@@ -213,6 +213,114 @@
         lpIMUizz = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
         lpIMUisn = lp_stream_create( sizeof( lp_Time_t ) * lp_Size_s( 2 ) );
 
+        /* Normalize mean acceleration */
+        lpACCacx /= lpACCacn;
+        lpACCacy /= lpACCacn;
+        lpACCacz /= lpACCacn;
+
+        /* Normalize mean angular velocity */
+        lpACCgrx /= lpACCgrn;
+        lpACCgry /= lpACCgrn;
+        lpACCgrz /= lpACCgrn;
+
+        /* Compute rotated frame x-components */
+        lpIMUixx[0] = - lpACCacx * lpACCacx * ( ( 1.0 + lpACCacz ) / ( lpACCacx * lpACCacx + lpACCacy * lpACCacy ) ) + 1.0;
+        lpIMUiyx[0] = - lpACCacx * lpACCacy * ( ( 1.0 + lpACCacz ) / ( lpACCacx * lpACCacx + lpACCacy * lpACCacy ) );
+        lpIMUizx[0] = - lpACCacx;
+
+        /* Compute rotated frame y-components */
+        lpIMUixy[0] = - lpACCacx * lpACCacy * ( ( 1.0 + lpACCacz ) / ( lpACCacx * lpACCacx + lpACCacy * lpACCacy ) );
+        lpIMUiyy[0] = - lpACCacy * lpACCacy * ( ( 1.0 + lpACCacz ) / ( lpACCacx * lpACCacx + lpACCacy * lpACCacy ) ) + 1.0;
+        lpIMUizy[0] = - lpACCacy;
+
+        /* Compute rotated frame z-components */
+        lpIMUixz[0] = + lpACCacx;
+        lpIMUiyz[0] = + lpACCacy;
+        lpIMUizz[0] = - lpACCacz;
+
+        //fprintf( stderr, "%f\n", sqrt( lpIMUixx[0] * lpIMUixx[0] + lpIMUixy[0] * lpIMUixy[0] + lpIMUixz[0] * lpIMUixz[0] ) );
+        //fprintf( stderr, "%f\n", sqrt( lpIMUiyx[0] * lpIMUiyx[0] + lpIMUiyy[0] * lpIMUiyy[0] + lpIMUiyz[0] * lpIMUiyz[0] ) );
+        //fprintf( stderr, "%f\n", sqrt( lpIMUizx[0] * lpIMUizx[0] + lpIMUizy[0] * lpIMUizy[0] + lpIMUizz[0] * lpIMUizz[0] ) );
+
+        lp_Real_t lpRGRgrx = 0.0;
+        lp_Real_t lpRGRgry = 0.0;
+        lp_Real_t lpRGRgrz = 0.0;
+
+        lpRGRgrx = lpIMUixx[0] * lpACCgrx + lpIMUixy[0] * lpACCgry + lpIMUixz[0] * lpACCgrz;
+        lpRGRgry = lpIMUiyx[0] * lpACCgrx + lpIMUiyy[0] * lpACCgry + lpIMUiyz[0] * lpACCgrz; 
+        lpRGRgrz = lpIMUizx[0] * lpACCgrx + lpIMUizy[0] * lpACCgry + lpIMUizz[0] * lpACCgrz; 
+
+        //fprintf( stderr, "%f %f %f\n", lpRGRgrx, lpRGRgry, lpRGRgrz );
+
+        if ( 1 == 2 ) {
+
+        /* Initialize body frame */
+        lpIMUixx[0] = 1.0;
+        lpIMUixy[0] = 0.0;
+        lpIMUixz[0] = 0.0;
+        lpIMUiyx[0] = 0.0;
+        lpIMUiyy[0] = 1.0;
+        lpIMUiyz[0] = 0.0;
+        lpIMUizx[0] = 0.0;
+        lpIMUizy[0] = 0.0;
+        lpIMUizz[0] = 1.0;        
+
+        /* Compute rotation matrix for gravity */
+        lp_Real_t lpROTg1[3][3];
+        lp_Real_t lpROTg2[3][3] = {
+
+            {                  0.0,                  0.0, lpACCacn * lpACCacx },
+            {                  0.0,                  0.0, lpACCacn * lpACCacy },
+            { -lpACCacn * lpACCacx, -lpACCacn * lpACCacy,                 0.0 }
+
+        };
+
+        lpROTg1[0][0] = 1.0 + lpROTg2[0][0] + ( lpROTg2[0][0] * lpROTg2[0][0] + lpROTg2[0][1] * lpROTg2[1][0] + lpROTg2[0][2] * lpROTg2[2][0] ) * ( ( 1.0 + lpACCacn * lpACCacz ) / ( lpACCacn * sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy ) ) );
+        lpROTg1[0][1] = 0.0 + lpROTg2[0][1] + ( lpROTg2[0][0] * lpROTg2[0][1] + lpROTg2[0][1] * lpROTg2[1][1] + lpROTg2[0][2] * lpROTg2[2][1] ) * ( ( 1.0 + lpACCacn * lpACCacz ) / ( lpACCacn * sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy ) ) );
+        lpROTg1[0][2] = 0.0 + lpROTg2[0][2] + ( lpROTg2[0][0] * lpROTg2[0][2] + lpROTg2[0][1] * lpROTg2[1][2] + lpROTg2[0][2] * lpROTg2[2][2] ) * ( ( 1.0 + lpACCacn * lpACCacz ) / ( lpACCacn * sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy ) ) );
+        lpROTg1[1][0] = 0.0 + lpROTg2[1][0] + ( lpROTg2[1][0] * lpROTg2[0][0] + lpROTg2[1][1] * lpROTg2[1][0] + lpROTg2[1][2] * lpROTg2[2][0] ) * ( ( 1.0 + lpACCacn * lpACCacz ) / ( lpACCacn * sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy ) ) );
+        lpROTg1[1][1] = 1.0 + lpROTg2[1][1] + ( lpROTg2[1][0] * lpROTg2[0][1] + lpROTg2[1][1] * lpROTg2[1][1] + lpROTg2[1][2] * lpROTg2[2][1] ) * ( ( 1.0 + lpACCacn * lpACCacz ) / ( lpACCacn * sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy ) ) );
+        lpROTg1[1][2] = 0.0 + lpROTg2[1][2] + ( lpROTg2[1][0] * lpROTg2[0][2] + lpROTg2[1][1] * lpROTg2[1][2] + lpROTg2[1][2] * lpROTg2[2][2] ) * ( ( 1.0 + lpACCacn * lpACCacz ) / ( lpACCacn * sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy ) ) );
+        lpROTg1[2][0] = 0.0 + lpROTg2[2][0] + ( lpROTg2[2][0] * lpROTg2[0][0] + lpROTg2[2][1] * lpROTg2[1][0] + lpROTg2[2][2] * lpROTg2[2][0] ) * ( ( 1.0 + lpACCacn * lpACCacz ) / ( lpACCacn * sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy ) ) );
+        lpROTg1[2][1] = 0.0 + lpROTg2[2][1] + ( lpROTg2[2][0] * lpROTg2[0][1] + lpROTg2[2][1] * lpROTg2[1][1] + lpROTg2[2][2] * lpROTg2[2][1] ) * ( ( 1.0 + lpACCacn * lpACCacz ) / ( lpACCacn * sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy ) ) );
+        lpROTg1[2][2] = 1.0 + lpROTg2[2][2] + ( lpROTg2[2][0] * lpROTg2[0][2] + lpROTg2[2][1] * lpROTg2[1][2] + lpROTg2[2][2] * lpROTg2[2][2] ) * ( ( 1.0 + lpACCacn * lpACCacz ) / ( lpACCacn * sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy ) ) );
+
+        lpIMUixx[0] = lpROTg1[0][0];
+        lpIMUixy[0] = lpROTg1[1][0];
+        lpIMUixz[0] = lpROTg1[2][0];
+        lpIMUiyx[0] = lpROTg1[0][1];
+        lpIMUiyy[0] = lpROTg1[1][1];
+        lpIMUiyz[0] = lpROTg1[2][1];
+        lpIMUizx[0] = lpROTg1[0][2];
+        lpIMUizy[0] = lpROTg1[1][2];
+        lpIMUizz[0] = lpROTg1[2][2];
+
+        lpACCabs = sqrt( lpIMUixx[0] * lpIMUixx[0] + lpIMUixy[0] * lpIMUixy[0] + lpIMUixz[0] * lpIMUixz[0] );
+
+        lpIMUixx[0] /= lpACCabs;
+        lpIMUixy[0] /= lpACCabs;
+        lpIMUixz[0] /= lpACCabs;
+
+        lpACCabs = sqrt( lpIMUiyx[0] * lpIMUiyx[0] + lpIMUiyy[0] * lpIMUiyy[0] + lpIMUiyz[0] * lpIMUiyz[0] );
+
+        lpIMUiyx[0] /= lpACCabs;
+        lpIMUiyy[0] /= lpACCabs;
+        lpIMUiyz[0] /= lpACCabs;
+
+        lpACCabs = sqrt( lpIMUizx[0] * lpIMUizx[0] + lpIMUizy[0] * lpIMUizy[0] + lpIMUizz[0] * lpIMUizz[0] );
+
+        lpIMUizx[0] /= lpACCabs;
+        lpIMUizy[0] /= lpACCabs;
+        lpIMUizz[0] /= lpACCabs;
+
+        lpRGRgrx = lpROTg1[0][0] * lpACCgrx + lpROTg1[0][1] * lpACCgry + lpROTg1[0][2] * lpACCgrz;
+        lpRGRgry = lpROTg1[1][0] * lpACCgrx + lpROTg1[1][1] * lpACCgry + lpROTg1[1][2] * lpACCgrz;
+        lpRGRgrz = lpROTg1[2][0] * lpACCgrx + lpROTg1[2][1] * lpACCgry + lpROTg1[2][2] * lpACCgrz;
+        
+        lpROTg2[0][0] = 0.0;
+
+        } if ( 1 == 2 ) {
+       
         /* Frame z-vector gravity alignment */
         lpIMUizx[0] = - lpACCacx / lpACCacn;
         lpIMUizy[0] = - lpACCacy / lpACCacn;
@@ -241,6 +349,8 @@
         lpIMUixy[0] = lpIMUiyz[0] * lpIMUizx[0] - lpIMUiyx[0] * lpIMUizz[0];
         lpIMUixz[0] = lpIMUiyx[0] * lpIMUizy[0] - lpIMUiyy[0] * lpIMUizx[0];
 
+        }
+
         /* Assign second component */
         lpIMUixx[1] = lpIMUixx[0];
         lpIMUixy[1] = lpIMUixy[0];
@@ -252,7 +362,7 @@
         lpIMUizy[1] = lpIMUizy[0];
         lpIMUizz[1] = lpIMUizz[0];
 
-        /* Assign initial condition timestamp */
+        /* Assign initial condition timestamps */
         lpIMUisn[0] = lpISRdwt;
         lpIMUisn[1] = lpISRupt;
 
