@@ -36,50 +36,44 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    //! @file   csps-all.h
-    //! @author Nils Hamel (n.hamel@foxel.ch)
-    //! 
-    //! Library general includer
+    /*! \file   csps-imu-mod-IOISA.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  IMU earth self-alignment module (IOISA - Initial Orientation Inertial Self-Alignment)
+     */
 
 /*
     Header - Include guard
  */
 
-    # ifndef __LP_ALL__
-    # define __LP_ALL__
+    # ifndef __LP_IMU_BAIFA__
+    # define __LP_IMU_BAIFA__
 
 /*
     Header - C/C++ compatibility
  */
 
+    # ifdef __cplusplus
+    extern "C" {
+    # endif
+
 /*
     Header - Includes
  */
 
-    # include "csps-cam-mod-DSIDE.h"
+    # include "csps.h"
     # include "csps-device.h"
-    # include "csps-gps-mod-DSIDE.h"
-    # include "csps-gps-mod-SGNQF.h"
-    # include "csps-imu-mod-DSIDE.h"
-    # include "csps-imu-mod-BAIFA.h"
-    # include "csps-imu-mod-GYLAE.h"
-    # include "csps-imu-mod-IFETI.h"
-    # include "csps-imu-mod-IOISA.h"
-    # include "csps-imu-mod-ISRAD.h"
-    # include "csps-imu-mod-SGNDN.h"
-    # include "csps-imu-mod-SGSFR.h"
-    # include "csps-nmea.h"
-    # include "csps-noise.h"
     # include "csps-path.h"
-    # include "csps-qbf.h"
-    # include "csps-query.h"
     # include "csps-stream.h"
-    # include "csps-system.h"
     # include "csps-timestamp.h"
 
 /*
     Header - Preprocessor definitions
  */
+
+    /* CSPS module identification */
+    # define LP_IMU_BAIFA_MOD "mod-BAIFA"
+    # define LP_IMU_BAIFA_DES "Body Attached Inertial Frame Alignment"
 
 /*
     Header - Preprocessor macros
@@ -97,9 +91,26 @@
     Header - Function prototypes
  */
 
+    /*! \brief Body attached inertial frame alignment module
+     *  
+     */
+
+    lp_Void_t lp_imu_mod_BAIFA(
+
+        const lp_Char_t * const lpPath, 
+        lp_IMU                  lpIMU,
+        lp_GPS                  lpGPS,
+        const lp_Char_t * const lpIMUmodGEO  
+
+    );
+
 /*
     Header - C/C++ compatibility
  */
+
+    # ifdef __cplusplus
+    }
+    # endif
 
 /*
     Header - Include guard

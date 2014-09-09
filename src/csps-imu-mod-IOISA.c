@@ -238,9 +238,6 @@
         lpIMUiyz[0] = + lpACCacy;
         lpIMUizz[0] = - lpACCacz;
 
-        //fprintf( stderr, "%f\n", sqrt( lpIMUixx[0] * lpIMUixx[0] + lpIMUixy[0] * lpIMUixy[0] + lpIMUixz[0] * lpIMUixz[0] ) );
-        //fprintf( stderr, "%f\n", sqrt( lpIMUiyx[0] * lpIMUiyx[0] + lpIMUiyy[0] * lpIMUiyy[0] + lpIMUiyz[0] * lpIMUiyz[0] ) );
-        //fprintf( stderr, "%f\n", sqrt( lpIMUizx[0] * lpIMUizx[0] + lpIMUizy[0] * lpIMUizy[0] + lpIMUizz[0] * lpIMUizz[0] ) );
 
         lp_Real_t lpRGRgrx = 0.0;
         lp_Real_t lpRGRgry = 0.0;
@@ -250,7 +247,7 @@
         lpRGRgry = lpIMUiyx[0] * lpACCgrx + lpIMUiyy[0] * lpACCgry + lpIMUiyz[0] * lpACCgrz; 
         lpRGRgrz = lpIMUizx[0] * lpACCgrx + lpIMUizy[0] * lpACCgry + lpIMUizz[0] * lpACCgrz; 
 
-        //fprintf( stderr, "%f %f %f\n", lpRGRgrx, lpRGRgry, lpRGRgrz );
+        fprintf( stderr, "%f %f %f\n", lpRGRgrx, lpRGRgry, lpRGRgrz );
 
         if ( 1 == 2 ) {
 
