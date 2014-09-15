@@ -126,11 +126,41 @@
         lpIMUizz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_IZZ, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
         lpIMUisn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_SYN, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
 
-        /* Search intertial still range boundaries timestamps index */
-        lpISRdwi = lp_timestamp_index( lpIMUisn[0], lpIMUgsn, lpSize );
-        lpISRupi = lp_timestamp_index( lpIMUisn[1], lpIMUgsn, lpSize );
+        /* Detect initial condition time range - Down boundary */
+        if ( lp_timestamp_ge( lpIMUgsn[0], lpIMUisn[0] ) == LP_TRUE ) {
 
-        fprintf( stderr, "%" lp_Size_p " - %" lp_Size_p "\n", lpISRdwi, lpISRupi );
+            /* Clamp down boundary */
+            lpISRdwi = 0;
+
+        } else if ( lp_timestamp_ge( lpIMUisn[0], lpIMUgsn[lpSize-1] ) == LP_TRUE ) {
+
+            /* Clamp down boundary */
+            lpISRdwi = lpSize - lp_Size_s( 1 );
+
+        } else {
+
+            /* Dichotomous search of timestamp */
+            lpISRdwi = lp_timestamp_index( lpIMUisn[0], lpIMUgsn, lpSize );
+
+        }
+
+        /* Detect initial condition time range - Down boundary */
+        if ( lp_timestamp_ge( lpIMUgsn[0], lpIMUisn[1] ) == LP_TRUE ) {
+
+            /* Clamp down boundary */
+            lpISRupi = 0;
+
+        } else if ( lp_timestamp_ge( lpIMUisn[1], lpIMUgsn[lpSize-1] ) == LP_TRUE ) {
+
+            /* Clamp down boundary */
+            lpISRupi = lpSize - lp_Size_s( 1 );
+
+        } else {
+
+            /* Dichotomous search of timestamp */
+            lpISRupi = lp_timestamp_index( lpIMUisn[1], lpIMUgsn, lpSize );
+
+        }
 
         /* Setting initial conditions */
         for ( lpParse = lpISRdwi ; lpParse <= lpISRupi ; lpParse ++ ) {
@@ -148,17 +178,53 @@
 
         }
 
-        /* Unallocate streams */
-        lpIMUixx = lp_stream_delete( lpIMUixx );
-        lpIMUixy = lp_stream_delete( lpIMUixy );
-        lpIMUixz = lp_stream_delete( lpIMUixz );
-        lpIMUiyx = lp_stream_delete( lpIMUiyx );
-        lpIMUiyy = lp_stream_delete( lpIMUiyy );
-        lpIMUiyz = lp_stream_delete( lpIMUiyz );
-        lpIMUizx = lp_stream_delete( lpIMUizx );
-        lpIMUizy = lp_stream_delete( lpIMUizy );
-        lpIMUizz = lp_stream_delete( lpIMUizz );
-        lpIMUisn = lp_stream_delete( lpIMUisn );
+        /* Singular initial condition management */
+        if ( lpISRdwi == lpISRupi ) {
+
+            /* Check boundary proximity */
+            if ( lpISRdwi == lpSize - lp_Size_s( 1 ) ) {
+
+                /* Compute current time step */
+                lpDelta = lp_timestamp_float( lp_timestamp_diff( lpIMUgsn[lpSize-2], lpIMUgsn[lpSize-1] ) );
+
+                /* Apply backward Euler step - x-vector */
+                lpIMUfxx[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgry[lpSize-1] * lpIMUfxz[lpSize-1] - lpIMUgrz[lpSize-1] * lpIMUfxy[lpSize-1] );
+                lpIMUfxy[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgrz[lpSize-1] * lpIMUfxx[lpSize-1] - lpIMUgrx[lpSize-1] * lpIMUfxz[lpSize-1] );
+                lpIMUfxz[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgrx[lpSize-1] * lpIMUfxy[lpSize-1] - lpIMUgry[lpSize-1] * lpIMUfxx[lpSize-1] );
+
+                /* Apply backward Euler step - y-vector */
+                lpIMUfyx[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgry[lpSize-1] * lpIMUfyz[lpSize-1] - lpIMUgrz[lpSize-1] * lpIMUfyy[lpSize-1] );
+                lpIMUfyy[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgrz[lpSize-1] * lpIMUfyx[lpSize-1] - lpIMUgrx[lpSize-1] * lpIMUfyz[lpSize-1] );
+                lpIMUfyz[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgrx[lpSize-1] * lpIMUfyy[lpSize-1] - lpIMUgry[lpSize-1] * lpIMUfyx[lpSize-1] );
+
+                /* Apply backward Euler step - z-vector */
+                lpIMUfzx[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgry[lpSize-1] * lpIMUfzz[lpSize-1] - lpIMUgrz[lpSize-1] * lpIMUfzy[lpSize-1] );
+                lpIMUfzy[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgrz[lpSize-1] * lpIMUfzx[lpSize-1] - lpIMUgrx[lpSize-1] * lpIMUfzz[lpSize-1] );
+                lpIMUfzz[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgrx[lpSize-1] * lpIMUfzy[lpSize-1] - lpIMUgry[lpSize-1] * lpIMUfzx[lpSize-1] );
+
+            } else {
+
+                /* Compute current time step */
+                lpDelta = lp_timestamp_float( lp_timestamp_diff( lpIMUgsn[lpISRdwi+1], lpIMUgsn[lpISRdwi] ) );
+
+                /* Apply backward Euler step - x-vector */
+                lpIMUfxx[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgry[lpISRdwi] * lpIMUfxz[lpISRdwi] - lpIMUgrz[lpISRdwi] * lpIMUfxy[lpISRdwi] );
+                lpIMUfxy[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgrz[lpISRdwi] * lpIMUfxx[lpISRdwi] - lpIMUgrx[lpISRdwi] * lpIMUfxz[lpISRdwi] );
+                lpIMUfxz[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgrx[lpISRdwi] * lpIMUfxy[lpISRdwi] - lpIMUgry[lpISRdwi] * lpIMUfxx[lpISRdwi] );
+
+                /* Apply backward Euler step - y-vector */
+                lpIMUfyx[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgry[lpISRdwi] * lpIMUfyz[lpISRdwi] - lpIMUgrz[lpISRdwi] * lpIMUfyy[lpISRdwi] );
+                lpIMUfyy[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgrz[lpISRdwi] * lpIMUfyx[lpISRdwi] - lpIMUgrx[lpISRdwi] * lpIMUfyz[lpISRdwi] );
+                lpIMUfyz[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgrx[lpISRdwi] * lpIMUfyy[lpISRdwi] - lpIMUgry[lpISRdwi] * lpIMUfyx[lpISRdwi] );
+
+                /* Apply backward Euler step - z-vector */
+                lpIMUfzx[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgry[lpISRdwi] * lpIMUfzz[lpISRdwi] - lpIMUgrz[lpISRdwi] * lpIMUfzy[lpISRdwi] );
+                lpIMUfzy[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgrz[lpISRdwi] * lpIMUfzx[lpISRdwi] - lpIMUgrx[lpISRdwi] * lpIMUfzz[lpISRdwi] );
+                lpIMUfzz[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgrx[lpISRdwi] * lpIMUfzy[lpISRdwi] - lpIMUgry[lpISRdwi] * lpIMUfzx[lpISRdwi] );
+
+            }
+
+        }
 
         /* Frame explicit time-integration - Prograde segment */
         for ( lpParse = lpISRupi + lp_Size_s( 1 ) ; lpParse < lpSize ; lpParse ++ ) {
@@ -333,6 +399,16 @@
         lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IFETI_MOD, LP_STREAM_CPN_SYN, lpIMUgsn, sizeof( lp_Time_t ) * lpSize );
 
         /* Unallocate streams */
+        lpIMUixx = lp_stream_delete( lpIMUixx );
+        lpIMUixy = lp_stream_delete( lpIMUixy );
+        lpIMUixz = lp_stream_delete( lpIMUixz );
+        lpIMUiyx = lp_stream_delete( lpIMUiyx );
+        lpIMUiyy = lp_stream_delete( lpIMUiyy );
+        lpIMUiyz = lp_stream_delete( lpIMUiyz );
+        lpIMUizx = lp_stream_delete( lpIMUizx );
+        lpIMUizy = lp_stream_delete( lpIMUizy );
+        lpIMUizz = lp_stream_delete( lpIMUizz );
+        lpIMUisn = lp_stream_delete( lpIMUisn );
         lpIMUgrx = lp_stream_delete( lpIMUgrx );
         lpIMUgry = lp_stream_delete( lpIMUgry );
         lpIMUgrz = lp_stream_delete( lpIMUgrz );
