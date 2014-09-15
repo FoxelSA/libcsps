@@ -162,6 +162,8 @@
 
         }
 
+        fprintf( stderr, "%" lp_Size_p " - %" lp_Size_p " / %" lp_Size_p "\n", lpISRdwi, lpISRupi, lpSize );
+
         /* Setting initial conditions */
         for ( lpParse = lpISRdwi ; lpParse <= lpISRupi ; lpParse ++ ) {
 

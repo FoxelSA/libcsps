@@ -155,8 +155,8 @@
     /* Define floating point operator */
     # define lp_trunc( x )      trunc( x )
     # define lp_floor( x )      floor( x )
-    # define lp_ceil ( x )      ceil ( x )
-    # define lp_fabs ( x )      fabs ( x )
+    # define lp_ceil( x )       ceil ( x )
+    # define lp_fabs( x )       fabs ( x )
 
     /* Define mathematic operator */
     # define LP_MAX( x, y )     ( ( x > y ) ? x : y )

@@ -56,23 +56,22 @@
 
     ) {
 
-        /* Parsing variables */
-        lp_Size_t lpParse = lp_Size_s( 0 );
-
         /* Stream size variables */
         lp_Size_t lpSize = lp_Size_s( 0 );
 
-        /* Distance variable */
-        lp_Real_t lpDist = lp_Real_s( 0.0 );
+        /* Parsing variables */
+        lp_Size_t lpParse = lp_Size_s( 0 );
 
-        /* Differential variables */
-        lp_Real_t lpDphi = lp_Real_s( 0.0 );
-        lp_Real_t lpDlam = lp_Real_s( 0.0 );
-        lp_Real_t lpDnrm = lp_Real_s( 0.0 );
+        /* Amplitude detection variables */
+        lp_Size_t lpIndex = lp_Size_s( 0 );
+        lp_Real_t lpLocal = lp_Real_s( 0.0 );
+        lp_Real_t lpLarge = lp_Real_s( 0.0 );
+        lp_Real_t lpDelta = lp_Real_s( 0.0 );
 
-        /* Time variables */
-        lp_Time_t lpTime1 = lp_Time_s( 0 );
-        lp_Time_t lpTime2 = lp_Time_s( 0 );
+        /* Differentials variables */
+        lp_Real_t lpDifflon = lp_Real_s( 0.0 );
+        lp_Real_t lpDifflat = lp_Real_s( 0.0 );
+        lp_Real_t lpDiffnrm = lp_Real_s( 0.0 );
 
         /* Stream memory variables */
         lp_Real_t * lpGPSlat = LP_NULL;
@@ -99,41 +98,6 @@
         lpGPSalt = lp_stream_read( lpPath, lpGPS.dvType, lpGPS.dvTag, lpIMUmodGEO, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpSize );
         lpGPSsyn = lp_stream_read( lpPath, lpGPS.dvType, lpGPS.dvTag, lpIMUmodGEO, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
-        /* Search minimum displacement */
-        while ( ( lpDist < lp_Real_s( 1.0 ) ) && ( lpParse < ( lpSize - lp_Size_s( 1 ) ) ) ) {
-
-            /* Compute distance */
-            lpDist = lp_Real_s( 2.0 ) * lp_Real_s( 63781370.0 ) * asin( sqrt(
-
-                sin( lp_Real_s( 0.5 ) * ( LP_PI / lp_Real_s( 180.0 ) ) * ( lpGPSlat[lpParse] - lpGPSlat[0] ) ) *
-                sin( lp_Real_s( 0.5 ) * ( LP_PI / lp_Real_s( 180.0 ) ) * ( lpGPSlat[lpParse] - lpGPSlat[0] ) ) +
-                cos( ( LP_PI / lp_Real_s( 180.0 ) ) * lpGPSlat[0] ) *
-                cos( ( LP_PI / lp_Real_s( 180.0 ) ) * lpGPSlat[lpParse] ) *
-                sin( lp_Real_s( 0.5 ) * ( LP_PI / lp_Real_s( 180.0 ) ) * ( lpGPSlon[lpParse] - lpGPSlon[0] ) ) *
-                sin( lp_Real_s( 0.5 ) * ( LP_PI / lp_Real_s( 180.0 ) ) * ( lpGPSlon[lpParse] - lpGPSlon[0] ) )
-
-            ) ); 
-
-            /* Update search index */
-            lpParse ++;
-
-        }
-
-        /* Compute differential quantities */
-        lpDphi = lpGPSlat[lpParse] - lpGPSlat[0];
-        lpDlam = lpGPSlon[lpParse] - lpGPSlon[0];
-        lpDnrm = sqrt( lpDphi * lpDphi + lpDlam * lpDlam );
-
-        /* Import initialization time */
-        lpTime1 = lpGPSsyn[0];
-        lpTime2 = lpGPSsyn[lpParse];
-
-        /* Unallocate streams */
-        lpGPSlat = lp_stream_delete( lpGPSlat );
-        lpGPSlon = lp_stream_delete( lpGPSlon );
-        lpGPSalt = lp_stream_delete( lpGPSalt );
-        lpGPSsyn = lp_stream_delete( lpGPSsyn );
-
         /* Create streams */
         lpIMUixx = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
         lpIMUixy = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
@@ -146,36 +110,63 @@
         lpIMUizz = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
         lpIMUisn = lp_stream_create( sizeof( lp_Time_t ) * lp_Size_s( 2 ) );
 
+        /* Search maximum displacement amplitude */
+        for ( lpParse = lp_Size_s( 1 ); lpParse < lpSize - lp_Size_s( 1 ); lpParse ++ ) {
+
+            /* Compute local delta-time */
+            lpDelta = lp_timestamp_float( lp_timestamp_diff( lpGPSsyn[lpParse + 1], lpGPSsyn[lpParse - 1] ) );
+
+            /* Compute local amplitude - Longitude */
+            lpLocal = lp_fabs( lpGPSlon[lpParse + 1] - lpGPSlon[lpParse - 1] ) / lpDelta;
+
+            /* Largest amplitude detection */
+            if ( lpLocal > lpLarge ) {
+
+                /* Memorize index */
+                lpIndex = lpParse;
+    
+                /* Update largest amplitude buffer */
+                lpLarge = lpLocal;
+
+            }
+
+            /* Compute local amplitude - Latitude */
+            lpLocal = lp_fabs( lpGPSlat[lpParse + 1] - lpGPSlat[lpParse - 1] ) / lpDelta;
+
+            /* Largest amplitude detection */
+            if ( lpLocal > lpLarge ) {
+
+                /* Memorize index */
+                lpIndex = lpParse;
+    
+                /* Update largest amplitude buffer */
+                lpLarge = lpLocal;
+
+            }
+
+        }
+
+        /* Compute differential quantities */
+        lpDifflon = lpGPSlon[lpIndex+1] - lpGPSlon[lpIndex-1];
+        lpDifflat = lpGPSlat[lpIndex+1] - lpGPSlat[lpIndex-1];
+
+        /* Compute differential quantities norm */
+        lpDiffnrm = sqrt( lpDifflon * lpDifflon + lpDifflat * lpDifflat );
+
         /* Compute initial frame x-vector */
-        lpIMUixx[0] = + lpDlam / lpDnrm;
-        lpIMUixy[0] = + lpDphi / lpDnrm;
+        lpIMUixx[0] = + lpDifflat / lpDiffnrm;
+        lpIMUixy[0] = - lpDifflon / lpDiffnrm;
         lpIMUixz[0] = + lp_Real_s( 0.0 );
 
         /* Compute initial frame y-vector */
-        lpIMUiyx[0] = - lpDphi / lpDnrm;
-        lpIMUiyy[0] = + lpDlam / lpDnrm;
+        lpIMUiyx[0] = + lpDifflon / lpDiffnrm;
+        lpIMUiyy[0] = + lpDifflat / lpDiffnrm;
         lpIMUiyz[0] = + lp_Real_s( 0.0 );
 
         /* Compute initial frame z-vector */
         lpIMUizx[0] = + lp_Real_s( 0.0 );
         lpIMUizy[0] = + lp_Real_s( 0.0 );
         lpIMUizz[0] = + lp_Real_s( 1.0 );
-
-        /* Rotation - HARD CODED - TEMPORARY */
-        lp_Real_t a = lpIMUixx[0] * cos( 90.0 * ( LP_PI / 180.0 ) ) - lpIMUixy[0] * sin( 90.0 * ( LP_PI / 180.0 ) );
-        lp_Real_t b = lpIMUixx[0] * sin( 90.0 * ( LP_PI / 180.0 ) ) + lpIMUixy[0] * cos( 90.0 * ( LP_PI / 180.0 ) );
-
-        /* Rotation - HARD CODED - TEMPORARY */
-        lpIMUixx[0] = a;
-        lpIMUixy[0] = b;        
-
-        /* Rotation - HARD CODED - TEMPORARY */
-        a = lpIMUiyx[0] * cos( 90.0 * ( LP_PI / 180.0 ) ) - lpIMUiyy[0] * sin( 90.0 * ( LP_PI / 180.0 ) );
-        b = lpIMUiyx[0] * sin( 90.0 * ( LP_PI / 180.0 ) ) + lpIMUiyy[0] * cos( 90.0 * ( LP_PI / 180.0 ) );
-
-        /* Rotation - HARD CODED - TEMPORARY */
-        lpIMUiyx[0] = a;
-        lpIMUiyy[0] = b;
 
         /* Assign second component */
         lpIMUixx[1] = lpIMUixx[0];
@@ -188,9 +179,9 @@
         lpIMUizy[1] = lpIMUizy[0];
         lpIMUizz[1] = lpIMUizz[0];
 
-        /* Assign initial condition timestamps */
-        lpIMUisn[0] = lpTime1;
-        lpIMUisn[1] = lpTime2;
+        /* Initial conditions timestamps */
+        lpIMUisn[0] = lpGPSsyn[lpIndex-1];
+        lpIMUisn[1] = lpGPSsyn[lpIndex+1];
 
         /* Write streams */
         lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IOBMA_MOD, LP_STREAM_CPN_IXX, lpIMUixx, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
@@ -205,6 +196,10 @@
         lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IOBMA_MOD, LP_STREAM_CPN_SYN, lpIMUisn, sizeof( lp_Time_t ) * lp_Size_s( 2 ) );
 
         /* Unallocate streams */
+        lpGPSlat = lp_stream_delete( lpGPSlat );
+        lpGPSlon = lp_stream_delete( lpGPSlon );
+        lpGPSalt = lp_stream_delete( lpGPSalt );
+        lpGPSsyn = lp_stream_delete( lpGPSsyn );
         lpIMUixx = lp_stream_delete( lpIMUixx );
         lpIMUixy = lp_stream_delete( lpIMUixy );
         lpIMUixz = lp_stream_delete( lpIMUixz );
