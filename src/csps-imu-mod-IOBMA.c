@@ -154,14 +154,26 @@
         lpDiffnrm = sqrt( lpDifflon * lpDifflon + lpDifflat * lpDifflat );
 
         /* Compute initial frame x-vector */
-        lpIMUixx[0] = + lpDifflat / lpDiffnrm;
-        lpIMUixy[0] = - lpDifflon / lpDiffnrm;
+        lpIMUixx[0] = + lpDifflon / lpDiffnrm;
+        lpIMUixy[0] = + lpDifflat / lpDiffnrm;
         lpIMUixz[0] = + lp_Real_s( 0.0 );
 
+        /* TEMPORARY */
+        lp_Real_t a = cos( -90.0 * LP_PI / 180.0 ) * lpIMUixx[0] - sin( -90.0 * LP_PI / 180.0 ) * lpIMUixy[0];
+        lp_Real_t b = sin( -90.0 * LP_PI / 180.0 ) * lpIMUixx[0] + cos( -90.0 * LP_PI / 180.0 ) * lpIMUixy[0];
+        lpIMUixx[0] = a;
+        lpIMUixy[0] = b;
+
         /* Compute initial frame y-vector */
-        lpIMUiyx[0] = + lpDifflon / lpDiffnrm;
-        lpIMUiyy[0] = + lpDifflat / lpDiffnrm;
+        lpIMUiyx[0] = - lpDifflat / lpDiffnrm;
+        lpIMUiyy[0] = + lpDifflon / lpDiffnrm;
         lpIMUiyz[0] = + lp_Real_s( 0.0 );
+
+        /* TEMPORARY */
+        a = cos( -90.0 * LP_PI / 180.0 ) * lpIMUiyx[0] - sin( -90.0 * LP_PI / 180.0 ) * lpIMUiyy[0];
+        b = sin( -90.0 * LP_PI / 180.0 ) * lpIMUiyx[0] + cos( -90.0 * LP_PI / 180.0 ) * lpIMUiyy[0];
+        lpIMUiyx[0] = a;
+        lpIMUiyy[0] = b;
 
         /* Compute initial frame z-vector */
         lpIMUizx[0] = + lp_Real_s( 0.0 );
@@ -180,8 +192,8 @@
         lpIMUizz[1] = lpIMUizz[0];
 
         /* Initial conditions timestamps */
-        lpIMUisn[0] = lpGPSsyn[lpIndex-1];
-        lpIMUisn[1] = lpGPSsyn[lpIndex+1];
+        lpIMUisn[0] = lpGPSsyn[lpIndex];
+        lpIMUisn[1] = lpGPSsyn[lpIndex];
 
         /* Write streams */
         lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_IOBMA_MOD, LP_STREAM_CPN_IXX, lpIMUixx, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );

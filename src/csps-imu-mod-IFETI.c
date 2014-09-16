@@ -162,7 +162,23 @@
 
         }
 
-        fprintf( stderr, "%" lp_Size_p " - %" lp_Size_p " / %" lp_Size_p "\n", lpISRdwi, lpISRupi, lpSize );
+        /* Singular initial condition management */
+        if ( lpISRdwi == lpISRupi ) {
+
+            /* Check boundary proximity */
+            if ( lpISRupi == ( lpSize - lp_Size_s( 1 ) ) ) {
+
+                /* Update initial condition range definition */
+                lpISRdwi--;
+
+            } else {
+
+                /* Update initial condition range definition */
+                lpISRupi++;
+
+            }
+
+        }
 
         /* Setting initial conditions */
         for ( lpParse = lpISRdwi ; lpParse <= lpISRupi ; lpParse ++ ) {
@@ -180,54 +196,6 @@
 
         }
 
-        /* Singular initial condition management */
-        if ( lpISRdwi == lpISRupi ) {
-
-            /* Check boundary proximity */
-            if ( lpISRdwi == lpSize - lp_Size_s( 1 ) ) {
-
-                /* Compute current time step */
-                lpDelta = lp_timestamp_float( lp_timestamp_diff( lpIMUgsn[lpSize-2], lpIMUgsn[lpSize-1] ) );
-
-                /* Apply backward Euler step - x-vector */
-                lpIMUfxx[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgry[lpSize-1] * lpIMUfxz[lpSize-1] - lpIMUgrz[lpSize-1] * lpIMUfxy[lpSize-1] );
-                lpIMUfxy[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgrz[lpSize-1] * lpIMUfxx[lpSize-1] - lpIMUgrx[lpSize-1] * lpIMUfxz[lpSize-1] );
-                lpIMUfxz[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgrx[lpSize-1] * lpIMUfxy[lpSize-1] - lpIMUgry[lpSize-1] * lpIMUfxx[lpSize-1] );
-
-                /* Apply backward Euler step - y-vector */
-                lpIMUfyx[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgry[lpSize-1] * lpIMUfyz[lpSize-1] - lpIMUgrz[lpSize-1] * lpIMUfyy[lpSize-1] );
-                lpIMUfyy[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgrz[lpSize-1] * lpIMUfyx[lpSize-1] - lpIMUgrx[lpSize-1] * lpIMUfyz[lpSize-1] );
-                lpIMUfyz[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgrx[lpSize-1] * lpIMUfyy[lpSize-1] - lpIMUgry[lpSize-1] * lpIMUfyx[lpSize-1] );
-
-                /* Apply backward Euler step - z-vector */
-                lpIMUfzx[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgry[lpSize-1] * lpIMUfzz[lpSize-1] - lpIMUgrz[lpSize-1] * lpIMUfzy[lpSize-1] );
-                lpIMUfzy[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgrz[lpSize-1] * lpIMUfzx[lpSize-1] - lpIMUgrx[lpSize-1] * lpIMUfzz[lpSize-1] );
-                lpIMUfzz[lpSize-2] = lpIMUfxx[lpSize-1] + lpDelta * ( lpIMUgrx[lpSize-1] * lpIMUfzy[lpSize-1] - lpIMUgry[lpSize-1] * lpIMUfzx[lpSize-1] );
-
-            } else {
-
-                /* Compute current time step */
-                lpDelta = lp_timestamp_float( lp_timestamp_diff( lpIMUgsn[lpISRdwi+1], lpIMUgsn[lpISRdwi] ) );
-
-                /* Apply backward Euler step - x-vector */
-                lpIMUfxx[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgry[lpISRdwi] * lpIMUfxz[lpISRdwi] - lpIMUgrz[lpISRdwi] * lpIMUfxy[lpISRdwi] );
-                lpIMUfxy[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgrz[lpISRdwi] * lpIMUfxx[lpISRdwi] - lpIMUgrx[lpISRdwi] * lpIMUfxz[lpISRdwi] );
-                lpIMUfxz[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgrx[lpISRdwi] * lpIMUfxy[lpISRdwi] - lpIMUgry[lpISRdwi] * lpIMUfxx[lpISRdwi] );
-
-                /* Apply backward Euler step - y-vector */
-                lpIMUfyx[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgry[lpISRdwi] * lpIMUfyz[lpISRdwi] - lpIMUgrz[lpISRdwi] * lpIMUfyy[lpISRdwi] );
-                lpIMUfyy[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgrz[lpISRdwi] * lpIMUfyx[lpISRdwi] - lpIMUgrx[lpISRdwi] * lpIMUfyz[lpISRdwi] );
-                lpIMUfyz[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgrx[lpISRdwi] * lpIMUfyy[lpISRdwi] - lpIMUgry[lpISRdwi] * lpIMUfyx[lpISRdwi] );
-
-                /* Apply backward Euler step - z-vector */
-                lpIMUfzx[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgry[lpISRdwi] * lpIMUfzz[lpISRdwi] - lpIMUgrz[lpISRdwi] * lpIMUfzy[lpISRdwi] );
-                lpIMUfzy[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgrz[lpISRdwi] * lpIMUfzx[lpISRdwi] - lpIMUgrx[lpISRdwi] * lpIMUfzz[lpISRdwi] );
-                lpIMUfzz[lpISRdwi+1] = lpIMUfxx[lpISRdwi] - lpDelta * ( lpIMUgrx[lpISRdwi] * lpIMUfzy[lpISRdwi] - lpIMUgry[lpISRdwi] * lpIMUfzx[lpISRdwi] );
-
-            }
-
-        }
-
         /* Frame explicit time-integration - Prograde segment */
         for ( lpParse = lpISRupi + lp_Size_s( 1 ) ; lpParse < lpSize ; lpParse ++ ) {
 
@@ -237,72 +205,72 @@
             /* Integration - Advance frame x-vector - x-component */
             lpIMUfxx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpIMUgry[lpParse-1] * lpIMUfxz[lpParse-1] 
-                                    + lpIMUgrz[lpParse-1] * lpIMUfxy[lpParse-1] 
+                                    + lpIMUgry[lpParse-1] * lpIMUfxz[lpParse-1] 
+                                    - lpIMUgrz[lpParse-1] * lpIMUfxy[lpParse-1] 
 
                                 ) + lpIMUfxx[lpParse-2];
 
             /* Integration - Advance frame x-vector - y-component */
             lpIMUfxy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpIMUgrz[lpParse-1] * lpIMUfxx[lpParse-1] 
-                                    + lpIMUgrx[lpParse-1] * lpIMUfxz[lpParse-1] 
+                                    + lpIMUgrz[lpParse-1] * lpIMUfxx[lpParse-1] 
+                                    - lpIMUgrx[lpParse-1] * lpIMUfxz[lpParse-1] 
 
                                 ) + lpIMUfxy[lpParse-2];
 
             /* Integration - Advance frame x-vector - z-component */
             lpIMUfxz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpIMUgrx[lpParse-1] * lpIMUfxy[lpParse-1] 
-                                    + lpIMUgry[lpParse-1] * lpIMUfxx[lpParse-1] 
+                                    + lpIMUgrx[lpParse-1] * lpIMUfxy[lpParse-1] 
+                                    - lpIMUgry[lpParse-1] * lpIMUfxx[lpParse-1] 
 
                                 ) + lpIMUfxz[lpParse-2];
 
             /* Integration - Advance frame y-vector - x-component */
             lpIMUfyx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpIMUgry[lpParse-1] * lpIMUfyz[lpParse-1] 
-                                    + lpIMUgrz[lpParse-1] * lpIMUfyy[lpParse-1] 
+                                    + lpIMUgry[lpParse-1] * lpIMUfyz[lpParse-1] 
+                                    - lpIMUgrz[lpParse-1] * lpIMUfyy[lpParse-1] 
 
                                 ) + lpIMUfyx[lpParse-2];
 
             /* Integration - Advance frame y-vector - y-component */
             lpIMUfyy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpIMUgrz[lpParse-1] * lpIMUfyx[lpParse-1] 
-                                    + lpIMUgrx[lpParse-1] * lpIMUfyz[lpParse-1] 
+                                    + lpIMUgrz[lpParse-1] * lpIMUfyx[lpParse-1] 
+                                    - lpIMUgrx[lpParse-1] * lpIMUfyz[lpParse-1] 
 
                                 ) + lpIMUfyy[lpParse-2];
 
             /* Integration - Advance frame y-vector - z-component */
             lpIMUfyz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpIMUgrx[lpParse-1] * lpIMUfyy[lpParse-1] 
-                                    + lpIMUgry[lpParse-1] * lpIMUfyx[lpParse-1] 
+                                    + lpIMUgrx[lpParse-1] * lpIMUfyy[lpParse-1] 
+                                    - lpIMUgry[lpParse-1] * lpIMUfyx[lpParse-1] 
 
                                 ) + lpIMUfyz[lpParse-2];
 
             /* Integration - Advance frame z-vector - x-component */
             lpIMUfzx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpIMUgry[lpParse-1] * lpIMUfzz[lpParse-1] 
-                                    + lpIMUgrz[lpParse-1] * lpIMUfzy[lpParse-1] 
+                                    + lpIMUgry[lpParse-1] * lpIMUfzz[lpParse-1] 
+                                    - lpIMUgrz[lpParse-1] * lpIMUfzy[lpParse-1] 
 
                                 ) + lpIMUfzx[lpParse-2];
 
             /* Integration - Advance frame z-vector - y-component */
             lpIMUfzy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpIMUgrz[lpParse-1] * lpIMUfzx[lpParse-1] 
-                                    + lpIMUgrx[lpParse-1] * lpIMUfzz[lpParse-1] 
+                                    + lpIMUgrz[lpParse-1] * lpIMUfzx[lpParse-1] 
+                                    - lpIMUgrx[lpParse-1] * lpIMUfzz[lpParse-1] 
 
                                 ) + lpIMUfzy[lpParse-2];
 
             /* Integration - Advance frame z-vector - z-component */
             lpIMUfzz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    - lpIMUgrx[lpParse-1] * lpIMUfzy[lpParse-1] 
-                                    + lpIMUgry[lpParse-1] * lpIMUfzx[lpParse-1] 
+                                    + lpIMUgrx[lpParse-1] * lpIMUfzy[lpParse-1] 
+                                    - lpIMUgry[lpParse-1] * lpIMUfzx[lpParse-1] 
 
                                 ) + lpIMUfzz[lpParse-2];
 
@@ -317,72 +285,72 @@
             /* Integration - Step back frame x-vector - x-component */
             lpIMUfxx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpIMUgry[lpParse+1] * lpIMUfxz[lpParse+1] 
-                                    - lpIMUgrz[lpParse+1] * lpIMUfxy[lpParse+1] 
+                                    - lpIMUgry[lpParse+1] * lpIMUfxz[lpParse+1] 
+                                    + lpIMUgrz[lpParse+1] * lpIMUfxy[lpParse+1] 
 
                                 ) + lpIMUfxx[lpParse+2];
 
             /* Integration - Step back frame x-vector - y-component */
             lpIMUfxy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpIMUgrz[lpParse+1] * lpIMUfxx[lpParse+1] 
-                                    - lpIMUgrx[lpParse+1] * lpIMUfxz[lpParse+1] 
+                                    - lpIMUgrz[lpParse+1] * lpIMUfxx[lpParse+1] 
+                                    + lpIMUgrx[lpParse+1] * lpIMUfxz[lpParse+1] 
 
                                 ) + lpIMUfxy[lpParse+2];
 
             /* Integration - Step back frame x-vector - z-component */
             lpIMUfxz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpIMUgrx[lpParse+1] * lpIMUfxy[lpParse+1] 
-                                    - lpIMUgry[lpParse+1] * lpIMUfxx[lpParse+1] 
+                                    - lpIMUgrx[lpParse+1] * lpIMUfxy[lpParse+1] 
+                                    + lpIMUgry[lpParse+1] * lpIMUfxx[lpParse+1] 
 
                                 ) + lpIMUfxz[lpParse+2];
 
             /* Integration - Step back frame x-vector - x-component */
             lpIMUfyx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpIMUgry[lpParse+1] * lpIMUfyz[lpParse+1] 
-                                    - lpIMUgrz[lpParse+1] * lpIMUfyy[lpParse+1] 
+                                    - lpIMUgry[lpParse+1] * lpIMUfyz[lpParse+1] 
+                                    + lpIMUgrz[lpParse+1] * lpIMUfyy[lpParse+1] 
 
                                 ) + lpIMUfyx[lpParse+2];
 
             /* Integration - Step back frame x-vector - y-component */
             lpIMUfyy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpIMUgrz[lpParse+1] * lpIMUfyx[lpParse+1] 
-                                    - lpIMUgrx[lpParse+1] * lpIMUfyz[lpParse+1] 
+                                    - lpIMUgrz[lpParse+1] * lpIMUfyx[lpParse+1] 
+                                    + lpIMUgrx[lpParse+1] * lpIMUfyz[lpParse+1] 
 
                                 ) + lpIMUfyy[lpParse+2];
 
             /* Integration - Step back frame x-vector - z-component */
             lpIMUfyz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpIMUgrx[lpParse+1] * lpIMUfyy[lpParse+1] 
-                                    - lpIMUgry[lpParse+1] * lpIMUfyx[lpParse+1] 
+                                    - lpIMUgrx[lpParse+1] * lpIMUfyy[lpParse+1] 
+                                    + lpIMUgry[lpParse+1] * lpIMUfyx[lpParse+1] 
 
                                 ) + lpIMUfyz[lpParse+2];
 
             /* Integration - Step back frame z-vector - x-component */
             lpIMUfzx[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpIMUgry[lpParse+1] * lpIMUfzz[lpParse+1] 
-                                    - lpIMUgrz[lpParse+1] * lpIMUfzy[lpParse+1] 
+                                    - lpIMUgry[lpParse+1] * lpIMUfzz[lpParse+1] 
+                                    + lpIMUgrz[lpParse+1] * lpIMUfzy[lpParse+1] 
 
                                 ) + lpIMUfzx[lpParse+2];
 
             /* Integration - Step back frame z-vector - y-component */
             lpIMUfzy[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpIMUgrz[lpParse+1] * lpIMUfzx[lpParse+1] 
-                                    - lpIMUgrx[lpParse+1] * lpIMUfzz[lpParse+1] 
+                                    - lpIMUgrz[lpParse+1] * lpIMUfzx[lpParse+1] 
+                                    + lpIMUgrx[lpParse+1] * lpIMUfzz[lpParse+1] 
 
                                 ) + lpIMUfzy[lpParse+2];
 
             /* Integration - Step back frame z-vector - z-component */
             lpIMUfzz[lpParse] = lp_Real_s( 2.0 ) * lpDelta * ( 
 
-                                    + lpIMUgrx[lpParse+1] * lpIMUfzy[lpParse+1] 
-                                    - lpIMUgry[lpParse+1] * lpIMUfzx[lpParse+1] 
+                                    - lpIMUgrx[lpParse+1] * lpIMUfzy[lpParse+1] 
+                                    + lpIMUgry[lpParse+1] * lpIMUfzx[lpParse+1] 
 
                                 ) + lpIMUfzz[lpParse+2];
 
