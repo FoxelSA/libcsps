@@ -158,22 +158,10 @@
         lpIMUixy[0] = + lpDifflat / lpDiffnrm;
         lpIMUixz[0] = + lp_Real_s( 0.0 );
 
-        /* TEMPORARY */
-        lp_Real_t a = cos( -90.0 * LP_PI / 180.0 ) * lpIMUixx[0] - sin( -90.0 * LP_PI / 180.0 ) * lpIMUixy[0];
-        lp_Real_t b = sin( -90.0 * LP_PI / 180.0 ) * lpIMUixx[0] + cos( -90.0 * LP_PI / 180.0 ) * lpIMUixy[0];
-        lpIMUixx[0] = a;
-        lpIMUixy[0] = b;
-
         /* Compute initial frame y-vector */
         lpIMUiyx[0] = - lpDifflat / lpDiffnrm;
         lpIMUiyy[0] = + lpDifflon / lpDiffnrm;
         lpIMUiyz[0] = + lp_Real_s( 0.0 );
-
-        /* TEMPORARY */
-        a = cos( -90.0 * LP_PI / 180.0 ) * lpIMUiyx[0] - sin( -90.0 * LP_PI / 180.0 ) * lpIMUiyy[0];
-        b = sin( -90.0 * LP_PI / 180.0 ) * lpIMUiyx[0] + cos( -90.0 * LP_PI / 180.0 ) * lpIMUiyy[0];
-        lpIMUiyx[0] = a;
-        lpIMUiyy[0] = b;
 
         /* Compute initial frame z-vector */
         lpIMUizx[0] = + lp_Real_s( 0.0 );
