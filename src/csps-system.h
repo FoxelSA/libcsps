@@ -70,6 +70,7 @@
     # include "csps-imu-mod-SGNDN.h"
     # include "csps-imu-mod-SGSFR.h"
     # include "csps-imu-mod-IFETI.h"
+    # include "csps-imu-mod-IFICR.h"
     # include "csps-imu-mod-IOBMA.h"
     # include "csps-imu-mod-IOISA.h"
     # include "csps-imu-mod-GYLAE.h"

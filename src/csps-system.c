@@ -262,6 +262,18 @@
                                 /* Module operation */
                                 lp_imu_mod_IOBMA( lpPath, * ( ( lp_IMU * ) lpDescs[lpDevIMU] ), * ( ( lp_GPS * ) lpDescs[lpDevGPS] ), lpToken[1] );
 
+                            } else 
+                            if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_IFICR_MOD ) == 0 ) {
+
+                                /* Search devices */
+                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
+
+                                /* Read token */
+                                lp_system_token( lpHandle, lpToken[1] );
+
+                                /* Module operation */
+                                lp_imu_mod_IFICR( lpPath, * ( ( lp_IMU * ) lpDescs[lpDevIMU] ), lpToken[1] );
+
                             }
 
                         } else if ( lpMode == LP_SYSTEM_MODE_ICAM ) {

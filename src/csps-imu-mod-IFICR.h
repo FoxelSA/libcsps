@@ -36,51 +36,45 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    //! @file   csps-all.h
-    //! @author Nils Hamel (n.hamel@foxel.ch)
-    //! 
-    //! Library general includer
+    /*! \file   csps-imu-mod-IOISA.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *
+     *  IMU earth self-alignment module (IOISA - Initial Orientation Inertial Self-Alignment)
+     */
 
 /*
     Header - Include guard
  */
 
-    # ifndef __LP_ALL__
-    # define __LP_ALL__
+    # ifndef __LP_IMU_IFICR__
+    # define __LP_IMU_IFICR__
 
 /*
     Header - C/C++ compatibility
  */
 
+    # ifdef __cplusplus
+    extern "C" {
+    # endif
+
 /*
     Header - Includes
  */
 
-    # include "csps-cam-mod-DSIDE.h"
+    # include "csps.h"
     # include "csps-device.h"
-    # include "csps-gps-mod-DSIDE.h"
-    # include "csps-gps-mod-SGNQF.h"
-    # include "csps-imu-mod-DSIDE.h"
-    # include "csps-imu-mod-GYLAE.h"
-    # include "csps-imu-mod-IFETI.h"
-    # include "csps-imu-mod-IFICR.h"
-    # include "csps-imu-mod-IOBMA.h"
-    # include "csps-imu-mod-IOISA.h"
-    # include "csps-imu-mod-ISRAD.h"
-    # include "csps-imu-mod-SGNDN.h"
-    # include "csps-imu-mod-SGSFR.h"
-    # include "csps-nmea.h"
-    # include "csps-noise.h"
     # include "csps-path.h"
-    # include "csps-qbf.h"
-    # include "csps-query.h"
+    # include "csps-rotation.h"
     # include "csps-stream.h"
-    # include "csps-system.h"
     # include "csps-timestamp.h"
 
 /*
     Header - Preprocessor definitions
  */
+
+    /* CSPS module identification */
+    # define LP_IMU_IFICR_MOD "mod-IFICR"
+    # define LP_IMU_IFICR_DES "Inertial Frame Initial Condition Rotation"
 
 /*
     Header - Preprocessor macros
@@ -98,9 +92,25 @@
     Header - Function prototypes
  */
 
+    /*! \brief Inertial frame initial condition rotation module
+     *  
+     */
+
+    lp_Void_t lp_imu_mod_IFICR(
+
+        const lp_Char_t * const lpPath, 
+        lp_IMU                  lpIMU,
+        const lp_Char_t * const lpIMUmod
+
+    );
+
 /*
     Header - C/C++ compatibility
  */
+
+    # ifdef __cplusplus
+    }
+    # endif
 
 /*
     Header - Include guard

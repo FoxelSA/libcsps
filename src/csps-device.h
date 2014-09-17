@@ -175,6 +175,12 @@
      *  Gyroscope signal dynamic mean distance threshold
      *  \var lp_IMU_struct::dvISRact
      *  Acceleration signal dynamic mean distance threshold
+     *  \var lp_IMU_struct::dvICRx 
+     *  Rotation around x-axis applied on defined initial conditions
+     *  \var lp_IMU_struct::dvICRy
+     *  Rotation around y-axis applied on defined initial conditions
+     *  \var lp_IMU_struct::dvICRz 
+     *  Rotation around z-axis applied on defined initial conditions
      *  \var lp_IMU_struct::dvifreq 
      *  Device output sampling frequency
      *  \var lp_IMU_struct::dvdfreq 
@@ -209,6 +215,11 @@
         lp_Size_t dvISRacc;
         lp_Real_t dvISRgrt;
         lp_Real_t dvISRact;
+
+        /* Initial conditions manual rotations */
+        lp_Real_t dvICRx;
+        lp_Real_t dvICRy;
+        lp_Real_t dvICRz;
 
         /* IMU frequencies */
         lp_Size_t dvifreq;

@@ -126,6 +126,11 @@
             lpDevice.dvISRgrt = lp_Real_s( 0.05 );
             lpDevice.dvISRact = lp_Real_s( 0.50 );
 
+            /* Assign configuration - Initial condition rotation */
+            lpDevice.dvICRx = lp_Real_s( 0.0 );
+            lpDevice.dvICRy = lp_Real_s( 0.0 );
+            lpDevice.dvICRz = LP_PI * lp_Real_s( -0.5 ); //TEMPORARY DEFAULT VALUE
+
             /* Assign configuration - Frequency */
             lpDevice.dvifreq = lp_Size_s( 2460 );
             lpDevice.dvdfreq = lp_Size_s(   60 );
