@@ -98,6 +98,16 @@
     # define LP_SYSTEM_KW_ENDLIN    "end"
     # define LP_SYSTEM_KW_DVTYPE    "model"
     # define LP_SYSTEM_KW_DVTAGS    "tag"
+    # define LP_SYSTEM_KW_DVBLOC    "block"
+    # define LP_SYSTEM_KW_DVFREQ    "downsampling"
+    # define LP_SYSTEM_KW_DVICRX    "x-rotation"
+    # define LP_SYSTEM_KW_DVICRY    "y-rotation"
+    # define LP_SYSTEM_KW_DVICRZ    "z-rotation"
+    # define LP_SYSTEM_KW_DVIRMX    "isr-max-ranges"
+    # define LP_SYSTEM_KW_DVIRMN    "isr-min-accum"
+    # define LP_SYSTEM_KW_DVIRTG    "isr-gyros-threshold"
+    # define LP_SYSTEM_KW_DVIRTT    "isr-trans-threshold"
+
 
     /* Define topology analysis modes */
     # define LP_SYSTEM_MODE_MAIN    lp_Enum_s( 0 )

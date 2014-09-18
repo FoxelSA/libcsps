@@ -296,6 +296,12 @@
                                 /* Update device tag */
                                 sprintf( ( ( lp_CAM * ) lpDescs[lpIndex] )->dvTag, "%s", lp_system_token( lpHandle, lpToken[1] ) );
 
+                            } else 
+                            if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVBLOC ) == 0 ) {
+
+                                /* Update device reading block size */
+                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_CAM * ) lpDescs[lpIndex] )->dvBlock ) );
+
                             }
 
                         } else if ( lpMode == LP_SYSTEM_MODE_IGPS ) {
@@ -318,6 +324,12 @@
                                 /* Update device tag */
                                 sprintf( ( ( lp_GPS * ) lpDescs[lpIndex] )->dvTag, "%s", lp_system_token( lpHandle, lpToken[1] ) );
 
+                            } else 
+                            if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVBLOC ) == 0 ) {
+
+                                /* Update device reading block size */
+                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_GPS * ) lpDescs[lpIndex] )->dvBlock ) );
+
                             }
 
                         } else if ( lpMode == LP_SYSTEM_MODE_IIMU ) {
@@ -339,6 +351,60 @@
 
                                 /* Update device tag */
                                 sprintf( ( ( lp_IMU * ) lpDescs[lpIndex] )->dvTag, "%s", lp_system_token( lpHandle, lpToken[1] ) );
+
+                            } else 
+                            if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVBLOC ) == 0 ) {
+
+                                /* Update device reading block size */
+                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_IMU * ) lpDescs[lpIndex] )->dvBlock ) );
+
+                            }  else 
+                            if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVFREQ ) == 0 ) {
+
+                                /* Update device reading block size */
+                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_IMU * ) lpDescs[lpIndex] )->dvdfreq ) );
+
+                            } else 
+                            if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVICRX ) == 0 ) {
+
+                                /* Update device reading block size */
+                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU * ) lpDescs[lpIndex] )->dvICRx ) );
+
+                            } else 
+                            if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVICRY ) == 0 ) {
+
+                                /* Update device reading block size */
+                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU * ) lpDescs[lpIndex] )->dvICRy ) );
+
+                            } else 
+                            if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVICRZ ) == 0 ) {
+
+                                /* Update device reading block size */
+                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU * ) lpDescs[lpIndex] )->dvICRz ) );
+
+                            } else 
+                            if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVIRMX ) == 0 ) {
+
+                                /* Update device reading block size */
+                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_IMU * ) lpDescs[lpIndex] )->dvISRmax ) );
+
+                            } else 
+                            if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVIRMN ) == 0 ) {
+
+                                /* Update device reading block size */
+                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_IMU * ) lpDescs[lpIndex] )->dvISRacc ) );
+
+                            } else 
+                            if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVIRTG ) == 0 ) {
+
+                                /* Update device reading block size */
+                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU * ) lpDescs[lpIndex] )->dvISRgrt ) );
+
+                            } else 
+                            if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVIRTT ) == 0 ) {
+
+                                /* Update device reading block size */
+                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU * ) lpDescs[lpIndex] )->dvISRact ) );
 
                             }
 
