@@ -92,7 +92,16 @@
  */
 
     /*! \brief Initial orientation body momentum alignment module
-     *  
+     *
+     *  This function compute initial conditions on inertial frame based on the
+     *  assumption that z axis of the IMU is aligned against the gravity vector
+     *  and that the x axis follows the direction of motion of the IMU coupled
+     *  with the GPS reciever.
+     *    
+     *  \param lpPath Path to CSPS structure
+     *  \param lpIMU IMU device descriptor
+     *  \param lpGPS GPS device descriptor
+     *  \param lpGPSmod Geographic positions streams initiator module name
      */
 
     lp_Void_t lp_imu_mod_IOBMA(
@@ -100,7 +109,7 @@
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU,
         lp_GPS                  lpGPS,
-        const lp_Char_t * const lpIMUmodGEO  
+        const lp_Char_t * const lpGPSmod
 
     );
 
