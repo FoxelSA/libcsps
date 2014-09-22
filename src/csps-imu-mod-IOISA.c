@@ -51,7 +51,6 @@
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU,
-        lp_GPS                  lpGPS,
         const lp_Char_t * const lpIMUmodISD,
         const lp_Char_t * const lpIMUmodTAG
 

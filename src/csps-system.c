@@ -213,14 +213,13 @@
 
                                 /* Search devices */
                                 lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
-                                lp_Size_t lpDevGPS = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_GPS, lpIndex, lpTypes, lpDescs );
 
                                 /* Read token */
                                 lp_system_token( lpHandle, lpToken[1] );
                                 lp_system_token( lpHandle, lpToken[2] );
 
                                 /* Module operation */
-                                lp_imu_mod_IOISA( lpPath, * ( ( lp_IMU * ) lpDescs[lpDevIMU] ), * ( ( lp_GPS * ) lpDescs[lpDevGPS] ), lpToken[1], lpToken[2] );
+                                lp_imu_mod_IOISA( lpPath, * ( ( lp_IMU * ) lpDescs[lpDevIMU] ), lpToken[1], lpToken[2] );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_IFETI_MOD ) == 0 ) {
