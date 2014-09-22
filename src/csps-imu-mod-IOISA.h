@@ -102,7 +102,6 @@
      *  \param lpGPS GPS device descriptor
      *  \param lpIMUmodISD Gyroscope and acceleration stream initiator module name
      *  \param lpIMUmodTAG Inertial still range stream initiator module name
-     *  \param lpIMUmodGEO Geographic position stream initiator module name
      */
 
     lp_Void_t lp_imu_mod_IOISA(
@@ -111,8 +110,7 @@
         lp_IMU                  lpIMU,
         lp_GPS                  lpGPS,
         const lp_Char_t * const lpIMUmodISD,
-        const lp_Char_t * const lpIMUmodTAG,
-        const lp_Char_t * const lpIMUmodGEO  
+        const lp_Char_t * const lpIMUmodTAG
 
     );
 

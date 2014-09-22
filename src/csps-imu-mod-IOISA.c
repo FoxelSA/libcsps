@@ -53,8 +53,7 @@
         lp_IMU                  lpIMU,
         lp_GPS                  lpGPS,
         const lp_Char_t * const lpIMUmodISD,
-        const lp_Char_t * const lpIMUmodTAG,
-        const lp_Char_t * const lpIMUmodGEO 
+        const lp_Char_t * const lpIMUmodTAG
 
     ) {
 
@@ -70,6 +69,10 @@
         lp_Size_t lpISRdwi = lp_Size_s( 0 );
         lp_Size_t lpISRupi = lp_Size_s( 0 );
 
+        /* Projection coordinates variables */
+        lp_Real_t lpERpx = lp_Real_s( 0.0 );
+        lp_Real_t lpERpy = lp_Real_s( 0.0 );
+
         /* Accumulator variables */
         lp_Real_t lpACCacx = lp_Real_s( 0.0 );
         lp_Real_t lpACCacy = lp_Real_s( 0.0 );
@@ -77,7 +80,6 @@
         lp_Real_t lpACCgrx = lp_Real_s( 0.0 );
         lp_Real_t lpACCgry = lp_Real_s( 0.0 );
         lp_Real_t lpACCgrz = lp_Real_s( 0.0 );
-        lp_Real_t lpACClat = lp_Real_s( 0.0 );
         lp_Real_t lpACCacn = lp_Real_s( 0.0 );
         lp_Real_t lpACCgrn = lp_Real_s( 0.0 );
 
@@ -100,8 +102,15 @@
         lp_Time_t * lpIMUisn = LP_NULL;
         lp_Time_t * lpIMUtag = LP_NULL;
         lp_Time_t * lpIMUrsn = LP_NULL;
-        lp_Real_t * lpGPSlat = LP_NULL;
-        lp_Time_t * lpGPSsyn = LP_NULL;
+
+        /* Matrix variables */
+        lp_Real_t lpZ2Gm[3][3] = { 
+
+            { lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 0.0 ) },
+            { lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 0.0 ) },
+            { lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 0.0 ) }
+
+        };
 
         /* Obtain stream size */
         lpSize = lp_stream_size( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmodISD );
@@ -184,32 +193,6 @@
         lpIMUgrz = lp_stream_delete( lpIMUgrz );
         lpIMUisn = lp_stream_delete( lpIMUisn );
 
-        /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpGPS.dvType, lpGPS.dvTag, lpIMUmodGEO );
-
-        /* Read streams */
-        lpGPSlat = lp_stream_read( lpPath, lpGPS.dvType, lpGPS.dvTag, lpIMUmodGEO, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpSize );
-        lpGPSsyn = lp_stream_read( lpPath, lpGPS.dvType, lpGPS.dvTag, lpIMUmodGEO, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
-
-        /* Obtain still range corresponding index */
-        lpISRdwi = lp_timestamp_index( lpISRdwt, lpGPSsyn, lpSize );
-        lpISRupi = lp_timestamp_index( lpISRupt, lpGPSsyn, lpSize );
-
-        /* Quantities accumulation */
-        for ( lpParse = lpISRdwi ; lpParse <= lpISRupi ; lpParse ++ ) {
-
-            /* Latitude signal accumulation */
-            lpACClat += lpGPSlat[lpParse];
-
-        }
-
-        /* Latitude average computation */
-        lpACClat /= ( lpISRupi - lpISRdwi + lp_Size_s( 1 ) );
-
-        /* Unallocate streams */
-        lpGPSlat = lp_stream_delete( lpGPSlat );
-        lpGPSsyn = lp_stream_delete( lpGPSsyn );
-
         /* Create streams */
         lpIMUixx = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
         lpIMUixy = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
@@ -222,68 +205,30 @@
         lpIMUizz = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
         lpIMUisn = lp_stream_create( sizeof( lp_Time_t ) * lp_Size_s( 2 ) );
 
-        /* Initialize inertial frame */
-        lpIMUixx[0] = lp_Real_s( 1.0 );
-        lpIMUixy[0] = lp_Real_s( 0.0 );
-        lpIMUixz[0] = lp_Real_s( 0.0 );
-        lpIMUiyx[0] = lp_Real_s( 0.0 );
-        lpIMUiyy[0] = lp_Real_s( 1.0 );
-        lpIMUiyz[0] = lp_Real_s( 0.0 );
-        lpIMUizx[0] = lp_Real_s( 0.0 );
-        lpIMUizy[0] = lp_Real_s( 0.0 );
-        lpIMUizz[0] = lp_Real_s( 1.0 );
+        /* Compute rotation matrix - Brings counter-gravity on z-vector  */
+        lp_matrix_2vR3( lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 1.0 ), lpACCacx, lpACCacy, lpACCacz, lpZ2Gm );
 
-        lp_Real_t lpZ2Gm[3][3], lpTmpX, lpTmpY, lpTmpZ;
+        /* Counter-gravity aligned frame */
+        lpIMUixx[0] = lpZ2Gm[0][0];
+        lpIMUixy[0] = lpZ2Gm[1][0];
+        lpIMUixz[0] = lpZ2Gm[2][0];
+        lpIMUiyx[0] = lpZ2Gm[0][1];
+        lpIMUiyy[0] = lpZ2Gm[1][1];
+        lpIMUiyz[0] = lpZ2Gm[2][1];
+        lpIMUizx[0] = lpZ2Gm[0][2];
+        lpIMUizy[0] = lpZ2Gm[1][2];
+        lpIMUizz[0] = lpZ2Gm[2][2];
 
-        /* Compute rotation matrix - z-vector on gravity mean */
-        lp_matrix_2vR3( lpIMUizx[0], lpIMUizy[0], lpIMUizz[0], lpACCacx, lpACCacy, lpACCacz, lpZ2Gm );
+        /* Compute gyroscope mean projected in the x-y plane of counter-gravity aligned frame */
+        lpERpx = lpZ2Gm[0][0] * lpACCgrx + lpZ2Gm[1][0] * lpACCgry + lpZ2Gm[2][0] * lpACCgrz;
+        lpERpy = lpZ2Gm[0][1] * lpACCgrx + lpZ2Gm[1][1] * lpACCgry + lpZ2Gm[2][1] * lpACCgrz;
 
-        /* Apply rotation on inertial frame - x-vector */
-        lpTmpX = lpZ2Gm[0][0] * lpIMUixx[0] + lpZ2Gm[0][1] * lpIMUixy[0] + lpZ2Gm[0][2] * lpIMUixz[0];
-        lpTmpY = lpZ2Gm[1][0] * lpIMUixx[0] + lpZ2Gm[1][1] * lpIMUixy[0] + lpZ2Gm[1][2] * lpIMUixz[0];
-        lpTmpZ = lpZ2Gm[2][0] * lpIMUixx[0] + lpZ2Gm[2][1] * lpIMUixy[0] + lpZ2Gm[2][2] * lpIMUixz[0];
+        /* Rotation around z-axis */
+        lp_rotation_zR3( LP_ATN( lpERpx, lpERpy ) - LP_PI * 0.5, & ( lpIMUixx[0] ), & ( lpIMUixy[0] ), & ( lpIMUixz[0] ) );
+        lp_rotation_zR3( LP_ATN( lpERpx, lpERpy ) - LP_PI * 0.5, & ( lpIMUiyx[0] ), & ( lpIMUiyy[0] ), & ( lpIMUiyz[0] ) );
+        lp_rotation_zR3( LP_ATN( lpERpx, lpERpy ) - LP_PI * 0.5, & ( lpIMUizx[0] ), & ( lpIMUizy[0] ), & ( lpIMUizz[0] ) );
 
-        /* Copy result */
-        lpIMUixx[0] = lpTmpX;
-        lpIMUixy[0] = lpTmpY;
-        lpIMUixz[0] = lpTmpZ;
-
-        /* Apply rotation on inertial frame - y-vector */
-        lpTmpX = lpZ2Gm[0][0] * lpIMUiyx[0] + lpZ2Gm[0][1] * lpIMUiyy[0] + lpZ2Gm[0][2] * lpIMUiyz[0];
-        lpTmpY = lpZ2Gm[1][0] * lpIMUiyx[0] + lpZ2Gm[1][1] * lpIMUiyy[0] + lpZ2Gm[1][2] * lpIMUiyz[0];
-        lpTmpZ = lpZ2Gm[2][0] * lpIMUiyx[0] + lpZ2Gm[2][1] * lpIMUiyy[0] + lpZ2Gm[2][2] * lpIMUiyz[0];
-
-        /* Copy result */
-        lpIMUiyx[0] = lpTmpX;
-        lpIMUiyy[0] = lpTmpY;
-        lpIMUiyz[0] = lpTmpZ;
-
-        /* Apply rotation on inertial frame - z-vector */
-        lpTmpX = lpZ2Gm[0][0] * lpIMUizx[0] + lpZ2Gm[0][1] * lpIMUizy[0] + lpZ2Gm[0][2] * lpIMUizz[0];
-        lpTmpY = lpZ2Gm[1][0] * lpIMUizx[0] + lpZ2Gm[1][1] * lpIMUizy[0] + lpZ2Gm[1][2] * lpIMUizz[0];
-        lpTmpZ = lpZ2Gm[2][0] * lpIMUizx[0] + lpZ2Gm[2][1] * lpIMUizy[0] + lpZ2Gm[2][2] * lpIMUizz[0];
-
-        /* Copy result */
-        lpIMUizx[0] = lpTmpX;
-        lpIMUizy[0] = lpTmpY;
-        lpIMUizz[0] = lpTmpZ;
-        
-        /* Compute rotated projection of gyroscope mean */
-        lpTmpX = lpZ2Gm[0][0] * lpACCgrx + lpZ2Gm[1][0] * lpACCgry + lpZ2Gm[2][0] * lpACCgrz;
-        lpTmpY = lpZ2Gm[0][1] * lpACCgrx + lpZ2Gm[1][1] * lpACCgry + lpZ2Gm[2][1] * lpACCgrz;
-        lpTmpZ = lpZ2Gm[0][2] * lpACCgrx + lpZ2Gm[1][2] * lpACCgry + lpZ2Gm[2][2] * lpACCgrz;
-
-        /* Copy result */
-        lpACCgrx = lpTmpX;
-        lpACCgry = lpTmpY;
-        lpACCgrz = lpTmpZ;
-
-        /* Rotate frame */
-        lp_rotation_zR3( LP_ATN( lpACCgrx, lpACCgry ) + LP_PI * 1.5, & ( lpIMUixx[0] ), & ( lpIMUixy[0] ), & ( lpIMUixz[0] ) );
-        lp_rotation_zR3( LP_ATN( lpACCgrx, lpACCgry ) + LP_PI * 1.5, & ( lpIMUiyx[0] ), & ( lpIMUiyy[0] ), & ( lpIMUiyz[0] ) );
-        lp_rotation_zR3( LP_ATN( lpACCgrx, lpACCgry ) + LP_PI * 1.5, & ( lpIMUizx[0] ), & ( lpIMUizy[0] ), & ( lpIMUizz[0] ) );
-
-        /* Assign second component */
+        /* Assign second components */
         lpIMUixx[1] = lpIMUixx[0];
         lpIMUixy[1] = lpIMUixy[0];
         lpIMUixz[1] = lpIMUixz[0];

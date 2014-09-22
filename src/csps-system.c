@@ -218,10 +218,9 @@
                                 /* Read token */
                                 lp_system_token( lpHandle, lpToken[1] );
                                 lp_system_token( lpHandle, lpToken[2] );
-                                lp_system_token( lpHandle, lpToken[3] );
 
                                 /* Module operation */
-                                lp_imu_mod_IOISA( lpPath, * ( ( lp_IMU * ) lpDescs[lpDevIMU] ), * ( ( lp_GPS * ) lpDescs[lpDevGPS] ), lpToken[1], lpToken[2], lpToken[3] );
+                                lp_imu_mod_IOISA( lpPath, * ( ( lp_IMU * ) lpDescs[lpDevIMU] ), * ( ( lp_GPS * ) lpDescs[lpDevGPS] ), lpToken[1], lpToken[2] );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_IFETI_MOD ) == 0 ) {
