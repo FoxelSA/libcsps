@@ -97,7 +97,7 @@
      *  of IMUs.
      *  
      *  \param lpPath Path to CSPS structure
-     *  \param lpDevice IMU device descriptor
+     *  \param lpIMU IMU device descriptor
      *  \param lpIMUmodACC Acceleration stream initiator module name
      *  \param lpIMUmodFRM Frame stream initiator module name
      */

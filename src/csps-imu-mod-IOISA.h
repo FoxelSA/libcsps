@@ -64,6 +64,7 @@
     # include "csps.h"
     # include "csps-device.h"
     # include "csps-path.h"
+    # include "csps-rotation.h"
     # include "csps-stream.h"
     # include "csps-timestamp.h"
 

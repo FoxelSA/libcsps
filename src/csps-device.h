@@ -122,7 +122,7 @@
      *  \var lp_CAM_struct::dvName 
      *  Stores the device model name
      *  \var lp_CAM_struct::dvTag 
-     *  Stores the device name to differentiate multiple usage of the same model
+     *  Stores the device tag to differentiate multiple usage of the same model
      *  \var lp_CAM_struct::dvBlock 
      *  Stores the importation block size
      */ 
@@ -154,7 +154,7 @@
      *  \var lp_IMU_struct::dvName 
      *  Stores the device name
      *  \var lp_IMU_struct::dvTag 
-     *  Stores the device name to differentiate multiple usage of the same model
+     *  Stores the device tag to differentiate multiple usage of the same model
      *  \var lp_IMU_struct::dvGYRx 
      *  Gyroscope factory scale factor for x component
      *  \var lp_IMU_struct::dvGYRy
@@ -241,7 +241,7 @@
      *  \var lp_GPS_struct::dvName 
      *  Stores the device name
      *  \var lp_GPS_struct::dvTag 
-     *  Stores the device name to differentiate multiple usage of the same model
+     *  Stores the device tag to differentiate multiple usage of the same model
      *  \var lp_GPS_struct::dvifreq 
      *  Device output sampling frequency
      *  \var lp_GPS_struct::dvBlock 
@@ -276,6 +276,7 @@
      *  Create the camera descriptor structre.
      *
      * \param lpName Camera device name
+     * \param lpTag Stores the device tag to differentiate multiple usage of the same model
      */
 
     lp_CAM lp_device_CAM(
@@ -290,6 +291,7 @@
      *  Create the IMU descriptor structre.
      *
      * \param lpName IMU device name
+     * \param lpTag Stores the device tag to differentiate multiple usage of the same model
      */
 
     lp_IMU lp_device_IMU(
@@ -304,6 +306,7 @@
      *  Create the GPS descriptor structre.
      *
      * \param lpName GPS device name
+     * \param lpTag Stores the device tag to differentiate multiple usage of the same model
      */
 
     lp_GPS lp_device_GPS(

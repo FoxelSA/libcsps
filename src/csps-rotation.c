@@ -83,3 +83,70 @@
 
     }
 
+/*
+    Source - Vectors defined rotation
+ */
+
+    lp_Void_t lp_matrix_2vR3( 
+
+        lp_Real_t lpVectAX, 
+        lp_Real_t lpVectAY, 
+        lp_Real_t lpVectAZ,
+        lp_Real_t lpVectBX, 
+        lp_Real_t lpVectBY, 
+        lp_Real_t lpVectBZ,
+        lp_Real_t lpMatrix[3][3]
+
+    ) {
+
+        /* Vector norm variables */
+        lp_Real_t lpNorm = sqrt( lpVectAX * lpVectAX + lpVectAY * lpVectAY + lpVectAZ * lpVectAZ );
+
+        /* Normalize vector */
+        lpVectAX /= lpNorm;
+        lpVectAY /= lpNorm;
+        lpVectAZ /= lpNorm;
+
+        /* Compute norm */
+        lpNorm = sqrt( lpVectBX * lpVectBX + lpVectBY * lpVectBY + lpVectBZ * lpVectBZ );
+
+        /* Normalize vector */
+        lpVectBX /= lpNorm;
+        lpVectBY /= lpNorm;
+        lpVectBZ /= lpNorm;
+
+        /* Cross product variables */
+        lp_Real_t lpCross[3] = {
+
+            lpVectAY * lpVectBZ - lpVectAZ * lpVectBY,
+            lpVectAZ * lpVectBX - lpVectAX * lpVectBZ,
+            lpVectAX * lpVectBY - lpVectAY * lpVectBX
+
+        };
+
+        /* Sine square variables */
+        lp_Real_t lpSin = lpCross[0] * lpCross[0] + lpCross[1] * lpCross[1] + lpCross[2] * lpCross[2];
+
+        /* Cosine variables */
+        lp_Real_t lpCos = lpVectAX * lpVectBX + lpVectAY * lpVectBY + lpVectAZ * lpVectBZ;
+
+        /* Square factor variables */
+        lp_Real_t lpFac = ( lp_Real_s( 1.0 ) - lpCos ) / lpSin;
+
+        /* Build rotation matrix - First column */
+        lpMatrix[0][0] = - ( lpCross[1] * lpCross[1] + lpCross[2] * lpCross[2] ) * lpFac + lp_Real_s( 1.0 ); 
+        lpMatrix[1][0] = + ( lpCross[0] * lpCross[1] ) * lpFac + lpCross[2];
+        lpMatrix[2][0] = + ( lpCross[0] * lpCross[2] ) * lpFac - lpCross[1];
+
+        /* Build rotation matrix - Second column */
+        lpMatrix[0][1] = + ( lpCross[0] * lpCross[1] ) * lpFac - lpCross[2];
+        lpMatrix[1][1] = - ( lpCross[0] * lpCross[0] + lpCross[2] * lpCross[2] ) * lpFac + lp_Real_s( 1.0 ); 
+        lpMatrix[2][1] = + ( lpCross[1] * lpCross[2] ) * lpFac + lpCross[0];
+
+        /* Build rotation matrix - Third column */
+        lpMatrix[0][2] = + ( lpCross[0] * lpCross[2] ) * lpFac + lpCross[1];
+        lpMatrix[1][2] = + ( lpCross[1] * lpCross[2] ) * lpFac - lpCross[0];
+        lpMatrix[2][2] = - ( lpCross[0] * lpCross[0] + lpCross[1] * lpCross[1] ) * lpFac + lp_Real_s( 1.0 ); 
+
+    }
+

@@ -140,7 +140,7 @@
      *  
      *  \param lpFix GPS signal fix
      *  \param lpSat Satellite count
-     *  \param HDOP times 100
+     *  \param lpHDP100 times 100
      *  \return Returns composed quality buffer
      */
 

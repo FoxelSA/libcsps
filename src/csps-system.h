@@ -177,8 +177,8 @@
      * \param lpTag Tag of the device to search in stack
      * \param lpType Type of the device to search
      * \param lpIndex Size of the devices stack in device unit
-     * \param lpType Devices type stack array
-     * \param lpDesc Devices descriptor stack array
+     * \param lpTypes Devices type stack array
+     * \param lpDescs Devices descriptor stack array
      * \return Return device index in the stack or invalid value
      */
 

@@ -91,7 +91,7 @@
      *  
      *  \param lpSignal Pointer to signal data
      *  \param lpSize Size of the signal, in type units
-     *  \param lpRegulation Total variation regularity parameter
+     *  \param lpRegularity Total variation regularity parameter
      *  \param lpIteration Number of iterations
      */
 

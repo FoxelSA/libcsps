@@ -36,10 +36,10 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   csps-imu-mod-IOISA.h
+    /*! \file   csps-imu-mod-IFICR.h
      *  \author Nils Hamel (n.hamel@foxel.ch)
      *
-     *  IMU earth self-alignment module (IOISA - Initial Orientation Inertial Self-Alignment)
+     *  Inertial frame initial conditions rotation module
      */
 
 /*
@@ -92,7 +92,7 @@
     Header - Function prototypes
  */
 
-    /*! \brief Inertial frame initial condition rotation module
+    /*! \brief Inertial frame initial conditions rotation module
      *  
      *  This function consider the inertial frame initial conditions provdied as
      *  input and apply the three rotation around z, y, x axis, in this order, on

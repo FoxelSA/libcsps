@@ -36,10 +36,10 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   csps-timestamp.h
+    /*! \file   csps-rotation.h
      *  \author Nils Hamel (n.hamel@foxel.ch)
      *
-     *  Timestamp management
+     *  Rotation related module
      */
 
 /*
@@ -124,6 +124,33 @@
      */
 
     lp_Void_t lp_rotation_zR3( lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
+
+    /*! \brief Rotation of R3 defined by two vector
+     *  
+     *  The function computes the rotation matrix that brought the A
+     *  vector into B vector. The input vectors A and B are arbitrary
+     *  vectors of R3.
+     *  
+     *  @param lpVectAX X component of vector A
+     *  @param lpVectAY Y component of vector A
+     *  @param lpVectAZ Z component of vector A
+     *  @param lpVectBX X component of vector B
+     *  @param lpVectBY Y component of vector B
+     *  @param lpVectBZ Z component of vector B
+     *  @param lpMatrix Rotation matrix defined by the two vectors
+     */
+
+    lp_Void_t lp_matrix_2vR3( 
+
+        lp_Real_t lpVectAX, 
+        lp_Real_t lpVectAY, 
+        lp_Real_t lpVectAZ,
+        lp_Real_t lpVectBX, 
+        lp_Real_t lpVectBY, 
+        lp_Real_t lpVectBZ,
+        lp_Real_t lpMatrix[3][3]
+
+    );
 
 /*
     Header - C/C++ compatibility

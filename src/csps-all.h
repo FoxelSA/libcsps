@@ -74,6 +74,7 @@
     # include "csps-path.h"
     # include "csps-qbf.h"
     # include "csps-query.h"
+    # include "csps-rotation.h"
     # include "csps-stream.h"
     # include "csps-system.h"
     # include "csps-timestamp.h"

@@ -36,10 +36,10 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   csps-imu-mod-IOISA.h
+    /*! \file   csps-imu-mod-IOBMA.h
      *  \author Nils Hamel (n.hamel@foxel.ch)
      *
-     *  IMU earth self-alignment module (IOISA - Initial Orientation Inertial Self-Alignment)
+     *  Initial orientation body momentum alignment module 
      */
 
 /*
