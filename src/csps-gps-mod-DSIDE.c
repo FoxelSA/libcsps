@@ -93,6 +93,7 @@
         /* Timestamp buffer variables */
         lp_Time_t lpTimestamp = lp_Time_s( 0 );
         lp_Time_t lpInitBreak = lp_Time_s( 0 );
+        lp_Time_t lpLastReset = lp_Time_s( 0 );
 
         /* FPGA GPS event logger microsecond rebuilding variables */
         lp_Size_t lpModShift = lp_Size_s( 0 );
@@ -205,6 +206,9 @@
                                             /* Consider FPGA timestamp for initial reset */
                                             lpGPSsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
 
+                                            /* Save initial reset timestamp */
+                                            lpLastReset = lpGPSsyn[lpIndex];
+
                                             /* Set the modular shift parameter */
                                             lpModShift = lpParse;
 
@@ -217,8 +221,18 @@
                                     /* Verify congruence reset condition */
                                     if ( ( ( lpParse - lpModShift ) % lpDevice.dvifreq ) == 0 ) {
 
-                                        /* Consider FPGA timestamp for periodic reset */
-                                        lpGPSsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
+                                        /* Verify repetitive reset timestamp value during signal loss */
+                                        if ( lp_timestamp_eq( ( lpGPSsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec ) ), lpLastReset ) == LP_TRUE ) {
+
+                                            /* Build current timestamp based on previous */
+                                            lpGPSsyn[lpIndex] = lp_timestamp_add( lpTimestamp, lp_Time_s( 200000 ) );
+
+                                        } else {
+                                        
+                                            /* Save previous reset timestamp */
+                                            lpLastReset = lpGPSsyn[lpIndex];
+
+                                        }
 
                                     } else {
 

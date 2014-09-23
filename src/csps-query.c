@@ -110,10 +110,10 @@
         lp_Size_t lpSample3 = lp_Size_s( 0 );
 
         /* Interpolation time variables */
-        lp_Real_t lpTimeI = lp_Real_s( 0.0 );
-        lp_Real_t lpTime1 = lp_Real_s( 0.0 );
-        lp_Real_t lpTime2 = lp_Real_s( 0.0 );
-        lp_Real_t lpTime3 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1TI = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1T2 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
 
         /* Stream memory variables */
         lp_Real_t * lpGENlat = LP_NULL;
@@ -143,37 +143,37 @@
             lpSample3 = LP_RNG( lpParse + 2, 0, lpSize - lp_Size_s( 1 ) );
 
             /* Compute time interpolation variable */
-            lpTimeI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGENsyn[lpSample0] ) );
+            lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGENsyn[lpSample1] ) );
 
             /* Compute time interpolation sample */
-            lpTime1 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample1], lpGENsyn[lpSample0] ) );
-            lpTime2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample0] ) );
-            lpTime3 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample3], lpGENsyn[lpSample0] ) );
+            lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample1] ) );
+            lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample0] ) );
+            lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample3], lpGENsyn[lpSample1] ) );
 
             /* Compute interpolation values - Latitude */
-            lpPosition.qrLatitude = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpGENlat[lpSample1], lpGENlat[lpSample2],
+            lpPosition.qrLatitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENlat[lpSample1], lpGENlat[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGENlat[lpSample2] - lpGENlat[lpSample0] ) / ( lpTime2  ),
-                ( lpGENlat[lpSample3] - lpGENlat[lpSample1] ) / ( lpTime3 - lpTime1 )
+                ( lpGENlat[lpSample2] - lpGENlat[lpSample0] ) / lpDT0T2,
+                ( lpGENlat[lpSample3] - lpGENlat[lpSample1] ) / lpDT1T3
 
             );
 
             /* Compute interpolation values - Longitude */
-            lpPosition.qrLongitude = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpGENlon[lpSample1], lpGENlon[lpSample2],
+            lpPosition.qrLongitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENlon[lpSample1], lpGENlon[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGENlon[lpSample2] - lpGENlon[lpSample0] ) / ( lpTime2 ),
-                ( lpGENlon[lpSample3] - lpGENlon[lpSample1] ) / ( lpTime3 - lpTime1 )
+                ( lpGENlon[lpSample2] - lpGENlon[lpSample0] ) / lpDT0T2,
+                ( lpGENlon[lpSample3] - lpGENlon[lpSample1] ) / lpDT1T3
 
             );
 
             /* Compute interpolation values - Altitude */
-            lpPosition.qrAltitude = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpGENalt[lpSample1], lpGENalt[lpSample2],
+            lpPosition.qrAltitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENalt[lpSample1], lpGENalt[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGENalt[lpSample2] - lpGENalt[lpSample0] ) / ( lpTime2 ),
-                ( lpGENalt[lpSample3] - lpGENalt[lpSample1] ) / ( lpTime3 - lpTime1 )
+                ( lpGENalt[lpSample2] - lpGENalt[lpSample0] ) / lpDT0T2,
+                ( lpGENalt[lpSample3] - lpGENalt[lpSample1] ) / lpDT1T3
 
             );
 
@@ -225,10 +225,10 @@
         lp_Size_t lpSample3 = lp_Size_s( 0 );
 
         /* Interpolation time variables */
-        lp_Real_t lpTimeI = lp_Real_s( 0.0 );
-        lp_Real_t lpTime1 = lp_Real_s( 0.0 );
-        lp_Real_t lpTime2 = lp_Real_s( 0.0 );
-        lp_Real_t lpTime3 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1TI = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1T2 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
 
         /* Data buffers */
         lp_Real_t * lpGENfxx = LP_NULL;
@@ -270,91 +270,91 @@
             lpSample3 = LP_RNG( lpParse + 2, 0, lpSize - lp_Size_s( 1 ) );
 
             /* Compute time interpolation variable */
-            lpTimeI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGENsyn[lpSample0] ) );
+            lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGENsyn[lpSample1] ) );
 
             /* Compute time interpolation sample */
-            lpTime1 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample1], lpGENsyn[lpSample0] ) );
-            lpTime2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample0] ) );
-            lpTime3 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample3], lpGENsyn[lpSample0] ) );
+            lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample1] ) );
+            lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample0] ) );
+            lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample3], lpGENsyn[lpSample1] ) );
 
             /* Compute interpolation values - Frame x-component x-vector */
-            lpOrientation.qrfxx = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpGENfxx[lpSample1], lpGENfxx[lpSample2],
+            lpOrientation.qrfxx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfxx[lpSample1], lpGENfxx[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGENfxx[lpSample2] - lpGENfxx[lpSample0] ) / ( lpTime2 ),
-                ( lpGENfxx[lpSample3] - lpGENfxx[lpSample1] ) / ( lpTime3 - lpTime1)
+                ( lpGENfxx[lpSample2] - lpGENfxx[lpSample0] ) / lpDT0T2,
+                ( lpGENfxx[lpSample3] - lpGENfxx[lpSample1] ) / lpDT1T3
 
             );
 
             /* Compute interpolation values - Frame y-component x-vector */
-            lpOrientation.qrfxy = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpGENfxy[lpSample1], lpGENfxy[lpSample2],
+            lpOrientation.qrfxy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfxy[lpSample1], lpGENfxy[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGENfxy[lpSample2] - lpGENfxy[lpSample0] ) / ( lpTime2 ),
-                ( lpGENfxy[lpSample3] - lpGENfxy[lpSample1] ) / ( lpTime3 - lpTime1)
+                ( lpGENfxy[lpSample2] - lpGENfxy[lpSample0] ) / lpDT0T2,
+                ( lpGENfxy[lpSample3] - lpGENfxy[lpSample1] ) / lpDT1T3
 
             );
 
             /* Compute interpolation values - Frame z-component x-vector */
-            lpOrientation.qrfxz = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpGENfxz[lpSample1], lpGENfxz[lpSample2],
+            lpOrientation.qrfxz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfxz[lpSample1], lpGENfxz[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGENfxz[lpSample2] - lpGENfxz[lpSample0] ) / ( lpTime2 ),
-                ( lpGENfxz[lpSample3] - lpGENfxz[lpSample1] ) / ( lpTime3 - lpTime1)
+                ( lpGENfxz[lpSample2] - lpGENfxz[lpSample0] ) / lpDT0T2,
+                ( lpGENfxz[lpSample3] - lpGENfxz[lpSample1] ) / lpDT1T3
 
             );
 
             /* Compute interpolation values - Frame x-component y-vector */
-            lpOrientation.qrfyx = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpGENfyx[lpSample1], lpGENfyx[lpSample2],
+            lpOrientation.qrfyx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfyx[lpSample1], lpGENfyx[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGENfyx[lpSample2] - lpGENfyx[lpSample0] ) / ( lpTime2 ),
-                ( lpGENfyx[lpSample3] - lpGENfyx[lpSample1] ) / ( lpTime3 - lpTime1)
+                ( lpGENfyx[lpSample2] - lpGENfyx[lpSample0] ) / lpDT0T2,
+                ( lpGENfyx[lpSample3] - lpGENfyx[lpSample1] ) / lpDT1T3
 
             );
 
             /* Compute interpolation values - Frame y-component y-vector */
-            lpOrientation.qrfyy = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpGENfyy[lpSample1], lpGENfyy[lpSample2],
+            lpOrientation.qrfyy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfyy[lpSample1], lpGENfyy[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGENfyy[lpSample2] - lpGENfyy[lpSample0] ) / ( lpTime2 ),
-                ( lpGENfyy[lpSample3] - lpGENfyy[lpSample1] ) / ( lpTime3 - lpTime1)
+                ( lpGENfyy[lpSample2] - lpGENfyy[lpSample0] ) / lpDT0T2,
+                ( lpGENfyy[lpSample3] - lpGENfyy[lpSample1] ) / lpDT1T3
 
             );
 
             /* Compute interpolation values - Frame z-component y-vector */
-            lpOrientation.qrfyz = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpGENfyz[lpSample1], lpGENfyz[lpSample2],
+            lpOrientation.qrfyz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfyz[lpSample1], lpGENfyz[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGENfyz[lpSample2] - lpGENfyz[lpSample0] ) / ( lpTime2 ),
-                ( lpGENfyz[lpSample3] - lpGENfyz[lpSample1] ) / ( lpTime3 - lpTime1)
+                ( lpGENfyz[lpSample2] - lpGENfyz[lpSample0] ) / lpDT0T2,
+                ( lpGENfyz[lpSample3] - lpGENfyz[lpSample1] ) / lpDT1T3
 
             );
 
             /* Compute interpolation values - Frame x-component z-vector */
-            lpOrientation.qrfzx = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpGENfzx[lpSample1], lpGENfzx[lpSample2],
+            lpOrientation.qrfzx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfzx[lpSample1], lpGENfzx[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGENfzx[lpSample2] - lpGENfzx[lpSample0] ) / ( lpTime2 ),
-                ( lpGENfzx[lpSample3] - lpGENfzx[lpSample1] ) / ( lpTime3 - lpTime1)
+                ( lpGENfzx[lpSample2] - lpGENfzx[lpSample0] ) / lpDT0T2,
+                ( lpGENfzx[lpSample3] - lpGENfzx[lpSample1] ) / lpDT1T3
 
             );
 
             /* Compute interpolation values - Frame y-component z-vector */
-            lpOrientation.qrfzy = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpGENfzy[lpSample1], lpGENfzy[lpSample2],
+            lpOrientation.qrfzy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfzy[lpSample1], lpGENfzy[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGENfzy[lpSample2] - lpGENfzy[lpSample0] ) / ( lpTime2 ),
-                ( lpGENfzy[lpSample3] - lpGENfzy[lpSample1] ) / ( lpTime3 - lpTime1)
+                ( lpGENfzy[lpSample2] - lpGENfzy[lpSample0] ) / lpDT0T2,
+                ( lpGENfzy[lpSample3] - lpGENfzy[lpSample1] ) / lpDT1T3
 
             );
 
             /* Compute interpolation values - Frame z-component z-vector */
-            lpOrientation.qrfzz = li_cubic( LI_CUBIC_FLAG_SET, lpTimeI, lpTime1, lpTime2, lpGENfzz[lpSample1], lpGENfzz[lpSample2],
+            lpOrientation.qrfzz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfzz[lpSample1], lpGENfzz[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGENfzz[lpSample2] - lpGENfzz[lpSample0] ) / ( lpTime2 ),
-                ( lpGENfzz[lpSample3] - lpGENfzz[lpSample1] ) / ( lpTime3 - lpTime1)
+                ( lpGENfzz[lpSample2] - lpGENfzz[lpSample0] ) / lpDT0T2,
+                ( lpGENfzz[lpSample3] - lpGENfzz[lpSample1] ) / lpDT1T3
 
             );
 
