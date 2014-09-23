@@ -83,11 +83,25 @@
 
     }
 
+    lp_Void_t lp_rotation_mR3( lp_Real_t lpMatrix[3][3], lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ ) {
+
+        /* Multiplication variables */
+        lp_Real_t lpMulX = * lpVectorX;
+        lp_Real_t lpMulY = * lpVectorY;
+        lp_Real_t lpMulZ = * lpVectorZ;
+
+        /* Compute multiplication */
+        * lpVectorX = lpMatrix[0][0] * lpMulX + lpMatrix[0][1] * lpMulY + lpMatrix[0][2] * lpMulZ;
+        * lpVectorY = lpMatrix[1][0] * lpMulX + lpMatrix[1][1] * lpMulY + lpMatrix[1][2] * lpMulZ;
+        * lpVectorZ = lpMatrix[2][0] * lpMulX + lpMatrix[2][1] * lpMulY + lpMatrix[2][2] * lpMulZ;
+
+    }
+
 /*
     Source - Vectors defined rotation
  */
 
-    lp_Void_t lp_matrix_2vR3( 
+    lp_Void_t lp_rotation_matrix_2vR3( 
 
         lp_Real_t lpVectAX, 
         lp_Real_t lpVectAY, 

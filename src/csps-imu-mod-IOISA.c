@@ -71,6 +71,7 @@
         /* Projection coordinates variables */
         lp_Real_t lpERpx = lp_Real_s( 0.0 );
         lp_Real_t lpERpy = lp_Real_s( 0.0 );
+        //lp_Real_t lpERpz = lp_Real_s( 0.0 );
 
         /* Accumulator variables */
         lp_Real_t lpACCacx = lp_Real_s( 0.0 );
@@ -205,7 +206,7 @@
         lpIMUisn = lp_stream_create( sizeof( lp_Time_t ) * lp_Size_s( 2 ) );
 
         /* Compute rotation matrix - Brings counter-gravity on z-vector  */
-        lp_matrix_2vR3( lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 1.0 ), lpACCacx, lpACCacy, lpACCacz, lpZ2Gm );
+        lp_rotation_matrix_2vR3( lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 1.0 ), lpACCacx, lpACCacy, lpACCacz, lpZ2Gm );
 
         /* Counter-gravity aligned frame */
         lpIMUixx[0] = lpZ2Gm[0][0];
@@ -218,9 +219,10 @@
         lpIMUizy[0] = lpZ2Gm[1][2];
         lpIMUizz[0] = lpZ2Gm[2][2];
 
-        /* Compute gyroscope mean projected in the x-y plane of counter-gravity aligned frame */
+        /* Compute gyroscope mean projected in counter-gravity aligned frame */
         lpERpx = lpZ2Gm[0][0] * lpACCgrx + lpZ2Gm[1][0] * lpACCgry + lpZ2Gm[2][0] * lpACCgrz;
         lpERpy = lpZ2Gm[0][1] * lpACCgrx + lpZ2Gm[1][1] * lpACCgry + lpZ2Gm[2][1] * lpACCgrz;
+        //lpERpz = lpZ2Gm[0][2] * lpACCgrx + lpZ2Gm[1][2] * lpACCgry + lpZ2Gm[2][2] * lpACCgrz;
 
         /* Rotation around z-axis */
         lp_rotation_zR3( LP_ATN( lpERpx, lpERpy ) - LP_PI * 0.5, & ( lpIMUixx[0] ), & ( lpIMUixy[0] ), & ( lpIMUixz[0] ) );

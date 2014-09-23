@@ -125,6 +125,19 @@
 
     lp_Void_t lp_rotation_zR3( lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
 
+    /*! \brief Apply rotation matrix on vector
+     *  
+     *  Performs a rotation, given by the input matrix, of an R3
+     *  vector. The function do not verify the content of the matrix.
+     *  
+     *  @param lpMatrix Rotation matrix
+     *  @param lpVectorX X component of the vector to rotate
+     *  @param lpVectorY Y component of the vector to rotate
+     *  @param lpVectorZ Z component of the vector to rotate
+     */
+
+    lp_Void_t lp_rotation_mR3( lp_Real_t lpMatrix[3][3], lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
+
     /*! \brief Rotation of R3 defined by two vector
      *  
      *  The function computes the rotation matrix that brought the A
@@ -137,10 +150,10 @@
      *  @param lpVectBX X component of vector B
      *  @param lpVectBY Y component of vector B
      *  @param lpVectBZ Z component of vector B
-     *  @param lpMatrix Rotation matrix defined by the two vectors
+     *  @param lpMatrix Built rotation matrix defined by the two vectors
      */
 
-    lp_Void_t lp_matrix_2vR3( 
+    lp_Void_t lp_rotation_matrix_2vR3( 
 
         lp_Real_t lpVectAX, 
         lp_Real_t lpVectAY, 
