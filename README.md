@@ -1,7 +1,7 @@
 
 ## libcsps<br />Crossed-signal positioning system library
 
-The libcsps, for crossed signal positioning system, library is designed to take advantage of intertial mesurment performed by the Eyesis4PI camera, including GPS device, IMU device and the camera sensors, in order to precisely reconstruct its motion by crossing those different signals.
+The libcsps, for crossed signal positioning system, library is designed to take advantage of inertial measurement performed by the Eyesis4Pi camera, including GPS device, IMU device and the camera sensors, in order to precisely reconstruct its motion by crossing those different signals.
 
 
 ### Documentation
