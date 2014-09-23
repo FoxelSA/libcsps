@@ -44,46 +44,6 @@
     # include "csps-query.h"
 
 /*
-    Source - CSPS query - Time range
- */
-
-    lp_QueryTime lp_query_time(
-
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule
-
-    ) {
-
-        /* Files size variables */
-        lp_Size_t lpSize = lp_Size_s( 0 );
-
-        /* Stream memory variables */
-        lp_Time_t * lpGENsyn = LP_NULL;
-
-        /* Returned structure */
-        lp_QueryTime lpTime;
-
-        /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
-
-        /* Read streams */
-        lpGENsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "syn", sizeof( lp_Time_t ) * lpSize );
-
-        /* Extract timestamp boundaries */
-        lpTime.qrInitial = lpGENsyn[0];
-        lpTime.qrFinal   = lpGENsyn[lpSize-1];
-
-        /* Unallocate streams */
-        free( lpGENsyn );
-
-        /* Return time structure */
-        return( lpTime );
-
-    }
-
-/*
     Source - CSPS query - Position
  */
 

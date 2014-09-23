@@ -82,26 +82,6 @@
     Header - Structures
  */
 
-    /*! \struct lp_QueryTime_struct
-     *  \brief Time boundaries query structure
-     *  
-     *  This structure is used to determine the lowest and highest timestamp
-     *  accessible in a given synchronization stream component.
-     *
-     *  \var lp_QueryTime_struct::qrInitial 
-     *  Initial timestamp stored in specified synchronization stream component
-     *  \var lp_QueryTime_struct::qrFinal
-     *  Final timestamp stored in specified synchronization stream component
-     */
-
-    typedef struct lp_QueryTime_struct {
-
-        /* Time boundaries descriptor */
-        lp_Time_t qrInitial;
-        lp_Time_t qrFinal;
-
-    } lp_QueryTime;
-
     /*! \struct lp_QueryPosition_struct
      *  \brief WGS84 position query structure
      *  
@@ -178,27 +158,6 @@
 /*
     Header - Function prototypes
  */
-
-    /*! \brief Query time boudaries
-     *  
-     *  This function gives the initial and final time that appears
-     *  in a given synchronization stream component.
-     *  
-     *  \param lpPath Path to CSPS structure
-     *  \param lpDevice Device descriptor
-     *  \param lpTag Device name
-     *  \param lpModule CSPS stream to consider
-     *  \return Returns a time boundaries structure
-     */
-
-    lp_QueryTime lp_query_time(
-
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule
-
-    );
 
     /*! \brief Query WGS84 position by timestamp
      *  
