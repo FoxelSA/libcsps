@@ -44,6 +44,65 @@
     # include "csps-query.h"
 
 /*
+    Source - CSPS query - Synchronization
+ */
+
+    lp_QueryTimestamp lp_query_timestamp_by_timestamp(
+
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule,        
+        lp_Time_t               lpTimestamp
+
+    ) {
+
+        /* Timestamp index variables */
+        lp_Size_t lpParse = lp_Size_s( 0 );
+
+        /* Stream size variables */
+        lp_Size_t lpSize = lp_Size_s( 0 );
+
+        /* Stream memory variables */
+        lp_Time_t * lpSYNmas = LP_NULL;
+        lp_Time_t * lpSYNsyn = LP_NULL;
+
+        /* Returned structure */
+        lp_QueryTimestamp lpReturn;
+
+        /* Obtain stream size */
+        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );        
+
+        /* Read streams */
+        lpSYNmas = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize );
+        lpSYNsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+
+        /* Search timestamp in camera records array */
+        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpSYNmas, lpSize ) ) != LP_TIMESTAMP_FAULT ) {
+
+            /* Return corresponding master clock timestamp */
+            lpReturn.qrTimestamp = lpSYNsyn[lpParse];
+
+            /* Update query status */
+            lpReturn.qrStatus = LP_TRUE;            
+
+        } else {
+
+            /* Update query status */
+            lpReturn.qrStatus = LP_FALSE;
+
+        }
+
+        /* Unallocate streams */
+        lpSYNmas = lp_stream_delete( lpSYNmas );
+        lpSYNsyn = lp_stream_delete( lpSYNsyn );
+
+        /* Return timestamp structure */
+        return( lpReturn );
+
+    }
+
+/*
     Source - CSPS query - Position
  */
 

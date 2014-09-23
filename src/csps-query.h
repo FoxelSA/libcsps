@@ -82,6 +82,28 @@
     Header - Structures
  */
 
+    /*! \struct lp_QueryTimestamp_struct
+     *  \brief Camera record and device synchronization
+     *
+     *  This structure is used to obtain time difference between camera
+     *  records and the master clock used to synchronize signals.
+     *  
+     *  \var lp_QueryPosition_struct::qrStatus
+     *  Query status. If LP_FALSE, the query has failed
+     *  \var lp_QueryPosition_struct::qrTimestamp
+     *  Master clock timestamp of the camera record
+     */
+
+    typedef struct lp_QueryTimestamp_struct {
+
+        /* Query status */
+        lp_Enum_t qrStatus;
+
+        /* Event-logger timestamp corresponding to record */
+        lp_Time_t qrTimestamp;
+
+    } lp_QueryTimestamp;
+
     /*! \struct lp_QueryPosition_struct
      *  \brief WGS84 position query structure
      *  
@@ -158,6 +180,30 @@
 /*
     Header - Function prototypes
  */
+
+    /*! \brief Query master clock timestamp for camera record
+     *  
+     *  This function returns timestamp from the master clock 
+     *  on the base of the timestamp used to designate camera
+     *  record.
+     *  
+     *  \param lpPath Path to CSPS structure
+     *  \param lpDevice Device descriptor
+     *  \param lpTag Device name
+     *  \param lpModule CSPS stream to consider
+     *  \param lpTimestamp Reference timestamp
+     *  \return Returns a timestamp structure
+     */
+
+    lp_QueryTimestamp lp_query_timestamp_by_timestamp(
+
+        const lp_Char_t * const lpPath,
+        const lp_Char_t * const lpDevice,
+        const lp_Char_t * const lpTag,
+        const lp_Char_t * const lpModule,        
+        lp_Time_t               lpTimestamp
+
+    );
 
     /*! \brief Query WGS84 position by timestamp
      *  

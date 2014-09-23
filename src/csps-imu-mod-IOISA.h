@@ -99,7 +99,6 @@
      *  
      *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
-     *  \param lpGPS GPS device descriptor
      *  \param lpIMUmodISD Gyroscope and acceleration stream initiator module name
      *  \param lpIMUmodTAG Inertial still range stream initiator module name
      */
