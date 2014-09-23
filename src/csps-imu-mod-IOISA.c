@@ -68,11 +68,6 @@
         lp_Size_t lpISRdwi = lp_Size_s( 0 );
         lp_Size_t lpISRupi = lp_Size_s( 0 );
 
-        /* Projection coordinates variables */
-        lp_Real_t lpERpx = lp_Real_s( 0.0 );
-        lp_Real_t lpERpy = lp_Real_s( 0.0 );
-        //lp_Real_t lpERpz = lp_Real_s( 0.0 );
-
         /* Accumulator variables */
         lp_Real_t lpACCacx = lp_Real_s( 0.0 );
         lp_Real_t lpACCacy = lp_Real_s( 0.0 );
@@ -220,14 +215,12 @@
         lpIMUizz[0] = lpZ2Gm[2][2];
 
         /* Compute gyroscope mean projected in counter-gravity aligned frame */
-        lpERpx = lpZ2Gm[0][0] * lpACCgrx + lpZ2Gm[1][0] * lpACCgry + lpZ2Gm[2][0] * lpACCgrz;
-        lpERpy = lpZ2Gm[0][1] * lpACCgrx + lpZ2Gm[1][1] * lpACCgry + lpZ2Gm[2][1] * lpACCgrz;
-        //lpERpz = lpZ2Gm[0][2] * lpACCgrx + lpZ2Gm[1][2] * lpACCgry + lpZ2Gm[2][2] * lpACCgrz;
+        lp_rotation_mR3( lpZ2Gm, & ( lpACCgrx ), & ( lpACCgry ), & ( lpACCgrz ) );
 
-        /* Rotation around z-axis */
-        lp_rotation_zR3( LP_ATN( lpERpx, lpERpy ) - LP_PI * 0.5, & ( lpIMUixx[0] ), & ( lpIMUixy[0] ), & ( lpIMUixz[0] ) );
-        lp_rotation_zR3( LP_ATN( lpERpx, lpERpy ) - LP_PI * 0.5, & ( lpIMUiyx[0] ), & ( lpIMUiyy[0] ), & ( lpIMUiyz[0] ) );
-        lp_rotation_zR3( LP_ATN( lpERpx, lpERpy ) - LP_PI * 0.5, & ( lpIMUizx[0] ), & ( lpIMUizy[0] ), & ( lpIMUizz[0] ) );
+        /* Rotation around z-axis of counter-gravity inertial frame */
+        lp_rotation_zR3( LP_ATN( lpACCgrx, lpACCgry ) - LP_PI * 0.5, & ( lpIMUixx[0] ), & ( lpIMUixy[0] ), & ( lpIMUixz[0] ) );
+        lp_rotation_zR3( LP_ATN( lpACCgrx, lpACCgry ) - LP_PI * 0.5, & ( lpIMUiyx[0] ), & ( lpIMUiyy[0] ), & ( lpIMUiyz[0] ) );
+        lp_rotation_zR3( LP_ATN( lpACCgrx, lpACCgry ) - LP_PI * 0.5, & ( lpIMUizx[0] ), & ( lpIMUizy[0] ), & ( lpIMUizz[0] ) );
 
         /* Assign second components */
         lpIMUixx[1] = lpIMUixx[0];
