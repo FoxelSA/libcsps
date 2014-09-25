@@ -37,7 +37,7 @@
  */
 
     /*! \file   csps-nmea.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
      *  GPS NMEA sentence management
      */
@@ -81,7 +81,7 @@
     # define LP_NMEA_IDENT_GSA  lp_Enum_s(  2 )
     # define LP_NMEA_IDENT_VTG  lp_Enum_s(  3 )
     # define LP_NMEA_IDENT_MAX  lp_Enum_s(  4 )
-    # define LP_NMEA_IDENT_FAI  lp_Enum_s( 63 )
+    # define LP_NMEA_IDENT_FAI  lp_Enum_s( 63 ) /* Sentence failure code */
 
 /*
     Header - Preprocessor macros
@@ -115,7 +115,7 @@
      *  \param lpUTC UTC time output parameter
      *  \param lpLat Latitude, in degrees, output parameter
      *  \param lpLon Longitude, in degrees, output parameter
-     *  \param lpAlt Altitude, in meter above geoid, output parameter
+     *  \param lpAlt Altitude, in meter above mean see level, output parameter
      *  \param lpQBF Quality buffer output parameter
      */
 
@@ -133,10 +133,10 @@
     /*! \brief NMEA/GGA sentence validation
      *  
      *  Perform a fast consistency verification of the input NMEA/GGA
-     *  sentence.
+     *  sentence based on expected fixed results.
      *  
      *  \param lpSentence NMEA/GGA sentence
-     *  \return True if sentence is correctly formatted
+     *  \return True if sentence is correctly formatted, false otherwise
      */
 
     lp_Enum_t lp_nmea_gga_validate( 
@@ -166,9 +166,9 @@
 
     /*! \brief Four bits binary pattern reader
      *  
-     *  Reads four bits binary patterns pointed by offset. The offset
-     *  value has to contain the number of the desired four bits pattern
-     *  in binary buffer.
+     *  Reads four bits binary patterns pointed by offset in the lpRec binary
+     *  buffer. The offset value has to contain the position of the desired
+     *  four bits pattern in binary buffer.
      *  
      *  \param lpRec Pointer to binary buffer
      *  \param lpOffset Four bits pattern offset, in four bits pattern units

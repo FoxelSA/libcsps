@@ -37,9 +37,9 @@
  */
 
     /*! \file   csps-system.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  CSPS library front-end
+     *  CSPS library topology interpreter
      */
 
 /*
@@ -133,13 +133,13 @@
     Header - Function prototypes
  */
 
-    /*! \brief CSPS front-end
+    /*! \brief CSPS topology interpreter
      *
      * This function provides a front-end between CSPS module
      * and the library users. It reads a file that contains the
      * CSPS topology and execute it.
      *
-     * \param lpPath Path to CSPS structure
+     *  \param lpPath Path CSPS structure
      * \param lpFile Path to the file containing the CSPS topology
      */
 
@@ -152,7 +152,7 @@
 
     /*! \brief File token reader
      *
-     * This function simply reads token from specified file. It
+     * This function simply reads a token from specified file. It
      * returns the pointer to read token buffer.
      * 
      * \param lpFile File from which token is read
@@ -176,7 +176,7 @@
      *
      * \param lpTag Tag of the device to search in stack
      * \param lpType Type of the device to search
-     * \param lpIndex Size of the devices stack in device unit
+     * \param lpIndex Size of the devices stack in device units
      * \param lpTypes Devices type stack array
      * \param lpDescs Devices descriptor stack array
      * \return Return device index in the stack or invalid value

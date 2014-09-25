@@ -128,7 +128,7 @@
         lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LAT, lpGPSlatp );
         lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LON, lpGPSlonp );
         lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_ALT, lpGPSaltp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_QBF, lpGPSqbfp );
+        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_TAG, lpGPSqbfp );
         lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_SYN, lpGPSsynp );
 
         /* Open stream files */

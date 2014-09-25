@@ -50,7 +50,7 @@
 
     lp_Enum_t lp_qbf_threshold( 
 
-        lp_SQBF_t lpQBFValue 
+        lp_SQBF_t lpQBFValue
 
     ) {
 

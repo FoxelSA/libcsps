@@ -199,7 +199,7 @@
         if ( lpQBF != NULL ) {
 
             /* Composing signal quality buffer */
-            ( * lpQBF ) = lp_qbf_compose( lpFix, lpSat, lpHDP * lp_Real_s( 100.0 ) );
+            ( * lpQBF ) = lp_qbf_compose( lpFix, lpSat, lp_Size_c( lpHDP * lp_Real_s( 100.0 ) ) );
 
         }
 

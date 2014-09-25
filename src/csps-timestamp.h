@@ -37,7 +37,7 @@
  */
 
     /*! \file   csps-timestamp.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
      *  Timestamp management
      */
@@ -67,15 +67,7 @@
     Header - Preprocessor definitions
  */
 
-    /* Define timezone designation */
-    # define LP_TIMESTAMP_ZONE_WET  "WET"
-    # define LP_TIMESTAMP_ZONE_WEST "WEST"
-    # define LP_TIMESTAMP_ZONE_CET  "CET"
-    # define LP_TIMESTAMP_ZONE_CEST "CEST"
-    # define LP_TIMESTAMP_ZONE_EET  "EET"
-    # define LP_TIMESTAMP_ZONE_EEST "EEST"
-
-    /* Define range-fault */
+    /* Define range-fault code */
     # define LP_TIMESTAMP_FAULT     lp_Size_s( -1 )     
 
 /*
@@ -83,23 +75,23 @@
  */
 
     /* Define casting macro */
-    # define lp_Time_c( x )     ( ( lp_Time_t ) ( x ) )
+    # define lp_Time_c( x )         ( ( lp_Time_t ) ( x ) )
 
     /* Define litteral suffix */
-    # define lp_Time_s( x )     UINT64_C( x )
+    # define lp_Time_s( x )         UINT64_C( x )
 
     /* Define formated output specifiers */
-    # define lp_Time_p          PRIu64
+    # define lp_Time_p              PRIu64
 
     /* Define formated input specifiers */
-    # define lp_Time_i          SCNu64
+    # define lp_Time_i              SCNu64
 
 /*
     Header - Typedefs
  */
 
     /* Define timestamp type */
-    typedef uint64_t            lp_Time_t;
+    typedef uint64_t lp_Time_t;
 
 /*
     Header - Structures
@@ -112,7 +104,7 @@
     /*! \brief Timestamp extractor from elphel camera FPGA event logger
      *  
      *  Extract timestamp, i.e. unix timestamp and microseconds, from the
-     *  binary record of the elphel camera FPGA event logger.
+     *  binary record of the elphel camera FPGA event logger binary buffer.
      *  
      *  \param lpRec Pointer to the binary record
      *  \return Returns the extracted timestamp
@@ -127,10 +119,10 @@
     /*! \brief Timestamp composer
      *  
      *  Compose timestamp on the base of an unix timestamp and a microsecond
-     *  part.
+     *  part. The microsecond part is an integer value in [0,999999] range.
      *  
      *  \param lpSec Unix timestamp
-     *  \param lpUsec Microsecond integer
+     *  \param lpUsec Microsecond integer value
      *  \return Returns composed timestamp
      */
 
@@ -174,8 +166,8 @@
     /*! \brief Timestamp index dichotomous search
      *  
      *  On the base of a given reference timestamp and a growing timestamps
-     *  array, the function search the array index of the equal or nearest 
-     *  lower array timestamp to the reference timestamp using dichotomous
+     *  array, the function searches the array index of the equal or nearest 
+     *  lower array timestamp based on the reference timestamp using dichotomous
      *  search.
      *  
      *  When the refrence timestamp is out of the array range, a range fault
@@ -245,7 +237,8 @@
 
     /*! \brief Timestamp arithmetic - Difference
      *  
-     *  Compute the absolute difference between two 
+     *  Compute the absolute difference between two timestamps. The resulting timestamp
+     *  is then always positive.
      *  
      *  \param lpTa First timestamp
      *  \param lpTb Second timestamp

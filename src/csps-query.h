@@ -37,7 +37,7 @@
  */
 
     /*! \file   csps-query.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
      *  CSPS query interface
      */
@@ -91,7 +91,7 @@
      *  \var lp_QueryPosition_struct::qrStatus
      *  Query status. If LP_FALSE, the query has failed
      *  \var lp_QueryPosition_struct::qrTimestamp
-     *  Master clock timestamp of the camera record
+     *  Image clock timestamp corresponding to the camera record
      */
 
     typedef struct lp_QueryTimestamp_struct {
@@ -99,7 +99,7 @@
         /* Query status */
         lp_Enum_t qrStatus;
 
-        /* Event-logger timestamp corresponding to record */
+        /* Event-logger timestamp corresponding to master clock timestamp */
         lp_Time_t qrTimestamp;
 
     } lp_QueryTimestamp;
@@ -116,7 +116,7 @@
      *  \var lp_QueryPosition_struct::qrLongitude
      *  Longitude in degrees
      *  \var lp_QueryPosition_struct::qrAltitude
-     *  Altitude, in meters above geoid
+     *  Altitude in meters above mean see level
      */
 
     typedef struct lp_QueryPosition_struct {
@@ -184,11 +184,11 @@
     /*! \brief Query master clock timestamp for camera record
      *  
      *  This function returns timestamp from the master clock 
-     *  on the base of the timestamp used to designate camera
+     *  on the base of the timestamp used to designate image
      *  record.
      *  
-     *  \param lpPath Path to CSPS structure
-     *  \param lpDevice Device descriptor
+     *  \param lpPath Path CSPS structure
+     *  \param lpDevice Device tag
      *  \param lpTag Device name
      *  \param lpModule CSPS stream to consider
      *  \param lpTimestamp Reference timestamp
@@ -211,8 +211,8 @@
      *  specified timestamp. If the given timestamp is
      *  outside of the range, the query fails.
      *  
-     *  \param lpPath Path to CSPS structure
-     *  \param lpDevice Device descriptor
+     *  \param lpPath Path CSPS structure
+     *  \param lpDevice Device tag
      *  \param lpTag Device name
      *  \param lpModule CSPS stream to consider
      *  \param lpTimestamp Reference timestamp
@@ -235,8 +235,8 @@
      *  given timestamp. If the given timestamp is outside of
      *  the range, the query fails.
      *  
-     *  \param lpPath Path to CSPS structure
-     *  \param lpDevice Device descriptor
+     *  \param lpPath Path CSPS structure
+     *  \param lpDevice Device tag
      *  \param lpTag Device name
      *  \param lpModule CSPS stream to consider
      *  \param lpTimestamp Reference timestamp

@@ -37,7 +37,7 @@
  */
 
     /*! \file   csps-path.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
      *  CSPS structure path management
      */
@@ -95,7 +95,7 @@
      *  Build standard path for DSIDE module logs and returns it in
      *  char array.
      *  
-     *  \param lpBase CSPS structure main path
+     *  \param lpPath Path CSPS structure
      *  \param lpDevice Device name
      *  \param lpLogs Logs to consider
      *  \param lpPath Pointer to string that recieve path
@@ -115,7 +115,7 @@
      *  Build standard path for module streams components and returns it
      *  in char array.
      *  
-     *  \param lpBase CSPS structure main path
+     *  \param lpPath Path CSPS structure
      *  \param lpDevice Device type
      *  \param lpTag Device specific name
      *  \param lpModule Modulde name

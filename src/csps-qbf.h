@@ -37,7 +37,7 @@
  */
 
     /*! \file   csps-qbf.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
      *  GPS signal quality buffer management
      */
@@ -122,8 +122,8 @@
      *  If GPS signal quality is too low, the threshold condition
      *  is triggered and the function returns true (LP_TRUE).
      *  
-     *  \param lpQBFValue Quality buffer associated with the tested GPS signal
-     *  \return Returns true if signal trigger the threshold
+     *  \param lpQBFValue Quality buffer associated with the tested GPS measure
+     *  \return Returns true if measure trigger the threshold
      */
 
     lp_Enum_t lp_qbf_threshold(
@@ -140,7 +140,7 @@
      *  
      *  \param lpFix GPS signal fix
      *  \param lpSat Satellite count
-     *  \param lpHDP100 times 100
+     *  \param lpHDP100 Horizontal dilution of position times 100
      *  \return Returns composed quality buffer
      */
 

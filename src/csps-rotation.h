@@ -37,7 +37,7 @@
  */
 
     /*! \file   csps-rotation.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
      *  Rotation related module
      */
@@ -95,7 +95,7 @@
      *  @param lpVectorZ Z component of the vector
      */
 
-    lp_Void_t lp_rotation_xR3( lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
+    lp_Void_t lp_rotation_xR3( const lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
 
     /*! \brief Rotation of R3 vector
      *  
@@ -109,7 +109,7 @@
      *  @param lpVectorZ Z component of the vector
      */
 
-    lp_Void_t lp_rotation_yR3( lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
+    lp_Void_t lp_rotation_yR3( const lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
 
     /*! \brief Rotation of R3 vector
      *  
@@ -123,7 +123,7 @@
      *  @param lpVectorZ Z component of the vector
      */
 
-    lp_Void_t lp_rotation_zR3( lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
+    lp_Void_t lp_rotation_zR3( const lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
 
     /*! \brief Apply rotation matrix on vector
      *  
