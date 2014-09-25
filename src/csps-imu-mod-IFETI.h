@@ -37,9 +37,9 @@
  */
 
     /*! \file   csps-imu-mod-IFETI.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  IMU frame explicit time-integration module (IFETI - Inertial Frame Explicit Time Integration)
+     *  IFETI - Inertial Frame Explicit Time Integration
      */
 
 /*
@@ -100,8 +100,8 @@
      *  
      *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
-     *  \param lpIMUmodGYR Gyroscope stream initiator module name
-     *  \param lpIMUmodFRM Frame stream initiator module name
+     *  \param lpIMUmodGYR Gyroscope stream initiator module
+     *  \param lpIMUmodFRM Frame stream initiator module
      */
 
     lp_Void_t lp_imu_mod_IFETI(

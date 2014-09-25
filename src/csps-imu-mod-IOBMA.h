@@ -37,17 +37,17 @@
  */
 
     /*! \file   csps-imu-mod-IOBMA.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  Initial orientation body momentum alignment module 
+     *  IOBMA - Initial Orientation Body Momentum Alignment
      */
 
 /*
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_BAIFA__
-    # define __LP_IMU_BAIFA__
+    # ifndef __LP_IMU_IOBMA__
+    # define __LP_IMU_IOBMA__
 
 /*
     Header - C/C++ compatibility
@@ -91,9 +91,9 @@
     Header - Function prototypes
  */
 
-    /*! \brief Initial orientation body momentum alignment module
+    /*! \brief IMU earth alignmemt through device momentum
      *
-     *  This function compute initial conditions on inertial frame based on the
+     *  This function computes initial conditions on inertial frame based on the
      *  assumption that z axis of the IMU is aligned against the gravity vector
      *  and that the x axis follows the direction of motion of the IMU coupled
      *  with the GPS reciever.
@@ -101,7 +101,7 @@
      *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
      *  \param lpGPS GPS device descriptor
-     *  \param lpGPSmod Geographic positions streams initiator module name
+     *  \param lpGPSmod Geographic positions streams initiator module
      */
 
     lp_Void_t lp_imu_mod_IOBMA(

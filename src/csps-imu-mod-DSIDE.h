@@ -39,8 +39,7 @@
     /*! \file   csps-imu-mod-DSIDE.h
      *  \author Nils Hamel (n.hamel@foxel.ch)
      *
-     *  IMU signal extraction module (DSIDE - Device-Specitic Initial Data
-     *  Extraction)
+     *  DSIDE - Device-Specitic Initial Data Extraction
      */
 
 /*
@@ -92,10 +91,11 @@
     Header - Function prototypes
  */
 
-    /*! \brief IMU signal extraction switch
+    /*! \brief Device extraction switch
      *  
-     *  Switch on device-specific extractor. On the base of the descriptor
-     *  given as parameter, the device-specific extractor is called.
+     *  Switch on device-specific extractor. On the base of the device 
+     *  descriptor given as parameter, the device-specific extractor is
+     *  called.
      *
      *  \param lpPath Path CSPS structure
      *  \param lpDevice Device descriptor

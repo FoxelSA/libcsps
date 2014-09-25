@@ -37,9 +37,9 @@
  */
 
     /*! \file   csps-imu-mod-SGSFR.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  IMU signal frequency reducer module (SGSFR - SiGnal Sampling Frequency Reduction)
+     *  SGSFR - SiGnal Sampling Frequency Reduction
      */
 
 /*
@@ -93,12 +93,13 @@
 
     /*! \brief IMU signals frequency reduction
      *  
-     *  This function reduces the sampling frequency of the acceleration
-     *  and gyroscopic sensor signal.
+     *  This function reduces the sampling frequency of the accelerations
+     *  and gyroscopic velocities sensor signal. The reduction of frequency
+     *  is performed using mean value on accumulated signal samples.
      *  
      *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
-     *  \param lpIMUmod Gyroscope and acceleration stream initiator module name
+     *  \param lpIMUmod Gyroscope and acceleration stream initiator module
      */
 
     lp_Void_t lp_imu_mod_SGSFR(

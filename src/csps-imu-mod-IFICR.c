@@ -44,7 +44,7 @@
     # include "csps-imu-mod-IFICR.h"
 
 /*
-    Source - Inertial frame initial conditions rotation module
+    Source - Inertial frame initial conditions rotation
 */
 
     lp_Void_t lp_imu_mod_IFICR(

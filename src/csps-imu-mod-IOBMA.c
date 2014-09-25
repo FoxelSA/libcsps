@@ -44,7 +44,7 @@
     # include "csps-imu-mod-IOBMA.h"
 
 /*
-    Source - Initial orientation body momentum alignment module
+    Source - IMU earth alignmemt through device momentum
 */
 
     lp_Void_t lp_imu_mod_IOBMA(

@@ -37,7 +37,7 @@
  */
 
     /*! \file   csps.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
      *  Library common header file
      */

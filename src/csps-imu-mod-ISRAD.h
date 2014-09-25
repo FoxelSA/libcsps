@@ -37,9 +37,9 @@
  */
 
     /*! \file   csps-imu-mod-ISRAD.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  IMU inertial still range detection module (ISRAD - Inertial Still Range Automatic Detection)
+     *  ISRAD - Inertial Still Range Automatic Detection
      */
 
 /*
@@ -93,11 +93,17 @@
 
     /*! \brief IMU Inertial still range automatic detection
      *  
-     *  This function detect the largest intertial still range.
+     *  This function detects the largest intertial still range based on the
+     *  accelerations and angular velocities. The device descriptor provides
+     *  thresholds that are considered to determine still range on the overall
+     *  device trajectory.
+     *
+     *  The function impose also a maximum of detectable still range. This
+     *  maximum value can be set using the device descriptor.
      *  
      *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
-     *  \param lpIMUmod Gyroscope and acceleration stream initiator module name
+     *  \param lpIMUmod Gyroscope and acceleration stream initiator module
      */
 
     lp_Void_t lp_imu_mod_ISRAD(

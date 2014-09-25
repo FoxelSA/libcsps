@@ -37,9 +37,9 @@
  */
 
     /*! \file   csps-imu-mod-IFICR.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  Inertial frame initial conditions rotation module
+     *  IFICR - Inertial Frame Initial Condition Rotation
      */
 
 /*
@@ -92,15 +92,15 @@
     Header - Function prototypes
  */
 
-    /*! \brief Inertial frame initial conditions rotation module
+    /*! \brief Inertial frame initial conditions rotation
      *  
      *  This function consider the inertial frame initial conditions provdied as
      *  input and apply the three rotation around z, y, x axis, in this order, on
-     *  the initial conditions.
+     *  the initial conditions, using angle provided by the device descriptor.
      * 
      *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
-     *  \param lpIMUmod Inertial frame initial conditions initiator module name
+     *  \param lpIMUmod Inertial frame initial conditions initiator module
      */
 
     lp_Void_t lp_imu_mod_IFICR(

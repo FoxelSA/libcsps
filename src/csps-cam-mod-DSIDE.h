@@ -37,10 +37,9 @@
  */
 
     /*! \file   csps-cam-mod-DSIDE.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  Camera signal extraction module (DSIDE - Device-Specitic Initial Data
-     *  Extraction)
+     *  DSIDE - Device-Specitic Initial Data Extraction
      */
 
 /*
@@ -92,10 +91,11 @@
     Header - Function prototypes
  */
 
-    /*! \brief Camera signal extraction switch
+    /*! \brief Device extraction switch
      *  
-     *  Switch on device-specific extractor. On the base of the
-     *  descriptor, the device-specific extractor is called.
+     *  Switch on device-specific extractor. On the base of the device 
+     *  descriptor given as parameter, the device-specific extractor is
+     *  called.
      *
      *  \param lpPath Path CSPS structure
      *  \param lpDevice Device descriptor
@@ -108,9 +108,9 @@
 
     );
 
-    /*! \brief Eyesis4PI specific initial data extractor
+    /*! \brief Eyesis4Pi specific initial extractor
      *
-     *  Eyesis4PI device specific extraction sub-module.
+     *  Eyesis4Pi device-specific extraction sub-module.
      *
      *  \param lpPath Path CSPS structure
      *  \param lpDevice Device descriptor

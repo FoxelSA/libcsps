@@ -37,9 +37,9 @@
  */
 
     /*! \file   csps-imu-mod-GYLAE.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  IMU gravity removal module (GYLAE - GravitY-Less Acceleration Extraction)
+     *  GYLAE - GravitY-Less Acceleration Extraction
      */
 
 /*
@@ -98,8 +98,8 @@
      *  
      *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
-     *  \param lpIMUmodACC Acceleration stream initiator module name
-     *  \param lpIMUmodFRM Frame stream initiator module name
+     *  \param lpIMUmodACC Acceleration stream initiator module
+     *  \param lpIMUmodFRM Frame stream initiator module
      */
 
     lp_Void_t lp_imu_mod_GYLAE(

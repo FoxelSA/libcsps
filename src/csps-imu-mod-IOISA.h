@@ -37,9 +37,9 @@
  */
 
     /*! \file   csps-imu-mod-IOISA.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  IMU earth self-alignment module (IOISA - Initial Orientation Inertial Self-Alignment)
+     *  IOISA - Initial Orientation Inertial Self-Alignment
      */
 
 /*
@@ -94,13 +94,14 @@
 
     /*! \brief IMU earth self-alignment
      *  
-     *  This function performs IMU earth self-alignment. The process
-     *  consider measures performed during inertial still ranges.
+     *  This function performs IMU earth self-alignment. The function considers
+     *  accelerations and angular velocities on detected inertial still range
+     *  to compute inertial frame initial conditions.
      *  
      *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
-     *  \param lpIMUmodISD Gyroscope and acceleration stream initiator module name
-     *  \param lpIMUmodTAG Inertial still range stream initiator module name
+     *  \param lpIMUmodISD Gyroscope and acceleration stream initiator module
+     *  \param lpIMUmodTAG Inertial still range stream initiator module
      */
 
     lp_Void_t lp_imu_mod_IOISA(

@@ -37,9 +37,9 @@
  */
 
     /*! \file   csps-gps-mod-SGNQF.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  GPS signal quality filtering module (SGNQF - SiGNal Quality Filtering)
+     *  SGNQF - SiGNal Quality Filtering
      */
 
 /*
@@ -94,12 +94,12 @@
 
     /*! \brief GPS signal quality filtering
      *  
-     *  This module removes GPS measures on the base of the signal quality. The
-     *  output stream contains only measures that have a satisfying quality.
+     *  This module removes GPS measures on the base of the GPS signal quality.
+     *  The output stream contains only measures that have a satisfying quality.
      *  
      *  \param lpPath Path CSPS structure
      *  \param lpGPS GPS device descriptor
-     *  \param lpGPSmod Geographic and signal quality stream initiator module name
+     *  \param lpGPSmod Geographic and signal quality stream initiator module
      */
 
     lp_Void_t lp_gps_mod_SGNQF(

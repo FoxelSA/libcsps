@@ -37,9 +37,9 @@
  */
 
     /*! \file   csps-imu-mod-SGNDN.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  IMU signal denoising module (SGNDN - SiGNal DeNoising)
+     *  SGNDN - SiGNal DeNoising
      */
 
 /*
@@ -94,12 +94,15 @@
 
     /*! \brief IMU signal denosing
      *  
-     *  Denoise the signals coming from the IMU device. The implemented
-     *  algorithm is currently the total variation with iterative clipping.
+     *  Denoise the signals coming from the IMU device. The denoising algorithm is
+     *  applied on both accelerations and angular velocities using the same algorithm.
+     *  
+     *  The implemented algorithm is currently the total variation with iterative 
+     *  clipping.
      *  
      *  \param lpPath Path to CSPS structure
      *  \param lpIMU IMU device descriptor
-     *  \param lpIMUmod Gyroscope and acceleration stream initiator module name
+     *  \param lpIMUmod Gyroscope and acceleration stream initiator module
      */
 
     lp_Void_t lp_imu_mod_SGNDN(

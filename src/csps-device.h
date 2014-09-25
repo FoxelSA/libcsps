@@ -37,9 +37,9 @@
  */
 
     /*! \file   csps-device.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  CSPS device descriptor structures
+     *  CSPS device descriptors
      */
 
 /*
@@ -112,7 +112,7 @@
  */
 
     /*! \struct lp_CAM_struct
-     *  \brief Camera descriptor structure
+     *  \brief Camera device descriptor
      *
      *  The structure stores the description of a camera device engaged
      *  in the CSPS.
@@ -144,7 +144,7 @@
     } lp_CAM;
 
     /*! \struct lp_IMU_struct
-     *  \brief IMU descriptor structure
+     *  \brief IMU device descriptor
      *
      *  The structure stores the description of an IMU device engaged
      *  in the CSPS.
@@ -168,9 +168,9 @@
      *  \var lp_IMU_struct::dvACCz
      *  Accelerometer factory scale factor for z component
      *  \var lp_IMU_struct::dvISRmax
-     *  Maximum number of indexable still ranges
+     *  Maximum number of indexable inertial still ranges
      *  \var lp_IMU_struct::dvISRacc
-     *  Minimum quantites accumulation number for dynamic mean computation
+     *  Minimum samples accumulation for dynamic mean computation
      *  \var lp_IMU_struct::dvISRgrt
      *  Gyroscope signal dynamic mean distance threshold
      *  \var lp_IMU_struct::dvISRact
@@ -231,7 +231,7 @@
     } lp_IMU;
 
     /*! \struct lp_GPS_struct
-     *  \brief GPS descriptor structure
+     *  \brief GPS device descriptor
      *
      *  The structure stores the description of a GPS device engaged
      *  in the CSPS.
@@ -271,9 +271,10 @@
     Header - Function prototypes
  */
 
-    /*! \brief Camera descriptor structure creation
+    /*! \brief Camera device descriptor creator
      * 
-     *  Create the camera descriptor structre.
+     *  Create camera device descriptor structure. It consider device model
+     *  to assign its device-specific configuration.
      *
      * \param lpName Camera device name
      * \param lpTag Stores the device tag to differentiate multiple usage of the same model
@@ -286,9 +287,10 @@
 
     );
 
-    /*! \brief IMU descriptor structure creation
+    /*! \brief IMU device descriptor creator
      * 
-     *  Create the IMU descriptor structre.
+     *  Create IMU device descriptor structure. It consider device model
+     *  to assign its device-specific configuration.
      *
      * \param lpName IMU device name
      * \param lpTag Stores the device tag to differentiate multiple usage of the same model
@@ -301,9 +303,10 @@
 
     );
 
-    /*! \brief GPS descriptor structure creation
+    /*! \brief GPS device descriptor creator
      * 
-     *  Create the GPS descriptor structre.
+     *  Create GPS device descriptor structure. It consider device model
+     *  to assign its device-specific configuration.
      *
      * \param lpName GPS device name
      * \param lpTag Stores the device tag to differentiate multiple usage of the same model
