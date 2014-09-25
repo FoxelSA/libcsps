@@ -99,14 +99,14 @@
     # define LP_SYSTEM_KW_DVTYPE    "model"
     # define LP_SYSTEM_KW_DVTAGS    "tag"
     # define LP_SYSTEM_KW_DVBLOC    "block"
-    # define LP_SYSTEM_KW_DVFREQ    "downsampling"
-    # define LP_SYSTEM_KW_DVICRX    "x-rotation"
-    # define LP_SYSTEM_KW_DVICRY    "y-rotation"
-    # define LP_SYSTEM_KW_DVICRZ    "z-rotation"
-    # define LP_SYSTEM_KW_DVIRMX    "isr-max-ranges"
-    # define LP_SYSTEM_KW_DVIRMN    "isr-min-accum"
-    # define LP_SYSTEM_KW_DVIRTG    "isr-gyros-threshold"
-    # define LP_SYSTEM_KW_DVIRTT    "isr-trans-threshold"
+    # define LP_SYSTEM_KW_DVFREQ    "downsampling-frequency"
+    # define LP_SYSTEM_KW_DVICRX    "initial-conditions-x-rotation"
+    # define LP_SYSTEM_KW_DVICRY    "initial-conditions-y-rotation"
+    # define LP_SYSTEM_KW_DVICRZ    "initial-conditions-z-rotation"
+    # define LP_SYSTEM_KW_DVIRMX    "inertial-still-ranges-maximum"
+    # define LP_SYSTEM_KW_DVIRMN    "inertial-still-ranges-minimal-length"
+    # define LP_SYSTEM_KW_DVIRTG    "inertial-still-ranges-gyroscope-threshold"
+    # define LP_SYSTEM_KW_DVIRTT    "inertial-still-ranges-acceleration-threshold"
 
 
     /* Define topology analysis modes */
