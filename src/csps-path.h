@@ -95,7 +95,7 @@
      *  Build standard path for DSIDE module logs and returns it in
      *  char array.
      *  
-     *  \param lpPath Path CSPS structure
+     *  \param lpBase Path CSPS structure
      *  \param lpDevice Device name
      *  \param lpLogs Logs to consider
      *  \param lpPath Pointer to string that recieve path
@@ -115,7 +115,7 @@
      *  Build standard path for module streams components and returns it
      *  in char array.
      *  
-     *  \param lpPath Path CSPS structure
+     *  \param lpBase Path CSPS structure
      *  \param lpDevice Device type
      *  \param lpTag Device specific name
      *  \param lpModule Modulde name

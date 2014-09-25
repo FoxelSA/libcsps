@@ -50,9 +50,9 @@
     lp_Void_t lp_imu_mod_IOBMA(
 
         const lp_Char_t * const lpPath, 
-        lp_IMU                  lpIMU,
-        lp_GPS                  lpGPS,
-        const lp_Char_t * const lpGPSmod  
+        const lp_IMU            lpIMU,
+        const lp_GPS            lpGPS,
+        const lp_Char_t * const lpGPSmod
 
     ) {
 

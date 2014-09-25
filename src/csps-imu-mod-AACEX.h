@@ -36,18 +36,18 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   csps-imu-mod-GYLAE.h
+    /*! \file   csps-imu-mod-AACEX.h
      *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  GYLAE - GravitY-Less Acceleration Extraction
+     *  AACEX - Absolute ACceleration EXtraction
      */
 
 /*
     Header - Include guard
  */
 
-    # ifndef __LP_IMU_GYLAE__
-    # define __LP_IMU_GYLAE__
+    # ifndef __LP_IMU_AACEX__
+    # define __LP_IMU_AACEX__
 
 /*
     Header - C/C++ compatibility
@@ -72,8 +72,8 @@
  */
 
     /* CSPS module identification */
-    # define LP_IMU_GYLAE_MOD "mod-GYLAE"
-    # define LP_IMU_GYLAE_DES "GravitY-Less Acceleration Extraction"
+    # define LP_IMU_AACEX_MOD "mod-AACEX"
+    # define LP_IMU_AACEX_DES "Absolute ACceleration EXtraction" 
 
 /*
     Header - Preprocessor macros
@@ -91,7 +91,7 @@
     Header - Function prototypes
  */
 
-    /*! \brief IMU Gravity-less acceleration extraction
+    /*! \brief IMU absolute acceleration extraction
      *  
      *  This module removes the gravity from the acceleration signals
      *  of IMUs.
@@ -102,7 +102,7 @@
      *  \param lpIMUmodFRM Frame stream initiator module
      */
 
-    lp_Void_t lp_imu_mod_GYLAE(
+    lp_Void_t lp_imu_mod_AACEX(
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU, 

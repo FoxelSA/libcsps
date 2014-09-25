@@ -98,13 +98,13 @@
      *  called.
      *
      *  \param lpPath Path CSPS structure
-     *  \param lpDevice Device descriptor
+     *  \param lpCAM Device descriptor
      */
 
     lp_Void_t lp_cam_mod_DSIDE(
 
-        const lp_Char_t * const lpPath,
-        lp_CAM                  lpDevice
+        const lp_Char_t * const lpPath, 
+        const lp_CAM            lpCAM 
 
     );
 
@@ -113,13 +113,13 @@
      *  Eyesis4Pi device-specific extraction sub-module.
      *
      *  \param lpPath Path CSPS structure
-     *  \param lpDevice Device descriptor
+     *  \param lpCAM Device descriptor
      */
 
     lp_Void_t lp_cam_DSIDE_EYESIS4PI(
 
-        const lp_Char_t * const lpPath,
-        lp_CAM                  lpDevice
+        const lp_Char_t * const lpPath, 
+        const lp_CAM            lpCAM 
 
     );
 

@@ -50,15 +50,15 @@
     lp_Void_t lp_imu_mod_DSIDE( 
 
         const lp_Char_t * const lpPath, 
-        lp_IMU                  lpDevice
+        const lp_IMU            lpIMU
 
     ) {
 
         /* Select device */
-        if ( strcmp( lpDevice.dvName, LP_DEVICE_ADIS16375 ) == 0 ) {
+        if ( strcmp( lpIMU.dvName, LP_DEVICE_ADIS16375 ) == 0 ) {
 
             /* ADIS16375 specific process */
-            lp_imu_DSIDE_ADIS16375( lpPath, lpDevice );
+            lp_imu_DSIDE_ADIS16375( lpPath, lpIMU );
 
         }
 
@@ -71,7 +71,7 @@
     lp_Void_t lp_imu_DSIDE_ADIS16375( 
 
         const lp_Char_t * const lpPath, 
-        lp_IMU                  lpDevice 
+        const lp_IMU            lpIMU
 
     ) {
 
@@ -116,13 +116,13 @@
         lp_path_dside( lpPath, LP_DEVICE_ADIS16375, LP_DEVICE_ADIS16375_LOG_FPGA, lpDEVlogp );
 
         /* Build stream file paths */
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRX, lpIMUgrxp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRY, lpIMUgryp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRZ, lpIMUgrzp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACX, lpIMUacxp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACY, lpIMUacyp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACZ, lpIMUaczp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_SYN, lpIMUsynp );
+        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRX, lpIMUgrxp );
+        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRY, lpIMUgryp );
+        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRZ, lpIMUgrzp );
+        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACX, lpIMUacxp );
+        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACY, lpIMUacyp );
+        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACZ, lpIMUaczp );
+        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_SYN, lpIMUsynp );
 
         /* Open stream files */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );
@@ -135,13 +135,13 @@
         lpIMUsynf = fopen( lpIMUsynp, "wb" );
 
         /* Create streams */
-        lpIMUgrx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpIMUgry = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpIMUgrz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpIMUacx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpIMUacy = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpIMUacz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpIMUsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpDevice.dvBlock );
+        lpIMUgrx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpIMU.dvBlock );
+        lpIMUgry = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpIMU.dvBlock );
+        lpIMUgrz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpIMU.dvBlock );
+        lpIMUacx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpIMU.dvBlock );
+        lpIMUacy = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpIMU.dvBlock );
+        lpIMUacz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpIMU.dvBlock );
+        lpIMUsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpIMU.dvBlock );
 
         /* FPGA records reading loop */
         while ( lpReading == LP_TRUE ) {
@@ -150,7 +150,7 @@
             lpIndex = lp_Size_s( 0 );
 
             /* Reading of FPGA record by block */
-            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpDevice.dvBlock ) ) {
+            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpIMU.dvBlock ) ) {
 
                 /* Read and verify FPGA record */
                 if ( ( lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf ) ) == LP_DEVICE_EYESIS4PI_RECLEN ) {
@@ -159,12 +159,12 @@
                     if ( ( lpRec[3] & lp_Byte_s( 0x0F ) ) == LP_DEVICE_EYESIS4PI_IMUEVT ) {
 
                         /* Assign readed data */
-                        lpIMUgrx[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[2] ) * lpDevice.dvGYRx;
-                        lpIMUgry[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[3] ) * lpDevice.dvGYRy;
-                        lpIMUgrz[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[4] ) * lpDevice.dvGYRz;
-                        lpIMUacx[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[5] ) * lpDevice.dvACCx;
-                        lpIMUacy[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[6] ) * lpDevice.dvACCy;
-                        lpIMUacz[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[7] ) * lpDevice.dvACCz;
+                        lpIMUgrx[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[2] ) * lpIMU.dvGYRx;
+                        lpIMUgry[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[3] ) * lpIMU.dvGYRy;
+                        lpIMUgrz[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[4] ) * lpIMU.dvGYRz;
+                        lpIMUacx[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[5] ) * lpIMU.dvACCx;
+                        lpIMUacy[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[6] ) * lpIMU.dvACCy;
+                        lpIMUacz[lpIndex] = ( ( lp_Real_t ) ( ( int32_t * ) lpRec )[7] ) * lpIMU.dvACCz;
 
                         /* Retrieve FPGA timestamp */
                         lpIMUsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );

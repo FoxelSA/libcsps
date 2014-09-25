@@ -98,13 +98,13 @@
      *  called.
      *
      *  \param lpPath Path CSPS structure
-     *  \param lpDevice Device descriptor
+     *  \param lpIMU Device descriptor
      */
 
     lp_Void_t lp_imu_mod_DSIDE(
 
-        const lp_Char_t * const lpPath,
-        lp_IMU                  lpDevice
+        const lp_Char_t * const lpPath, 
+        const lp_IMU            lpIMU
 
     );
 
@@ -113,13 +113,13 @@
      *  ADIS16375 IMU device specific extraction sub-module.
      *
      *  \param lpPath Path CSPS structure
-     *  \param lpDevice Device descriptor
+     *  \param lpIMU Device descriptor
      */
 
     lp_Void_t lp_imu_DSIDE_ADIS16375(
 
-        const lp_Char_t * const lpPath,
-        lp_IMU                  lpDevice
+        const lp_Char_t * const lpPath, 
+        const lp_IMU            lpIMU
 
     );
 

@@ -50,7 +50,7 @@
     lp_Void_t lp_imu_mod_IFETI( 
 
         const lp_Char_t * const lpPath, 
-        lp_IMU                  lpIMU, 
+        const lp_IMU            lpIMU, 
         const lp_Char_t * const lpIMUmodGYR,
         const lp_Char_t * const lpIMUmodFRM
 

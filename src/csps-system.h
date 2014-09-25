@@ -66,6 +66,7 @@
     # include "csps-cam-mod-DSIDE.h"
     # include "csps-gps-mod-DSIDE.h"
     # include "csps-gps-mod-SGNQF.h"
+    # include "csps-imu-mod-AACEX.h"
     # include "csps-imu-mod-DSIDE.h"
     # include "csps-imu-mod-SGNDN.h"
     # include "csps-imu-mod-SGSFR.h"
@@ -73,7 +74,6 @@
     # include "csps-imu-mod-IFICR.h"
     # include "csps-imu-mod-IOBMA.h"
     # include "csps-imu-mod-IOISA.h"
-    # include "csps-imu-mod-GYLAE.h"
     # include "csps-imu-mod-ISRAD.h"
 
 /*

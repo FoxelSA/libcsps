@@ -50,20 +50,20 @@
     lp_Void_t lp_cam_mod_DSIDE( 
 
         const lp_Char_t * const lpPath, 
-        lp_CAM                  lpDevice 
+        const lp_CAM            lpCAM 
 
     ) {
 
         /* Select device */
-        if ( strcmp( lpDevice.dvName, LP_DEVICE_EYESIS4PI ) == 0 ) {
+        if ( strcmp( lpCAM.dvName, LP_DEVICE_EYESIS4PI ) == 0 ) {
 
             /* Eyesis4pi specific process */
-            lp_cam_DSIDE_EYESIS4PI( lpPath, lpDevice );
+            lp_cam_DSIDE_EYESIS4PI( lpPath, lpCAM );
 
-        } else if ( strcmp( lpDevice.dvName, LP_DEVICE_NC353L369IMUGPS ) == 0 ) {
+        } else if ( strcmp( lpCAM.dvName, LP_DEVICE_NC353L369IMUGPS ) == 0 ) {
 
             /* NC353L369 specific process (same as Eyesis4Pi) */
-            lp_cam_DSIDE_EYESIS4PI( lpPath, lpDevice );
+            lp_cam_DSIDE_EYESIS4PI( lpPath, lpCAM );
 
         }
 
@@ -76,7 +76,7 @@
     lp_Void_t lp_cam_DSIDE_EYESIS4PI( 
 
         const lp_Char_t * const lpPath, 
-        lp_CAM                  lpDevice 
+        const lp_CAM            lpCAM 
 
     ) {
 
@@ -106,8 +106,8 @@
         lp_path_dside( lpPath, LP_DEVICE_EYESIS4PI, LP_DEVICE_EYESIS4PI_LOG_FPGA, lpDEVlogp );
 
         /* Build stream file paths */
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_CAM_DSIDE_MOD, LP_STREAM_CPN_TAG, lpDEVmasp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_CAM_DSIDE_MOD, LP_STREAM_CPN_SYN, lpDEVsynp );
+        lp_path_stream( lpPath, lpCAM.dvType, lpCAM.dvTag, LP_CAM_DSIDE_MOD, LP_STREAM_CPN_TAG, lpDEVmasp );
+        lp_path_stream( lpPath, lpCAM.dvType, lpCAM.dvTag, LP_CAM_DSIDE_MOD, LP_STREAM_CPN_SYN, lpDEVsynp );
 
         /* Open stream files */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );
@@ -115,8 +115,8 @@
         lpDEVsynf = fopen( lpDEVsynp, "wb" );
 
         /* Create streams */
-        lpDEVmas = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpDevice.dvBlock );
-        lpDEVsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpDevice.dvBlock );
+        lpDEVmas = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpCAM.dvBlock );
+        lpDEVsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpCAM.dvBlock );
 
         /* FPGA records reading loop */
         while ( lpReading == LP_TRUE ) {
@@ -125,7 +125,7 @@
             lpIndex = lp_Size_s( 0 );
 
             /* Reading of FPGA record by block */
-            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpDevice.dvBlock ) ) {
+            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpCAM.dvBlock ) ) {
 
                 /* Read and verify FPGA record */
                 if ( ( lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf ) ) == LP_DEVICE_EYESIS4PI_RECLEN ) {

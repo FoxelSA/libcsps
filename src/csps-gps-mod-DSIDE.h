@@ -99,13 +99,13 @@
      *  called.
      *
      *  \param lpPath Path CSPS structure
-     *  \param lpDevice Device descriptor
+     *  \param lpGPS Device descriptor
      */
 
     lp_Void_t lp_gps_mod_DSIDE(
 
-        const lp_Char_t * const lpPath,
-        lp_GPS                  lpDevice
+        const lp_Char_t * const lpPath, 
+        const lp_GPS            lpGPS 
 
     );
 
@@ -114,13 +114,13 @@
      *  LS20031 GPS device specific extraction sub-module.
      *
      *  \param lpPath Path CSPS structure
-     *  \param lpDevice Device descriptor
+     *  \param lpGPS Device descriptor
      */
 
     lp_Void_t lp_gps_DSIDE_LS20031(
 
-        const lp_Char_t * const lpPath,
-        lp_GPS                  lpDevice
+        const lp_Char_t * const lpPath, 
+        const lp_GPS            lpGPS 
 
     );
 

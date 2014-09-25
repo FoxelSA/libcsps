@@ -41,13 +41,13 @@
     Source - Includes
  */
 
-    # include "csps-imu-mod-GYLAE.h"
+    # include "csps-imu-mod-AACEX.h"
 
 /*
-    Source - IMU Gravity-less acceleration extraction
+    Source - IMU absolute acceleration extraction
  */
 
-    lp_Void_t lp_imu_mod_GYLAE( 
+    lp_Void_t lp_imu_mod_AACEX( 
 
         const lp_Char_t * const lpPath, 
         lp_IMU                  lpIMU, 
@@ -122,15 +122,15 @@
             /* Gravity-less acceleration z-component */
             lpIMUaaz[lpParse] = lpIMUacx[lpParse] * lpIMUfxz[lpParse] +
                                 lpIMUacy[lpParse] * lpIMUfyz[lpParse] +
-                                lpIMUacz[lpParse] * lpIMUfzz[lpParse] - lp_Real_s( 9.80665 );
+                                lpIMUacz[lpParse] * lpIMUfzz[lpParse];
 
         }
 
         /* Write streams */
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_GYLAE_MOD, LP_STREAM_CPN_ACX, lpIMUaax, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_GYLAE_MOD, LP_STREAM_CPN_ACY, lpIMUaay, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_GYLAE_MOD, LP_STREAM_CPN_ACZ, lpIMUaaz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_GYLAE_MOD, LP_STREAM_CPN_SYN, lpIMUasn, sizeof( lp_Time_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_AACEX_MOD, LP_STREAM_CPN_ACX, lpIMUaax, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_AACEX_MOD, LP_STREAM_CPN_ACY, lpIMUaay, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_AACEX_MOD, LP_STREAM_CPN_ACZ, lpIMUaaz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_AACEX_MOD, LP_STREAM_CPN_SYN, lpIMUasn, sizeof( lp_Time_t ) * lpSize );
 
         /* Unallocate streams */
         lpIMUacx = lp_stream_delete( lpIMUacx );

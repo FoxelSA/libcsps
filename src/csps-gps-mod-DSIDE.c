@@ -50,15 +50,15 @@
     lp_Void_t lp_gps_mod_DSIDE( 
 
         const lp_Char_t * const lpPath, 
-        lp_GPS                  lpDevice
+        const lp_GPS            lpGPS
 
     ) {
 
         /* Select device */
-        if ( strcmp( lpDevice.dvName, LP_DEVICE_LS20031 ) == 0 ) {
+        if ( strcmp( lpGPS.dvName, LP_DEVICE_LS20031 ) == 0 ) {
 
             /* LS20031 specific process */
-            lp_gps_DSIDE_LS20031( lpPath, lpDevice );
+            lp_gps_DSIDE_LS20031( lpPath, lpGPS );
 
         }
 
@@ -71,7 +71,7 @@
     lp_Void_t lp_gps_DSIDE_LS20031( 
 
         const lp_Char_t * const lpPath, 
-        lp_GPS                  lpDevice 
+        const lp_GPS            lpGPS 
 
     ) {
 
@@ -125,11 +125,11 @@
         lp_path_dside( lpPath, LP_DEVICE_LS20031, LP_DEVICE_LS20031_LOG_FPGA, lpDEVlogp );
 
         /* Build stream file paths */
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LAT, lpGPSlatp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LON, lpGPSlonp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_ALT, lpGPSaltp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_TAG, lpGPSqbfp );
-        lp_path_stream( lpPath, lpDevice.dvType, lpDevice.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_SYN, lpGPSsynp );
+        lp_path_stream( lpPath, lpGPS.dvType, lpGPS.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LAT, lpGPSlatp );
+        lp_path_stream( lpPath, lpGPS.dvType, lpGPS.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LON, lpGPSlonp );
+        lp_path_stream( lpPath, lpGPS.dvType, lpGPS.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_ALT, lpGPSaltp );
+        lp_path_stream( lpPath, lpGPS.dvType, lpGPS.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_TAG, lpGPSqbfp );
+        lp_path_stream( lpPath, lpGPS.dvType, lpGPS.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_SYN, lpGPSsynp );
 
         /* Open stream files */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );
@@ -140,11 +140,11 @@
         lpGPSsynf = fopen( lpGPSsynp, "wb" );
 
         /* Create streams */
-        lpGPSlat = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpGPSlon = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpGPSalt = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpDevice.dvBlock );
-        lpGPSqbf = ( lp_Time_t * ) lp_stream_create( sizeof( lp_SQBF_t ) * lpDevice.dvBlock );
-        lpGPSsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpDevice.dvBlock );
+        lpGPSlat = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpGPS.dvBlock );
+        lpGPSlon = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpGPS.dvBlock );
+        lpGPSalt = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpGPS.dvBlock );
+        lpGPSqbf = ( lp_Time_t * ) lp_stream_create( sizeof( lp_SQBF_t ) * lpGPS.dvBlock );
+        lpGPSsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpGPS.dvBlock );
 
         /* FPGA records reading loop */
         while ( lpReading == LP_TRUE ) {
@@ -153,7 +153,7 @@
             lpIndex = lp_Size_s( 0 );
 
             /* Reading of FPGA record by block */
-            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpDevice.dvBlock ) ) {
+            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpGPS.dvBlock ) ) {
 
                 /* Read and verify FPGA record */
                 if ( ( lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf ) ) == LP_DEVICE_EYESIS4PI_RECLEN ) {
@@ -219,7 +219,7 @@
                                 } else {
 
                                     /* Verify congruence reset condition */
-                                    if ( ( ( lpParse - lpModShift ) % lpDevice.dvifreq ) == 0 ) {
+                                    if ( ( ( lpParse - lpModShift ) % lpGPS.dvifreq ) == 0 ) {
 
                                         /* Verify repetitive reset timestamp value during signal loss */
                                         if ( lp_timestamp_eq( ( lpGPSsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec ) ), lpLastReset ) == LP_TRUE ) {

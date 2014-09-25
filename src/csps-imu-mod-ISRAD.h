@@ -109,7 +109,7 @@
     lp_Void_t lp_imu_mod_ISRAD(
 
         const lp_Char_t * const lpPath, 
-        lp_IMU                  lpIMU, 
+        const lp_IMU            lpIMU, 
         const lp_Char_t * const lpIMUmod 
 
     );
