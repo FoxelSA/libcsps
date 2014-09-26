@@ -98,6 +98,46 @@
     }
 
 /*
+    Source - Vector and angle defined rotation
+ */
+
+    lp_Void_t lp_rotation_matrix_vaR3(
+
+        lp_Real_t lpVectorX,
+        lp_Real_t lpVectorY,
+        lp_Real_t lpVectorZ,
+        lp_Real_t lpAngle,
+        lp_Real_t lpMatrix[3][3]
+
+    ) {
+
+        /* Vector norm variables */
+        lp_Real_t lpNorm = sqrt( lpVectorX * lpVectorX + lpVectorY * lpVectorY + lpVectorZ * lpVectorZ );
+
+        /* Optimization variables */
+        lp_Real_t lpCos = cos( lpAngle );
+        lp_Real_t lpSin = sin( lpAngle );
+        lp_Real_t lpFac = lp_Real_s( 1.0 ) - lpCos;
+
+        /* Normalize vector */
+        lpVectorX /= lpNorm;
+        lpVectorY /= lpNorm;
+        lpVectorZ /= lpNorm;
+
+        /* Compute rotation matrix */
+        lpMatrix[0][0] = lpCos + lpVectorX * lpVectorX * lpFac;
+        lpMatrix[0][1] = lpVectorX * lpVectorY * lpFac - lpVectorZ * lpSin;
+        lpMatrix[0][2] = lpVectorX * lpVectorZ * lpFac + lpVectorY * lpSin;
+        lpMatrix[1][0] = lpVectorY * lpVectorX * lpFac + lpVectorZ * lpSin;
+        lpMatrix[1][1] = lpCos + lpVectorY * lpVectorY * lpFac;
+        lpMatrix[1][2] = lpVectorY * lpVectorZ * lpFac - lpVectorX * lpSin;
+        lpMatrix[2][0] = lpVectorZ * lpVectorX * lpFac - lpVectorY * lpSin;
+        lpMatrix[2][1] = lpVectorZ * lpVectorY * lpFac + lpVectorX * lpSin;
+        lpMatrix[2][2] = lpCos + lpVectorZ * lpVectorZ * lpFac;
+
+    }
+
+/*
     Source - Vectors defined rotation
  */
 
