@@ -6,7 +6,7 @@ The libcsps library, for crossed signal positioning system library, is designed 
 
 ### Documentation
 
-Find more documentation on the [wiki](https://github.com/FoxelSA/libcsps/wiki).
+A detailed documentation can be generated through doxygen. A more general documentation can be consulted on the [wiki](https://github.com/FoxelSA/libcsps/wiki).
 
 
 ### Copyright
