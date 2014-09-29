@@ -97,6 +97,20 @@
 
     }
 
+    lp_Void_t lp_rotation_iR3( lp_Real_t lpMatrix[3][3], lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ ) {
+
+        /* Multiplication variables */
+        lp_Real_t lpMulX = * lpVectorX;
+        lp_Real_t lpMulY = * lpVectorY;
+        lp_Real_t lpMulZ = * lpVectorZ;
+
+        /* Compute multiplication */
+        * lpVectorX = lpMatrix[0][0] * lpMulX + lpMatrix[1][0] * lpMulY + lpMatrix[2][0] * lpMulZ;
+        * lpVectorY = lpMatrix[0][1] * lpMulX + lpMatrix[1][1] * lpMulY + lpMatrix[2][1] * lpMulZ;
+        * lpVectorZ = lpMatrix[0][2] * lpMulX + lpMatrix[1][2] * lpMulY + lpMatrix[2][2] * lpMulZ;
+
+    }
+
 /*
     Source - Vector and angle defined rotation
  */
@@ -117,7 +131,7 @@
         /* Optimization variables */
         lp_Real_t lpCos = cos( lpAngle );
         lp_Real_t lpSin = sin( lpAngle );
-        lp_Real_t lpFac = lp_Real_s( 1.0 ) - lpCos;
+        lp_Real_t lp1mC = lp_Real_s( 1.0 ) - lpCos;
 
         /* Normalize vector */
         lpVectorX /= lpNorm;
@@ -125,15 +139,15 @@
         lpVectorZ /= lpNorm;
 
         /* Compute rotation matrix */
-        lpMatrix[0][0] = lpCos + lpVectorX * lpVectorX * lpFac;
-        lpMatrix[0][1] = lpVectorX * lpVectorY * lpFac - lpVectorZ * lpSin;
-        lpMatrix[0][2] = lpVectorX * lpVectorZ * lpFac + lpVectorY * lpSin;
-        lpMatrix[1][0] = lpVectorY * lpVectorX * lpFac + lpVectorZ * lpSin;
-        lpMatrix[1][1] = lpCos + lpVectorY * lpVectorY * lpFac;
-        lpMatrix[1][2] = lpVectorY * lpVectorZ * lpFac - lpVectorX * lpSin;
-        lpMatrix[2][0] = lpVectorZ * lpVectorX * lpFac - lpVectorY * lpSin;
-        lpMatrix[2][1] = lpVectorZ * lpVectorY * lpFac + lpVectorX * lpSin;
-        lpMatrix[2][2] = lpCos + lpVectorZ * lpVectorZ * lpFac;
+        lpMatrix[0][0] = lpCos + lpVectorX * lpVectorX * lp1mC;
+        lpMatrix[0][1] = lpVectorX * lpVectorY * lp1mC - lpVectorZ * lpSin;
+        lpMatrix[0][2] = lpVectorX * lpVectorZ * lp1mC + lpVectorY * lpSin;
+        lpMatrix[1][0] = lpVectorY * lpVectorX * lp1mC + lpVectorZ * lpSin;
+        lpMatrix[1][1] = lpCos + lpVectorY * lpVectorY * lp1mC;
+        lpMatrix[1][2] = lpVectorY * lpVectorZ * lp1mC - lpVectorX * lpSin;
+        lpMatrix[2][0] = lpVectorZ * lpVectorX * lp1mC - lpVectorY * lpSin;
+        lpMatrix[2][1] = lpVectorZ * lpVectorY * lp1mC + lpVectorX * lpSin;
+        lpMatrix[2][2] = lpCos + lpVectorZ * lpVectorZ * lp1mC;
 
     }
 

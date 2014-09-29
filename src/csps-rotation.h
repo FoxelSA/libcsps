@@ -89,10 +89,10 @@
      *  referential frame. The input vector components are used
      *  to return the rotated vector components.
      *  
-     *  @param lpAngle Angle of rotation, in radians
-     *  @param lpVectorX X component of the vector
-     *  @param lpVectorY Y component of the vector
-     *  @param lpVectorZ Z component of the vector
+     *  \param lpAngle Angle of rotation, in radians
+     *  \param lpVectorX X component of the vector
+     *  \param lpVectorY Y component of the vector
+     *  \param lpVectorZ Z component of the vector
      */
 
     lp_Void_t lp_rotation_xR3( const lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
@@ -103,10 +103,10 @@
      *  referential frame. The input vector components are used
      *  to return the rotated vector components.
      *  
-     *  @param lpAngle Angle of rotation, in radians
-     *  @param lpVectorX X component of the vector
-     *  @param lpVectorY Y component of the vector
-     *  @param lpVectorZ Z component of the vector
+     *  \param lpAngle Angle of rotation, in radians
+     *  \param lpVectorX X component of the vector
+     *  \param lpVectorY Y component of the vector
+     *  \param lpVectorZ Z component of the vector
      */
 
     lp_Void_t lp_rotation_yR3( const lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
@@ -117,10 +117,10 @@
      *  referential frame. The input vector components are used
      *  to return the rotated vector components.
      *  
-     *  @param lpAngle Angle of rotation, in radians
-     *  @param lpVectorX X component of the vector
-     *  @param lpVectorY Y component of the vector
-     *  @param lpVectorZ Z component of the vector
+     *  \param lpAngle Angle of rotation, in radians
+     *  \param lpVectorX X component of the vector
+     *  \param lpVectorY Y component of the vector
+     *  \param lpVectorZ Z component of the vector
      */
 
     lp_Void_t lp_rotation_zR3( const lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
@@ -130,27 +130,64 @@
      *  Performs a rotation, given by the input matrix, of an R3
      *  vector. The function do not verify the content of the matrix.
      *  
-     *  @param lpMatrix Rotation matrix
-     *  @param lpVectorX X component of the vector to rotate
-     *  @param lpVectorY Y component of the vector to rotate
-     *  @param lpVectorZ Z component of the vector to rotate
+     *  \param lpMatrix Rotation matrix
+     *  \param lpVectorX X component of the vector to rotate
+     *  \param lpVectorY Y component of the vector to rotate
+     *  \param lpVectorZ Z component of the vector to rotate
      */
 
     lp_Void_t lp_rotation_mR3( lp_Real_t lpMatrix[3][3], lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
 
-    /*! \brief Rotation of R3 defined by two vector
+    /*! \brief Apply invert of rotation matrix on vector
+     *  
+     *  Performs a rotation, given by the inverted input matrix, of
+     *  an R3 vector. The function do not verify the content of the
+     *  matrix.
+     *  
+     *  \param lpMatrix Rotation matrix
+     *  \param lpVectorX X component of the vector to rotate
+     *  \param lpVectorY Y component of the vector to rotate
+     *  \param lpVectorZ Z component of the vector to rotate
+     */
+
+    lp_Void_t lp_rotation_iR3( lp_Real_t lpMatrix[3][3], lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ );
+
+    /*! \brief Rotation matrix of R3 defined by a vector and an angle
+     *  
+     *  The function computes the rotation matrix that rotates R3
+     *  elements around the given vector using the provided angle
+     *  as parameter.
+     *
+     *  \param lpVectorX X component of vector
+     *  \param lpVectorY Y component of vector
+     *  \param lpVectorZ Z component of vector
+     *  \param lpAngle Rotation angle, in radians
+     *  \param lpMatrix Built rotation matrix defined by the vector and the angle
+     */
+
+    lp_Void_t lp_rotation_matrix_vaR3(
+
+        lp_Real_t lpVectorX,
+        lp_Real_t lpVectorY,
+        lp_Real_t lpVectorZ,
+        lp_Real_t lpAngle,
+        lp_Real_t lpMatrix[3][3]
+
+    );
+
+    /*! \brief Rotation matrix of R3 defined by two vector
      *  
      *  The function computes the rotation matrix that brought the A
      *  vector into B vector. The input vectors A and B are arbitrary
      *  vectors of R3.
      *  
-     *  @param lpVectAX X component of vector A
-     *  @param lpVectAY Y component of vector A
-     *  @param lpVectAZ Z component of vector A
-     *  @param lpVectBX X component of vector B
-     *  @param lpVectBY Y component of vector B
-     *  @param lpVectBZ Z component of vector B
-     *  @param lpMatrix Built rotation matrix defined by the two vectors
+     *  \param lpVectAX X component of vector A
+     *  \param lpVectAY Y component of vector A
+     *  \param lpVectAZ Z component of vector A
+     *  \param lpVectBX X component of vector B
+     *  \param lpVectBY Y component of vector B
+     *  \param lpVectBZ Z component of vector B
+     *  \param lpMatrix Built rotation matrix defined by the two vectors
      */
 
     lp_Void_t lp_rotation_matrix_2vR3( 

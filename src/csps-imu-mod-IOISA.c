@@ -99,7 +99,7 @@
         lp_Time_t * lpIMUrsn = LP_NULL;
 
         /* Matrix variables */
-        lp_Real_t lpZ2Gm[3][3] = { 
+        lp_Real_t lpMatrix[3][3] = { 
 
             { lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 0.0 ) },
             { lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 0.0 ) },
@@ -200,27 +200,24 @@
         lpIMUizz = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
         lpIMUisn = lp_stream_create( sizeof( lp_Time_t ) * lp_Size_s( 2 ) );
 
-        /* Compute rotation matrix - Brings counter-gravity on z-vector  */
-        lp_rotation_matrix_2vR3( lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 1.0 ), lpACCacx, lpACCacy, lpACCacz, lpZ2Gm );
+        /* Compute rotation matrix - Rotate inertial frame z-vector on counter-gravity mean */
+        lp_rotation_matrix_2vR3( lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 1.0 ), lpACCacx, lpACCacy, lpACCacz, lpMatrix );
 
         /* Counter-gravity aligned frame */
-        lpIMUixx[0] = lpZ2Gm[0][0];
-        lpIMUixy[0] = lpZ2Gm[1][0];
-        lpIMUixz[0] = lpZ2Gm[2][0];
-        lpIMUiyx[0] = lpZ2Gm[0][1];
-        lpIMUiyy[0] = lpZ2Gm[1][1];
-        lpIMUiyz[0] = lpZ2Gm[2][1];
-        lpIMUizx[0] = lpZ2Gm[0][2];
-        lpIMUizy[0] = lpZ2Gm[1][2];
-        lpIMUizz[0] = lpZ2Gm[2][2];
+        lpIMUixx[0] = lpMatrix[0][0]; lpIMUixy[0] = lpMatrix[1][0]; lpIMUixz[0] = lpMatrix[2][0];
+        lpIMUiyx[0] = lpMatrix[0][1]; lpIMUiyy[0] = lpMatrix[1][1]; lpIMUiyz[0] = lpMatrix[2][1];
+        lpIMUizx[0] = lpMatrix[0][2]; lpIMUizy[0] = lpMatrix[1][2]; lpIMUizz[0] = lpMatrix[2][2];
 
-        /* Compute gyroscope mean projected in counter-gravity aligned frame */
-        lp_rotation_mR3( lpZ2Gm, & ( lpACCgrx ), & ( lpACCgry ), & ( lpACCgrz ) );
+        /* Compute gyroscope mean in counter-gravity aligned frame */
+        lp_rotation_iR3( lpMatrix, & ( lpACCgrx ), & ( lpACCgry ), & ( lpACCgrz ) );
 
-        /* Rotation around z-axis of counter-gravity inertial frame */
-        lp_rotation_zR3( LP_ATN( lpACCgrx, lpACCgry ) - LP_PI * 0.5, & ( lpIMUixx[0] ), & ( lpIMUixy[0] ), & ( lpIMUixz[0] ) );
-        lp_rotation_zR3( LP_ATN( lpACCgrx, lpACCgry ) - LP_PI * 0.5, & ( lpIMUiyx[0] ), & ( lpIMUiyy[0] ), & ( lpIMUiyz[0] ) );
-        lp_rotation_zR3( LP_ATN( lpACCgrx, lpACCgry ) - LP_PI * 0.5, & ( lpIMUizx[0] ), & ( lpIMUizy[0] ), & ( lpIMUizz[0] ) );
+        /* Compute rotation matrix around z-vector of counter-gravity aligned frame */
+        lp_rotation_matrix_vaR3( lpIMUizx[0], lpIMUizy[0], lpIMUizz[0], LP_ATN( lpACCgrx, lpACCgry ) - LP_PI * 0.5, lpMatrix );
+
+        /* Rotation around z-axis of counter-gravity aligned frame */
+        lp_rotation_mR3( lpMatrix, & ( lpIMUixx[0] ), & ( lpIMUixy[0] ), & ( lpIMUixz[0] ) );
+        lp_rotation_mR3( lpMatrix, & ( lpIMUiyx[0] ), & ( lpIMUiyy[0] ), & ( lpIMUiyz[0] ) );
+        lp_rotation_mR3( lpMatrix, & ( lpIMUizx[0] ), & ( lpIMUizy[0] ), & ( lpIMUizz[0] ) );
 
         /* Assign second components */
         lpIMUixx[1] = lpIMUixx[0];
