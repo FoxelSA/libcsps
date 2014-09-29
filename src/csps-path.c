@@ -60,7 +60,7 @@
         if ( strcmp( lpDevice, LP_DEVICE_EYESIS4PI ) == 0 ) {
 
             /* Select logs */
-            if ( strcmp( lpLogs, LP_DEVICE_EYESIS4PI_LOG_FPGA ) == 0 ) {
+            if ( strcmp( lpLogs, LP_DEVICE_EYESIS4PI_LOG ) == 0 ) {
 
                 /* Build path */
                 sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpBase );
@@ -70,7 +70,7 @@
         } else if ( strcmp( lpDevice, LP_DEVICE_ADIS16375 ) == 0 ) {
 
             /* Select logs */
-            if ( strcmp( lpLogs, LP_DEVICE_ADIS16375_LOG_FPGA ) == 0 ) {
+            if ( strcmp( lpLogs, LP_DEVICE_ADIS16375_LOG ) == 0 ) {
 
                 /* Build path */
                 sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpBase );
@@ -80,7 +80,7 @@
         } else if ( strcmp( lpDevice, LP_DEVICE_LS20031 ) == 0 ) {
 
             /* Select logs */
-            if ( strcmp( lpLogs, LP_DEVICE_LS20031_LOG_FPGA ) == 0 ) {
+            if ( strcmp( lpLogs, LP_DEVICE_LS20031_LOG ) == 0 ) {
 
                 /* Build path */
                 sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpBase );

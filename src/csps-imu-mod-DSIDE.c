@@ -113,7 +113,7 @@
         lp_Time_t * lpIMUsyn = LP_NULL;
 
         /* Build device log file paths */
-        lp_path_dside( lpPath, LP_DEVICE_ADIS16375, LP_DEVICE_ADIS16375_LOG_FPGA, lpDEVlogp );
+        lp_path_dside( lpPath, LP_DEVICE_ADIS16375, LP_DEVICE_ADIS16375_LOG, lpDEVlogp );
 
         /* Build stream file paths */
         lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRX, lpIMUgrxp );

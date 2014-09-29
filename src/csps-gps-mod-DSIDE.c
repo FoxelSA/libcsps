@@ -122,7 +122,7 @@
         lp_Time_t * lpGPSsyn = LP_NULL;
 
         /* Build device log file paths */
-        lp_path_dside( lpPath, LP_DEVICE_LS20031, LP_DEVICE_LS20031_LOG_FPGA, lpDEVlogp );
+        lp_path_dside( lpPath, LP_DEVICE_LS20031, LP_DEVICE_LS20031_LOG, lpDEVlogp );
 
         /* Build stream file paths */
         lp_path_stream( lpPath, lpGPS.dvType, lpGPS.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LAT, lpGPSlatp );
