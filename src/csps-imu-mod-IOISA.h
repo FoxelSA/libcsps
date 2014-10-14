@@ -95,21 +95,21 @@
     /*! \brief IMU earth self-alignment
      *  
      *  This function performs IMU earth self-alignment. The function considers
-     *  accelerations and angular velocities on detected inertial still range
-     *  to compute inertial frame initial conditions.
+     *  accelerations and angular velocities on detected inertial still range to
+     *  compute inertial frame initial conditions.
      *  
-     *  \param lpPath Path to CSPS structure
-     *  \param lpIMU IMU device descriptor
-     *  \param lpIMUmodISD Gyroscope and acceleration stream initiator module
-     *  \param lpIMUmodTAG Inertial still range stream initiator module
+     *  \param lpPath       Path to CSPS structure
+     *  \param lpIMU        IMU device descriptor
+     *  \param lpIMUmodISD  Gyroscope and acceleration stream initiator module
+     *  \param lpIMUmodTAG  Inertial still range stream initiator module
      */
 
-    lp_Void_t lp_imu_mod_IOISA(
+    lp_Void_t lp_imu_mod_IOISA( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_IMU            lpIMU,
-        const lp_Char_t * const lpIMUmodISD,
-        const lp_Char_t * const lpIMUmodTAG
+        lp_Char_t const * const lpPath, 
+        lp_IMU_t  const         lpIMU,
+        lp_Char_t const * const lpIMUmodISD,
+        lp_Char_t const * const lpIMUmodTAG
 
     );
 

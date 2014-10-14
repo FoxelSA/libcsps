@@ -132,13 +132,14 @@
      *  
      *  Create a stream component memory allocation.
      * 
-     *  \param lpSize Size, in bytes, of the component to create
+     *  \param  lpSize  Size, in bytes, of the component to create
+     *  
      *  \return Returns pointer to the allocated memory
      */
 
     lp_Void_t * lp_stream_create(
 
-        lp_Size_t lpSize
+        lp_Size_t const lpSize
 
     );
 
@@ -146,7 +147,8 @@
      *  
      *  Delete a stream component memory allocation.
      * 
-     *  \param lpStream Pointer to stream component to unallocate
+     *  \param  lpStream Pointer to stream component to unallocate
+     *  
      *  \return Returns always an invalid pointer (NULL)
      */
 
@@ -158,22 +160,23 @@
 
     /*! \brief Stream component size extractor
      *  
-     *  Extract the size, in type units, of the desired stream component
-     *  on the base of the size of the synchronization component.
+     *  Extract the size, in type units, of the desired stream component on the
+     *  base of the size of the synchronization component.
      *  
-     *  \param lpPath Path CSPS structure
-     *  \param lpDevice Device type
-     *  \param lpTag Device name
-     *  \param lpModule CSPS module to consider
+     *  \param  lpPath      Path CSPS structure
+     *  \param  lpDevice    Device type
+     *  \param  lpTag       Device name
+     *  \param  lpModule    CSPS module to consider
+     * 
      *  \return Returns the size of the stream in type units
      */
 
     lp_Size_t lp_stream_size(
 
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule
 
     );
 
@@ -181,23 +184,25 @@
      *  
      *  Reads the data contained in the specified stream component.
      *  
-     *  \param lpPath Path CSPS structure
+     *  \param lpPath   Path CSPS structure
      *  \param lpDevice Device type
-     *  \param lpTag Device name
+     *  \param lpTag    Device name
      *  \param lpModule CSPS module to consider
-     *  \param lpSuffix Suffix of the data stored by the considered stream component
-     *  \param lpSize Size of the considered stream component
+     *  \param lpSuffix Suffix of the data stored by the considered stream 
+     *                  component
+     *  \param lpSize   Size of the considered stream component
+     *
      *  \return Returns a void pointer to the data
      */
 
     lp_Void_t * lp_stream_read(
 
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule,
-        const lp_Char_t * const lpSuffix,
-        lp_Size_t               lpSize
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,
+        lp_Char_t const * const lpSuffix,
+        lp_Size_t const         lpSize
 
     );
 
@@ -205,24 +210,25 @@
      *  
      *  Writes the memory data into the desired stream component.
      *  
-     *  \param lpPath Path CSPS structure
+     *  \param lpPath   Path CSPS structure
      *  \param lpDevice Device type
-     *  \param lpTag Device name
+     *  \param lpTag    Device name
      *  \param lpModule CSPS module to consider
-     *  \param lpSuffix Suffix of the data stored by the considered stream component
+     *  \param lpSuffix Suffix of the data stored by the considered stream
+     *                  component
      *  \param lpStream Void pointer to the memory data
-     *  \param lpSize Size, in bytes, of the memory data
+     *  \param lpSize   Size, in bytes, of the memory data
      */
 
     lp_Void_t lp_stream_write(
 
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule,
-        const lp_Char_t * const lpSuffix,
-        const lp_Void_t * const lpStream,
-        lp_Size_t               lpSize
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,
+        lp_Char_t const * const lpSuffix,
+        lp_Void_t const * const lpStream,
+        lp_Size_t const         lpSize
 
     );
 

@@ -49,10 +49,10 @@
 
     lp_Void_t lp_imu_mod_IOISA( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_IMU            lpIMU,
-        const lp_Char_t * const lpIMUmodISD,
-        const lp_Char_t * const lpIMUmodTAG
+        lp_Char_t const * const lpPath, 
+        lp_IMU_t  const         lpIMU,
+        lp_Char_t const * const lpIMUmodISD,
+        lp_Char_t const * const lpIMUmodTAG
 
     ) {
 

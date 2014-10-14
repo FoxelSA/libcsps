@@ -101,16 +101,16 @@
      *  The function impose also a maximum of detectable still range. This
      *  maximum value can be set using the device descriptor.
      *  
-     *  \param lpPath Path to CSPS structure
-     *  \param lpIMU IMU device descriptor
+     *  \param lpPath   Path to CSPS structure
+     *  \param lpIMU    IMU device descriptor
      *  \param lpIMUmod Gyroscope and acceleration stream initiator module
      */
 
-    lp_Void_t lp_imu_mod_ISRAD(
+    lp_Void_t lp_imu_mod_ISRAD( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_IMU            lpIMU, 
-        const lp_Char_t * const lpIMUmod 
+        lp_Char_t const * const lpPath, 
+        lp_IMU_t  const         lpIMU, 
+        lp_Char_t const * const lpIMUmod 
 
     );
 

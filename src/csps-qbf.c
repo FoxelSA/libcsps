@@ -50,7 +50,7 @@
 
     lp_Enum_t lp_qbf_threshold( 
 
-        lp_SQBF_t lpQBFValue
+        lp_SQBF_t const lpQBFValue
 
     ) {
 
@@ -104,9 +104,9 @@
 
     lp_SQBF_t lp_qbf_compose( 
 
-        lp_Enum_t lpFix, 
-        lp_Size_t lpSat, 
-        lp_Size_t lpHDP100 
+        lp_Enum_t const lpFix, 
+        lp_Size_t const lpSat, 
+        lp_Size_t const lpHDP100 
 
     ) {
 
@@ -121,7 +121,7 @@
 
     lp_Enum_t lp_qbf_fix( 
 
-        lp_SQBF_t lpQBF 
+        lp_SQBF_t const lpQBF 
 
     ) {
 
@@ -132,7 +132,7 @@
 
     lp_Size_t lp_qbf_sat( 
 
-        lp_SQBF_t lpQBF 
+        lp_SQBF_t const lpQBF 
 
     ) {
 
@@ -143,7 +143,7 @@
 
     lp_Size_t lp_qbf_hdop100( 
 
-        lp_SQBF_t lpQBF 
+        lp_SQBF_t const lpQBF 
 
     ) {
 

@@ -49,12 +49,12 @@
 
     lp_Void_t lp_nmea_gga(
 
-        const lp_Char_t * const lpSentence,
-        lp_Real_t * const       lpUTC,
-        lp_Real_t * const       lpLat,
-        lp_Real_t * const       lpLon,
-        lp_Real_t * const       lpAlt,
-        lp_SQBF_t * const       lpQBF
+        lp_Char_t const * const lpSentence,
+        lp_Real_t       * const lpUTC,
+        lp_Real_t       * const lpLat,
+        lp_Real_t       * const lpLon,
+        lp_Real_t       * const lpAlt,
+        lp_SQBF_t       * const lpQBF
 
     ) {
 
@@ -211,7 +211,7 @@
 
     lp_Enum_t lp_nmea_gga_validate( 
 
-        const lp_Char_t * const lpSentence 
+        lp_Char_t const * const lpSentence 
 
     ) {
 
@@ -263,14 +263,14 @@
 
     lp_Enum_t lp_nmea_sentence( 
 
-        const lp_Byte_t * const lpRec, 
-        const lp_Size_t         lpSize, 
-        lp_Char_t * const       lpSentence 
+        lp_Byte_t const * const lpRec, 
+        lp_Size_t const         lpSize, 
+        lp_Char_t       * const lpSentence 
 
     ) {
 
         /* Sentence element models */
-        const lp_Char_t * const lpModel[LP_NMEA_IDENT_MAX] = { 
+        lp_Char_t const * const lpModel[LP_NMEA_IDENT_MAX] = { 
 
             LP_NMEA_MODEL_RMC,
             LP_NMEA_MODEL_GGA, 
@@ -384,8 +384,8 @@
 
     lp_Byte_t lp_nmea_quartet( 
 
-        const lp_Byte_t * const lpRec, 
-        lp_Size_t               lpOffset 
+        lp_Byte_t const * const lpRec, 
+        lp_Size_t const         lpOffset 
 
     ) {
 

@@ -47,7 +47,14 @@
     Source - Single angle rotation
  */
 
-    lp_Void_t lp_rotation_xR3( const lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ ) {
+    lp_Void_t lp_rotation_xR3( 
+
+        lp_Real_t const         lpAngle, 
+        lp_Real_t       * const lpVectorX, 
+        lp_Real_t       * const lpVectorY, 
+        lp_Real_t       * const lpVectorZ 
+
+    ) {
 
         /* Buffer variables */
         lp_Real_t lpBfy = * lpVectorY;
@@ -59,8 +66,14 @@
 
     }
 
-    lp_Void_t lp_rotation_yR3( const lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ ) {
+    lp_Void_t lp_rotation_yR3(
 
+        lp_Real_t const         lpAngle, 
+        lp_Real_t       * const lpVectorX, 
+        lp_Real_t       * const lpVectorY, 
+        lp_Real_t       * const lpVectorZ 
+
+    ) {
         /* Buffer variables */
         lp_Real_t lpBfx = * lpVectorX;
         lp_Real_t lpBfz = * lpVectorZ;
@@ -71,7 +84,14 @@
 
     }
 
-    lp_Void_t lp_rotation_zR3( const lp_Real_t lpAngle, lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ ) {
+    lp_Void_t lp_rotation_zR3( 
+
+        lp_Real_t const         lpAngle, 
+        lp_Real_t       * const lpVectorX, 
+        lp_Real_t       * const lpVectorY, 
+        lp_Real_t       * const lpVectorZ 
+
+    ) {
 
         /* Buffer variables */
         lp_Real_t lpBfx = * lpVectorX;
@@ -83,7 +103,14 @@
 
     }
 
-    lp_Void_t lp_rotation_mR3( lp_Real_t lpMatrix[3][3], lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ ) {
+    lp_Void_t lp_rotation_mR3( 
+
+        lp_Real_t         lpMatrix[3][3], 
+        lp_Real_t * const lpVectorX, 
+        lp_Real_t * const lpVectorY, 
+        lp_Real_t * const lpVectorZ 
+
+    ) {
 
         /* Multiplication variables */
         lp_Real_t lpMulX = * lpVectorX;
@@ -97,7 +124,14 @@
 
     }
 
-    lp_Void_t lp_rotation_iR3( lp_Real_t lpMatrix[3][3], lp_Real_t * lpVectorX, lp_Real_t * lpVectorY, lp_Real_t * lpVectorZ ) {
+    lp_Void_t lp_rotation_iR3( 
+
+        lp_Real_t         lpMatrix[3][3], 
+        lp_Real_t * const lpVectorX, 
+        lp_Real_t * const lpVectorY, 
+        lp_Real_t * const lpVectorZ 
+
+    ) {
 
         /* Multiplication variables */
         lp_Real_t lpMulX = * lpVectorX;
@@ -117,11 +151,11 @@
 
     lp_Void_t lp_rotation_matrix_vaR3(
 
-        lp_Real_t lpVectorX,
-        lp_Real_t lpVectorY,
-        lp_Real_t lpVectorZ,
-        lp_Real_t lpAngle,
-        lp_Real_t lpMatrix[3][3]
+        lp_Real_t       lpVectorX,
+        lp_Real_t       lpVectorY,
+        lp_Real_t       lpVectorZ,
+        lp_Real_t const lpAngle,
+        lp_Real_t       lpMatrix[3][3]
 
     ) {
 

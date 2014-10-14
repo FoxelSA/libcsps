@@ -97,16 +97,16 @@
      *  This module removes GPS measures on the base of the GPS signal quality.
      *  The output stream contains only measures that have a satisfying quality.
      *  
-     *  \param lpPath Path CSPS structure
-     *  \param lpGPS GPS device descriptor
+     *  \param lpPath   Path CSPS structure
+     *  \param lpGPS    GPS device descriptor
      *  \param lpGPSmod Geographic and signal quality stream initiator module
      */
 
-    lp_Void_t lp_gps_mod_SGNQF(
+    lp_Void_t lp_gps_mod_SGNQF( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_GPS            lpGPS, 
-        const lp_Char_t * const lpGPSmod
+        lp_Char_t const * const lpPath, 
+        lp_GPS_t  const         lpGPS, 
+        lp_Char_t const * const lpGPSmod
 
     );
 

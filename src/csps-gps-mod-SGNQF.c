@@ -49,9 +49,9 @@
 
     lp_Void_t lp_gps_mod_SGNQF( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_GPS            lpGPS, 
-        const lp_Char_t * const lpGPSmod
+        lp_Char_t const * const lpPath, 
+        lp_GPS_t  const         lpGPS, 
+        lp_Char_t const * const lpGPSmod
 
     ) {
 

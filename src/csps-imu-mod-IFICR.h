@@ -98,16 +98,16 @@
      *  input and apply the three rotation around z, y, x axis, in this order, on
      *  the initial conditions, using angle provided by the device descriptor.
      * 
-     *  \param lpPath Path to CSPS structure
-     *  \param lpIMU IMU device descriptor
+     *  \param lpPath   Path to CSPS structure
+     *  \param lpIMU    IMU device descriptor
      *  \param lpIMUmod Inertial frame initial conditions initiator module
      */
 
     lp_Void_t lp_imu_mod_IFICR(
 
-        const lp_Char_t * const lpPath, 
-        const lp_IMU            lpIMU,
-        const lp_Char_t * const lpIMUmod
+        lp_Char_t const * const lpPath, 
+        lp_IMU_t  const         lpIMU,
+        lp_Char_t const * const lpIMUmod
 
     );
 

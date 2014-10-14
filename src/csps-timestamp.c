@@ -49,7 +49,7 @@
 
     lp_Time_t lp_timestamp( 
 
-        const lp_Void_t * const lpRec
+        lp_Void_t const * const lpRec
 
     ) {
 
@@ -65,8 +65,8 @@
 
     lp_Time_t lp_timestamp_compose( 
 
-        lp_Time_t lpSec, 
-        lp_Time_t lpUsec
+        lp_Time_t const lpSec, 
+        lp_Time_t const lpUsec
 
     ) {
 
@@ -81,7 +81,7 @@
 
     lp_Time_t lp_timestamp_sec( 
 
-        lp_Time_t lpT 
+        lp_Time_t const lpT 
 
     ) {
 
@@ -92,7 +92,7 @@
 
     lp_Time_t lp_timestamp_usec( 
 
-        lp_Time_t lpT 
+        lp_Time_t const lpT 
 
     ) {
 
@@ -107,9 +107,9 @@
 
     lp_Size_t lp_timestamp_index( 
 
-        lp_Time_t   lpT, 
-        lp_Time_t * lpBuffer, 
-        lp_Size_t   lpSize
+        lp_Time_t const         lpT, 
+        lp_Time_t const * const lpBuffer, 
+        lp_Size_t const         lpSize
 
     ) {
 
@@ -190,8 +190,8 @@
 
     lp_Enum_t lp_timestamp_eq( 
 
-        lp_Time_t lpTa, 
-        lp_Time_t lpTb
+        lp_Time_t const lpTa, 
+        lp_Time_t const lpTb
 
     ) {
 
@@ -212,8 +212,8 @@
 
     lp_Enum_t lp_timestamp_ge( 
 
-        lp_Time_t lpTa, 
-        lp_Time_t lpTb
+        lp_Time_t const lpTa, 
+        lp_Time_t const lpTb
 
     ) {
 
@@ -264,8 +264,8 @@
 
     lp_Time_t lp_timestamp_add( 
 
-        const lp_Time_t lpTa, 
-        const lp_Time_t lpTb
+        lp_Time_t const lpTa, 
+        lp_Time_t const lpTb
 
     ) {
 
@@ -325,7 +325,7 @@
 
     lp_Real_t lp_timestamp_float( 
 
-        lp_Time_t lpT
+        lp_Time_t const lpT
 
     ) {
 

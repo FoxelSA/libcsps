@@ -47,15 +47,15 @@
     Source - CAM device descriptor initializer
  */
 
-    lp_CAM  lp_device_CAM( 
+    lp_Camera_t lp_device_camera( 
 
-        const lp_Char_t * const lpName, 
-        const lp_Char_t * const lpTag
+        lp_Char_t const * const lpName, 
+        lp_Char_t const * const lpTag
 
     ) {
 
         /* CAM device structure */
-        lp_CAM lpDevice;
+        lp_Camera_t lpDevice;
 
         /* Detect type of camera */
         if ( 
@@ -88,15 +88,15 @@
     Source - IMU device descriptor initializer
  */
 
-    lp_IMU lp_device_IMU( 
+    lp_IMU_t lp_device_IMU( 
 
-        const lp_Char_t * const lpName, 
-        const lp_Char_t * const lpTag
+        lp_Char_t const * const lpName, 
+        lp_Char_t const * const lpTag
 
     ) {
 
         /* IMU device structure */
-        lp_IMU lpDevice;
+        lp_IMU_t lpDevice;
 
         /* Detect type of IMU */
         if ( strcmp( lpName, LP_DEVICE_ADIS16375 ) == 0 ) {
@@ -149,15 +149,15 @@
     Source - GPS device descriptor initializer
  */
 
-    lp_GPS lp_device_GPS( 
+    lp_GPS_t lp_device_GPS( 
 
-        const lp_Char_t * const lpName, 
-        const lp_Char_t * const lpTag 
+        lp_Char_t const * const lpName, 
+        lp_Char_t const * const lpTag 
 
     ) {
 
         /* GPS device structure */
-        lp_GPS lpDevice;
+        lp_GPS_t lpDevice;
 
         /* Detect type of GPS */
         if ( strcmp( lpName, LP_DEVICE_LS20031 ) == 0 ) {

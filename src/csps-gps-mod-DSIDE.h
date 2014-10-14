@@ -95,17 +95,16 @@
     /*! \brief Device extraction switch
      *  
      *  Switch on device-specific extractor. On the base of the device 
-     *  descriptor given as parameter, the device-specific extractor is
-     *  called.
+     *  descriptor given as parameter, the device-specific extractor is called.
      *
-     *  \param lpPath Path CSPS structure
-     *  \param lpGPS Device descriptor
+     *  \param lpPath   Path CSPS structure
+     *  \param lpGPS    Device descriptor
      */
 
-    lp_Void_t lp_gps_mod_DSIDE(
+    lp_Void_t lp_gps_mod_DSIDE( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_GPS            lpGPS 
+        lp_Char_t const * const lpPath, 
+        lp_GPS_t  const         lpGPS
 
     );
 
@@ -113,14 +112,14 @@
      *
      *  LS20031 GPS device specific extraction sub-module.
      *
-     *  \param lpPath Path CSPS structure
-     *  \param lpGPS Device descriptor
+     *  \param lpPath   Path CSPS structure
+     *  \param lpGPS    Device descriptor
      */
 
-    lp_Void_t lp_gps_DSIDE_LS20031(
+    lp_Void_t lp_gps_DSIDE_LS20031( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_GPS            lpGPS 
+        lp_Char_t const * const lpPath, 
+        lp_GPS_t  const         lpGPS 
 
     );
 

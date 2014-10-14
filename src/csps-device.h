@@ -109,23 +109,23 @@
     Header - Structures
  */
 
-    /*! \struct lp_CAM_struct
+    /*! \struct lp_Camera_struct
      *  \brief Camera device descriptor
      *
      *  The structure stores the description of a camera device engaged
      *  in the CSPS.
      *
-     *  \var lp_CAM_struct::dvType
+     *  \var lp_Camera_struct::dvType
      *  Stores the device type name
-     *  \var lp_CAM_struct::dvName 
+     *  \var lp_Camera_struct::dvName 
      *  Stores the device model name
-     *  \var lp_CAM_struct::dvTag 
+     *  \var lp_Camera_struct::dvTag 
      *  Stores the device tag to differentiate multiple usage of the same model
-     *  \var lp_CAM_struct::dvBlock 
+     *  \var lp_Camera_struct::dvBlock 
      *  Stores the importation block size
      */ 
 
-    typedef struct lp_CAM_struct {
+    typedef struct lp_Camera_struct {
 
         /* Device type name */
         lp_Char_t dvType[LP_STR_LEN];
@@ -139,7 +139,7 @@
         /* Size of importation block */
         lp_Size_t dvBlock;
 
-    } lp_CAM;
+    } lp_Camera_t;
 
     /*! \struct lp_IMU_struct
      *  \brief IMU device descriptor
@@ -226,7 +226,7 @@
         /* Size of importation block */
         lp_Size_t dvBlock;
 
-    } lp_IMU;
+    } lp_IMU_t;
 
     /*! \struct lp_GPS_struct
      *  \brief GPS device descriptor
@@ -263,7 +263,7 @@
         /* Size of importation block */
         lp_Size_t dvBlock;
 
-    } lp_GPS;
+    } lp_GPS_t;
 
 /*
     Header - Function prototypes
@@ -271,49 +271,58 @@
 
     /*! \brief Camera device descriptor creator
      * 
-     *  Create camera device descriptor structure. It consider device model
-     *  to assign its device-specific configuration.
+     *  Create camera device descriptor structure. It consider device model to 
+     *  assign its device-specific configuration.
      *
-     * \param lpName Camera device name
-     * \param lpTag Stores the device tag to differentiate multiple usage of the same model
+     * \param   lpName  Camera device name
+     * \param   lpTag   Stores the device tag to differentiate multiple usage of
+     *                  the same model
+     *
+     * \returns Returns created camera descriptor
      */
 
-    lp_CAM lp_device_CAM(
+    lp_Camera_t lp_device_camera( 
 
-        const lp_Char_t * const lpName,
-        const lp_Char_t * const lpTag
+        lp_Char_t const * const lpName, 
+        lp_Char_t const * const lpTag
 
     );
 
     /*! \brief IMU device descriptor creator
      * 
-     *  Create IMU device descriptor structure. It consider device model
-     *  to assign its device-specific configuration.
+     *  Create IMU device descriptor structure. It consider device model to 
+     *  assign its device-specific configuration.
      *
-     * \param lpName IMU device name
-     * \param lpTag Stores the device tag to differentiate multiple usage of the same model
+     * \param   lpName  IMU device name
+     * \param   lpTag   Stores the device tag to differentiate multiple usage of
+     *                  the same model
+     *
+     * \returns Returns created IMU descriptor
      */
 
-    lp_IMU lp_device_IMU(
+    lp_IMU_t lp_device_IMU( 
 
-        const lp_Char_t * const lpName,
-        const lp_Char_t * const lpTag
+        lp_Char_t const * const lpName, 
+        lp_Char_t const * const lpTag
 
     );
 
     /*! \brief GPS device descriptor creator
      * 
-     *  Create GPS device descriptor structure. It consider device model
-     *  to assign its device-specific configuration.
+     *  Create GPS device descriptor structure. It consider device model to 
+     *  assign its device-specific configuration.
      *
-     * \param lpName GPS device name
-     * \param lpTag Stores the device tag to differentiate multiple usage of the same model
+     * \param   lpName  GPS device name
+     * \param   lpTag   Stores the device tag to differentiate multiple usage of
+     *                  the same model
+     *
+     * \return Returns created GPS descriptor
      */
 
-    lp_GPS lp_device_GPS(
+    lp_GPS_t lp_device_GPS( 
 
-        const lp_Char_t * const lpName,
-        const lp_Char_t * const lpTag
+        lp_Char_t const * const lpName, 
+        lp_Char_t const * const lpTag 
 
     );
 

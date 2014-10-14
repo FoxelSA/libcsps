@@ -49,10 +49,10 @@
 
     lp_Void_t lp_noise_tvic( 
 
-        lp_Real_t * const lpSignal, 
-        lp_Size_t         lpSize, 
-        lp_Size_t         lpRegularity, 
-        lp_Size_t         lpIteration 
+        lp_Real_t       * const lpSignal, 
+        lp_Size_t const         lpSize, 
+        lp_Size_t const         lpRegularity, 
+        lp_Size_t const         lpIteration 
 
     ) {
 

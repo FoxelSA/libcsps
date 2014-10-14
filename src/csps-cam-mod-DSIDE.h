@@ -94,17 +94,16 @@
     /*! \brief Device extraction switch
      *  
      *  Switch on device-specific extractor. On the base of the device 
-     *  descriptor given as parameter, the device-specific extractor is
-     *  called.
+     *  descriptor given as parameter, the device-specific extractor is called.
      *
-     *  \param lpPath Path CSPS structure
-     *  \param lpCAM Device descriptor
+     *  \param lpPath   Path CSPS structure
+     *  \param lpCAM    Device descriptor
      */
 
     lp_Void_t lp_cam_mod_DSIDE(
 
-        const lp_Char_t * const lpPath, 
-        const lp_CAM            lpCAM 
+        lp_Char_t   const * const lpPath, 
+        lp_Camera_t const         lpCAM 
 
     );
 
@@ -112,14 +111,14 @@
      *
      *  Eyesis4Pi device-specific extraction sub-module.
      *
-     *  \param lpPath Path CSPS structure
-     *  \param lpCAM Device descriptor
+     *  \param lpPath   Path CSPS structure
+     *  \param lpCAM    Device descriptor
      */
 
-    lp_Void_t lp_cam_DSIDE_EYESIS4PI(
+    lp_Void_t lp_cam_DSIDE_EYESIS4PI( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_CAM            lpCAM 
+        lp_Char_t   const * const lpPath, 
+        lp_Camera_t const         lpCAM 
 
     );
 

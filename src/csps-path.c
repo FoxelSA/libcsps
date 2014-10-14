@@ -49,10 +49,10 @@
 
     lp_Void_t lp_path_dside(
 
-        const lp_Char_t * const lpBase,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpLogs,
-        lp_Char_t * const       lpPath
+        lp_Char_t const * const lpBase,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpLogs,
+        lp_Char_t       * const lpPath
 
     ) {
 
@@ -97,12 +97,12 @@
 
     lp_Void_t lp_path_stream( 
 
-        const lp_Char_t * const lpBase,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule,
-        const lp_Char_t * const lpType,
-        lp_Char_t * const       lpPath
+        lp_Char_t const * const lpBase,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,
+        lp_Char_t const * const lpType,
+        lp_Char_t       * const lpPath
 
     ) {
 

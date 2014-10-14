@@ -49,8 +49,8 @@
 
     lp_Void_t lp_imu_mod_DSIDE( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_IMU            lpIMU
+        lp_Char_t const * const lpPath, 
+        lp_IMU_t  const         lpIMU
 
     ) {
 
@@ -70,8 +70,8 @@
 
     lp_Void_t lp_imu_DSIDE_ADIS16375( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_IMU            lpIMU
+        lp_Char_t const * const lpPath, 
+        lp_IMU_t  const         lpIMU
 
     ) {
 

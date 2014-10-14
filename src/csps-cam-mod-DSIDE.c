@@ -47,10 +47,10 @@
     Source - Camera signal extraction switch
  */
 
-    lp_Void_t lp_cam_mod_DSIDE( 
+    lp_Void_t lp_cam_mod_DSIDE(
 
-        const lp_Char_t * const lpPath, 
-        const lp_CAM            lpCAM 
+        lp_Char_t   const * const lpPath, 
+        lp_Camera_t const         lpCAM 
 
     ) {
 
@@ -75,8 +75,8 @@
 
     lp_Void_t lp_cam_DSIDE_EYESIS4PI( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_CAM            lpCAM 
+        lp_Char_t   const * const lpPath, 
+        lp_Camera_t const         lpCAM 
 
     ) {
 

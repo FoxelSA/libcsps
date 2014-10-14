@@ -49,7 +49,7 @@
 
     lp_Void_t * lp_stream_create(
 
-        lp_Size_t lpSize
+        lp_Size_t const lpSize
 
     ) {
 
@@ -82,10 +82,10 @@
 
     lp_Size_t lp_stream_size(
 
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule
 
     ) {
 
@@ -124,12 +124,12 @@
 
     lp_Void_t * lp_stream_read(
 
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule,
-        const lp_Char_t * const lpSuffix,
-        lp_Size_t lpSize
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,
+        lp_Char_t const * const lpSuffix,
+        lp_Size_t const         lpSize
 
     ) {
 
@@ -168,13 +168,13 @@
 
     lp_Void_t lp_stream_write(
 
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule,
-        const lp_Char_t * const lpSuffix,
-        const lp_Void_t * const lpStream,
-        lp_Size_t lpSize
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,
+        lp_Char_t const * const lpSuffix,
+        lp_Void_t const * const lpStream,
+        lp_Size_t const         lpSize
 
     ) {
 

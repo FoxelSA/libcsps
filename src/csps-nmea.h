@@ -111,56 +111,59 @@
      *  Reads, from an extracted NMEA/GGA GPS sentence, the geographic
      *  information contained in the sentence.
      *
-     *  \param lpSentence NMEA/GGA sentence
-     *  \param lpUTC UTC time output parameter
-     *  \param lpLat Latitude, in degrees, output parameter
-     *  \param lpLon Longitude, in degrees, output parameter
-     *  \param lpAlt Altitude, in meter above mean see level, output parameter
-     *  \param lpQBF Quality buffer output parameter
+     *  \param lpSentence   NMEA/GGA sentence
+     *  \param lpUTC        UTC time output parameter
+     *  \param lpLat        Latitude, in degrees, output parameter
+     *  \param lpLon        Longitude, in degrees, output parameter
+     *  \param lpAlt        Altitude, in meters above mean see level, output
+     *                      parameter
+     *  \param lpQBF        Quality buffer output parameter
      */
 
     lp_Void_t lp_nmea_gga(
 
-        const lp_Char_t * const lpSentence,
-        lp_Real_t * const       lpUTC,
-        lp_Real_t * const       lpLat,
-        lp_Real_t * const       lpLon,
-        lp_Real_t * const       lpAlt,
-        lp_SQBF_t * const       lpQBF
+        lp_Char_t const * const lpSentence,
+        lp_Real_t       * const lpUTC,
+        lp_Real_t       * const lpLat,
+        lp_Real_t       * const lpLon,
+        lp_Real_t       * const lpAlt,
+        lp_SQBF_t       * const lpQBF
 
     );
 
     /*! \brief NMEA/GGA sentence validation
      *  
-     *  Perform a fast consistency verification of the input NMEA/GGA
-     *  sentence based on expected fixed results.
+     *  Perform a fast consistency verification of the input NMEA/GGA sentence 
+     *  based on expected fixed results.
      *  
-     *  \param lpSentence NMEA/GGA sentence
+     *  \param  lpSentence NMEA/GGA sentence
+     *
      *  \return True if sentence is correctly formatted, false otherwise
      */
 
     lp_Enum_t lp_nmea_gga_validate( 
 
-        const lp_Char_t * const lpSentence
+        lp_Char_t const * const lpSentence 
 
     );
 
     /*! \brief NMEA sentence translator
      *  
-     *  Reads NMEA sentence from GPS binary buffer and translate
-     *  it in ASCII character string.
+     *  Reads NMEA sentence from GPS binary buffer and translate it in ASCII 
+     *  character string.
      *  
-     *  \param lpRec Pointer to first byte of binary buffer
-     *  \param lpSize Size, in bytes, of the binary buffer
-     *  \param lpSentence ASCII read sentence
-     *  \return Return the type of the read NMEA sentence (GGA,VTG,...)
+     *  \param  lpRec       Pointer to first byte of binary buffer
+     *  \param  lpSize      Size, in bytes, of the binary buffer
+     *  \param  lpSentence  ASCII read sentence
+     *  
+     *  \return Returns the type of the read NMEA sentence (GGA,VTG,...)
      */
 
     lp_Enum_t lp_nmea_sentence( 
 
-        const lp_Byte_t * const lpRec, 
-        const lp_Size_t         lpSize, 
-        lp_Char_t * const       lpSentence
+        lp_Byte_t const * const lpRec, 
+        lp_Size_t const         lpSize, 
+        lp_Char_t       * const lpSentence 
 
     );
 
@@ -170,15 +173,16 @@
      *  buffer. The offset value has to contain the position of the desired
      *  four bits pattern in binary buffer.
      *  
-     *  \param lpRec Pointer to binary buffer
-     *  \param lpOffset Four bits pattern offset, in four bits pattern units
+     *  \param  lpRec       Pointer to binary buffer
+     *  \param  lpOffset    Four bits pattern offset, in four bits pattern units
+     * 
      *  \return Return the value stored in the pattern
      */
 
-    lp_Byte_t lp_nmea_quartet(
+    lp_Byte_t lp_nmea_quartet( 
 
-        const lp_Byte_t * const lpRec,
-        lp_Size_t               lpOffset
+        lp_Byte_t const * const lpRec, 
+        lp_Size_t const         lpOffset 
 
     );
 

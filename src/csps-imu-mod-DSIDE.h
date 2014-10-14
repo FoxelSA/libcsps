@@ -37,7 +37,7 @@
  */
 
     /*! \file   csps-imu-mod-DSIDE.h
-     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *  \author Nils Hamel <n.hamel@foxel.ch>
      *
      *  DSIDE - Device-Specitic Initial Data Extraction
      */
@@ -94,17 +94,16 @@
     /*! \brief Device extraction switch
      *  
      *  Switch on device-specific extractor. On the base of the device 
-     *  descriptor given as parameter, the device-specific extractor is
-     *  called.
+     *  descriptor given as parameter, the device-specific extractor is called.
      *
-     *  \param lpPath Path CSPS structure
-     *  \param lpIMU Device descriptor
+     *  \param lpPath   Path CSPS structure
+     *  \param lpIMU    Device descriptor
      */
 
-    lp_Void_t lp_imu_mod_DSIDE(
+    lp_Void_t lp_imu_mod_DSIDE( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_IMU            lpIMU
+        lp_Char_t const * const lpPath, 
+        lp_IMU_t  const         lpIMU
 
     );
 
@@ -112,14 +111,14 @@
      *
      *  ADIS16375 IMU device specific extraction sub-module.
      *
-     *  \param lpPath Path CSPS structure
-     *  \param lpIMU Device descriptor
+     *  \param lpPath   Path CSPS structure
+     *  \param lpIMU    Device descriptor
      */
 
-    lp_Void_t lp_imu_DSIDE_ADIS16375(
+    lp_Void_t lp_imu_DSIDE_ADIS16375( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_IMU            lpIMU
+        lp_Char_t const * const lpPath, 
+        lp_IMU_t  const         lpIMU
 
     );
 

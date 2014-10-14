@@ -85,22 +85,22 @@
 
     /*! \brief Total variation with iterative clipping
      *  
-     *  Performs a total variation with iterative clipping denoising
-     *  of the input data. The denoised signal is then copied in the
-     *  array of the input signal.
+     *  Performs a total variation with iterative clipping denoising of the 
+     *  input data. The denoised signal is then copied in the array of the input
+     *  signal.
      *  
-     *  \param lpSignal Pointer to signal data
-     *  \param lpSize Size of the signal, in type units
+     *  \param lpSignal     Pointer to signal data
+     *  \param lpSize       Size of the signal, in type units
      *  \param lpRegularity Total variation regularity parameter
-     *  \param lpIteration Number of iterations
+     *  \param lpIteration  Number of iterations
      */
 
     lp_Void_t lp_noise_tvic( 
 
-        lp_Real_t * const lpSignal, 
-        lp_Size_t         lpSize, 
-        lp_Size_t         lpRegularity, 
-        lp_Size_t         lpIteration 
+        lp_Real_t       * const lpSignal, 
+        lp_Size_t const         lpSize, 
+        lp_Size_t const         lpRegularity, 
+        lp_Size_t const         lpIteration 
 
     );
 

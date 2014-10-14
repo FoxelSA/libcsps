@@ -82,89 +82,89 @@
     Header - Structures
  */
 
-    /*! \struct lp_QueryTimestamp_struct
+    /*! \struct lp_Query_Timestamp_struct
      *  \brief Camera record and device synchronization
      *
      *  This structure is used to obtain time difference between camera
      *  records and the master clock used to synchronize signals.
      *  
-     *  \var lp_QueryPosition_struct::qrStatus
+     *  \var lp_Query_Timestamp_struct::qrStatus
      *  Query status. If LP_FALSE, the query has failed
-     *  \var lp_QueryPosition_struct::qrTimestamp
+     *  \var lp_Query_Timestamp_struct::qrTimestamp
      *  Image clock timestamp corresponding to the camera record
      */
 
-    typedef struct lp_QueryTimestamp_struct {
+    typedef struct lp_Query_Timestamp_struct {
 
         /* Query status */
         lp_Enum_t qrStatus;
 
-        /* Event-logger timestamp corresponding to master clock timestamp */
+        /* Event-logger correspondance */
         lp_Time_t qrTimestamp;
 
-    } lp_QueryTimestamp;
+    } lp_Query_Timestamp_t;
 
-    /*! \struct lp_QueryPosition_struct
+    /*! \struct lp_Query_Position_struct
      *  \brief WGS84 position query structure
      *  
      *  This structure is used to obtain a position according to WGS84 standard.
      *  
-     *  \var lp_QueryPosition_struct::qrStatus
+     *  \var lp_Query_Position_struct::qrStatus
      *  Query status. If LP_FALSE, the query has failed
-     *  \var lp_QueryPosition_struct::qrLatitude
+     *  \var lp_Query_Position_struct::qrLatitude
      *  Latitude in degrees
-     *  \var lp_QueryPosition_struct::qrLongitude
+     *  \var lp_Query_Position_struct::qrLongitude
      *  Longitude in degrees
-     *  \var lp_QueryPosition_struct::qrAltitude
+     *  \var lp_Query_Position_struct::qrAltitude
      *  Altitude in meters above mean see level
      */
 
-    typedef struct lp_QueryPosition_struct {
+    typedef struct lp_Query_Position_struct {
 
         /* Query status */
         lp_Enum_t qrStatus;
 
-        /* Position descriptor */
+        /* Position vector */
         lp_Real_t qrLatitude;
         lp_Real_t qrLongitude;
         lp_Real_t qrAltitude;
 
-    } lp_QueryPosition;
+    } lp_Query_Position_t;
 
-    /*! \struct lp_QueryOrientation_struct
+    /*! \struct lp_Query_Orientation_struct
      *  \brief Orientation query structure
      *  
      *  This structure is used to obtain orientation of the frame attached to
      *  the device.
      *  
-     *  \var lp_QueryOrientation_struct::qrStatus
+     *  \var lp_Query_Orientation_struct::qrStatus
      *  Query status. If LP_FALSE, the query has failed
-     *  \var lp_QueryOrientation_struct::qrfxx
+     *  \var lp_Query_Orientation_struct::qrfxx
      *  X-component of the x-frame vector
-     *  \var lp_QueryOrientation_struct::qrfxy
+     *  \var lp_Query_Orientation_struct::qrfxy
      *  Y-component of the x-frame vector
-     *  \var lp_QueryOrientation_struct::qrfxz
+     *  \var lp_Query_Orientation_struct::qrfxz
      *  Z-component of the x-frame vector
-     *  \var lp_QueryOrientation_struct::qrfyx
+     *  \var lp_Query_Orientation_struct::qrfyx
      *  X-component of the y-frame vector
-     *  \var lp_QueryOrientation_struct::qrfyy
+     *  \var lp_Query_Orientation_struct::qrfyy
      *  Y-component of the y-frame vector
-     *  \var lp_QueryOrientation_struct::qrfyz
+     *  \var lp_Query_Orientation_struct::qrfyz
      *  Z-component of the y-frame vector
-     *  \var lp_QueryOrientation_struct::qrfzx
+     *  \var lp_Query_Orientation_struct::qrfzx
      *  X-component of the z-frame vector
-     *  \var lp_QueryOrientation_struct::qrfzy
+     *  \var lp_Query_Orientation_struct::qrfzy
      *  Y-component of the z-frame vector
-     *  \var lp_QueryOrientation_struct::qrfzz
+     *  \var lp_Query_Orientation_struct::qrfzz
      *  Z-component of the z-frame vector
      */
 
-    typedef struct lp_QueryOrientation_struct {
+    typedef struct lp_Query_Orientation_struct {
 
         /* Query status */
         lp_Enum_t qrStatus;
 
-        /* Orientation descriptor */
+        /* Orientation matrix */
         lp_Real_t qrfxx;
         lp_Real_t qrfxy;
         lp_Real_t qrfxz;
@@ -175,7 +175,7 @@
         lp_Real_t qrfzy;
         lp_Real_t qrfzz;
 
-    } lp_QueryOrientation;
+    } lp_Query_Orientation_t;
 
 /*
     Header - Function prototypes
@@ -183,73 +183,73 @@
 
     /*! \brief Query master clock timestamp for camera record
      *  
-     *  This function returns timestamp from the master clock 
-     *  on the base of the timestamp used to designate image
-     *  record.
+     *  This function returns timestamp from the master clock on the base of the
+     *  timestamp used to designate image record.
      *  
-     *  \param lpPath Path CSPS structure
-     *  \param lpDevice Device tag
-     *  \param lpTag Device name
-     *  \param lpModule CSPS stream to consider
-     *  \param lpTimestamp Reference timestamp
+     *  \param  lpPath      Path CSPS structure
+     *  \param  lpDevice    Device tag
+     *  \param  lpTag       Device name
+     *  \param  lpModule    CSPS stream to consider
+     *  \param  lpTimestamp Reference timestamp
+     *
      *  \return Returns a timestamp structure
      */
 
-    lp_QueryTimestamp lp_query_timestamp_by_timestamp(
+    lp_Query_Timestamp_t lp_query_timestamp_by_timestamp(
 
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule,        
-        lp_Time_t               lpTimestamp
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,        
+        lp_Time_t const         lpTimestamp
 
     );
 
     /*! \brief Query WGS84 position by timestamp
      *  
-     *  This function returns WGS84 position according to
-     *  specified timestamp. If the given timestamp is
-     *  outside of the range, the query fails.
+     *  This function returns WGS84 position according to specified timestamp.
+     *  If the given timestamp is outside of the range, the query fails.
      *  
-     *  \param lpPath Path CSPS structure
-     *  \param lpDevice Device tag
-     *  \param lpTag Device name
-     *  \param lpModule CSPS stream to consider
-     *  \param lpTimestamp Reference timestamp
+     *  \param  lpPath      Path CSPS structure
+     *  \param  lpDevice    Device tag
+     *  \param  lpTag       Device name
+     *  \param  lpModule    CSPS stream to consider
+     *  \param  lpTimestamp Reference timestamp
+     *
      *  \return Returns a WGS84 position structure
      */
 
-    lp_QueryPosition lp_query_position_by_timestamp(
+    lp_Query_Position_t lp_query_position_by_timestamp(
 
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule,
-        lp_Time_t               lpTimestamp
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,
+        lp_Time_t const         lpTimestamp
 
     );
 
     /*! \brief Orientation query by timestamp
      *  
-     *  This function returns the orientation according to the
-     *  given timestamp. If the given timestamp is outside of
-     *  the range, the query fails.
+     *  This function returns the orientation according to the given timestamp.
+     *  If the given timestamp is outside of the range, the query fails.
      *  
-     *  \param lpPath Path CSPS structure
-     *  \param lpDevice Device tag
-     *  \param lpTag Device name
-     *  \param lpModule CSPS stream to consider
-     *  \param lpTimestamp Reference timestamp
+     *  \param  lpPath      Path CSPS structure
+     *  \param  lpDevice    Device tag
+     *  \param  lpTag       Device name
+     *  \param  lpModule    CSPS stream to consider
+     *  \param  lpTimestamp Reference timestamp
+     *
      *  \return Returns an orientation structure
      */
 
-    lp_QueryOrientation lp_query_orientation_by_timestamp(
+    lp_Query_Orientation_t lp_query_orientation_by_timestamp(
 
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule,
-        lp_Time_t               lpTimestamp
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,
+        lp_Time_t const         lpTimestamp
 
     );
 

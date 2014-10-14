@@ -47,13 +47,13 @@
     Source - CSPS query - Synchronization
  */
 
-    lp_QueryTimestamp lp_query_timestamp_by_timestamp(
+    lp_Query_Timestamp_t lp_query_timestamp_by_timestamp(
 
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule,        
-        lp_Time_t               lpTimestamp
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,        
+        lp_Time_t const         lpTimestamp
 
     ) {
 
@@ -68,7 +68,7 @@
         lp_Time_t * lpSYNsyn = LP_NULL;
 
         /* Returned structure */
-        lp_QueryTimestamp lpReturn;
+        lp_Query_Timestamp_t lpReturn;
 
         /* Obtain stream size */
         lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );        
@@ -106,13 +106,13 @@
     Source - CSPS query - Position
  */
 
-    lp_QueryPosition lp_query_position_by_timestamp(
+    lp_Query_Position_t lp_query_position_by_timestamp(
 
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule,
-        lp_Time_t               lpTimestamp
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,
+        lp_Time_t const         lpTimestamp
 
     ) {
 
@@ -141,7 +141,7 @@
         lp_Time_t * lpGENsyn = LP_NULL;
 
         /* Returned structure */
-        lp_QueryPosition lpPosition;
+        lp_Query_Position_t lpPosition;
 
         /* Obtain stream size */
         lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
@@ -221,13 +221,13 @@
     Source - CSPS query - Orientation
  */
 
-    lp_QueryOrientation lp_query_orientation_by_timestamp(
+    lp_Query_Orientation_t lp_query_orientation_by_timestamp(
 
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpDevice,
-        const lp_Char_t * const lpTag,
-        const lp_Char_t * const lpModule,
-        lp_Time_t               lpTimestamp
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,
+        lp_Time_t const         lpTimestamp
 
     ) {
 
@@ -262,7 +262,7 @@
         lp_Time_t * lpGENsyn = LP_NULL;
 
         /* Returned structure */
-        lp_QueryOrientation lpOrientation;
+        lp_Query_Orientation_t lpOrientation;
 
         /* Obtain stream size */
         lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );

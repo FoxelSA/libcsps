@@ -98,18 +98,18 @@
      *  and that the x axis follows the direction of motion of the IMU coupled
      *  with the GPS reciever.
      *    
-     *  \param lpPath Path to CSPS structure
-     *  \param lpIMU IMU device descriptor
-     *  \param lpGPS GPS device descriptor
+     *  \param lpPath   Path to CSPS structure
+     *  \param lpIMU    IMU device descriptor
+     *  \param lpGPS    GPS device descriptor
      *  \param lpGPSmod Geographic positions streams initiator module
      */
 
     lp_Void_t lp_imu_mod_IOBMA(
 
-        const lp_Char_t * const lpPath, 
-        const lp_IMU            lpIMU,
-        const lp_GPS            lpGPS,
-        const lp_Char_t * const lpGPSmod
+        lp_Char_t const * const lpPath, 
+        lp_IMU_t  const         lpIMU,
+        lp_GPS_t  const         lpGPS,
+        lp_Char_t const * const lpGPSmod
 
     );
 

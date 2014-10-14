@@ -115,40 +115,41 @@
 
     /*! \brief GPS signal quality threshold function
      *  
-     *  This function determine if GPS signal quality is above an
-     *  required minimum. This threshold is based on signal fix,
-     *  the satellite count and the horizontal dilution of position.
+     *  This function determine if GPS signal quality is above an required 
+     *  minimum. This threshold is based on signal fix, the satellite count and
+     *  the horizontal dilution of position.
      *  
-     *  If GPS signal quality is too low, the threshold condition
-     *  is triggered and the function returns true (LP_TRUE).
+     *  If GPS signal quality is too low, the threshold condition is triggered
+     *  and the function returns true (LP_TRUE).
      *  
-     *  \param lpQBFValue Quality buffer associated with the tested GPS measure
+     *  \param  lpQBFValue Quality buffer associated with the tested GPS measure
+     *  
      *  \return Returns true if measure trigger the threshold
      */
 
-    lp_Enum_t lp_qbf_threshold(
+    lp_Enum_t lp_qbf_threshold( 
 
-        lp_SQBF_t lpQBFValue
+        lp_SQBF_t const lpQBFValue
 
     );
 
     /*! \brief Create quality buffer
      *  
-     *  Compose a quality buffer on the base of GPS signal fix,
-     *  satellite count and 100 times the horizontal dilution of
-     *  position.
+     *  Compose a quality buffer on the base of GPS signal fix, satellite count 
+     *  and 100 times the horizontal dilution of position.
      *  
-     *  \param lpFix GPS signal fix
-     *  \param lpSat Satellite count
-     *  \param lpHDP100 Horizontal dilution of position times 100
+     *  \param  lpFix       GPS signal fix
+     *  \param  lpSat       Satellite count
+     *  \param  lpHDP100    Horizontal dilution of position times 100
+     *
      *  \return Returns composed quality buffer
      */
 
-    lp_SQBF_t lp_qbf_compose(
+    lp_SQBF_t lp_qbf_compose( 
 
-        lp_Enum_t lpFix,
-        lp_Size_t lpSat,
-        lp_Size_t lpHDP100
+        lp_Enum_t const lpFix, 
+        lp_Size_t const lpSat, 
+        lp_Size_t const lpHDP100 
 
     );
 
@@ -156,13 +157,14 @@
      *  
      *  Extract GPS signal fix from the given quality buffer.
      *  
-     *  \param lpQBF Quality buffer
+     *  \param  lpQBF   Quality buffer
+     *  
      *  \return Returns extracted GPS signal fix
      */
 
     lp_Enum_t lp_qbf_fix(
 
-        lp_SQBF_t lpQBF
+        lp_SQBF_t const lpQBF
 
     );
 
@@ -170,28 +172,30 @@
      *  
      *  Extract satellite count from the given quality buffer
      *  
-     *  \param lpQBF Quality buffer
+     *  \param  lpQBF   Quality buffer
+     * 
      *  \return Returns extracted satellite count
      */
 
     lp_Size_t lp_qbf_sat(
 
-        lp_SQBF_t lpQBF
+        lp_SQBF_t const lpQBF
 
     );
 
     /*! \brief HDOP times 100 extractor
      *  
-     *  Extract horizontal dilution of position times 100 from
-     *  the given quality buffer.
+     *  Extract horizontal dilution of position times 100 from the given quality
+     *  buffer.
      *  
-     *  \param lpQBF Quality buffer
+     *  \param  lpQBF   Quality buffer
+     *
      *  \return Returns extracted HDOP times 100
      */
 
     lp_Size_t lp_qbf_hdop100(
 
-        lp_SQBF_t lpQBF
+        lp_SQBF_t const lpQBF
 
     );
 

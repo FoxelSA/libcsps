@@ -49,10 +49,10 @@
 
     lp_Void_t lp_imu_mod_AACEX( 
 
-        const lp_Char_t * const lpPath, 
-        lp_IMU                  lpIMU, 
-        const lp_Char_t * const lpIMUmodACC, 
-        const lp_Char_t * const lpIMUmodFRM
+        lp_Char_t const * const lpPath, 
+        lp_IMU_t  const         lpIMU, 
+        lp_Char_t const * const lpIMUmodACC, 
+        lp_Char_t const * const lpIMUmodFRM
 
     ) {
 

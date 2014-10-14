@@ -98,18 +98,18 @@
      *  
      *  Integrate the IMU frame over time using explicit numerical schemes.
      *  
-     *  \param lpPath Path to CSPS structure
-     *  \param lpIMU IMU device descriptor
-     *  \param lpIMUmodGYR Gyroscope stream initiator module
-     *  \param lpIMUmodFRM Frame stream initiator module
+     *  \param lpPath       Path to CSPS structure
+     *  \param lpIMU        IMU device descriptor
+     *  \param lpIMUmodGYR  Gyroscope stream initiator module
+     *  \param lpIMUmodFRM  Frame stream initiator module
      */
 
-    lp_Void_t lp_imu_mod_IFETI(
+    lp_Void_t lp_imu_mod_IFETI( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_IMU            lpIMU, 
-        const lp_Char_t * const lpIMUmodGYR,
-        const lp_Char_t * const lpIMUmodFRM
+        lp_Char_t const * const lpPath, 
+        lp_IMU_t  const         lpIMU, 
+        lp_Char_t const * const lpIMUmodGYR,
+        lp_Char_t const * const lpIMUmodFRM
 
     );
 

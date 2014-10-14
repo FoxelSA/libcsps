@@ -49,8 +49,8 @@
 
     lp_Void_t lp_gps_mod_DSIDE( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_GPS            lpGPS
+        lp_Char_t const * const lpPath, 
+        lp_GPS_t  const         lpGPS
 
     ) {
 
@@ -70,8 +70,8 @@
 
     lp_Void_t lp_gps_DSIDE_LS20031( 
 
-        const lp_Char_t * const lpPath, 
-        const lp_GPS            lpGPS 
+        lp_Char_t const * const lpPath, 
+        lp_GPS_t  const         lpGPS 
 
     ) {
 

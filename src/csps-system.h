@@ -135,60 +135,60 @@
 
     /*! \brief CSPS topology interpreter
      *
-     * This function provides a front-end between CSPS module
-     * and the library users. It reads a file that contains the
-     * CSPS topology and execute it.
+     *  This function provides a front-end between CSPS module and the library
+     *  users. It reads a file that contains the CSPS topology and execute it.
      *
      *  \param lpPath Path CSPS structure
-     * \param lpFile Path to the file containing the CSPS topology
+     *  \param lpFile Path to the file containing the CSPS topology
      */
 
     lp_Void_t lp_system(
 
-        const lp_Char_t * const lpPath,
-        const lp_Char_t * const lpFile
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpFile
 
     );
 
     /*! \brief File token reader
      *
-     * This function simply reads a token from specified file. It
-     * returns the pointer to read token buffer.
+     *  This function simply reads a token from specified file. It returns the
+     *  pointer to read token buffer.
      * 
-     * \param lpFile File from which token is read
-     * \param lpToken Read token buffer
-     * \return Returns pointer to string allocation that contains read token
+     *  \param  lpFile   File from which token is read
+     *  \param  lpToken  Read token buffer
+     *
+     *  \return Returns pointer to string allocation that contains read token
      */
 
     lp_Char_t * lp_system_token(
 
-        FILE      * lpFile,
-        lp_Char_t * lpToken
+        FILE      * const lpFile,
+        lp_Char_t * const lpToken
 
     );
 
     /*! \brief Device search in stack
      * 
-     * This function is a coprocess of topology file interpreter. It
-     * searches in devices stack the index of device defined by the
-     * specified tag. If the device is not found, an invalid code
-     * is returned.
+     *  This function is a coprocess of topology file interpreter. It searches
+     *  in devices stack the index of device defined by the specified tag. If
+     *  the device is not found, an invalid code is returned.
      *
-     * \param lpTag Tag of the device to search in stack
-     * \param lpType Type of the device to search
-     * \param lpIndex Size of the devices stack in device units
-     * \param lpTypes Devices type stack array
-     * \param lpDescs Devices descriptor stack array
-     * \return Return device index in the stack or invalid value
+     *  \param lpTag     Tag of the device to search in stack
+     *  \param lpType    Type of the device to search
+     *  \param lpIndex   Size of the devices stack in device units
+     *  \param lpTypes   Devices type stack array
+     *  \param lpDescs   Devices descriptor stack array
+     * 
+     *  \return Return device index in the stack or invalid value
      */
 
     lp_Size_t lp_system_device_by_tag(
 
-        const lp_Char_t * const lpTag,
-        const lp_Enum_t         lpType,
-        lp_Size_t               lpIndex,
-        lp_Enum_t *             lpTypes,
-        lp_Void_t **            lpDescs
+        lp_Char_t const *  const lpTag,
+        lp_Enum_t const          lpType,
+        lp_Size_t                lpIndex,
+        lp_Enum_t const *  const lpTypes,
+        lp_Void_t       **       lpDescs
 
     );
 

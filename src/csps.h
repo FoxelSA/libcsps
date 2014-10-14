@@ -47,17 +47,17 @@
      *  \section libcsps
      *  \section _ Crossed signal positioning system
      *
-     *  The libcsps library, for crossed signal positioning system library, is designed 
-     *  to determine position and orientation of camera devices builded with inertial and 
-     *  absolute measurement units such as GPS and IMU. It is designed to consider the 
-     *  multiple sensor signals provided by the device assembly and to cross them in order
-     *  to obtain the best positions and orientations of the camera in time and in 
-     *  three-dimensional space.
+     *  The libcsps library, for crossed signal positioning system library, is 
+     *  designed to determine position and orientation of camera devices builded 
+     *  with inertial and absolute measurement units such as GPS and IMU. It is
+     *  designed to consider the multiple sensor signals provided by the device 
+     *  assembly and to cross them in order to obtain the best positions and 
+     *  orientations of the camera in time and in three-dimensional space.
      *
      *  \section Documentation
      *
-     *  A detailed documentation can be generated through doxygen. A more general documentation
-     *  can be consulted at https://github.com/FoxelSA/libcsps/wiki.
+     *  A detailed documentation can be generated through doxygen. A more general
+     *  documentation can be consulted at https://github.com/FoxelSA/libcsps/wiki.
      *
      *  \section Copyright
      * 
@@ -68,12 +68,13 @@
      *
      *  \section License
      *
-     *  This program is licensed under the terms of the GNU Affero General Public License
-     *  v3 (GNU AGPL), with two additional terms. The content is licensed under the terms 
-     *  of the Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA) license.
+     *  This program is licensed under the terms of the GNU Affero General Public
+     *  License v3 (GNU AGPL), with two additional terms. The content is licensed
+     *  under the terms of the Creative Commons Attribution-ShareAlike 4.0 
+     *  International (CC BY-SA) license.
      *
-     *  You must read <http://foxel.ch/license> for more information about our Licensing
-     *  terms and our Usage and Attribution guidelines.
+     *  You must read <http://foxel.ch/license> for more information about our 
+     *  Licensing terms and our Usage and Attribution guidelines.
      */
 
 /*
