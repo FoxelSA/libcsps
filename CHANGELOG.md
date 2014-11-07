@@ -1,6 +1,6 @@
 ## Changelog
 
-### Beta 0.2 (master)
+### Beta 0.2 (master) (Release 0.2 scheduled on January 30, 2015)
 
 ### Release 0.1 (July 24, 2014)
 
