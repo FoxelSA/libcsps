@@ -87,16 +87,7 @@
         /* Reading variables */
         lp_Enum_t lpReading = LP_TRUE;
         lp_Size_t lpIndex   = lp_Size_s( 0 );
-        lp_Size_t lpParse   = lp_Size_s( 0 );
         lp_Size_t lpReaded  = lp_Size_s( 0 );
-
-        /* Timestamp buffer variables */
-        lp_Time_t lpTimestamp = lp_Time_s( 0 );
-        lp_Time_t lpInitBreak = lp_Time_s( 0 );
-        lp_Time_t lpLastReset = lp_Time_s( 0 );
-
-        /* FPGA GPS event logger microsecond rebuilding variables */
-        lp_Size_t lpModShift = lp_Size_s( 0 );
 
         /* Stream path variables */
         lp_Char_t lpDEVlogp[LP_STR_LEN] = LP_STR_INI;
@@ -181,76 +172,11 @@
 
                                 );
 
-                                /* Verify FPGA timestamp rebuilding mode */
-                                if ( lpModShift == lp_Size_s( 0 ) ) {
-
-                                    /* Rebuild FPGA timestamp based on 1pps trigger */
-                                    if ( lpParse == lp_Size_s( 0 ) ) {
-
-                                        /* Consider FPGA initial timestamp for first segment reconstruction */
-                                        lpGPSsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
-
-                                        /* Memorize initial unix timestamp second */
-                                        lpInitBreak = lp_timestamp_sec( lpGPSsyn[lpIndex] );
-
-                                    } else {
-
-                                        /* Search for initial complete second range */
-                                        if ( lp_timestamp_sec( lp_timestamp( ( lp_Void_t * ) lpRec ) ) == lpInitBreak ) {
-
-                                            /* Build current timestamp based on previous */
-                                            lpGPSsyn[lpIndex] = lp_timestamp_add( lpTimestamp, lp_Time_s( 200000 ) );
-
-                                        } else {
-
-                                            /* Consider FPGA timestamp for initial reset */
-                                            lpGPSsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
-
-                                            /* Save initial reset timestamp */
-                                            lpLastReset = lpGPSsyn[lpIndex];
-
-                                            /* Set the modular shift parameter */
-                                            lpModShift = lpParse;
-
-                                        }
-
-                                    }
-
-                                } else {
-
-                                    /* Verify congruence reset condition */
-                                    if ( ( ( lpParse - lpModShift ) % lpGPS.dvifreq ) == 0 ) {
-
-                                        /* Verify repetitive reset timestamp value during signal loss */
-                                        if ( lp_timestamp_eq( ( lpGPSsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec ) ), lpLastReset ) == LP_TRUE ) {
-
-                                            /* Build current timestamp based on previous */
-                                            lpGPSsyn[lpIndex] = lp_timestamp_add( lpTimestamp, lp_Time_s( 200000 ) );
-
-                                        } else {
-                                        
-                                            /* Save previous reset timestamp */
-                                            lpLastReset = lpGPSsyn[lpIndex];
-
-                                        }
-
-                                    } else {
-
-                                        /* Build current timestamp based on previous */
-                                        lpGPSsyn[lpIndex] = lp_timestamp_add( lpTimestamp, lp_Time_s( 200000 ) );
-
-                                    }
-
-                                }
-
-                                /* Memorize current timestemp */
-                                lpTimestamp = lpGPSsyn[lpIndex];
+                                /* Retrieve FPGA timestamp */
+                                lpGPSsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
 
                                 /* Update reading index */
                                 lpIndex += lp_Size_s( 1 );
-
-                                /* Update overall parse index */
-                                lpParse += lp_Size_s( 1 );
 
                             }
 
