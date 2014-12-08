@@ -152,7 +152,7 @@
         lpStreamf = fopen( lpStreamp, "rb" );
 
         /* Read stream file */
-        fread( lpStream, 1, lpSize, lpStreamf );
+        if ( fread( lpStream, 1, lpSize, lpStreamf ) ) {}
 
         /* Close stream file */
         fclose( lpStreamf );
