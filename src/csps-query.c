@@ -217,6 +217,10 @@
 
     }
 
+/*
+    Source - CSPS query - Position (new version)
+ */
+
     lp_Query_Position_t lp_query_position_create(
 
         lp_Char_t const * const lpPath,
@@ -227,19 +231,100 @@
     ) {
 
         /* Returned structure */
-        lp_Query_Position_t lpPosition = { LP_TRUE, lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), LP_NULL, LP_NULL, LP_NULL, LP_NULL };
+        lp_Query_Position_t lpPosition = { LP_TRUE, lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Size_s( 0 ), LP_NULL, LP_NULL, LP_NULL, LP_NULL };
 
         /* Stream size variables */
-        lp_Size_t lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
+        lpPosition.qrSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
 
         /* Read streams */
-        lpPosition.qrQRYlat = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpSize );
-        lpPosition.qrQRYlon = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpSize );
-        lpPosition.qrQRYalt = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpSize );
-        lpPosition.qrQRYsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+        lpPosition.qrQRYlat = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpPosition.qrSize );
+        lpPosition.qrQRYlon = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpPosition.qrSize );
+        lpPosition.qrQRYalt = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpPosition.qrSize );
+        lpPosition.qrQRYsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpPosition.qrSize );
 
         /* Return position structure */
         return( lpPosition );
+
+    }
+
+    lp_Enum_t lp_query_position(
+
+        lp_Time_t           const         lpTimestamp,
+        lp_Query_Position_t       * const lpPosition
+
+    ) {
+
+        /* Timestamp index variables */
+        lp_Size_t lpParse = lp_Size_s( 0 );
+
+        /* Interpolation sampling nodes variables */
+        lp_Size_t lpSample0 = lp_Size_s( 0 );
+        lp_Size_t lpSample1 = lp_Size_s( 0 );
+        lp_Size_t lpSample2 = lp_Size_s( 0 );
+        lp_Size_t lpSample3 = lp_Size_s( 0 );
+
+        /* Interpolation time variables */
+        lp_Real_t lpDT1TI = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1T2 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
+
+        /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
+        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpPosition->qrQRYsyn, lpPosition->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
+
+            /* Compute quantity interpolation sampling nodes */
+            lpSample0 = LP_RNG( lpParse - 1, 0, lpPosition->qrSize - lp_Size_s( 1 ) );
+            lpSample1 = LP_RNG( lpParse    , 0, lpPosition->qrSize - lp_Size_s( 1 ) );
+            lpSample2 = LP_RNG( lpParse + 1, 0, lpPosition->qrSize - lp_Size_s( 1 ) );
+            lpSample3 = LP_RNG( lpParse + 2, 0, lpPosition->qrSize - lp_Size_s( 1 ) );
+
+            /* Compute time interpolation variable */
+            lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpPosition->qrQRYsyn[lpSample1] ) );
+
+            /* Compute time interpolation sample */
+            lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpPosition->qrQRYsyn[lpSample2], lpPosition->qrQRYsyn[lpSample1] ) );
+            lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpPosition->qrQRYsyn[lpSample2], lpPosition->qrQRYsyn[lpSample0] ) );
+            lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpPosition->qrQRYsyn[lpSample3], lpPosition->qrQRYsyn[lpSample1] ) );
+
+            /* Compute interpolation values - Latitude */
+            lpPosition->qrLatitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpPosition->qrQRYlat[lpSample1], lpPosition->qrQRYlat[lpSample2],
+
+                /* Standard derivatives */
+                ( lpPosition->qrQRYlat[lpSample2] - lpPosition->qrQRYlat[lpSample0] ) / lpDT0T2,
+                ( lpPosition->qrQRYlat[lpSample3] - lpPosition->qrQRYlat[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Longitude */
+            lpPosition->qrLongitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpPosition->qrQRYlon[lpSample1], lpPosition->qrQRYlon[lpSample2],
+
+                /* Standard derivatives */
+                ( lpPosition->qrQRYlon[lpSample2] - lpPosition->qrQRYlon[lpSample0] ) / lpDT0T2,
+                ( lpPosition->qrQRYlon[lpSample3] - lpPosition->qrQRYlon[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Altitude */
+            lpPosition->qrAltitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpPosition->qrQRYalt[lpSample1], lpPosition->qrQRYalt[lpSample2],
+
+                /* Standard derivatives */
+                ( lpPosition->qrQRYalt[lpSample2] - lpPosition->qrQRYalt[lpSample0] ) / lpDT0T2,
+                ( lpPosition->qrQRYalt[lpSample3] - lpPosition->qrQRYalt[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Update query status */
+            lpPosition->qrStatus = LP_TRUE;
+
+        } else {
+
+            /* Update query status */
+            lpPosition->qrStatus = LP_FALSE;
+
+        }
+
+        /* Return query status */
+        return( lpPosition->qrStatus );
 
     }
 
