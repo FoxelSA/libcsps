@@ -142,7 +142,7 @@
         /* Streams size */
         lp_Size_t   qrSize;
 
-        /* Handle to streams data */
+        /* Streams data */
         lp_Real_t * qrQRYlat;
         lp_Real_t * qrQRYlon;
         lp_Real_t * qrQRYalt;
@@ -176,6 +176,26 @@
      *  Y-component of the z-frame vector
      *  \var lp_Query_Orientation_struct::qrfzz
      *  Z-component of the z-frame vector
+     *  \var lp_Query_Position_struct::qrSize
+     *  Size, in bytes, of streams
+     *  \var lp_Query_Position_struct::qrQRYfxx
+     *  X-component of x-vector frame stream data
+     *  \var lp_Query_Position_struct::qrQRYfxy
+     *  Y-component of x-vector frame stream data
+     *  \var lp_Query_Position_struct::qrQRYfxz
+     *  Z-component of x-vector frame stream data
+     *  \var lp_Query_Position_struct::qrQRYfyx
+     *  X-component of y-vector frame stream data
+     *  \var lp_Query_Position_struct::qrQRYfyy
+     *  Y-component of y-vector frame stream data
+     *  \var lp_Query_Position_struct::qrQRYfyz
+     *  Z-component of y-vector frame stream data
+     *  \var lp_Query_Position_struct::qrQRYfzx
+     *  X-component of z-vector frame stream data
+     *  \var lp_Query_Position_struct::qrQRYfzy
+     *  Y-component of z-vector frame stream data
+     *  \var lp_Query_Position_struct::qrQRYfzz
+     *  Z-component of z-vector frame stream data
      */
 
     typedef struct lp_Query_Orientation_struct {
@@ -193,6 +213,21 @@
         lp_Real_t qrfzx;
         lp_Real_t qrfzy;
         lp_Real_t qrfzz;
+
+        /* Streams size */
+        lp_Size_t   qrSize;
+
+        /* Streams data */
+        lp_Real_t * qrQRYfxx;
+        lp_Real_t * qrQRYfxy;
+        lp_Real_t * qrQRYfxz;
+        lp_Real_t * qrQRYfyx;
+        lp_Real_t * qrQRYfyy;
+        lp_Real_t * qrQRYfyz;
+        lp_Real_t * qrQRYfzx;
+        lp_Real_t * qrQRYfzy;
+        lp_Real_t * qrQRYfzz;
+        lp_Real_t * qrQRYsyn;
 
     } lp_Query_Orientation_t;
 
@@ -291,6 +326,21 @@
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule,
         lp_Time_t const         lpTimestamp
+
+    );
+
+    lp_Query_Orientation_t lp_query_orientation_create(
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule
+
+    );
+
+    lp_Void_t lp_query_orientation_delete(
+
+        lp_Query_Orientation_t * const lpOrientation
 
     );
 

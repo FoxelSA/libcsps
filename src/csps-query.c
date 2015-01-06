@@ -231,7 +231,7 @@
     ) {
 
         /* Returned structure */
-        lp_Query_Position_t lpPosition = { LP_TRUE, lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Size_s( 0 ), LP_NULL, LP_NULL, LP_NULL, LP_NULL };
+        lp_Query_Position_t lpPosition;
 
         /* Stream size variables */
         lpPosition.qrSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
@@ -528,4 +528,60 @@
         return( lpOrientation );
 
     }
+
+/*
+    Source - CSPS query - Orientation (new version)
+ */
+
+    lp_Query_Orientation_t lp_query_orientation_create(
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule
+
+    ) {
+
+        /* Returned structure */
+        lp_Query_Orientation_t lpOrientation;
+
+        /* Stream size variables */
+        lpOrientation.qrSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
+
+        /* Read streams */
+        lpOrientation.qrQRYfxx = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXX, sizeof( lp_Real_t ) * lpOrientation.qrSize );
+        lpOrientation.qrQRYfxy = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXY, sizeof( lp_Real_t ) * lpOrientation.qrSize );
+        lpOrientation.qrQRYfxz = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXZ, sizeof( lp_Real_t ) * lpOrientation.qrSize );
+        lpOrientation.qrQRYfyx = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FYX, sizeof( lp_Real_t ) * lpOrientation.qrSize );
+        lpOrientation.qrQRYfyy = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FYY, sizeof( lp_Real_t ) * lpOrientation.qrSize );
+        lpOrientation.qrQRYfyz = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FYZ, sizeof( lp_Real_t ) * lpOrientation.qrSize );
+        lpOrientation.qrQRYfzx = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FZX, sizeof( lp_Real_t ) * lpOrientation.qrSize );
+        lpOrientation.qrQRYfzy = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FZY, sizeof( lp_Real_t ) * lpOrientation.qrSize );
+        lpOrientation.qrQRYfzz = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FZZ, sizeof( lp_Real_t ) * lpOrientation.qrSize );
+        lpOrientation.qrQRYsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpOrientation.qrSize );
+
+        /* Return position structure */
+        return( lpOrientation );
+
+    }
+
+    lp_Void_t lp_query_orientation_delete(
+
+        lp_Query_Orientation_t * const lpOrientation
+
+    ) {
+
+        /* Unallocate streams */
+        lpOrientation->qrQRYfxx = lp_stream_delete( lpOrientation->qrQRYfxx );
+        lpOrientation->qrQRYfxy = lp_stream_delete( lpOrientation->qrQRYfxy );
+        lpOrientation->qrQRYfxz = lp_stream_delete( lpOrientation->qrQRYfxz );
+        lpOrientation->qrQRYfyx = lp_stream_delete( lpOrientation->qrQRYfyx );
+        lpOrientation->qrQRYfyy = lp_stream_delete( lpOrientation->qrQRYfyy );
+        lpOrientation->qrQRYfyz = lp_stream_delete( lpOrientation->qrQRYfyz );
+        lpOrientation->qrQRYfzx = lp_stream_delete( lpOrientation->qrQRYfzx );
+        lpOrientation->qrQRYfzy = lp_stream_delete( lpOrientation->qrQRYfzy );
+        lpOrientation->qrQRYfzz = lp_stream_delete( lpOrientation->qrQRYfzz );
+        lpOrientation->qrQRYsyn = lp_stream_delete( lpOrientation->qrQRYsyn );
+
+    }    
 
