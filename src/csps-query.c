@@ -217,6 +217,46 @@
 
     }
 
+    lp_Query_Position_t lp_query_position_create(
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule
+
+    ) {
+
+        /* Returned structure */
+        lp_Query_Position_t lpPosition = { LP_TRUE, lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), LP_NULL, LP_NULL, LP_NULL, LP_NULL };
+
+        /* Stream size variables */
+        lp_Size_t lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
+
+        /* Read streams */
+        lpPosition.qrQRYlat = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpSize );
+        lpPosition.qrQRYlon = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpSize );
+        lpPosition.qrQRYalt = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpSize );
+        lpPosition.qrQRYsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+
+        /* Return position structure */
+        return( lpPosition );
+
+    }
+
+    lp_Void_t lp_query_position_delete(
+
+        lp_Query_Position_t * const lpPosition
+
+    ) {
+
+        /* Unallocate streams */
+        lpPosition->qrQRYlat = lp_stream_delete( lpPosition->qrQRYlat );
+        lpPosition->qrQRYlon = lp_stream_delete( lpPosition->qrQRYlon );
+        lpPosition->qrQRYalt = lp_stream_delete( lpPosition->qrQRYalt );
+        lpPosition->qrQRYsyn = lp_stream_delete( lpPosition->qrQRYsyn );
+
+    }
+
 /*
     Source - CSPS query - Orientation
  */

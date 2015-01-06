@@ -117,17 +117,31 @@
      *  Longitude in degrees
      *  \var lp_Query_Position_struct::qrAltitude
      *  Altitude in meters above mean see level
+     *  \var lp_Query_Position_struct::qrQRYsyn
+     *  Synchronization stream data
+     *  \var lp_Query_Position_struct::qrQRYlon
+     *  Longitude stream data
+     *  \var lp_Query_Position_struct::qrQRYlat
+     *  Latitude stream data
+     *  \var lp_Query_Position_struct::qrQRYalt
+     *  Altitude stream data
      */
 
     typedef struct lp_Query_Position_struct {
 
         /* Query status */
-        lp_Enum_t qrStatus;
+        lp_Enum_t   qrStatus;
 
         /* Position vector */
-        lp_Real_t qrLatitude;
-        lp_Real_t qrLongitude;
-        lp_Real_t qrAltitude;
+        lp_Real_t   qrLatitude;
+        lp_Real_t   qrLongitude;
+        lp_Real_t   qrAltitude;
+
+        /* Handle to streams data */
+        lp_Real_t * qrQRYlat;
+        lp_Real_t * qrQRYlon;
+        lp_Real_t * qrQRYalt;
+        lp_Real_t * qrQRYsyn;
 
     } lp_Query_Position_t;
 
@@ -226,6 +240,21 @@
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule,
         lp_Time_t const         lpTimestamp
+
+    );
+
+    lp_Query_Position_t lp_query_position_create(
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule
+
+    );
+
+    lp_Void_t lp_query_position_delete(
+
+        lp_Query_Position_t * const lpPosition
 
     );
 
