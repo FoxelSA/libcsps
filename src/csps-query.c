@@ -565,6 +565,138 @@
 
     }
 
+    lp_Void_t lp_query_orientation(
+
+        lp_Time_t              const         lpTimestamp,
+        lp_Query_Orientation_t       * const lpOrientation
+
+    ) {
+
+        /* Timestamp index variables */
+        lp_Size_t lpParse = lp_Size_s( 0 );
+
+        /* Interpolation sampling nodes variables */
+        lp_Size_t lpSample0 = lp_Size_s( 0 );
+        lp_Size_t lpSample1 = lp_Size_s( 0 );
+        lp_Size_t lpSample2 = lp_Size_s( 0 );
+        lp_Size_t lpSample3 = lp_Size_s( 0 );
+
+        /* Interpolation time variables */
+        lp_Real_t lpDT1TI = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1T2 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
+
+        /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
+        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpOrientation->qrQRYsyn, lpOrientation->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
+
+            /* Compute quantity interpolation sampling nodes */
+            lpSample0 = LP_RNG( lpParse - 1, 0, lpOrientation->qrSize - lp_Size_s( 1 ) );
+            lpSample1 = LP_RNG( lpParse    , 0, lpOrientation->qrSize - lp_Size_s( 1 ) );
+            lpSample2 = LP_RNG( lpParse + 1, 0, lpOrientation->qrSize - lp_Size_s( 1 ) );
+            lpSample3 = LP_RNG( lpParse + 2, 0, lpOrientation->qrSize - lp_Size_s( 1 ) );
+
+            /* Compute time interpolation variable */
+            lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpOrientation->qrQRYsyn[lpSample1] ) );
+
+            /* Compute time interpolation sample */
+            lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpOrientation->qrQRYsyn[lpSample2], lpOrientation->qrQRYsyn[lpSample1] ) );
+            lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpOrientation->qrQRYsyn[lpSample2], lpOrientation->qrQRYsyn[lpSample0] ) );
+            lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpOrientation->qrQRYsyn[lpSample3], lpOrientation->qrQRYsyn[lpSample1] ) );
+
+            /* Compute interpolation values - Frame x-component x-vector */
+            lpOrientation->qrfxx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrientation->qrQRYfxx[lpSample1], lpOrientation->qrQRYfxx[lpSample2],
+
+                /* Standard derivatives */
+                ( lpOrientation->qrQRYfxx[lpSample2] - lpOrientation->qrQRYfxx[lpSample0] ) / lpDT0T2,
+                ( lpOrientation->qrQRYfxx[lpSample3] - lpOrientation->qrQRYfxx[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame y-component x-vector */
+            lpOrientation->qrfxy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrientation->qrQRYfxy[lpSample1], lpOrientation->qrQRYfxy[lpSample2],
+
+                /* Standard derivatives */
+                ( lpOrientation->qrQRYfxy[lpSample2] - lpOrientation->qrQRYfxy[lpSample0] ) / lpDT0T2,
+                ( lpOrientation->qrQRYfxy[lpSample3] - lpOrientation->qrQRYfxy[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame z-component x-vector */
+            lpOrientation->qrfxz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrientation->qrQRYfxz[lpSample1], lpOrientation->qrQRYfxz[lpSample2],
+
+                /* Standard derivatives */
+                ( lpOrientation->qrQRYfxz[lpSample2] - lpOrientation->qrQRYfxz[lpSample0] ) / lpDT0T2,
+                ( lpOrientation->qrQRYfxz[lpSample3] - lpOrientation->qrQRYfxz[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame x-component y-vector */
+            lpOrientation->qrfyx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrientation->qrQRYfyx[lpSample1], lpOrientation->qrQRYfyx[lpSample2],
+
+                /* Standard derivatives */
+                ( lpOrientation->qrQRYfyx[lpSample2] - lpOrientation->qrQRYfyx[lpSample0] ) / lpDT0T2,
+                ( lpOrientation->qrQRYfyx[lpSample3] - lpOrientation->qrQRYfyx[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame y-component y-vector */
+            lpOrientation->qrfyy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrientation->qrQRYfyy[lpSample1], lpOrientation->qrQRYfyy[lpSample2],
+
+                /* Standard derivatives */
+                ( lpOrientation->qrQRYfyy[lpSample2] - lpOrientation->qrQRYfyy[lpSample0] ) / lpDT0T2,
+                ( lpOrientation->qrQRYfyy[lpSample3] - lpOrientation->qrQRYfyy[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame z-component y-vector */
+            lpOrientation->qrfyz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrientation->qrQRYfyz[lpSample1], lpOrientation->qrQRYfyz[lpSample2],
+
+                /* Standard derivatives */
+                ( lpOrientation->qrQRYfyz[lpSample2] - lpOrientation->qrQRYfyz[lpSample0] ) / lpDT0T2,
+                ( lpOrientation->qrQRYfyz[lpSample3] - lpOrientation->qrQRYfyz[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame x-component z-vector */
+            lpOrientation->qrfzx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrientation->qrQRYfzx[lpSample1], lpOrientation->qrQRYfzx[lpSample2],
+
+                /* Standard derivatives */
+                ( lpOrientation->qrQRYfzx[lpSample2] - lpOrientation->qrQRYfzx[lpSample0] ) / lpDT0T2,
+                ( lpOrientation->qrQRYfzx[lpSample3] - lpOrientation->qrQRYfzx[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame y-component z-vector */
+            lpOrientation->qrfzy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrientation->qrQRYfzy[lpSample1], lpOrientation->qrQRYfzy[lpSample2],
+
+                /* Standard derivatives */
+                ( lpOrientation->qrQRYfzy[lpSample2] - lpOrientation->qrQRYfzy[lpSample0] ) / lpDT0T2,
+                ( lpOrientation->qrQRYfzy[lpSample3] - lpOrientation->qrQRYfzy[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame z-component z-vector */
+            lpOrientation->qrfzz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrientation->qrQRYfzz[lpSample1], lpOrientation->qrQRYfzz[lpSample2],
+
+                /* Standard derivatives */
+                ( lpOrientation->qrQRYfzz[lpSample2] - lpOrientation->qrQRYfzz[lpSample0] ) / lpDT0T2,
+                ( lpOrientation->qrQRYfzz[lpSample3] - lpOrientation->qrQRYfzz[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Update query status */
+            lpOrientation->qrStatus = LP_TRUE;
+
+        } else {
+
+            /* Update query status */
+            lpOrientation->qrStatus = LP_FALSE;
+
+        }
+
+    }
+
     lp_Void_t lp_query_orientation_delete(
 
         lp_Query_Orientation_t * const lpOrientation

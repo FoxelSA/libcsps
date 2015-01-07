@@ -92,15 +92,28 @@
      *  Query status. If LP_FALSE, the query has failed
      *  \var lp_Query_Timestamp_struct::qrTimestamp
      *  Image clock timestamp corresponding to the camera record
+     *  \var lp_Query_Position_struct::qrSize
+     *  Size, in bytes, of streams
+     *  \var lp_Query_Position_struct::qrQRYtag
+     *  Camera trigger timestamp data
+     *  \var lp_Query_Position_struct::qrQRYsyn
+     *  Synchronization stream data
      */
 
     typedef struct lp_Query_Timestamp_struct {
 
         /* Query status */
-        lp_Enum_t qrStatus;
+        lp_Enum_t   qrStatus;
 
         /* Event-logger correspondance */
-        lp_Time_t qrTimestamp;
+        lp_Time_t   qrTimestamp;
+
+        /* Streams size */
+        lp_Size_t   qrSize;
+
+        /* Streams data */
+        lp_Time_t * qrQRYtag;
+        lp_Time_t * qrQRYsyn;
 
     } lp_Query_Timestamp_t;
 
@@ -227,7 +240,7 @@
         lp_Real_t * qrQRYfzx;
         lp_Real_t * qrQRYfzy;
         lp_Real_t * qrQRYfzz;
-        lp_Real_t * qrQRYsyn;
+        lp_Time_t * qrQRYsyn;
 
     } lp_Query_Orientation_t;
 
