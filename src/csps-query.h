@@ -231,16 +231,16 @@
         lp_Size_t   qrSize;
 
         /* Streams data */
-        lp_Real_t * qrQRYfxx;
-        lp_Real_t * qrQRYfxy;
-        lp_Real_t * qrQRYfxz;
-        lp_Real_t * qrQRYfyx;
-        lp_Real_t * qrQRYfyy;
-        lp_Real_t * qrQRYfyz;
-        lp_Real_t * qrQRYfzx;
-        lp_Real_t * qrQRYfzy;
-        lp_Real_t * qrQRYfzz;
-        lp_Time_t * qrQRYsyn;
+        lp_Real_t * qrStrmfxx;
+        lp_Real_t * qrStrmfxy;
+        lp_Real_t * qrStrmfxz;
+        lp_Real_t * qrStrmfyx;
+        lp_Real_t * qrStrmfyy;
+        lp_Real_t * qrStrmfyz;
+        lp_Real_t * qrStrmfzx;
+        lp_Real_t * qrStrmfzy;
+        lp_Real_t * qrStrmfzz;
+        lp_Time_t * qrStrmsyn;
 
     } lp_Query_Orientation_t, lp_Orient_t;
 
@@ -288,7 +288,7 @@
 
     );
 
-    lp_Query_Orientation_t lp_query_orientation_create(
+    lp_Orient_t lp_query_orientation_read(
 
         lp_Char_t const * const lpPath,
         lp_Char_t const * const lpDevice,
@@ -297,16 +297,16 @@
 
     );
 
-    lp_Enum_t lp_query_orientation(
+    lp_Void_t lp_query_orientation_delete(
 
-        lp_Time_t              const         lpTimestamp,
-        lp_Query_Orientation_t       * const lpOrientation
+        lp_Orient_t * const lpOrientation
 
     );
 
-    lp_Void_t lp_query_orientation_delete(
+    lp_Void_t lp_query_orientation(
 
-        lp_Query_Orientation_t * const lpOrientation
+        lp_Orient_t       * const lpOrientation,
+        lp_Time_t   const         lpTimestamp
 
     );
 
