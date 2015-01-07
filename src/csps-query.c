@@ -44,184 +44,10 @@
     # include "csps-query.h"
 
 /*
-    Source - CSPS query - Synchronization
- */
-
-    lp_Query_Timestamp_t lp_query_timestamp_by_timestamp(
-
-        lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
-        lp_Char_t const * const lpTag,
-        lp_Char_t const * const lpModule,        
-        lp_Time_t const         lpTimestamp
-
-    ) {
-
-        /* Timestamp index variables */
-        lp_Size_t lpParse = lp_Size_s( 0 );
-
-        /* Stream size variables */
-        lp_Size_t lpSize = lp_Size_s( 0 );
-
-        /* Stream memory variables */
-        lp_Time_t * lpSYNmas = LP_NULL;
-        lp_Time_t * lpSYNsyn = LP_NULL;
-
-        /* Returned structure */
-        lp_Query_Timestamp_t lpReturn;
-
-        /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );        
-
-        /* Read streams */
-        lpSYNmas = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize );
-        lpSYNsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
-
-        /* Search timestamp in camera records array */
-        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpSYNmas, lpSize ) ) != LP_TIMESTAMP_FAULT ) {
-
-            /* Return corresponding master clock timestamp */
-            lpReturn.qrTimestamp = lpSYNsyn[lpParse];
-
-            /* Update query status */
-            lpReturn.qrStatus = LP_TRUE;            
-
-        } else {
-
-            /* Update query status */
-            lpReturn.qrStatus = LP_FALSE;
-
-        }
-
-        /* Unallocate streams */
-        lpSYNmas = lp_stream_delete( lpSYNmas );
-        lpSYNsyn = lp_stream_delete( lpSYNsyn );
-
-        /* Return timestamp structure */
-        return( lpReturn );
-
-    }
-
-/*
     Source - CSPS query - Position
  */
 
-    lp_Query_Position_t lp_query_position_by_timestamp(
-
-        lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
-        lp_Char_t const * const lpTag,
-        lp_Char_t const * const lpModule,
-        lp_Time_t const         lpTimestamp
-
-    ) {
-
-        /* Timestamp index variables */
-        lp_Size_t lpParse = lp_Size_s( 0 );
-
-        /* Files size variables */
-        lp_Size_t lpSize = lp_Size_s( 0 );
-
-        /* Interpolation sampling nodes variables */
-        lp_Size_t lpSample0 = lp_Size_s( 0 );
-        lp_Size_t lpSample1 = lp_Size_s( 0 );
-        lp_Size_t lpSample2 = lp_Size_s( 0 );
-        lp_Size_t lpSample3 = lp_Size_s( 0 );
-
-        /* Interpolation time variables */
-        lp_Real_t lpDT1TI = lp_Real_s( 0.0 );
-        lp_Real_t lpDT1T2 = lp_Real_s( 0.0 );
-        lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
-        lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
-
-        /* Stream memory variables */
-        lp_Real_t * lpGENlat = LP_NULL;
-        lp_Real_t * lpGENlon = LP_NULL;
-        lp_Real_t * lpGENalt = LP_NULL;
-        lp_Time_t * lpGENsyn = LP_NULL;
-
-        /* Returned structure */
-        lp_Query_Position_t lpPosition;
-
-        /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
-
-        /* Read streams */
-        lpGENlat = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "lat", sizeof( lp_Real_t ) * lpSize );
-        lpGENlon = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "lon", sizeof( lp_Real_t ) * lpSize );
-        lpGENalt = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "alt", sizeof( lp_Real_t ) * lpSize );
-        lpGENsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "syn", sizeof( lp_Time_t ) * lpSize );
-
-        /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
-        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpGENsyn, lpSize ) ) != LP_TIMESTAMP_FAULT ) {
-
-            /* Compute quantity interpolation sampling nodes */
-            lpSample0 = LP_RNG( lpParse - 1, 0, lpSize - lp_Size_s( 1 ) );
-            lpSample1 = LP_RNG( lpParse    , 0, lpSize - lp_Size_s( 1 ) );
-            lpSample2 = LP_RNG( lpParse + 1, 0, lpSize - lp_Size_s( 1 ) );
-            lpSample3 = LP_RNG( lpParse + 2, 0, lpSize - lp_Size_s( 1 ) );
-
-            /* Compute time interpolation variable */
-            lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGENsyn[lpSample1] ) );
-
-            /* Compute time interpolation sample */
-            lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample1] ) );
-            lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample0] ) );
-            lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample3], lpGENsyn[lpSample1] ) );
-
-            /* Compute interpolation values - Latitude */
-            lpPosition.qrLatitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENlat[lpSample1], lpGENlat[lpSample2],
-
-                /* Standard derivatives */
-                ( lpGENlat[lpSample2] - lpGENlat[lpSample0] ) / lpDT0T2,
-                ( lpGENlat[lpSample3] - lpGENlat[lpSample1] ) / lpDT1T3
-
-            );
-
-            /* Compute interpolation values - Longitude */
-            lpPosition.qrLongitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENlon[lpSample1], lpGENlon[lpSample2],
-
-                /* Standard derivatives */
-                ( lpGENlon[lpSample2] - lpGENlon[lpSample0] ) / lpDT0T2,
-                ( lpGENlon[lpSample3] - lpGENlon[lpSample1] ) / lpDT1T3
-
-            );
-
-            /* Compute interpolation values - Altitude */
-            lpPosition.qrAltitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENalt[lpSample1], lpGENalt[lpSample2],
-
-                /* Standard derivatives */
-                ( lpGENalt[lpSample2] - lpGENalt[lpSample0] ) / lpDT0T2,
-                ( lpGENalt[lpSample3] - lpGENalt[lpSample1] ) / lpDT1T3
-
-            );
-
-            /* Update query status */
-            lpPosition.qrStatus = LP_TRUE;
-
-        } else {
-
-            /* Update query status */
-            lpPosition.qrStatus = LP_FALSE;
-
-        }
-
-        /* Unallocate streams */
-        lpGENlat = lp_stream_delete( lpGENlat );
-        lpGENlon = lp_stream_delete( lpGENlon );
-        lpGENalt = lp_stream_delete( lpGENalt );
-        lpGENsyn = lp_stream_delete( lpGENsyn );
-
-        /* Return position structure */
-        return( lpPosition );
-
-    }
-
-/*
-    Source - CSPS query - Position (new version)
- */
-
-    lp_Query_Position_t lp_query_position_create(
+    lp_Geopos_t lp_query_position_read(
 
         lp_Char_t const * const lpPath,
         lp_Char_t const * const lpDevice,
@@ -230,27 +56,65 @@
 
     ) {
 
-        /* Returned structure */
-        lp_Query_Position_t lpPosition;
-
         /* Stream size variables */
-        lpPosition.qrSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
+        lp_Size_t lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
 
-        /* Read streams */
-        lpPosition.qrQRYlat = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpPosition.qrSize );
-        lpPosition.qrQRYlon = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpPosition.qrSize );
-        lpPosition.qrQRYalt = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpPosition.qrSize );
-        lpPosition.qrQRYsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpPosition.qrSize );
+        /* Returned structure variables */
+        lp_Geopos_t lpGeopos = {
 
-        /* Return position structure */
-        return( lpPosition );
+            /* Setting query status */
+            LP_FALSE,
+
+            /* Initialize data fields */
+            lp_Real_s( 0.0 ),
+            lp_Real_s( 0.0 ),
+            lp_Real_s( 0.0 ),
+
+            /* Stream size variables */
+            lpSize,
+
+            /* Stream reading */
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize )
+
+        };
+
+        /* Return structure */
+        return( lpGeopos );
 
     }
 
-    lp_Enum_t lp_query_position(
+    lp_Void_t lp_query_position_delete( 
 
-        lp_Time_t           const         lpTimestamp,
-        lp_Query_Position_t       * const lpPosition
+        lp_Geopos_t * const lpGeopos 
+
+    ) {
+
+        /* Reset query status */
+        lpGeopos->qrStatus = LP_FALSE;
+
+        /* Reset data field */
+        lpGeopos->qrLatitude  = lp_Real_s( 0.0 );
+        lpGeopos->qrLongitude = lp_Real_s( 0.0 );
+        lpGeopos->qrAltitude  = lp_Real_s( 0.0 );
+
+        /* Reset stream size */
+        lpGeopos->qrSize = lp_Size_s( 0 );
+
+        /* Unallocate streams */
+        lpGeopos->qrQRYlat = lp_stream_delete( lpGeopos->qrQRYlat );
+        lpGeopos->qrQRYlon = lp_stream_delete( lpGeopos->qrQRYlon );
+        lpGeopos->qrQRYalt = lp_stream_delete( lpGeopos->qrQRYalt );
+        lpGeopos->qrQRYsyn = lp_stream_delete( lpGeopos->qrQRYsyn );
+
+    }
+
+    lp_Void_t lp_query_position(
+
+        lp_Geopos_t       * const lpGeopos,
+        lp_Time_t   const         lpTimestamp
 
     ) {
 
@@ -270,262 +134,58 @@
         lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
 
         /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
-        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpPosition->qrQRYsyn, lpPosition->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
+        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpGeopos->qrQRYsyn, lpGeopos->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
 
             /* Compute quantity interpolation sampling nodes */
-            lpSample0 = LP_RNG( lpParse - 1, 0, lpPosition->qrSize - lp_Size_s( 1 ) );
-            lpSample1 = LP_RNG( lpParse    , 0, lpPosition->qrSize - lp_Size_s( 1 ) );
-            lpSample2 = LP_RNG( lpParse + 1, 0, lpPosition->qrSize - lp_Size_s( 1 ) );
-            lpSample3 = LP_RNG( lpParse + 2, 0, lpPosition->qrSize - lp_Size_s( 1 ) );
+            lpSample0 = LP_RNG( lpParse - 1, 0, lpGeopos->qrSize - lp_Size_s( 1 ) );
+            lpSample1 = LP_RNG( lpParse    , 0, lpGeopos->qrSize - lp_Size_s( 1 ) );
+            lpSample2 = LP_RNG( lpParse + 1, 0, lpGeopos->qrSize - lp_Size_s( 1 ) );
+            lpSample3 = LP_RNG( lpParse + 2, 0, lpGeopos->qrSize - lp_Size_s( 1 ) );
 
             /* Compute time interpolation variable */
-            lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpPosition->qrQRYsyn[lpSample1] ) );
+            lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGeopos->qrQRYsyn[lpSample1] ) );
 
             /* Compute time interpolation sample */
-            lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpPosition->qrQRYsyn[lpSample2], lpPosition->qrQRYsyn[lpSample1] ) );
-            lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpPosition->qrQRYsyn[lpSample2], lpPosition->qrQRYsyn[lpSample0] ) );
-            lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpPosition->qrQRYsyn[lpSample3], lpPosition->qrQRYsyn[lpSample1] ) );
+            lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrQRYsyn[lpSample2], lpGeopos->qrQRYsyn[lpSample1] ) );
+            lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrQRYsyn[lpSample2], lpGeopos->qrQRYsyn[lpSample0] ) );
+            lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrQRYsyn[lpSample3], lpGeopos->qrQRYsyn[lpSample1] ) );
 
             /* Compute interpolation values - Latitude */
-            lpPosition->qrLatitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpPosition->qrQRYlat[lpSample1], lpPosition->qrQRYlat[lpSample2],
+            lpGeopos->qrLatitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrQRYlat[lpSample1], lpGeopos->qrQRYlat[lpSample2],
 
                 /* Standard derivatives */
-                ( lpPosition->qrQRYlat[lpSample2] - lpPosition->qrQRYlat[lpSample0] ) / lpDT0T2,
-                ( lpPosition->qrQRYlat[lpSample3] - lpPosition->qrQRYlat[lpSample1] ) / lpDT1T3
+                ( lpGeopos->qrQRYlat[lpSample2] - lpGeopos->qrQRYlat[lpSample0] ) / lpDT0T2,
+                ( lpGeopos->qrQRYlat[lpSample3] - lpGeopos->qrQRYlat[lpSample1] ) / lpDT1T3
 
             );
 
             /* Compute interpolation values - Longitude */
-            lpPosition->qrLongitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpPosition->qrQRYlon[lpSample1], lpPosition->qrQRYlon[lpSample2],
+            lpGeopos->qrLongitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrQRYlon[lpSample1], lpGeopos->qrQRYlon[lpSample2],
 
                 /* Standard derivatives */
-                ( lpPosition->qrQRYlon[lpSample2] - lpPosition->qrQRYlon[lpSample0] ) / lpDT0T2,
-                ( lpPosition->qrQRYlon[lpSample3] - lpPosition->qrQRYlon[lpSample1] ) / lpDT1T3
+                ( lpGeopos->qrQRYlon[lpSample2] - lpGeopos->qrQRYlon[lpSample0] ) / lpDT0T2,
+                ( lpGeopos->qrQRYlon[lpSample3] - lpGeopos->qrQRYlon[lpSample1] ) / lpDT1T3
 
             );
 
             /* Compute interpolation values - Altitude */
-            lpPosition->qrAltitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpPosition->qrQRYalt[lpSample1], lpPosition->qrQRYalt[lpSample2],
+            lpGeopos->qrAltitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrQRYalt[lpSample1], lpGeopos->qrQRYalt[lpSample2],
 
                 /* Standard derivatives */
-                ( lpPosition->qrQRYalt[lpSample2] - lpPosition->qrQRYalt[lpSample0] ) / lpDT0T2,
-                ( lpPosition->qrQRYalt[lpSample3] - lpPosition->qrQRYalt[lpSample1] ) / lpDT1T3
+                ( lpGeopos->qrQRYalt[lpSample2] - lpGeopos->qrQRYalt[lpSample0] ) / lpDT0T2,
+                ( lpGeopos->qrQRYalt[lpSample3] - lpGeopos->qrQRYalt[lpSample1] ) / lpDT1T3
 
             );
 
             /* Update query status */
-            lpPosition->qrStatus = LP_TRUE;
+            lpGeopos->qrStatus = LP_TRUE;
 
         } else {
 
             /* Update query status */
-            lpPosition->qrStatus = LP_FALSE;
+            lpGeopos->qrStatus = LP_FALSE;
 
         }
-
-        /* Return query status */
-        return( lpPosition->qrStatus );
-
-    }
-
-    lp_Void_t lp_query_position_delete(
-
-        lp_Query_Position_t * const lpPosition
-
-    ) {
-
-        /* Unallocate streams */
-        lpPosition->qrQRYlat = lp_stream_delete( lpPosition->qrQRYlat );
-        lpPosition->qrQRYlon = lp_stream_delete( lpPosition->qrQRYlon );
-        lpPosition->qrQRYalt = lp_stream_delete( lpPosition->qrQRYalt );
-        lpPosition->qrQRYsyn = lp_stream_delete( lpPosition->qrQRYsyn );
-
-    }
-
-/*
-    Source - CSPS query - Orientation
- */
-
-    lp_Query_Orientation_t lp_query_orientation_by_timestamp(
-
-        lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
-        lp_Char_t const * const lpTag,
-        lp_Char_t const * const lpModule,
-        lp_Time_t const         lpTimestamp
-
-    ) {
-
-        /* Timestamp index variables */
-        lp_Size_t lpParse = lp_Size_s( 0 );
-
-        /* Files size variables */
-        lp_Size_t lpSize = lp_Size_s( 0 );
-
-        /* Interpolation sampling nodes variables */
-        lp_Size_t lpSample0 = lp_Size_s( 0 );
-        lp_Size_t lpSample1 = lp_Size_s( 0 );
-        lp_Size_t lpSample2 = lp_Size_s( 0 );
-        lp_Size_t lpSample3 = lp_Size_s( 0 );
-
-        /* Interpolation time variables */
-        lp_Real_t lpDT1TI = lp_Real_s( 0.0 );
-        lp_Real_t lpDT1T2 = lp_Real_s( 0.0 );
-        lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
-        lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
-
-        /* Data buffers */
-        lp_Real_t * lpGENfxx = LP_NULL;
-        lp_Real_t * lpGENfxy = LP_NULL;
-        lp_Real_t * lpGENfxz = LP_NULL;
-        lp_Real_t * lpGENfyx = LP_NULL;
-        lp_Real_t * lpGENfyy = LP_NULL;
-        lp_Real_t * lpGENfyz = LP_NULL;
-        lp_Real_t * lpGENfzx = LP_NULL;
-        lp_Real_t * lpGENfzy = LP_NULL;
-        lp_Real_t * lpGENfzz = LP_NULL;
-        lp_Time_t * lpGENsyn = LP_NULL;
-
-        /* Returned structure */
-        lp_Query_Orientation_t lpOrientation;
-
-        /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
-
-        /* Read streams */
-        lpGENfxx = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fxx", sizeof( lp_Real_t ) * lpSize );
-        lpGENfxy = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fxy", sizeof( lp_Real_t ) * lpSize );
-        lpGENfxz = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fxz", sizeof( lp_Real_t ) * lpSize );
-        lpGENfyx = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fyx", sizeof( lp_Real_t ) * lpSize );
-        lpGENfyy = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fyy", sizeof( lp_Real_t ) * lpSize );
-        lpGENfyz = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fyz", sizeof( lp_Real_t ) * lpSize );
-        lpGENfzx = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fzx", sizeof( lp_Real_t ) * lpSize );
-        lpGENfzy = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fzy", sizeof( lp_Real_t ) * lpSize );
-        lpGENfzz = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fzz", sizeof( lp_Real_t ) * lpSize );
-        lpGENsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "syn", sizeof( lp_Time_t ) * lpSize );
-
-        /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
-        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpGENsyn, lpSize ) ) != LP_TIMESTAMP_FAULT ) {
-
-            /* Compute quantity interpolation sampling nodes */
-            lpSample0 = LP_RNG( lpParse - 1, 0, lpSize - lp_Size_s( 1 ) );
-            lpSample1 = LP_RNG( lpParse    , 0, lpSize - lp_Size_s( 1 ) );
-            lpSample2 = LP_RNG( lpParse + 1, 0, lpSize - lp_Size_s( 1 ) );
-            lpSample3 = LP_RNG( lpParse + 2, 0, lpSize - lp_Size_s( 1 ) );
-
-            /* Compute time interpolation variable */
-            lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGENsyn[lpSample1] ) );
-
-            /* Compute time interpolation sample */
-            lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample1] ) );
-            lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample0] ) );
-            lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample3], lpGENsyn[lpSample1] ) );
-
-            /* Compute interpolation values - Frame x-component x-vector */
-            lpOrientation.qrfxx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfxx[lpSample1], lpGENfxx[lpSample2],
-
-                /* Standard derivatives */
-                ( lpGENfxx[lpSample2] - lpGENfxx[lpSample0] ) / lpDT0T2,
-                ( lpGENfxx[lpSample3] - lpGENfxx[lpSample1] ) / lpDT1T3
-
-            );
-
-            /* Compute interpolation values - Frame y-component x-vector */
-            lpOrientation.qrfxy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfxy[lpSample1], lpGENfxy[lpSample2],
-
-                /* Standard derivatives */
-                ( lpGENfxy[lpSample2] - lpGENfxy[lpSample0] ) / lpDT0T2,
-                ( lpGENfxy[lpSample3] - lpGENfxy[lpSample1] ) / lpDT1T3
-
-            );
-
-            /* Compute interpolation values - Frame z-component x-vector */
-            lpOrientation.qrfxz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfxz[lpSample1], lpGENfxz[lpSample2],
-
-                /* Standard derivatives */
-                ( lpGENfxz[lpSample2] - lpGENfxz[lpSample0] ) / lpDT0T2,
-                ( lpGENfxz[lpSample3] - lpGENfxz[lpSample1] ) / lpDT1T3
-
-            );
-
-            /* Compute interpolation values - Frame x-component y-vector */
-            lpOrientation.qrfyx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfyx[lpSample1], lpGENfyx[lpSample2],
-
-                /* Standard derivatives */
-                ( lpGENfyx[lpSample2] - lpGENfyx[lpSample0] ) / lpDT0T2,
-                ( lpGENfyx[lpSample3] - lpGENfyx[lpSample1] ) / lpDT1T3
-
-            );
-
-            /* Compute interpolation values - Frame y-component y-vector */
-            lpOrientation.qrfyy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfyy[lpSample1], lpGENfyy[lpSample2],
-
-                /* Standard derivatives */
-                ( lpGENfyy[lpSample2] - lpGENfyy[lpSample0] ) / lpDT0T2,
-                ( lpGENfyy[lpSample3] - lpGENfyy[lpSample1] ) / lpDT1T3
-
-            );
-
-            /* Compute interpolation values - Frame z-component y-vector */
-            lpOrientation.qrfyz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfyz[lpSample1], lpGENfyz[lpSample2],
-
-                /* Standard derivatives */
-                ( lpGENfyz[lpSample2] - lpGENfyz[lpSample0] ) / lpDT0T2,
-                ( lpGENfyz[lpSample3] - lpGENfyz[lpSample1] ) / lpDT1T3
-
-            );
-
-            /* Compute interpolation values - Frame x-component z-vector */
-            lpOrientation.qrfzx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfzx[lpSample1], lpGENfzx[lpSample2],
-
-                /* Standard derivatives */
-                ( lpGENfzx[lpSample2] - lpGENfzx[lpSample0] ) / lpDT0T2,
-                ( lpGENfzx[lpSample3] - lpGENfzx[lpSample1] ) / lpDT1T3
-
-            );
-
-            /* Compute interpolation values - Frame y-component z-vector */
-            lpOrientation.qrfzy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfzy[lpSample1], lpGENfzy[lpSample2],
-
-                /* Standard derivatives */
-                ( lpGENfzy[lpSample2] - lpGENfzy[lpSample0] ) / lpDT0T2,
-                ( lpGENfzy[lpSample3] - lpGENfzy[lpSample1] ) / lpDT1T3
-
-            );
-
-            /* Compute interpolation values - Frame z-component z-vector */
-            lpOrientation.qrfzz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfzz[lpSample1], lpGENfzz[lpSample2],
-
-                /* Standard derivatives */
-                ( lpGENfzz[lpSample2] - lpGENfzz[lpSample0] ) / lpDT0T2,
-                ( lpGENfzz[lpSample3] - lpGENfzz[lpSample1] ) / lpDT1T3
-
-            );
-
-            /* Update query status */
-            lpOrientation.qrStatus = LP_TRUE;
-
-        } else {
-
-            /* Update query status */
-            lpOrientation.qrStatus = LP_FALSE;
-
-        }
-
-        /* Unallocate streams */
-        lpGENfxx = lp_stream_delete( lpGENfxx );
-        lpGENfxy = lp_stream_delete( lpGENfxy );
-        lpGENfxz = lp_stream_delete( lpGENfxz );
-        lpGENfyx = lp_stream_delete( lpGENfyx );
-        lpGENfyy = lp_stream_delete( lpGENfyy );
-        lpGENfyz = lp_stream_delete( lpGENfyz );
-        lpGENfzx = lp_stream_delete( lpGENfzx );
-        lpGENfzy = lp_stream_delete( lpGENfzy );
-        lpGENfzz = lp_stream_delete( lpGENfzz );
-        lpGENsyn = lp_stream_delete( lpGENsyn );
-
-        /* Return position structure */
-        return( lpOrientation );
 
     }
 
@@ -718,5 +378,366 @@
         lpOrientation->qrQRYfzz = lp_stream_delete( lpOrientation->qrQRYfzz );
         lpOrientation->qrQRYsyn = lp_stream_delete( lpOrientation->qrQRYsyn );
 
-    }    
+    }
+
+/*
+    Source - CSPS query - Synchronization
+ */
+
+    lp_Query_Timestamp_t lp_query_timestamp_by_timestamp(
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,        
+        lp_Time_t const         lpTimestamp
+
+    ) {
+
+        /* Timestamp index variables */
+        lp_Size_t lpParse = lp_Size_s( 0 );
+
+        /* Stream size variables */
+        lp_Size_t lpSize = lp_Size_s( 0 );
+
+        /* Stream memory variables */
+        lp_Time_t * lpSYNmas = LP_NULL;
+        lp_Time_t * lpSYNsyn = LP_NULL;
+
+        /* Returned structure */
+        lp_Query_Timestamp_t lpReturn;
+
+        /* Obtain stream size */
+        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );        
+
+        /* Read streams */
+        lpSYNmas = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize );
+        lpSYNsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+
+        /* Search timestamp in camera records array */
+        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpSYNmas, lpSize ) ) != LP_TIMESTAMP_FAULT ) {
+
+            /* Return corresponding master clock timestamp */
+            lpReturn.qrTimestamp = lpSYNsyn[lpParse];
+
+            /* Update query status */
+            lpReturn.qrStatus = LP_TRUE;            
+
+        } else {
+
+            /* Update query status */
+            lpReturn.qrStatus = LP_FALSE;
+
+        }
+
+        /* Unallocate streams */
+        lpSYNmas = lp_stream_delete( lpSYNmas );
+        lpSYNsyn = lp_stream_delete( lpSYNsyn );
+
+        /* Return timestamp structure */
+        return( lpReturn );
+
+    }
+
+/*
+    Source - CSPS query - Position
+ */
+
+    lp_Query_Position_t lp_query_position_by_timestamp(
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,
+        lp_Time_t const         lpTimestamp
+
+    ) {
+
+        /* Timestamp index variables */
+        lp_Size_t lpParse = lp_Size_s( 0 );
+
+        /* Files size variables */
+        lp_Size_t lpSize = lp_Size_s( 0 );
+
+        /* Interpolation sampling nodes variables */
+        lp_Size_t lpSample0 = lp_Size_s( 0 );
+        lp_Size_t lpSample1 = lp_Size_s( 0 );
+        lp_Size_t lpSample2 = lp_Size_s( 0 );
+        lp_Size_t lpSample3 = lp_Size_s( 0 );
+
+        /* Interpolation time variables */
+        lp_Real_t lpDT1TI = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1T2 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
+
+        /* Stream memory variables */
+        lp_Real_t * lpGENlat = LP_NULL;
+        lp_Real_t * lpGENlon = LP_NULL;
+        lp_Real_t * lpGENalt = LP_NULL;
+        lp_Time_t * lpGENsyn = LP_NULL;
+
+        /* Returned structure */
+        lp_Query_Position_t lpPosition;
+
+        /* Obtain stream size */
+        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
+
+        /* Read streams */
+        lpGENlat = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "lat", sizeof( lp_Real_t ) * lpSize );
+        lpGENlon = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "lon", sizeof( lp_Real_t ) * lpSize );
+        lpGENalt = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "alt", sizeof( lp_Real_t ) * lpSize );
+        lpGENsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "syn", sizeof( lp_Time_t ) * lpSize );
+
+        /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
+        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpGENsyn, lpSize ) ) != LP_TIMESTAMP_FAULT ) {
+
+            /* Compute quantity interpolation sampling nodes */
+            lpSample0 = LP_RNG( lpParse - 1, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample1 = LP_RNG( lpParse    , 0, lpSize - lp_Size_s( 1 ) );
+            lpSample2 = LP_RNG( lpParse + 1, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample3 = LP_RNG( lpParse + 2, 0, lpSize - lp_Size_s( 1 ) );
+
+            /* Compute time interpolation variable */
+            lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGENsyn[lpSample1] ) );
+
+            /* Compute time interpolation sample */
+            lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample1] ) );
+            lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample0] ) );
+            lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample3], lpGENsyn[lpSample1] ) );
+
+            /* Compute interpolation values - Latitude */
+            lpPosition.qrLatitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENlat[lpSample1], lpGENlat[lpSample2],
+
+                /* Standard derivatives */
+                ( lpGENlat[lpSample2] - lpGENlat[lpSample0] ) / lpDT0T2,
+                ( lpGENlat[lpSample3] - lpGENlat[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Longitude */
+            lpPosition.qrLongitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENlon[lpSample1], lpGENlon[lpSample2],
+
+                /* Standard derivatives */
+                ( lpGENlon[lpSample2] - lpGENlon[lpSample0] ) / lpDT0T2,
+                ( lpGENlon[lpSample3] - lpGENlon[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Altitude */
+            lpPosition.qrAltitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENalt[lpSample1], lpGENalt[lpSample2],
+
+                /* Standard derivatives */
+                ( lpGENalt[lpSample2] - lpGENalt[lpSample0] ) / lpDT0T2,
+                ( lpGENalt[lpSample3] - lpGENalt[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Update query status */
+            lpPosition.qrStatus = LP_TRUE;
+
+        } else {
+
+            /* Update query status */
+            lpPosition.qrStatus = LP_FALSE;
+
+        }
+
+        /* Unallocate streams */
+        lpGENlat = lp_stream_delete( lpGENlat );
+        lpGENlon = lp_stream_delete( lpGENlon );
+        lpGENalt = lp_stream_delete( lpGENalt );
+        lpGENsyn = lp_stream_delete( lpGENsyn );
+
+        /* Return position structure */
+        return( lpPosition );
+
+    }
+
+/*
+    Source - CSPS query - Orientation
+ */
+
+    lp_Query_Orientation_t lp_query_orientation_by_timestamp(
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule,
+        lp_Time_t const         lpTimestamp
+
+    ) {
+
+        /* Timestamp index variables */
+        lp_Size_t lpParse = lp_Size_s( 0 );
+
+        /* Files size variables */
+        lp_Size_t lpSize = lp_Size_s( 0 );
+
+        /* Interpolation sampling nodes variables */
+        lp_Size_t lpSample0 = lp_Size_s( 0 );
+        lp_Size_t lpSample1 = lp_Size_s( 0 );
+        lp_Size_t lpSample2 = lp_Size_s( 0 );
+        lp_Size_t lpSample3 = lp_Size_s( 0 );
+
+        /* Interpolation time variables */
+        lp_Real_t lpDT1TI = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1T2 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
+        lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
+
+        /* Data buffers */
+        lp_Real_t * lpGENfxx = LP_NULL;
+        lp_Real_t * lpGENfxy = LP_NULL;
+        lp_Real_t * lpGENfxz = LP_NULL;
+        lp_Real_t * lpGENfyx = LP_NULL;
+        lp_Real_t * lpGENfyy = LP_NULL;
+        lp_Real_t * lpGENfyz = LP_NULL;
+        lp_Real_t * lpGENfzx = LP_NULL;
+        lp_Real_t * lpGENfzy = LP_NULL;
+        lp_Real_t * lpGENfzz = LP_NULL;
+        lp_Time_t * lpGENsyn = LP_NULL;
+
+        /* Returned structure */
+        lp_Query_Orientation_t lpOrientation;
+
+        /* Obtain stream size */
+        lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
+
+        /* Read streams */
+        lpGENfxx = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fxx", sizeof( lp_Real_t ) * lpSize );
+        lpGENfxy = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fxy", sizeof( lp_Real_t ) * lpSize );
+        lpGENfxz = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fxz", sizeof( lp_Real_t ) * lpSize );
+        lpGENfyx = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fyx", sizeof( lp_Real_t ) * lpSize );
+        lpGENfyy = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fyy", sizeof( lp_Real_t ) * lpSize );
+        lpGENfyz = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fyz", sizeof( lp_Real_t ) * lpSize );
+        lpGENfzx = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fzx", sizeof( lp_Real_t ) * lpSize );
+        lpGENfzy = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fzy", sizeof( lp_Real_t ) * lpSize );
+        lpGENfzz = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "fzz", sizeof( lp_Real_t ) * lpSize );
+        lpGENsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, "syn", sizeof( lp_Time_t ) * lpSize );
+
+        /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
+        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpGENsyn, lpSize ) ) != LP_TIMESTAMP_FAULT ) {
+
+            /* Compute quantity interpolation sampling nodes */
+            lpSample0 = LP_RNG( lpParse - 1, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample1 = LP_RNG( lpParse    , 0, lpSize - lp_Size_s( 1 ) );
+            lpSample2 = LP_RNG( lpParse + 1, 0, lpSize - lp_Size_s( 1 ) );
+            lpSample3 = LP_RNG( lpParse + 2, 0, lpSize - lp_Size_s( 1 ) );
+
+            /* Compute time interpolation variable */
+            lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGENsyn[lpSample1] ) );
+
+            /* Compute time interpolation sample */
+            lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample1] ) );
+            lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample2], lpGENsyn[lpSample0] ) );
+            lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpGENsyn[lpSample3], lpGENsyn[lpSample1] ) );
+
+            /* Compute interpolation values - Frame x-component x-vector */
+            lpOrientation.qrfxx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfxx[lpSample1], lpGENfxx[lpSample2],
+
+                /* Standard derivatives */
+                ( lpGENfxx[lpSample2] - lpGENfxx[lpSample0] ) / lpDT0T2,
+                ( lpGENfxx[lpSample3] - lpGENfxx[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame y-component x-vector */
+            lpOrientation.qrfxy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfxy[lpSample1], lpGENfxy[lpSample2],
+
+                /* Standard derivatives */
+                ( lpGENfxy[lpSample2] - lpGENfxy[lpSample0] ) / lpDT0T2,
+                ( lpGENfxy[lpSample3] - lpGENfxy[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame z-component x-vector */
+            lpOrientation.qrfxz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfxz[lpSample1], lpGENfxz[lpSample2],
+
+                /* Standard derivatives */
+                ( lpGENfxz[lpSample2] - lpGENfxz[lpSample0] ) / lpDT0T2,
+                ( lpGENfxz[lpSample3] - lpGENfxz[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame x-component y-vector */
+            lpOrientation.qrfyx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfyx[lpSample1], lpGENfyx[lpSample2],
+
+                /* Standard derivatives */
+                ( lpGENfyx[lpSample2] - lpGENfyx[lpSample0] ) / lpDT0T2,
+                ( lpGENfyx[lpSample3] - lpGENfyx[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame y-component y-vector */
+            lpOrientation.qrfyy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfyy[lpSample1], lpGENfyy[lpSample2],
+
+                /* Standard derivatives */
+                ( lpGENfyy[lpSample2] - lpGENfyy[lpSample0] ) / lpDT0T2,
+                ( lpGENfyy[lpSample3] - lpGENfyy[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame z-component y-vector */
+            lpOrientation.qrfyz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfyz[lpSample1], lpGENfyz[lpSample2],
+
+                /* Standard derivatives */
+                ( lpGENfyz[lpSample2] - lpGENfyz[lpSample0] ) / lpDT0T2,
+                ( lpGENfyz[lpSample3] - lpGENfyz[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame x-component z-vector */
+            lpOrientation.qrfzx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfzx[lpSample1], lpGENfzx[lpSample2],
+
+                /* Standard derivatives */
+                ( lpGENfzx[lpSample2] - lpGENfzx[lpSample0] ) / lpDT0T2,
+                ( lpGENfzx[lpSample3] - lpGENfzx[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame y-component z-vector */
+            lpOrientation.qrfzy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfzy[lpSample1], lpGENfzy[lpSample2],
+
+                /* Standard derivatives */
+                ( lpGENfzy[lpSample2] - lpGENfzy[lpSample0] ) / lpDT0T2,
+                ( lpGENfzy[lpSample3] - lpGENfzy[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Compute interpolation values - Frame z-component z-vector */
+            lpOrientation.qrfzz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGENfzz[lpSample1], lpGENfzz[lpSample2],
+
+                /* Standard derivatives */
+                ( lpGENfzz[lpSample2] - lpGENfzz[lpSample0] ) / lpDT0T2,
+                ( lpGENfzz[lpSample3] - lpGENfzz[lpSample1] ) / lpDT1T3
+
+            );
+
+            /* Update query status */
+            lpOrientation.qrStatus = LP_TRUE;
+
+        } else {
+
+            /* Update query status */
+            lpOrientation.qrStatus = LP_FALSE;
+
+        }
+
+        /* Unallocate streams */
+        lpGENfxx = lp_stream_delete( lpGENfxx );
+        lpGENfxy = lp_stream_delete( lpGENfxy );
+        lpGENfxz = lp_stream_delete( lpGENfxz );
+        lpGENfyx = lp_stream_delete( lpGENfyx );
+        lpGENfyy = lp_stream_delete( lpGENfyy );
+        lpGENfyz = lp_stream_delete( lpGENfyz );
+        lpGENfzx = lp_stream_delete( lpGENfzx );
+        lpGENfzy = lp_stream_delete( lpGENfzy );
+        lpGENfzz = lp_stream_delete( lpGENfzz );
+        lpGENsyn = lp_stream_delete( lpGENsyn );
+
+        /* Return position structure */
+        return( lpOrientation );
+
+    }
 

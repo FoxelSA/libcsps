@@ -161,7 +161,7 @@
         lp_Real_t * qrQRYalt;
         lp_Time_t * qrQRYsyn;
 
-    } lp_Query_Position_t;
+    } lp_Query_Position_t, lp_Geopos_t;
 
     /*! \struct lp_Query_Orientation_struct
      *  \brief Orientation query structure
@@ -242,11 +242,55 @@
         lp_Real_t * qrQRYfzz;
         lp_Time_t * qrQRYsyn;
 
-    } lp_Query_Orientation_t;
+    } lp_Query_Orientation_t, lp_Orient_t;
 
 /*
     Header - Function prototypes
  */
+
+    lp_Geopos_t lp_query_position_read(
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule
+
+    );
+
+    lp_Void_t lp_query_position_delete( 
+
+        lp_Geopos_t * const lpGeopos 
+
+    );
+
+    lp_Void_t lp_query_position(
+
+        lp_Geopos_t       * const lpGeopos,
+        lp_Time_t   const         lpTimestamp
+
+    );
+
+    lp_Query_Orientation_t lp_query_orientation_create(
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule
+
+    );
+
+    lp_Enum_t lp_query_orientation(
+
+        lp_Time_t              const         lpTimestamp,
+        lp_Query_Orientation_t       * const lpOrientation
+
+    );
+
+    lp_Void_t lp_query_orientation_delete(
+
+        lp_Query_Orientation_t * const lpOrientation
+
+    );
 
     /*! \brief Query master clock timestamp for camera record
      *  
@@ -296,28 +340,6 @@
 
     );
 
-    lp_Query_Position_t lp_query_position_create(
-
-        lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
-        lp_Char_t const * const lpTag,
-        lp_Char_t const * const lpModule
-
-    );
-
-    lp_Enum_t lp_query_position(
-
-        lp_Time_t           const         lpTimestamp,
-        lp_Query_Position_t       * const lpPosition
-
-    );
-
-    lp_Void_t lp_query_position_delete(
-
-        lp_Query_Position_t * const lpPosition
-
-    );
-
     /*! \brief Orientation query by timestamp
      *  
      *  This function returns the orientation according to the given timestamp.
@@ -339,28 +361,6 @@
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule,
         lp_Time_t const         lpTimestamp
-
-    );
-
-    lp_Query_Orientation_t lp_query_orientation_create(
-
-        lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
-        lp_Char_t const * const lpTag,
-        lp_Char_t const * const lpModule
-
-    );
-
-    lp_Enum_t lp_query_orientation(
-
-        lp_Time_t              const         lpTimestamp,
-        lp_Query_Orientation_t       * const lpOrientation
-
-    );
-
-    lp_Void_t lp_query_orientation_delete(
-
-        lp_Query_Orientation_t * const lpOrientation
 
     );
 
