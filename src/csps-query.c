@@ -565,7 +565,7 @@
 
     }
 
-    lp_Void_t lp_query_orientation(
+    lp_Enum_t lp_query_orientation(
 
         lp_Time_t              const         lpTimestamp,
         lp_Query_Orientation_t       * const lpOrientation
@@ -694,6 +694,9 @@
             lpOrientation->qrStatus = LP_FALSE;
 
         }
+
+        /* Return query status */
+        return( lpOrientation->qrStatus );
 
     }
 
