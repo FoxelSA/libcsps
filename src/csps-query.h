@@ -351,6 +351,13 @@
 
     );
 
+    lp_Void_t lp_query_orientation(
+
+        lp_Time_t              const         lpTimestamp,
+        lp_Query_Orientation_t       * const lpOrientation
+
+    );
+
     lp_Void_t lp_query_orientation_delete(
 
         lp_Query_Orientation_t * const lpOrientation
