@@ -156,10 +156,10 @@
         lp_Size_t   qrSize;
 
         /* Streams data */
-        lp_Real_t * qrQRYlat;
-        lp_Real_t * qrQRYlon;
-        lp_Real_t * qrQRYalt;
-        lp_Time_t * qrQRYsyn;
+        lp_Real_t * qrStrmlat;
+        lp_Real_t * qrStrmlon;
+        lp_Real_t * qrStrmalt;
+        lp_Time_t * qrStrmsyn;
 
     } lp_Query_Position_t, lp_Geopos_t;
 
@@ -248,6 +248,12 @@
     Header - Function prototypes
  */
 
+    /*! \brief CSPS query - Position - Initialization
+     *  
+     *
+     *  \return
+     */
+
     lp_Geopos_t lp_query_position_read(
 
         lp_Char_t const * const lpPath,
@@ -257,11 +263,23 @@
 
     );
 
+    /*! \brief Source - CSPS query - Position - Deletion
+     *  
+     *
+     *  \return
+     */
+
     lp_Void_t lp_query_position_delete( 
 
         lp_Geopos_t * const lpGeopos 
 
     );
+
+    /*! \brief Source - CSPS query - Position
+     *  
+     *
+     *  \return
+     */
 
     lp_Void_t lp_query_position(
 
