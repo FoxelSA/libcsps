@@ -1,6 +1,6 @@
 ## Changelog
 
-### Beta 0.2
+### Beta 0.2 (master)
 
 - `Revised` : Query interface efficiency improvement
 - `Revised` : GPS timestamp reconstruction for eyesis4pi specific extractor
