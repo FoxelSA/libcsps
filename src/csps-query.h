@@ -62,6 +62,7 @@
  */
 
     # include "csps.h"
+    # include "csps-analysis-differential.h"
     # include "csps-stream.h"
     # include "csps-timestamp.h"
     # include "inter-all.h"

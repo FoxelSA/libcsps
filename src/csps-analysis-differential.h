@@ -106,7 +106,7 @@
      *  \return Returns apatative derivative value
      */
 
-    lp_Real_t csps_analysis_adaptFDF( 
+    lp_Real_t lp_analysis_adaptFDF( 
 
         lp_Real_t const lpMesh0,
         lp_Real_t const lpMesh1,

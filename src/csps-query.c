@@ -130,8 +130,10 @@
         /* Interpolation time variables */
         lp_Real_t lpDT1TI = lp_Real_s( 0.0 );
         lp_Real_t lpDT1T2 = lp_Real_s( 0.0 );
-        lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
+        //lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
         lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
+
+        lp_Real_t lpDT0T1 = lp_Real_s( 0.0 );
 
         /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
         if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpGeopos->qrStrmsyn, lpGeopos->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
@@ -147,15 +149,21 @@
 
             /* Compute time interpolation sample */
             lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmsyn[lpSample2], lpGeopos->qrStrmsyn[lpSample1] ) );
-            lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmsyn[lpSample2], lpGeopos->qrStrmsyn[lpSample0] ) );
+            //lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmsyn[lpSample2], lpGeopos->qrStrmsyn[lpSample0] ) );
             lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmsyn[lpSample3], lpGeopos->qrStrmsyn[lpSample1] ) );
+
+            lpDT0T1 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmsyn[lpSample1], lpGeopos->qrStrmsyn[lpSample0] ) );
 
             /* Compute interpolation values - Latitude */
             lpGeopos->qrLatitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmlat[lpSample1], lpGeopos->qrStrmlat[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGeopos->qrStrmlat[lpSample2] - lpGeopos->qrStrmlat[lpSample0] ) / lpDT0T2,
-                ( lpGeopos->qrStrmlat[lpSample3] - lpGeopos->qrStrmlat[lpSample1] ) / lpDT1T3
+                //( lpGeopos->qrStrmlat[lpSample2] - lpGeopos->qrStrmlat[lpSample0] ) / lpDT0T2,
+                //( lpGeopos->qrStrmlat[lpSample3] - lpGeopos->qrStrmlat[lpSample1] ) / lpDT1T3
+
+                /* Adaptative derivatives */
+                lp_analysis_adaptFDF( - lpDT0T1, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmlat[lpSample0], lpGeopos->qrStrmlat[lpSample1], lpGeopos->qrStrmlat[lpSample2], lp_Real_s( 10.0 ) ),
+                lp_analysis_adaptFDF( + lp_Real_s( 0.0 ), lpDT1T2, lpDT1T3, lpGeopos->qrStrmlat[lpSample1], lpGeopos->qrStrmlat[lpSample2], lpGeopos->qrStrmlat[lpSample3], lp_Real_s( 10.0 ) )
 
             );
 
@@ -163,8 +171,12 @@
             lpGeopos->qrLongitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmlon[lpSample1], lpGeopos->qrStrmlon[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGeopos->qrStrmlon[lpSample2] - lpGeopos->qrStrmlon[lpSample0] ) / lpDT0T2,
-                ( lpGeopos->qrStrmlon[lpSample3] - lpGeopos->qrStrmlon[lpSample1] ) / lpDT1T3
+                //( lpGeopos->qrStrmlon[lpSample2] - lpGeopos->qrStrmlon[lpSample0] ) / lpDT0T2,
+                //( lpGeopos->qrStrmlon[lpSample3] - lpGeopos->qrStrmlon[lpSample1] ) / lpDT1T3
+
+                /* Adaptative derivatives */
+                lp_analysis_adaptFDF( - lpDT0T1, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmlon[lpSample0], lpGeopos->qrStrmlon[lpSample1], lpGeopos->qrStrmlon[lpSample2], lp_Real_s( 10.0 ) ),
+                lp_analysis_adaptFDF( + lp_Real_s( 0.0 ), lpDT1T2, lpDT1T3, lpGeopos->qrStrmlon[lpSample1], lpGeopos->qrStrmlon[lpSample2], lpGeopos->qrStrmlon[lpSample3], lp_Real_s( 10.0 ) )
 
             );
 
@@ -172,8 +184,12 @@
             lpGeopos->qrAltitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmalt[lpSample1], lpGeopos->qrStrmalt[lpSample2],
 
                 /* Standard derivatives */
-                ( lpGeopos->qrStrmalt[lpSample2] - lpGeopos->qrStrmalt[lpSample0] ) / lpDT0T2,
-                ( lpGeopos->qrStrmalt[lpSample3] - lpGeopos->qrStrmalt[lpSample1] ) / lpDT1T3
+                //( lpGeopos->qrStrmalt[lpSample2] - lpGeopos->qrStrmalt[lpSample0] ) / lpDT0T2,
+                //( lpGeopos->qrStrmalt[lpSample3] - lpGeopos->qrStrmalt[lpSample1] ) / lpDT1T3
+
+                /* Adaptative derivatives */
+                lp_analysis_adaptFDF( - lpDT0T1, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmalt[lpSample0], lpGeopos->qrStrmalt[lpSample1], lpGeopos->qrStrmalt[lpSample2], lp_Real_s( 10.0 ) ),
+                lp_analysis_adaptFDF( + lp_Real_s( 0.0 ), lpDT1T2, lpDT1T3, lpGeopos->qrStrmalt[lpSample1], lpGeopos->qrStrmalt[lpSample2], lpGeopos->qrStrmalt[lpSample3], lp_Real_s( 10.0 ) )
 
             );
 
