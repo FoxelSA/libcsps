@@ -36,78 +36,56 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! @file   csps-all.h
-     *  @author Nils Hamel <n.hamel@foxel.ch>
-     *  
-     *  Library general includer
-     */
 
 /*
-    Header - Include guard
- */
-
-    # ifndef __LP_ALL__
-    # define __LP_ALL__
-
-/*
-    Header - C/C++ compatibility
- */
-
-/*
-    Header - Includes
+    Source - Includes
  */
 
     # include "csps-analysis-differential.h"
-    # include "csps-cam-mod-DSIDE.h"
-    # include "csps-device.h"
-    # include "csps-gps-mod-DSIDE.h"
-    # include "csps-gps-mod-SGNQF.h"
-    # include "csps-imu-mod-AACEX.h"
-    # include "csps-imu-mod-DSIDE.h"
-    # include "csps-imu-mod-IFETI.h"
-    # include "csps-imu-mod-IFICR.h"
-    # include "csps-imu-mod-IOBMA.h"
-    # include "csps-imu-mod-IOISA.h"
-    # include "csps-imu-mod-ISRAD.h"
-    # include "csps-imu-mod-SGNDN.h"
-    # include "csps-imu-mod-SGSFR.h"
-    # include "csps-nmea.h"
-    # include "csps-noise.h"
-    # include "csps-path.h"
-    # include "csps-qbf.h"
-    # include "csps-query.h"
-    # include "csps-rotation.h"
-    # include "csps-stream.h"
-    # include "csps-system.h"
-    # include "csps-timestamp.h"
 
 /*
-    Header - Preprocessor definitions
+    Source - Discrete adaptative first order derivative computation
  */
 
-/*
-    Header - Preprocessor macros
- */
+    lp_Real_t csps_analysis_adaptFDF( 
 
-/*
-    Header - Typedefs
- */
+        lp_Real_t const lpMesh0,
+        lp_Real_t const lpMesh1,
+        lp_Real_t const lpMesh2,
+        lp_Real_t const lpSample0,
+        lp_Real_t const lpSample1,
+        lp_Real_t const lpSample2,
+        lp_Real_t const lpTrigger
 
-/*
-    Header - Structures
- */
+    ) {
 
-/*
-    Header - Function prototypes
- */
+        /* Returned value variables */
+        lp_Real_t lpReturn = lp_Real_s( 0.0 );
 
-/*
-    Header - C/C++ compatibility
- */
+        /* Compute mesh spacing */
+        lp_Real_t lpSpace0 = lpMesh1 - lpMesh0;
+        lp_Real_t lpSpace1 = lpMesh2 - lpMesh1;
 
-/*
-    Header - Include guard
- */
+        /* Adaptative derivative condition */
+        if ( ( lpSpace0 / lpSpace1 ) > lpTrigger  ) {
 
-    # endif
+            /* Uncentered FDF on smallest space */
+            lpReturn = ( lpSample2 - lpSample1 ) / lpSpace1;
+
+        } else if ( ( lpSpace1 / lpSpace0 ) > lpTrigger ) {
+
+            /* Uncentered FDF on smallest space */
+            lpReturn = ( lpSample1 - lpSample0 ) / lpSpace0;
+
+        } else {
+
+            /* Standard centered FDF */
+            lpReturn = ( lpSample2 - lpSample0 ) / ( lpMesh2 - lpMesh0 );
+
+        }
+        
+        /* Return derivative value */
+        return( lpReturn );
+
+    }
 
