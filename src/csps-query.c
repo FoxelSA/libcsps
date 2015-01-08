@@ -202,23 +202,42 @@
 
     ) {
 
-        /* Returned structure */
-        lp_Orient_t lpOrient;
-
         /* Stream size variables */
-        lpOrient.qrSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
+        lp_Size_t lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
 
-        /* Read streams */
-        lpOrient.qrStrmfxx = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXX, sizeof( lp_Real_t ) * lpOrient.qrSize );
-        lpOrient.qrStrmfxy = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXY, sizeof( lp_Real_t ) * lpOrient.qrSize );
-        lpOrient.qrStrmfxz = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXZ, sizeof( lp_Real_t ) * lpOrient.qrSize );
-        lpOrient.qrStrmfyx = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FYX, sizeof( lp_Real_t ) * lpOrient.qrSize );
-        lpOrient.qrStrmfyy = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FYY, sizeof( lp_Real_t ) * lpOrient.qrSize );
-        lpOrient.qrStrmfyz = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FYZ, sizeof( lp_Real_t ) * lpOrient.qrSize );
-        lpOrient.qrStrmfzx = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FZX, sizeof( lp_Real_t ) * lpOrient.qrSize );
-        lpOrient.qrStrmfzy = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FZY, sizeof( lp_Real_t ) * lpOrient.qrSize );
-        lpOrient.qrStrmfzz = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FZZ, sizeof( lp_Real_t ) * lpOrient.qrSize );
-        lpOrient.qrStrmsyn = lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpOrient.qrSize );
+        /* Returned structure */
+        lp_Orient_t lpOrient = {
+
+            /* Setting query status */
+            LP_FALSE,
+
+            /* Initialize data fields */
+            lp_Real_s( 0.0 ),
+            lp_Real_s( 0.0 ),
+            lp_Real_s( 0.0 ),
+            lp_Real_s( 0.0 ),
+            lp_Real_s( 0.0 ),
+            lp_Real_s( 0.0 ),
+            lp_Real_s( 0.0 ),
+            lp_Real_s( 0.0 ),
+            lp_Real_s( 0.0 ),
+
+            /* Stream size variables */
+            lpSize,
+
+            /* Stream reading */
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXX, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXY, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXZ, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FYX, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FYY, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FYZ, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FZX, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FZY, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FZZ, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize )
+
+        };
 
         /* Return position structure */
         return( lpOrient );
@@ -230,6 +249,23 @@
         lp_Orient_t * const lpOrient
 
     ) {
+
+        /* Reset query status */
+        lpOrient->qrStatus = LP_FALSE;
+
+        /* Reset data field */
+        lpOrient->qrfxx = lp_Real_s( 0.0 );
+        lpOrient->qrfxy = lp_Real_s( 0.0 );
+        lpOrient->qrfxz = lp_Real_s( 0.0 );
+        lpOrient->qrfyx = lp_Real_s( 0.0 );
+        lpOrient->qrfyy = lp_Real_s( 0.0 );
+        lpOrient->qrfyz = lp_Real_s( 0.0 );
+        lpOrient->qrfzx = lp_Real_s( 0.0 );
+        lpOrient->qrfzy = lp_Real_s( 0.0 );
+        lpOrient->qrfzz = lp_Real_s( 0.0 );
+
+        /* Reset stream size */
+        lpOrient->qrSize = lp_Size_s( 0 );
 
         /* Unallocate streams */
         lpOrient->qrStrmfxx = lp_stream_delete( lpOrient->qrStrmfxx );

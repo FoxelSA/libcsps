@@ -288,6 +288,12 @@
 
     );
 
+    /*! \brief Source - CSPS query - Position
+     *  
+     *
+     *  \return
+     */
+
     lp_Orient_t lp_query_orientation_read(
 
         lp_Char_t const * const lpPath,
@@ -297,11 +303,23 @@
 
     );
 
+    /*! \brief Source - CSPS query - Position
+     *  
+     *
+     *  \return
+     */
+
     lp_Void_t lp_query_orientation_delete(
 
         lp_Orient_t * const lpOrientation
 
     );
+
+    /*! \brief Source - CSPS query - Position
+     *  
+     *
+     *  \return
+     */
 
     lp_Void_t lp_query_orientation(
 
