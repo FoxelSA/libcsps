@@ -82,41 +82,6 @@
     Header - Structures
  */
 
-    /*! \struct lp_Query_Timestamp_struct
-     *  \brief Camera record and device synchronization
-     *
-     *  This structure is used to obtain time difference between camera
-     *  records and the master clock used to synchronize signals.
-     *  
-     *  \var lp_Query_Timestamp_struct::qrStatus
-     *  Query status. If LP_FALSE, the query has failed
-     *  \var lp_Query_Timestamp_struct::qrTimestamp
-     *  Image clock timestamp corresponding to the camera record
-     *  \var lp_Query_Position_struct::qrSize
-     *  Size, in bytes, of streams
-     *  \var lp_Query_Position_struct::qrQRYtag
-     *  Camera trigger timestamp data
-     *  \var lp_Query_Position_struct::qrQRYsyn
-     *  Synchronization stream data
-     */
-
-    typedef struct lp_Query_Timestamp_struct {
-
-        /* Query status */
-        lp_Enum_t   qrStatus;
-
-        /* Event-logger correspondance */
-        lp_Time_t   qrTimestamp;
-
-        /* Streams size */
-        lp_Size_t   qrSize;
-
-        /* Streams data */
-        lp_Time_t * qrQRYtag;
-        lp_Time_t * qrQRYsyn;
-
-    } lp_Query_Timestamp_t;
-
     /*! \struct lp_Query_Position_struct
      *  \brief WGS84 position query structure
      *  
@@ -132,13 +97,13 @@
      *  Altitude in meters above mean see level
      *  \var lp_Query_Position_struct::qrSize
      *  Size, in bytes, of streams
-     *  \var lp_Query_Position_struct::qrQRYlat
+     *  \var lp_Query_Position_struct::qrStrmlat
      *  Latitude stream data
-     *  \var lp_Query_Position_struct::qrQRYlon
+     *  \var lp_Query_Position_struct::qrStrmlon
      *  Longitude stream data
-     *  \var lp_Query_Position_struct::qrQRYalt
+     *  \var lp_Query_Position_struct::qrStrmalt
      *  Altitude stream data
-     *  \var lp_Query_Position_struct::qrQRYsyn
+     *  \var lp_Query_Position_struct::qrStrmsyn
      *  Synchronization stream data
      */
 
@@ -189,25 +154,25 @@
      *  Y-component of the z-frame vector
      *  \var lp_Query_Orientation_struct::qrfzz
      *  Z-component of the z-frame vector
-     *  \var lp_Query_Position_struct::qrSize
+     *  \var lp_Query_Orientation_struct::qrSize
      *  Size, in bytes, of streams
-     *  \var lp_Query_Position_struct::qrQRYfxx
+     *  \var lp_Query_Orientation_struct::qrStrmfxx
      *  X-component of x-vector frame stream data
-     *  \var lp_Query_Position_struct::qrQRYfxy
+     *  \var lp_Query_Orientation_struct::qrStrmfxy
      *  Y-component of x-vector frame stream data
-     *  \var lp_Query_Position_struct::qrQRYfxz
+     *  \var lp_Query_Orientation_struct::qrStrmfxz
      *  Z-component of x-vector frame stream data
-     *  \var lp_Query_Position_struct::qrQRYfyx
+     *  \var lp_Query_Orientation_struct::qrStrmfyx
      *  X-component of y-vector frame stream data
-     *  \var lp_Query_Position_struct::qrQRYfyy
+     *  \var lp_Query_Orientation_struct::qrStrmfyy
      *  Y-component of y-vector frame stream data
-     *  \var lp_Query_Position_struct::qrQRYfyz
+     *  \var lp_Query_Orientation_struct::qrStrmfyz
      *  Z-component of y-vector frame stream data
-     *  \var lp_Query_Position_struct::qrQRYfzx
+     *  \var lp_Query_Orientation_struct::qrStrmfzx
      *  X-component of z-vector frame stream data
-     *  \var lp_Query_Position_struct::qrQRYfzy
+     *  \var lp_Query_Orientation_struct::qrStrmfzy
      *  Y-component of z-vector frame stream data
-     *  \var lp_Query_Position_struct::qrQRYfzz
+     *  \var lp_Query_Orientation_struct::qrStrmfzz
      *  Z-component of z-vector frame stream data
      */
 
@@ -249,9 +214,16 @@
  */
 
     /*! \brief CSPS query - Position - Initialization
-     *  
      *
-     *  \return
+     *  This function creates the query on position descriptor needed to perform
+     *  queries on processed data.
+     * 
+     *  \param lpPath   Path CSPS structure
+     *  \param lpDevice Device tag
+     *  \param lpTag    Device name
+     *  \param lpModule Reference stream
+     *
+     *  \return Created query on position descriptor
      */
 
     lp_Geopos_t lp_query_position_read(
@@ -265,8 +237,9 @@
 
     /*! \brief Source - CSPS query - Position - Deletion
      *  
+     *  This function deletes the query on position descriptor.
      *
-     *  \return
+     *  \param lpGeopos Pointer to descriptor
      */
 
     lp_Void_t lp_query_position_delete( 
@@ -276,9 +249,18 @@
     );
 
     /*! \brief Source - CSPS query - Position
-     *  
      *
-     *  \return
+     *  This function perform a query on position based on the provided query
+     *  descriptor and the provided timestamp. The descriptor has to be already
+     *  initialized according to query necessities.
+     *
+     *  If the query fails, the qrStatus fields of the descriptor is set to
+     *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
+     *  decriptor fields.
+     *
+     *  \param lpGeopos     Pointer to descriptor
+     *  \param lpTimestamp  Timestamp of the position
+     *
      */
 
     lp_Void_t lp_query_position(
@@ -288,10 +270,17 @@
 
     );
 
-    /*! \brief Source - CSPS query - Position
-     *  
+    /*! \brief Source - CSPS query - Orientation
      *
-     *  \return
+     *  This function creates the query on orientation descriptor needed to
+     *  perform queries on processed data.
+     * 
+     *  \param lpPath   Path CSPS structure
+     *  \param lpDevice Device tag
+     *  \param lpTag    Device name
+     *  \param lpModule Reference stream
+     *
+     *  \return Created query on orientation descriptor
      */
 
     lp_Orient_t lp_query_orientation_read(
@@ -303,100 +292,37 @@
 
     );
 
-    /*! \brief Source - CSPS query - Position
+    /*! \brief Source - CSPS query - Orientation
      *  
+     *  This function deletes the query on orientation descriptor.
      *
-     *  \return
+     *  \param lpOrient Pointer to descriptor
      */
 
     lp_Void_t lp_query_orientation_delete(
 
-        lp_Orient_t * const lpOrientation
+        lp_Orient_t * const lpOrient
 
     );
 
-    /*! \brief Source - CSPS query - Position
+    /*! \brief Source - CSPS query - Orientation
      *  
+     *  This function perform a query on orientation based on the provided query
+     *  descriptor and the provided timestamp. The descriptor has to be already
+     *  initialized according to query necessities.
      *
-     *  \return
+     *  If the query fails, the qrStatus fields of the descriptor is set to
+     *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
+     *  decriptor fields.
+     *
+     *  \param lpOrient     Pointer to descriptor
+     *  \param lpTimestamp  Timestamp of the position
      */
 
     lp_Void_t lp_query_orientation(
 
-        lp_Orient_t       * const lpOrientation,
+        lp_Orient_t       * const lpOrient,
         lp_Time_t   const         lpTimestamp
-
-    );
-
-    /*! \brief Query master clock timestamp for camera record
-     *  
-     *  This function returns timestamp from the master clock on the base of the
-     *  timestamp used to designate image record.
-     *  
-     *  \param  lpPath      Path CSPS structure
-     *  \param  lpDevice    Device tag
-     *  \param  lpTag       Device name
-     *  \param  lpModule    CSPS stream to consider
-     *  \param  lpTimestamp Reference timestamp
-     *
-     *  \return Returns a timestamp structure
-     */
-
-    lp_Query_Timestamp_t lp_query_timestamp_by_timestamp(
-
-        lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
-        lp_Char_t const * const lpTag,
-        lp_Char_t const * const lpModule,        
-        lp_Time_t const         lpTimestamp
-
-    );
-
-    /*! \brief Query WGS84 position by timestamp
-     *  
-     *  This function returns WGS84 position according to specified timestamp.
-     *  If the given timestamp is outside of the range, the query fails.
-     *  
-     *  \param  lpPath      Path CSPS structure
-     *  \param  lpDevice    Device tag
-     *  \param  lpTag       Device name
-     *  \param  lpModule    CSPS stream to consider
-     *  \param  lpTimestamp Reference timestamp
-     *
-     *  \return Returns a WGS84 position structure
-     */
-
-    lp_Query_Position_t lp_query_position_by_timestamp(
-
-        lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
-        lp_Char_t const * const lpTag,
-        lp_Char_t const * const lpModule,
-        lp_Time_t const         lpTimestamp
-
-    );
-
-    /*! \brief Orientation query by timestamp
-     *  
-     *  This function returns the orientation according to the given timestamp.
-     *  If the given timestamp is outside of the range, the query fails.
-     *  
-     *  \param  lpPath      Path CSPS structure
-     *  \param  lpDevice    Device tag
-     *  \param  lpTag       Device name
-     *  \param  lpModule    CSPS stream to consider
-     *  \param  lpTimestamp Reference timestamp
-     *
-     *  \return Returns an orientation structure
-     */
-
-    lp_Query_Orientation_t lp_query_orientation_by_timestamp(
-
-        lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
-        lp_Char_t const * const lpTag,
-        lp_Char_t const * const lpModule,
-        lp_Time_t const         lpTimestamp
 
     );
 
