@@ -85,7 +85,8 @@
     /*! \struct lp_Query_Position_struct
      *  \brief WGS84 position query structure
      *  
-     *  This structure is used to obtain a position according to WGS84 standard.
+     *  This structure is used to obtain a position according to WGS84 standard
+     *  stored in a physical stream.
      *  
      *  \var lp_Query_Position_struct::qrStatus
      *  Query status. If LP_FALSE, the query has failed
@@ -132,7 +133,7 @@
      *  \brief Orientation query structure
      *  
      *  This structure is used to obtain orientation of the frame attached to
-     *  the device.
+     *  the device assembly stored in three physical streams.
      *  
      *  \var lp_Query_Orientation_struct::qrStatus
      *  Query status. If LP_FALSE, the query has failed
@@ -215,7 +216,7 @@
 
     /*! \brief CSPS query - Position - Initialization
      *
-     *  This function creates the query on position descriptor needed to perform
+     *  This function creates the query on position structure needed to perform
      *  queries on processed data.
      * 
      *  \param lpPath   Path CSPS structure
@@ -223,7 +224,7 @@
      *  \param lpTag    Device name
      *  \param lpModule Reference stream
      *
-     *  \return Created query on position descriptor
+     *  \return Created query on position structure
      */
 
     lp_Geopos_t lp_query_position_read(
@@ -237,9 +238,9 @@
 
     /*! \brief Source - CSPS query - Position - Deletion
      *  
-     *  This function deletes the query on position descriptor.
+     *  This function deletes the query on position structure.
      *
-     *  \param lpGeopos Pointer to descriptor
+     *  \param lpGeopos Pointer to structure
      */
 
     lp_Void_t lp_query_position_delete( 
@@ -250,15 +251,15 @@
 
     /*! \brief Source - CSPS query - Position
      *
-     *  This function perform a query on position based on the provided query
-     *  descriptor and the provided timestamp. The descriptor has to be already
+     *  This function performs a query on position based on the provided query
+     *  structure and the provided timestamp. The structure has to be already
      *  initialized according to query necessities.
      *
-     *  If the query fails, the qrStatus fields of the descriptor is set to
+     *  If the query fails, the qrStatus fields of the structure is set to
      *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
-     *  decriptor fields.
+     *  structure fields.
      *
-     *  \param lpGeopos     Pointer to descriptor
+     *  \param lpGeopos     Pointer to structure
      *  \param lpTimestamp  Timestamp of the position
      *
      */
@@ -272,7 +273,7 @@
 
     /*! \brief Source - CSPS query - Orientation
      *
-     *  This function creates the query on orientation descriptor needed to
+     *  This function creates the query on orientation structure needed to
      *  perform queries on processed data.
      * 
      *  \param lpPath   Path CSPS structure
@@ -280,7 +281,7 @@
      *  \param lpTag    Device name
      *  \param lpModule Reference stream
      *
-     *  \return Created query on orientation descriptor
+     *  \return Created query on orientation structure
      */
 
     lp_Orient_t lp_query_orientation_read(
@@ -294,9 +295,9 @@
 
     /*! \brief Source - CSPS query - Orientation
      *  
-     *  This function deletes the query on orientation descriptor.
+     *  This function deletes the query on orientation structure.
      *
-     *  \param lpOrient Pointer to descriptor
+     *  \param lpOrient Pointer to structure
      */
 
     lp_Void_t lp_query_orientation_delete(
@@ -308,14 +309,14 @@
     /*! \brief Source - CSPS query - Orientation
      *  
      *  This function perform a query on orientation based on the provided query
-     *  descriptor and the provided timestamp. The descriptor has to be already
+     *  structure and the provided timestamp. The structure has to be already
      *  initialized according to query necessities.
      *
-     *  If the query fails, the qrStatus fields of the descriptor is set to
+     *  If the query fails, the qrStatus fields of the structure is set to
      *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
      *  decriptor fields.
      *
-     *  \param lpOrient     Pointer to descriptor
+     *  \param lpOrient     Pointer to structure
      *  \param lpTimestamp  Timestamp of the position
      */
 
