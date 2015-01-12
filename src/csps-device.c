@@ -73,9 +73,6 @@
 
         }
 
-        /* Assign configuration - Importation block size */
-        lpDevice.dvBlock = lp_Size_s( 1024 );
-
         /* Return device structure */
         return( lpDevice );
 

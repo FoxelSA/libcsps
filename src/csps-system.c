@@ -297,12 +297,6 @@
                                 /* Update device tag */
                                 sprintf( ( ( lp_Camera_t * ) lpDescs[lpIndex] )->dvTag, "%s", lp_system_token( lpHandle, lpToken[1] ) );
 
-                            } else 
-                            if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVBLOC ) == 0 ) {
-
-                                /* Update device reading block size */
-                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_Camera_t * ) lpDescs[lpIndex] )->dvBlock ) );
-
                             }
 
                         } else if ( lpMode == LP_SYSTEM_MODE_IGPS ) {

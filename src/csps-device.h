@@ -119,8 +119,6 @@
      *  Stores the device model name
      *  \var lp_Camera_struct::dvTag 
      *  Stores the device tag to differentiate multiple usage of the same model
-     *  \var lp_Camera_struct::dvBlock 
-     *  Stores the importation block size
      */ 
 
     typedef struct lp_Camera_struct {
@@ -130,9 +128,6 @@
 
         /* Device name */
         lp_Char_t dvTag[LP_STR_LEN];
-
-        /* Size of importation block */
-        lp_Size_t dvBlock;
 
     } lp_Camera_t;
 
