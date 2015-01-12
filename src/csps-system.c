@@ -139,8 +139,11 @@
                                 /* Search devices */
                                 lp_Size_t lpDevCAM = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_CAM, lpIndex, lpTypes, lpDescs );
 
+                                /* Read parameters */
+                                lp_Size_t lpParam1 = lp_Size_r( lp_system_token( lpHandle, lpToken[2] ) );
+
                                 /* Module operation */
-                                lp_cam_mod_DSIDE( lpPath, * ( ( lp_Camera_t * ) lpDescs[lpDevCAM] ) );
+                                lp_cam_mod_DSIDE( lpPath, * ( ( lp_Camera_t * ) lpDescs[lpDevCAM] ), lpParam1 );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_GPS "-" LP_GPS_DSIDE_MOD ) == 0 ) {

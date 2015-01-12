@@ -156,6 +156,9 @@
     # define lp_Byte_i          SCNu8
     # define lp_Char_i          "c"
 
+    /* Define string conversion function */
+    # define lp_Size_r( x )     atoll( x )
+
     /* Define floating point operator */
     # define lp_trunc( x )      trunc( x )
     # define lp_floor( x )      floor( x )

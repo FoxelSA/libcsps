@@ -50,20 +50,23 @@
     lp_Void_t lp_cam_mod_DSIDE(
 
         lp_Char_t   const * const lpPath, 
-        lp_Camera_t const         lpCAM 
+        lp_Camera_t const         lpCAM,
+        lp_Size_t   const         lpBlock
 
     ) {
+
+        fprintf( stderr, "%" lp_Size_p "\n", lpBlock );
 
         /* Select device */
         if ( strcmp( lpCAM.dvName, LP_DEVICE_EYESIS4PI ) == 0 ) {
 
             /* Eyesis4pi specific process */
-            lp_cam_DSIDE_EYESIS4PI( lpPath, lpCAM );
+            lp_cam_DSIDE_EYESIS4PI( lpPath, lpCAM, lpBlock );
 
         } else if ( strcmp( lpCAM.dvName, LP_DEVICE_NC353L369IMUGPS ) == 0 ) {
 
             /* NC353L369 specific process (same as Eyesis4Pi) */
-            lp_cam_DSIDE_EYESIS4PI( lpPath, lpCAM );
+            lp_cam_DSIDE_EYESIS4PI( lpPath, lpCAM, lpBlock );
 
         }
 
@@ -76,7 +79,8 @@
     lp_Void_t lp_cam_DSIDE_EYESIS4PI( 
 
         lp_Char_t   const * const lpPath, 
-        lp_Camera_t const         lpCAM 
+        lp_Camera_t const         lpCAM,
+        lp_Size_t   const         lpBlock
 
     ) {
 
@@ -115,8 +119,8 @@
         lpDEVsynf = fopen( lpDEVsynp, "wb" );
 
         /* Create streams */
-        lpDEVmas = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpCAM.dvBlock );
-        lpDEVsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpCAM.dvBlock );
+        lpDEVmas = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpBlock );
+        lpDEVsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpBlock );
 
         /* FPGA records reading loop */
         while ( lpReading == LP_TRUE ) {
@@ -125,7 +129,7 @@
             lpIndex = lp_Size_s( 0 );
 
             /* Reading of FPGA record by block */
-            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpCAM.dvBlock ) ) {
+            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpBlock ) ) {
 
                 /* Read and verify FPGA record */
                 if ( ( lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf ) ) == LP_DEVICE_EYESIS4PI_RECLEN ) {

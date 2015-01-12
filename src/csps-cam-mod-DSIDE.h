@@ -103,7 +103,8 @@
     lp_Void_t lp_cam_mod_DSIDE(
 
         lp_Char_t   const * const lpPath, 
-        lp_Camera_t const         lpCAM 
+        lp_Camera_t const         lpCAM,
+        lp_Size_t   const         lpBlock
 
     );
 
@@ -118,7 +119,8 @@
     lp_Void_t lp_cam_DSIDE_EYESIS4PI( 
 
         lp_Char_t   const * const lpPath, 
-        lp_Camera_t const         lpCAM 
+        lp_Camera_t const         lpCAM,
+        lp_Size_t   const         lpBlock
 
     );
 
