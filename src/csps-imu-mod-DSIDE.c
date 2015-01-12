@@ -116,13 +116,13 @@
         lp_path_dside( lpPath, LP_DEVICE_ADIS16375, LP_DEVICE_ADIS16375_LOG, lpDEVlogp );
 
         /* Build stream file paths */
-        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRX, lpIMUgrxp );
-        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRY, lpIMUgryp );
-        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRZ, lpIMUgrzp );
-        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACX, lpIMUacxp );
-        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACY, lpIMUacyp );
-        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACZ, lpIMUaczp );
-        lp_path_stream( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_SYN, lpIMUsynp );
+        lp_path_stream( lpPath, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRX, lpIMUgrxp );
+        lp_path_stream( lpPath, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRY, lpIMUgryp );
+        lp_path_stream( lpPath, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_GRZ, lpIMUgrzp );
+        lp_path_stream( lpPath, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACX, lpIMUacxp );
+        lp_path_stream( lpPath, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACY, lpIMUacyp );
+        lp_path_stream( lpPath, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_ACZ, lpIMUaczp );
+        lp_path_stream( lpPath, lpIMU.dvTag, LP_IMU_DSIDE_MOD, LP_STREAM_CPN_SYN, lpIMUsynp );
 
         /* Open stream files */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );

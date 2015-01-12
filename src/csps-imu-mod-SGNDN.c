@@ -68,16 +68,16 @@
         lp_Time_t * lpIMUsyn = LP_NULL;
 
         /* Stream size */
-        lpSize = lp_stream_size( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod );
+        lpSize = lp_stream_size( lpPath, lpIMU.dvTag, lpIMUmod );
 
         /* Read streams data */
-        lpIMUgrx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
-        lpIMUgry = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
-        lpIMUgrz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
-        lpIMUacx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
-        lpIMUacy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
-        lpIMUacz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
-        lpIMUsyn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+        lpIMUgrx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUgry = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUgrz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacy = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUsyn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
         /* Denoising procedure - Total variation with iterative clipping */
         lp_noise_tvic( lpIMUgrx, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
@@ -88,13 +88,13 @@
         lp_noise_tvic( lpIMUacz, lpSize, lp_Size_s( 10 ), lp_Size_s( 32 ) );
 
         /* Write streams */
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRX, lpIMUgrx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRY, lpIMUgry, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRZ, lpIMUgrz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACX, lpIMUacx, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACY, lpIMUacy, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACZ, lpIMUacz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_SYN, lpIMUsyn, sizeof( lp_Time_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRX, lpIMUgrx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRY, lpIMUgry, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_GRZ, lpIMUgrz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACX, lpIMUacx, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACY, lpIMUacy, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_ACZ, lpIMUacz, sizeof( lp_Real_t ) * lpSize );
+        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_SGNDN_MOD, LP_STREAM_CPN_SYN, lpIMUsyn, sizeof( lp_Time_t ) * lpSize );
 
         /* Unallocate streams memory */
         lpIMUgrx = lp_stream_delete( lpIMUgrx );

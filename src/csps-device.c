@@ -65,9 +65,6 @@
 
         ) {
 
-            /* Assign device type name */
-            sprintf( lpDevice.dvType, "%s", LP_DEVICE_TYPE_CAM );
-
             /* Assign device model name */
             sprintf( lpDevice.dvName, "%s", LP_DEVICE_EYESIS4PI );
 
@@ -100,9 +97,6 @@
 
         /* Detect type of IMU */
         if ( strcmp( lpName, LP_DEVICE_ADIS16375 ) == 0 ) {
-
-            /* Assign device type name */
-            sprintf( lpDevice.dvType, "%s", LP_DEVICE_TYPE_IMU );
 
             /* Assign device model name */
             sprintf( lpDevice.dvName, "%s", LP_DEVICE_ADIS16375 );
@@ -161,9 +155,6 @@
 
         /* Detect type of GPS */
         if ( strcmp( lpName, LP_DEVICE_LS20031 ) == 0 ) {
-
-            /* Assign device type name */
-            sprintf( lpDevice.dvType, "%s", LP_DEVICE_TYPE_GPS );
 
             /* Assign device model name */
             sprintf( lpDevice.dvName, "%s", LP_DEVICE_LS20031 );

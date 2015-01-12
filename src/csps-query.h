@@ -276,7 +276,6 @@
      *  perform queries on processed.
      *
      *  \param lpPath   Path CSPS structure
-     *  \param lpDevice Device tag
      *  \param lpTag    Device name
      *  \param lpModule Reference stream
      *
@@ -286,7 +285,6 @@
     lp_Trigger_t lp_query_trigger_read(
 
         lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule
 
@@ -325,7 +323,6 @@
      *  queries on processed data.
      * 
      *  \param lpPath   Path CSPS structure
-     *  \param lpDevice Device tag
      *  \param lpTag    Device name
      *  \param lpModule Reference stream
      *
@@ -335,7 +332,6 @@
     lp_Geopos_t lp_query_position_read(
 
         lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule
 
@@ -410,7 +406,6 @@
      *  perform queries on processed data.
      * 
      *  \param lpPath   Path CSPS structure
-     *  \param lpDevice Device tag
      *  \param lpTag    Device name
      *  \param lpModule Reference stream
      *
@@ -420,7 +415,6 @@
     lp_Orient_t lp_query_orientation_read(
 
         lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule
 

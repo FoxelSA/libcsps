@@ -98,7 +98,6 @@
     lp_Void_t lp_path_stream( 
 
         lp_Char_t const * const lpBase,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule,
         lp_Char_t const * const lpType,
@@ -107,7 +106,7 @@
     ) {
 
         /* Build path */
-        sprintf( lpPath, "%s/" LP_PATH_STREAMS "/csps-stream-%s-%s-%s-%s.bin", lpBase, lpDevice, lpTag, lpModule, lpType );
+        sprintf( lpPath, "%s/" LP_PATH_STREAMS "/csps-stream-%s-%s-%s.bin", lpBase, lpTag, lpModule, lpType );
 
     }
 

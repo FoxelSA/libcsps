@@ -83,7 +83,6 @@
     lp_Size_t lp_stream_size(
 
         lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule
 
@@ -99,7 +98,7 @@
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
         /* Build stream path */
-        lp_path_stream( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, lpStreamp );
+        lp_path_stream( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, lpStreamp );
 
         /* Open stream file */
         lpStreamf = fopen( lpStreamp, "rb" );
@@ -125,7 +124,6 @@
     lp_Void_t * lp_stream_read(
 
         lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule,
         lp_Char_t const * const lpSuffix,
@@ -143,7 +141,7 @@
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
         /* Build stream path */
-        lp_path_stream( lpPath, lpDevice, lpTag, lpModule, lpSuffix, lpStreamp );
+        lp_path_stream( lpPath, lpTag, lpModule, lpSuffix, lpStreamp );
 
         /* Allocate buffer memory */
         lpStream = malloc( lpSize );
@@ -169,7 +167,6 @@
     lp_Void_t lp_stream_write(
 
         lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule,
         lp_Char_t const * const lpSuffix,
@@ -185,7 +182,7 @@
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
         /* Build stream path variables */
-        lp_path_stream( lpPath, lpDevice, lpTag, lpModule, lpSuffix, lpStreamp );
+        lp_path_stream( lpPath, lpTag, lpModule, lpSuffix, lpStreamp );
 
         /* Open stream file */
         lpStreamf = fopen( lpStreamp, "wb" );
