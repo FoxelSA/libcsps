@@ -115,8 +115,6 @@
      *  The structure stores the description of a camera device engaged
      *  in the CSPS.
      *
-     *  \var lp_Camera_struct::dvType
-     *  Stores the device type name
      *  \var lp_Camera_struct::dvName 
      *  Stores the device model name
      *  \var lp_Camera_struct::dvTag 
@@ -126,9 +124,6 @@
      */ 
 
     typedef struct lp_Camera_struct {
-
-        /* Device type name */
-        lp_Char_t dvType[LP_STR_LEN];
 
         /* Device model name */
         lp_Char_t dvName[LP_STR_LEN];
@@ -147,8 +142,6 @@
      *  The structure stores the description of an IMU device engaged
      *  in the CSPS.
      *
-     *  \var lp_IMU_struct::dvType
-     *  Stores the device type name
      *  \var lp_IMU_struct::dvName 
      *  Stores the device name
      *  \var lp_IMU_struct::dvTag 
@@ -188,9 +181,6 @@
      */ 
 
     typedef struct lp_IMU_struct {
-
-        /* Device type name */
-        lp_Char_t dvType[LP_STR_LEN];
 
         /* Device model name */
         lp_Char_t dvName[LP_STR_LEN];
@@ -234,8 +224,6 @@
      *  The structure stores the description of a GPS device engaged
      *  in the CSPS.
      *
-     *  \var lp_GPS_struct::dvType
-     *  Stores the device type name
      *  \var lp_GPS_struct::dvName 
      *  Stores the device name
      *  \var lp_GPS_struct::dvTag 
@@ -247,9 +235,6 @@
      */ 
 
     typedef struct lp_GPS_struct {
-
-        /* Device type name */
-        lp_Char_t dvType[LP_STR_LEN];
 
         /* Device model name */
         lp_Char_t dvName[LP_STR_LEN];
