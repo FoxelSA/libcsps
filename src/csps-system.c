@@ -151,8 +151,11 @@
                                 /* Search devices */
                                 lp_Size_t lpDevGPS = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_GPS, lpIndex, lpTypes, lpDescs );
 
+                                /* Read parameters */
+                                lp_Size_t lpParam1 = lp_Size_r( lp_system_token( lpHandle, lpToken[2] ) );
+
                                 /* Module operation */
-                                lp_gps_mod_DSIDE( lpPath, * ( ( lp_GPS_t * ) lpDescs[lpDevGPS] ) );
+                                lp_gps_mod_DSIDE( lpPath, * ( ( lp_GPS_t * ) lpDescs[lpDevGPS] ), lpParam1 );
 
                             } else
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_DSIDE_MOD ) == 0 ) {
@@ -318,12 +321,6 @@
 
                                 /* Update device tag */
                                 sprintf( ( ( lp_GPS_t * ) lpDescs[lpIndex] )->dvTag, "%s", lp_system_token( lpHandle, lpToken[1] ) );
-
-                            } else 
-                            if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVBLOC ) == 0 ) {
-
-                                /* Update device reading block size */
-                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_GPS_t * ) lpDescs[lpIndex] )->dvBlock ) );
 
                             }
 

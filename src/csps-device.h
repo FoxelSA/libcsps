@@ -240,9 +240,6 @@
         /* GPS frequency */
         lp_Size_t dvifreq;
 
-        /* Size of importation block */
-        lp_Size_t dvBlock;
-
     } lp_GPS_t;
 
 /*

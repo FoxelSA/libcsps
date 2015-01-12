@@ -55,8 +55,6 @@
 
     ) {
 
-        fprintf( stderr, "%" lp_Size_p "\n", lpBlock );
-
         /* Select device */
         if ( strcmp( lpCAM.dvName, LP_DEVICE_EYESIS4PI ) == 0 ) {
 
