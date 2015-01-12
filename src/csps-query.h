@@ -74,6 +74,24 @@
     Header - Preprocessor macros
  */
 
+    /* Position query structure pointers access */
+    # define lp_query_position_lat( lpStruct )  ( lpStruct.qrStrmlat )
+    # define lp_query_position_lon( lpStruct )  ( lpStruct.qrStrmlon )
+    # define lp_query_position_alt( lpStruct )  ( lpStruct.qrStrmalt )
+    # define lp_query_position_syn( lpStruct )  ( lpStruct.qrStrmsyn )
+
+    /* Orientation query structure pointers access */
+    # define lp_query_orientation_fxx( lpStruct )  ( lpStruct.qrStrmfxx )
+    # define lp_query_orientation_fxy( lpStruct )  ( lpStruct.qrStrmfxy )
+    # define lp_query_orientation_fxz( lpStruct )  ( lpStruct.qrStrmfxz )
+    # define lp_query_orientation_fyx( lpStruct )  ( lpStruct.qrStrmfyx )
+    # define lp_query_orientation_fyy( lpStruct )  ( lpStruct.qrStrmfyy )
+    # define lp_query_orientation_fyz( lpStruct )  ( lpStruct.qrStrmfyz )
+    # define lp_query_orientation_fzx( lpStruct )  ( lpStruct.qrStrmfzx )
+    # define lp_query_orientation_fzy( lpStruct )  ( lpStruct.qrStrmfzy )
+    # define lp_query_orientation_fzz( lpStruct )  ( lpStruct.qrStrmfzz )
+    # define lp_query_orientation_syn( lpStruct )  ( lpStruct.qrStrmsyn )
+
 /*
     Header - Typedefs
  */
