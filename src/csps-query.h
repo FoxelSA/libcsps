@@ -75,22 +75,22 @@
  */
 
     /* Position query structure pointers access */
-    # define lp_query_position_lat( lpStruct )  ( lpStruct.qrStrmlat )
-    # define lp_query_position_lon( lpStruct )  ( lpStruct.qrStrmlon )
-    # define lp_query_position_alt( lpStruct )  ( lpStruct.qrStrmalt )
-    # define lp_query_position_syn( lpStruct )  ( lpStruct.qrStrmsyn )
+    # define lp_query_position_lat( lpStruct )      ( lpStruct.qrStrmlat )
+    # define lp_query_position_lon( lpStruct )      ( lpStruct.qrStrmlon )
+    # define lp_query_position_alt( lpStruct )      ( lpStruct.qrStrmalt )
+    # define lp_query_position_syn( lpStruct )      ( lpStruct.qrStrmsyn )
 
     /* Orientation query structure pointers access */
-    # define lp_query_orientation_fxx( lpStruct )  ( lpStruct.qrStrmfxx )
-    # define lp_query_orientation_fxy( lpStruct )  ( lpStruct.qrStrmfxy )
-    # define lp_query_orientation_fxz( lpStruct )  ( lpStruct.qrStrmfxz )
-    # define lp_query_orientation_fyx( lpStruct )  ( lpStruct.qrStrmfyx )
-    # define lp_query_orientation_fyy( lpStruct )  ( lpStruct.qrStrmfyy )
-    # define lp_query_orientation_fyz( lpStruct )  ( lpStruct.qrStrmfyz )
-    # define lp_query_orientation_fzx( lpStruct )  ( lpStruct.qrStrmfzx )
-    # define lp_query_orientation_fzy( lpStruct )  ( lpStruct.qrStrmfzy )
-    # define lp_query_orientation_fzz( lpStruct )  ( lpStruct.qrStrmfzz )
-    # define lp_query_orientation_syn( lpStruct )  ( lpStruct.qrStrmsyn )
+    # define lp_query_orientation_fxx( lpStruct )   ( lpStruct.qrStrmfxx )
+    # define lp_query_orientation_fxy( lpStruct )   ( lpStruct.qrStrmfxy )
+    # define lp_query_orientation_fxz( lpStruct )   ( lpStruct.qrStrmfxz )
+    # define lp_query_orientation_fyx( lpStruct )   ( lpStruct.qrStrmfyx )
+    # define lp_query_orientation_fyy( lpStruct )   ( lpStruct.qrStrmfyy )
+    # define lp_query_orientation_fyz( lpStruct )   ( lpStruct.qrStrmfyz )
+    # define lp_query_orientation_fzx( lpStruct )   ( lpStruct.qrStrmfzx )
+    # define lp_query_orientation_fzy( lpStruct )   ( lpStruct.qrStrmfzy )
+    # define lp_query_orientation_fzz( lpStruct )   ( lpStruct.qrStrmfzz )
+    # define lp_query_orientation_syn( lpStruct )   ( lpStruct.qrStrmsyn )
 
 /*
     Header - Typedefs
@@ -99,6 +99,38 @@
 /*
     Header - Structures
  */
+
+    /*! \struct lp_Query_Trigger_struct
+     *  \brief Camera trigger query structure
+     *
+     *  This structure is used to stored necessary informations that synchronize
+     *  camera trigger timestamps, used by some devices to name the camera 
+     *  images, with the synchronization clock used as link between devices
+     *  (camera triggers, GPS measures, IMU measures ...).
+     *
+     *  \var lp_Query_Trigger_struct::qrStatus
+     *  Query status. If LP_FALSE, the query has failed
+     *  \var lp_Query_Trigger_struct::qrSize
+     *  Size, in bytes, of streams
+     *  \var lp_Query_Trigger_struct::qrStrmTag
+     *  Camera trigger timestamp stream data
+     *  \var lp_Query_Trigger_struct::qrStrmSyn
+     *  Synchronization stream data
+     */
+
+    typedef struct lp_Query_Trigger_struct {
+
+        /* Query status */
+        lp_Enum_t   qrStatus;
+
+        /* Streams size */
+        lp_Size_t   qrSize;
+
+        /* Streams data */
+        lp_Time_t * qrStrmTag;
+        lp_Time_t * qrStrmSyn;
+
+    } lp_Trigger_t;
 
     /*! \struct lp_Query_Position_struct
      *  \brief WGS84 position query structure
@@ -145,7 +177,7 @@
         lp_Real_t * qrStrmalt;
         lp_Time_t * qrStrmsyn;
 
-    } lp_Query_Position_t, lp_Geopos_t;
+    } lp_Geopos_t;
 
     /*! \struct lp_Query_Orientation_struct
      *  \brief Orientation query structure
@@ -226,11 +258,32 @@
         lp_Real_t * qrStrmfzz;
         lp_Time_t * qrStrmsyn;
 
-    } lp_Query_Orientation_t, lp_Orient_t;
+    } lp_Orient_t;
 
 /*
     Header - Function prototypes
  */
+
+    /*! \brief CSPS query - Trigger - Initialization
+    */
+
+    lp_Trigger_t lp_query_trigger_read(
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule
+
+    );
+
+    /*! \brief CSPS query - Trigger - Deletion
+     */
+
+    lp_Void_t lp_query_trigger_delete(
+
+        lp_Trigger_t * const lpTrigger
+
+    );
 
     /*! \brief CSPS query - Position - Initialization
      *

@@ -44,6 +44,61 @@
     # include "csps-query.h"
 
 /*
+    Source - CSPS query - Trigger
+ */
+
+    lp_Trigger_t lp_query_trigger_read(
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpDevice,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule
+
+    ) {
+
+        /* Stream size variables */
+        lp_Size_t lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
+
+        /* Returned structure variables */
+        lp_Trigger_t lpTrigger = { 
+
+            /* Setting query status */
+            LP_FALSE,
+
+            /* Setting stream size */
+            lpSize, 
+
+            /* Streams data importation */
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize ),
+            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize )
+
+        };
+
+        /* Return structure */
+        return( lpTrigger );
+
+    }
+
+    lp_Void_t lp_query_trigger_delete(
+
+        lp_Trigger_t * const lpTrigger
+
+    ) {
+
+        /* Reset query status */
+        lpTrigger->qrStatus = LP_FALSE;
+
+        /* Reset stream size */
+        lpTrigger->qrSize = lp_Size_s( 0 );
+
+        /* Unallocate streams */
+        lpTrigger->qrStrmTag = lp_stream_delete( lpTrigger->qrStrmTag );
+        lpTrigger->qrStrmSyn = lp_stream_delete( lpTrigger->qrStrmSyn );
+
+    }
+    
+
+/*
     Source - CSPS query - Position
  */
 
@@ -70,10 +125,10 @@
             lp_Real_s( 0.0 ),
             lp_Real_s( 0.0 ),
 
-            /* Stream size variables */
+            /* Setting stream size */
             lpSize,
 
-            /* Stream reading */
+            /* Streams data importation */
             lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpSize ),
             lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpSize ),
             lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpSize ),
@@ -232,10 +287,10 @@
             lp_Real_s( 0.0 ),
             lp_Real_s( 0.0 ),
 
-            /* Stream size variables */
+            /* Setting stream size */
             lpSize,
 
-            /* Stream reading */
+            /* Streams data importation */
             lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXX, sizeof( lp_Real_t ) * lpSize ),
             lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXY, sizeof( lp_Real_t ) * lpSize ),
             lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXZ, sizeof( lp_Real_t ) * lpSize ),
