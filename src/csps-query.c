@@ -96,6 +96,17 @@
         lpTrigger->qrStrmSyn = lp_stream_delete( lpTrigger->qrStrmSyn );
 
     }
+
+    lp_Size_t lp_query_trigger_size(
+
+        lp_Trigger_t const * const lpTrigger
+
+    ) {
+
+        /* Return imported streams size */
+        return( lpTrigger->qrSize );
+
+    }
     
 
 /*
@@ -251,6 +262,28 @@
             lpGeopos->qrStatus = LP_FALSE;
 
         }
+
+    }
+
+    lp_Enum_t lp_query_position_status(
+
+        lp_Geopos_t const * const lpGeopos
+
+    ) {
+
+        /* Return query structure status */
+        return( lpGeopos->qrStatus );
+
+    }
+
+    lp_Size_t lp_query_position_size( 
+
+        lp_Geopos_t const * const lpGeopos
+
+    ) {
+
+        /* Return imported streams size */
+        return( lpGeopos->qrSize );
 
     }
 
@@ -485,6 +518,28 @@
             lpOrient->qrStatus = LP_FALSE;
 
         }
+
+    }
+
+    lp_Enum_t lp_query_orientation_status(
+
+        lp_Orient_t const * const lpOrient
+
+    ) {
+
+        /* Return query structure status */
+        return( lpOrient->qrStatus );
+
+    }
+
+    lp_Size_t lp_query_orientation_size( 
+
+        lp_Orient_t const * const lpOrient
+
+    ) {
+
+        /* Return imported streams size */
+        return( lpOrient->qrSize );
 
     }
 

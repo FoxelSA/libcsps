@@ -296,12 +296,26 @@
      *
      *  This function deletes the query on camera trigger structure.
      * 
-     *  \param lpTrigger Pointer to structure
+     *  \param lpTrigger Pointer to query structure
      */
 
     lp_Void_t lp_query_trigger_delete(
 
         lp_Trigger_t * const lpTrigger
+
+    );
+
+    /*! \brief CSPS query - Trigger - Method
+     *
+     *  This method allows to get the size, in bytes, of the camera trigger
+     *  imported streams.
+     *
+     *  \param lpTrigger  Pointer to query structure
+     */
+
+    lp_Size_t lp_query_trigger_size(
+
+        lp_Trigger_t const * const lpTrigger
 
     );
 
@@ -327,11 +341,11 @@
 
     );
 
-    /*! \brief Source - CSPS query - Position - Deletion
+    /*! \brief CSPS query - Position - Deletion
      *  
      *  This function deletes the query on position structure.
      *
-     *  \param lpGeopos Pointer to structure
+     *  \param lpGeopos Pointer to query structure
      */
 
     lp_Void_t lp_query_position_delete( 
@@ -340,7 +354,7 @@
 
     );
 
-    /*! \brief Source - CSPS query - Position
+    /*! \brief CSPS query - Position
      *
      *  This function performs a query on position based on the provided query
      *  structure and the provided timestamp. The structure has to be already
@@ -350,7 +364,7 @@
      *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
      *  structure fields.
      *
-     *  \param lpGeopos     Pointer to structure
+     *  \param lpGeopos     Pointer to query structure
      *  \param lpTimestamp  Timestamp of the position
      *
      */
@@ -362,7 +376,35 @@
 
     );
 
-    /*! \brief Source - CSPS query - Orientation
+    /*! \brief CSPS query - Position - Method
+     *
+     *  This function allows to get value of the query status stored in the
+     *  query structure.
+     *
+     *  \param lpGeopos Pointer to query structure
+     */
+
+    lp_Enum_t lp_query_position_status(
+
+        lp_Geopos_t const * const lpGeopos
+
+    );
+
+    /*! \brief CSPS query - Position - Method
+     *
+     *  This method allows to get the size, in bytes, of the position imported
+     *  streams.
+     *
+     *  \param lpGeopos Pointer to query structure
+     */
+
+    lp_Size_t lp_query_position_size( 
+
+        lp_Geopos_t const * const lpGeopos
+
+    );
+
+    /*! \brief CSPS query - Orientation
      *
      *  This function creates the query on orientation structure needed to
      *  perform queries on processed data.
@@ -384,11 +426,11 @@
 
     );
 
-    /*! \brief Source - CSPS query - Orientation
+    /*! \brief CSPS query - Orientation
      *  
      *  This function deletes the query on orientation structure.
      *
-     *  \param lpOrient Pointer to structure
+     *  \param lpOrient Pointer to query structure
      */
 
     lp_Void_t lp_query_orientation_delete(
@@ -397,7 +439,7 @@
 
     );
 
-    /*! \brief Source - CSPS query - Orientation
+    /*! \brief CSPS query - Orientation
      *  
      *  This function perform a query on orientation based on the provided query
      *  structure and the provided timestamp. The structure has to be already
@@ -407,7 +449,7 @@
      *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
      *  decriptor fields.
      *
-     *  \param lpOrient     Pointer to structure
+     *  \param lpOrient     Pointer to query structure
      *  \param lpTimestamp  Timestamp of the position
      */
 
@@ -415,6 +457,34 @@
 
         lp_Orient_t       * const lpOrient,
         lp_Time_t   const         lpTimestamp
+
+    );
+
+    /*! \brief CSPS query - Orientation - Method
+     *
+     *  This function allows to get value of the query status stored in the
+     *  query structure.
+     *
+     *  \param lpOrient Pointer to query structure
+     */
+
+    lp_Enum_t lp_query_orientation_status(
+
+        lp_Orient_t const * const lpOrient
+
+    );
+
+    /*! \brief CSPS query - Orientation - Method
+     *
+     *  This method allows to get the size, in bytes, of the orientation imported
+     *  streams.
+     *
+     *  \param lpOrient Pointer to query structure
+     */
+
+    lp_Size_t lp_query_orientation_size( 
+
+        lp_Orient_t const * const lpOrient
 
     );
 
