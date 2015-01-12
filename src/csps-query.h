@@ -74,11 +74,15 @@
     Header - Preprocessor macros
  */
 
+    /* Trigger query structure pointers access */
+    # define lp_query_trigger_tag( lpStruct )       ( lpStruct.qrStrmTag )
+    # define lp_query_trigger_syn( lpStruct )       ( lpStruct.qrStrmSyn )
+
     /* Position query structure pointers access */
-    # define lp_query_position_lat( lpStruct )      ( lpStruct.qrStrmlat )
-    # define lp_query_position_lon( lpStruct )      ( lpStruct.qrStrmlon )
-    # define lp_query_position_alt( lpStruct )      ( lpStruct.qrStrmalt )
-    # define lp_query_position_syn( lpStruct )      ( lpStruct.qrStrmsyn )
+    # define lp_query_position_lat( lpStruct )      ( lpStruct.qrStrmLat )
+    # define lp_query_position_lon( lpStruct )      ( lpStruct.qrStrmLon )
+    # define lp_query_position_alt( lpStruct )      ( lpStruct.qrStrmAlt )
+    # define lp_query_position_syn( lpStruct )      ( lpStruct.qrStrmSyn )
 
     /* Orientation query structure pointers access */
     # define lp_query_orientation_fxx( lpStruct )   ( lpStruct.qrStrmfxx )
@@ -90,7 +94,7 @@
     # define lp_query_orientation_fzx( lpStruct )   ( lpStruct.qrStrmfzx )
     # define lp_query_orientation_fzy( lpStruct )   ( lpStruct.qrStrmfzy )
     # define lp_query_orientation_fzz( lpStruct )   ( lpStruct.qrStrmfzz )
-    # define lp_query_orientation_syn( lpStruct )   ( lpStruct.qrStrmsyn )
+    # define lp_query_orientation_syn( lpStruct )   ( lpStruct.qrStrmSyn )
 
 /*
     Header - Typedefs
@@ -148,13 +152,13 @@
      *  Altitude in meters above mean see level
      *  \var lp_Query_Position_struct::qrSize
      *  Size, in bytes, of streams
-     *  \var lp_Query_Position_struct::qrStrmlat
+     *  \var lp_Query_Position_struct::qrStrmLat
      *  Latitude stream data
-     *  \var lp_Query_Position_struct::qrStrmlon
+     *  \var lp_Query_Position_struct::qrStrmLon
      *  Longitude stream data
-     *  \var lp_Query_Position_struct::qrStrmalt
+     *  \var lp_Query_Position_struct::qrStrmAlt
      *  Altitude stream data
-     *  \var lp_Query_Position_struct::qrStrmsyn
+     *  \var lp_Query_Position_struct::qrStrmSyn
      *  Synchronization stream data
      */
 
@@ -172,10 +176,10 @@
         lp_Size_t   qrSize;
 
         /* Streams data */
-        lp_Real_t * qrStrmlat;
-        lp_Real_t * qrStrmlon;
-        lp_Real_t * qrStrmalt;
-        lp_Time_t * qrStrmsyn;
+        lp_Real_t * qrStrmLat;
+        lp_Real_t * qrStrmLon;
+        lp_Real_t * qrStrmAlt;
+        lp_Time_t * qrStrmSyn;
 
     } lp_Geopos_t;
 
@@ -225,7 +229,7 @@
      *  Y-component of z-vector frame stream data
      *  \var lp_Query_Orientation_struct::qrStrmfzz
      *  Z-component of z-vector frame stream data
-     *  \var lp_Query_Orientation_struct::qrStrmsyn
+     *  \var lp_Query_Orientation_struct::qrStrmSyn
      *  Synchronization stream data
      */
 
@@ -258,7 +262,7 @@
         lp_Real_t * qrStrmfzx;
         lp_Real_t * qrStrmfzy;
         lp_Real_t * qrStrmfzz;
-        lp_Time_t * qrStrmsyn;
+        lp_Time_t * qrStrmSyn;
 
     } lp_Orient_t;
 

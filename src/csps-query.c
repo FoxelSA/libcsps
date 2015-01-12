@@ -159,10 +159,10 @@
         lpGeopos->qrSize = lp_Size_s( 0 );
 
         /* Unallocate streams */
-        lpGeopos->qrStrmlat = lp_stream_delete( lpGeopos->qrStrmlat );
-        lpGeopos->qrStrmlon = lp_stream_delete( lpGeopos->qrStrmlon );
-        lpGeopos->qrStrmalt = lp_stream_delete( lpGeopos->qrStrmalt );
-        lpGeopos->qrStrmsyn = lp_stream_delete( lpGeopos->qrStrmsyn );
+        lpGeopos->qrStrmLat = lp_stream_delete( lpGeopos->qrStrmLat );
+        lpGeopos->qrStrmLon = lp_stream_delete( lpGeopos->qrStrmLon );
+        lpGeopos->qrStrmAlt = lp_stream_delete( lpGeopos->qrStrmAlt );
+        lpGeopos->qrStrmSyn = lp_stream_delete( lpGeopos->qrStrmSyn );
 
     }
 
@@ -189,7 +189,7 @@
         lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
 
         /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
-        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpGeopos->qrStrmsyn, lpGeopos->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
+        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpGeopos->qrStrmSyn, lpGeopos->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
 
             /* Cubic interpolation derivative range necessities */
             if ( ( lpParse >= lp_Size_s( 1 ) ) && ( lpParse < ( lpGeopos->qrSize - lp_Size_s( 2 ) ) ) ) {
@@ -201,37 +201,37 @@
                 lpSample3 = lpParse + 2;
 
                 /* Compute time interpolation variable */
-                lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGeopos->qrStrmsyn[lpSample1] ) );
+                lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGeopos->qrStrmSyn[lpSample1] ) );
 
                 /* Compute time interpolation sample */
-                lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmsyn[lpSample2], lpGeopos->qrStrmsyn[lpSample1] ) );
-                lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmsyn[lpSample2], lpGeopos->qrStrmsyn[lpSample0] ) );
-                lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmsyn[lpSample3], lpGeopos->qrStrmsyn[lpSample1] ) );
+                lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmSyn[lpSample2], lpGeopos->qrStrmSyn[lpSample1] ) );
+                lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmSyn[lpSample2], lpGeopos->qrStrmSyn[lpSample0] ) );
+                lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmSyn[lpSample3], lpGeopos->qrStrmSyn[lpSample1] ) );
 
                 /* Compute interpolation values - Latitude */
-                lpGeopos->qrLatitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmlat[lpSample1], lpGeopos->qrStrmlat[lpSample2],
+                lpGeopos->qrLatitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmLat[lpSample1], lpGeopos->qrStrmLat[lpSample2],
 
                     /* Standard derivatives */
-                    ( lpGeopos->qrStrmlat[lpSample2] - lpGeopos->qrStrmlat[lpSample0] ) / lpDT0T2,
-                    ( lpGeopos->qrStrmlat[lpSample3] - lpGeopos->qrStrmlat[lpSample1] ) / lpDT1T3
+                    ( lpGeopos->qrStrmLat[lpSample2] - lpGeopos->qrStrmLat[lpSample0] ) / lpDT0T2,
+                    ( lpGeopos->qrStrmLat[lpSample3] - lpGeopos->qrStrmLat[lpSample1] ) / lpDT1T3
 
                 );
 
                 /* Compute interpolation values - Longitude */
-                lpGeopos->qrLongitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmlon[lpSample1], lpGeopos->qrStrmlon[lpSample2],
+                lpGeopos->qrLongitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmLon[lpSample1], lpGeopos->qrStrmLon[lpSample2],
 
                     /* Standard derivatives */
-                    ( lpGeopos->qrStrmlon[lpSample2] - lpGeopos->qrStrmlon[lpSample0] ) / lpDT0T2,
-                    ( lpGeopos->qrStrmlon[lpSample3] - lpGeopos->qrStrmlon[lpSample1] ) / lpDT1T3
+                    ( lpGeopos->qrStrmLon[lpSample2] - lpGeopos->qrStrmLon[lpSample0] ) / lpDT0T2,
+                    ( lpGeopos->qrStrmLon[lpSample3] - lpGeopos->qrStrmLon[lpSample1] ) / lpDT1T3
 
                 );
 
                 /* Compute interpolation values - Altitude */
-                lpGeopos->qrAltitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmalt[lpSample1], lpGeopos->qrStrmalt[lpSample2],
+                lpGeopos->qrAltitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmAlt[lpSample1], lpGeopos->qrStrmAlt[lpSample2],
 
                     /* Standard derivatives */
-                    ( lpGeopos->qrStrmalt[lpSample2] - lpGeopos->qrStrmalt[lpSample0] ) / lpDT0T2,
-                    ( lpGeopos->qrStrmalt[lpSample3] - lpGeopos->qrStrmalt[lpSample1] ) / lpDT1T3
+                    ( lpGeopos->qrStrmAlt[lpSample2] - lpGeopos->qrStrmAlt[lpSample0] ) / lpDT0T2,
+                    ( lpGeopos->qrStrmAlt[lpSample3] - lpGeopos->qrStrmAlt[lpSample1] ) / lpDT1T3
 
                 );
 
@@ -342,7 +342,7 @@
         lpOrient->qrStrmfzx = lp_stream_delete( lpOrient->qrStrmfzx );
         lpOrient->qrStrmfzy = lp_stream_delete( lpOrient->qrStrmfzy );
         lpOrient->qrStrmfzz = lp_stream_delete( lpOrient->qrStrmfzz );
-        lpOrient->qrStrmsyn = lp_stream_delete( lpOrient->qrStrmsyn );
+        lpOrient->qrStrmSyn = lp_stream_delete( lpOrient->qrStrmSyn );
 
     }
 
@@ -369,7 +369,7 @@
         lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
 
         /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
-        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpOrient->qrStrmsyn, lpOrient->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
+        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpOrient->qrStrmSyn, lpOrient->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
 
             /* Cubic interpolation derivative range necessities */
             if ( ( lpParse >= lp_Size_s( 1 ) ) && ( lpParse < ( lpOrient->qrSize - lp_Size_s( 2 ) ) ) ) {
@@ -381,12 +381,12 @@
                 lpSample3 = lpParse + 2;
 
                 /* Compute time interpolation variable */
-                lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpOrient->qrStrmsyn[lpSample1] ) );
+                lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpOrient->qrStrmSyn[lpSample1] ) );
 
                 /* Compute time interpolation sample */
-                lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpOrient->qrStrmsyn[lpSample2], lpOrient->qrStrmsyn[lpSample1] ) );
-                lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpOrient->qrStrmsyn[lpSample2], lpOrient->qrStrmsyn[lpSample0] ) );
-                lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpOrient->qrStrmsyn[lpSample3], lpOrient->qrStrmsyn[lpSample1] ) );
+                lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpOrient->qrStrmSyn[lpSample2], lpOrient->qrStrmSyn[lpSample1] ) );
+                lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpOrient->qrStrmSyn[lpSample2], lpOrient->qrStrmSyn[lpSample0] ) );
+                lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpOrient->qrStrmSyn[lpSample3], lpOrient->qrStrmSyn[lpSample1] ) );
 
                 /* Compute interpolation values - Frame x-component x-vector */
                 lpOrient->qrfxx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfxx[lpSample1], lpOrient->qrStrmfxx[lpSample2],
