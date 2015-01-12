@@ -225,6 +225,8 @@
      *  Y-component of z-vector frame stream data
      *  \var lp_Query_Orientation_struct::qrStrmfzz
      *  Z-component of z-vector frame stream data
+     *  \var lp_Query_Orientation_struct::qrStrmsyn
+     *  Synchronization stream data
      */
 
     typedef struct lp_Query_Orientation_struct {
@@ -265,7 +267,17 @@
  */
 
     /*! \brief CSPS query - Trigger - Initialization
-    */
+     *
+     *  This function creates the query on camera trigger structure neeeded to
+     *  perform queries on processed.
+     *
+     *  \param lpPath   Path CSPS structure
+     *  \param lpDevice Device tag
+     *  \param lpTag    Device name
+     *  \param lpModule Reference stream
+     *
+     *  \return Created query on camera trigger structure
+     */
 
     lp_Trigger_t lp_query_trigger_read(
 
@@ -277,6 +289,10 @@
     );
 
     /*! \brief CSPS query - Trigger - Deletion
+     *
+     *  This function deletes the query on camera trigger structure.
+     * 
+     *  \param lpTrigger Pointer to structure
      */
 
     lp_Void_t lp_query_trigger_delete(

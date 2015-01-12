@@ -1,5 +1,9 @@
 ## Changelog
 
+### Beta 0.3 (master)
+
+- `Added` : Camera trigger query interface
+
 ### Release 0.2 (January 9, 2015)
 
 - `Revised` : Query interface efficiency improvement
