@@ -2,6 +2,7 @@
 
 ### Beta 0.3 (master)
 
+- `Revised` : Internal stream name access
 - `Added` : Camera trigger query interface
 
 ### Release 0.2 (January 9, 2015)
