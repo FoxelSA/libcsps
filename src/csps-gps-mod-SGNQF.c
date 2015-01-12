@@ -70,14 +70,14 @@
         lp_Time_t * lpGPSqbf = LP_NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpGPS.dvType, lpGPS.dvTag, lpGPSmod );
+        lpSize = lp_stream_size( lpPath, lpGPS.dvTag, lpGPSmod );
 
         /* Read streams */
-        lpGPSlat = lp_stream_read( lpPath, lpGPS.dvType, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpSize );
-        lpGPSlon = lp_stream_read( lpPath, lpGPS.dvType, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpSize );
-        lpGPSalt = lp_stream_read( lpPath, lpGPS.dvType, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpSize );
-        lpGPSqbf = lp_stream_read( lpPath, lpGPS.dvType, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize );
-        lpGPSsyn = lp_stream_read( lpPath, lpGPS.dvType, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+        lpGPSlat = lp_stream_read( lpPath, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpSize );
+        lpGPSlon = lp_stream_read( lpPath, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpSize );
+        lpGPSalt = lp_stream_read( lpPath, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpSize );
+        lpGPSqbf = lp_stream_read( lpPath, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize );
+        lpGPSsyn = lp_stream_read( lpPath, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
         /* Signal quality filtering */
         for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize - lp_Size_s( 1 ) ; lpParse ++ ) {
@@ -100,11 +100,11 @@
         }
 
         /* Write stream data */
-        lp_stream_write( lpPath, lpGPS.dvType, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_LAT, lpGPSlat, sizeof( lp_Real_t ) * lpIndex );
-        lp_stream_write( lpPath, lpGPS.dvType, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_LON, lpGPSlon, sizeof( lp_Real_t ) * lpIndex );
-        lp_stream_write( lpPath, lpGPS.dvType, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_ALT, lpGPSalt, sizeof( lp_Real_t ) * lpIndex );
-        lp_stream_write( lpPath, lpGPS.dvType, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_TAG, lpGPSqbf, sizeof( lp_Time_t ) * lpIndex );
-        lp_stream_write( lpPath, lpGPS.dvType, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_SYN, lpGPSsyn, sizeof( lp_Time_t ) * lpIndex );
+        lp_stream_write( lpPath, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_LAT, lpGPSlat, sizeof( lp_Real_t ) * lpIndex );
+        lp_stream_write( lpPath, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_LON, lpGPSlon, sizeof( lp_Real_t ) * lpIndex );
+        lp_stream_write( lpPath, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_ALT, lpGPSalt, sizeof( lp_Real_t ) * lpIndex );
+        lp_stream_write( lpPath, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_TAG, lpGPSqbf, sizeof( lp_Time_t ) * lpIndex );
+        lp_stream_write( lpPath, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_SYN, lpGPSsyn, sizeof( lp_Time_t ) * lpIndex );
 
         /* Unallocate buffer memory */
         lpGPSlat = lp_stream_delete( lpGPSlat );

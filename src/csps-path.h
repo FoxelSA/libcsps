@@ -115,7 +115,6 @@
      *  array.
      *  
      *  \param lpBase   Path CSPS structure
-     *  \param lpDevice Device type
      *  \param lpTag    Device specific name
      *  \param lpModule Modulde name
      *  \param lpType   Component data type
@@ -125,7 +124,6 @@
     lp_Void_t lp_path_stream( 
 
         lp_Char_t const * const lpBase,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule,
         lp_Char_t const * const lpType,

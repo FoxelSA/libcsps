@@ -50,14 +50,13 @@
     lp_Trigger_t lp_query_trigger_read(
 
         lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule
 
     ) {
 
         /* Stream size variables */
-        lp_Size_t lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
+        lp_Size_t lpSize = lp_stream_size( lpPath, lpTag, lpModule );
 
         /* Returned structure variables */
         lp_Trigger_t lpTrigger = { 
@@ -69,8 +68,8 @@
             lpSize, 
 
             /* Streams data importation */
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize ),
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize )
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize ),
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize )
 
         };
 
@@ -116,14 +115,13 @@
     lp_Geopos_t lp_query_position_read(
 
         lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule
 
     ) {
 
         /* Stream size variables */
-        lp_Size_t lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
+        lp_Size_t lpSize = lp_stream_size( lpPath, lpTag, lpModule );
 
         /* Returned structure variables */
         lp_Geopos_t lpGeopos = {
@@ -140,10 +138,10 @@
             lpSize,
 
             /* Streams data importation */
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize )
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize )
 
         };
 
@@ -294,14 +292,13 @@
     lp_Orient_t lp_query_orientation_read(
 
         lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule
 
     ) {
 
         /* Stream size variables */
-        lp_Size_t lpSize = lp_stream_size( lpPath, lpDevice, lpTag, lpModule );
+        lp_Size_t lpSize = lp_stream_size( lpPath, lpTag, lpModule );
 
         /* Returned structure */
         lp_Orient_t lpOrient = {
@@ -324,16 +321,16 @@
             lpSize,
 
             /* Streams data importation */
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXX, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXY, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FXZ, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FYX, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FYY, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FYZ, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FZX, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FZY, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_FZZ, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpDevice, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize )
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FXX, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FXY, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FXZ, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FYX, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FYY, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FYZ, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FZX, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FZY, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FZZ, sizeof( lp_Real_t ) * lpSize ),
+            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize )
 
         };
 

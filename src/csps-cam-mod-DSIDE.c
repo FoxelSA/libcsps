@@ -106,8 +106,8 @@
         lp_path_dside( lpPath, LP_DEVICE_EYESIS4PI, LP_DEVICE_EYESIS4PI_LOG, lpDEVlogp );
 
         /* Build stream file paths */
-        lp_path_stream( lpPath, lpCAM.dvType, lpCAM.dvTag, LP_CAM_DSIDE_MOD, LP_STREAM_CPN_TAG, lpDEVmasp );
-        lp_path_stream( lpPath, lpCAM.dvType, lpCAM.dvTag, LP_CAM_DSIDE_MOD, LP_STREAM_CPN_SYN, lpDEVsynp );
+        lp_path_stream( lpPath, lpCAM.dvTag, LP_CAM_DSIDE_MOD, LP_STREAM_CPN_TAG, lpDEVmasp );
+        lp_path_stream( lpPath, lpCAM.dvTag, LP_CAM_DSIDE_MOD, LP_STREAM_CPN_SYN, lpDEVsynp );
 
         /* Open stream files */
         lpDEVlogf = fopen( lpDEVlogp, "rb" );

@@ -89,16 +89,16 @@
         lp_Time_t * lpIMUrsn = LP_NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod );
+        lpSize = lp_stream_size( lpPath, lpIMU.dvTag, lpIMUmod );
 
         /* Read streams */
-        lpIMUgrx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
-        lpIMUgry = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
-        lpIMUgrz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
-        lpIMUacx = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
-        lpIMUacy = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
-        lpIMUacz = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
-        lpIMUisn = lp_stream_read( lpPath, lpIMU.dvType, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+        lpIMUgrx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUgry = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUgrz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacy = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
+        lpIMUacz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
+        lpIMUisn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
         /* Create streams */
         lpIMUtag = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpIMU.dvISRmax );
@@ -178,8 +178,8 @@
         }
 
         /* Write streams */
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_ISRAD_MOD, LP_STREAM_CPN_TAG, lpIMUtag, sizeof( lp_Time_t ) * lpIndex );
-        lp_stream_write( lpPath, lpIMU.dvType, lpIMU.dvTag, LP_IMU_ISRAD_MOD, LP_STREAM_CPN_SYN, lpIMUrsn, sizeof( lp_Time_t ) * lpIndex );
+        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_ISRAD_MOD, LP_STREAM_CPN_TAG, lpIMUtag, sizeof( lp_Time_t ) * lpIndex );
+        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_ISRAD_MOD, LP_STREAM_CPN_SYN, lpIMUrsn, sizeof( lp_Time_t ) * lpIndex );
 
         /* Unallocate streams memory */
         lpIMUgrx = lp_stream_delete( lpIMUgrx );

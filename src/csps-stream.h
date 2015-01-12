@@ -174,7 +174,6 @@
     lp_Size_t lp_stream_size(
 
         lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule
 
@@ -198,7 +197,6 @@
     lp_Void_t * lp_stream_read(
 
         lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule,
         lp_Char_t const * const lpSuffix,
@@ -223,7 +221,6 @@
     lp_Void_t lp_stream_write(
 
         lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule,
         lp_Char_t const * const lpSuffix,
