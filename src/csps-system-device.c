@@ -49,38 +49,47 @@
 
     lp_Void_t lp_system_device_cam(
 
-        FILE * const lpStream
+        lp_Stack_t * const lpStack,
+        FILE       * const lpStream
 
     ) {
 
         /* String token variables */
-        lp_Char_t lpToken[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpToken[2][LP_STR_LEN] = { LP_STR_INI };
 
-        /* String buffer variables */
-        lp_Char_t lpModel[LP_STR_LEN] = LP_STR_INI;
-        lp_Char_t lpTag  [LP_STR_LEN] = LP_STR_INI;
+        /* Device allocation pointer */
+        lp_Camera_t * lpCamera = LP_NULL;
 
+        /* Token parser */
         do {
 
             /* Read token from stream */
-            lp_system_token( lpStream, lpToken );
+            lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken, LP_SYSTEM_KW_TAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_NAME ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpTag );
+                lp_system_token( lpStream, lpToken[1] );
 
             } else
-            if ( strcmp( lpToken, LP_SYSTEM_KW_MODEL ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_TAG ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpModel );
+                lp_system_token( lpStream, lpToken[2] );
 
             }
 
         /* End condition on end-keyword */
-        } while ( strcmp( lpToken, LP_SYSTEM_KW_END ) != 0 );
+        } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
+
+        /* Push device on stack */
+        if ( ( lpCamera = ( lp_Camera_t * ) lp_system_stack_push( lpStack, LP_SYSTEM_TYPE_CAM ) ) != LP_NULL ) {
+
+            /* Create camera device */
+            lp_device_camera( lpToken[1], lpToken[2] );
+
+        }
 
     }
 

@@ -85,6 +85,13 @@
     Header - Function prototypes
  */
 
+    lp_Void_t lp_system_device_cam(
+
+        lp_Stack_t * const lpStack,
+        FILE       * const lpStream
+
+    );
+
 /*
     Header - C/C++ compatibility
  */

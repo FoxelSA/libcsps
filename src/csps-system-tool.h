@@ -73,7 +73,7 @@
  */
 
     /* Define maximum number of devices */
-    # define LP_SYSTEM_LIMIT lp_Size_s( 1024 )
+    # define LP_SYSTEM_LIMIT        lp_Size_s( 1024 )
 
     /* Define device type constants */
     # define LP_SYSTEM_TYPE_NULL    lp_Enum_s( 0 )
@@ -105,6 +105,33 @@
 /*
     Header - Function prototypes
  */
+
+    lp_Void_t lp_system_stack_create(
+
+        lp_Stack_t * const lpStack
+
+    );
+
+    lp_Void_t lp_system_stack_clear(
+
+        lp_Stack_t * const lpStack
+
+    );
+
+    lp_Void_t * lp_system_stack_push(
+
+        lp_Stack_t * const lpStack,
+        lp_Enum_t    const lpType
+
+    );
+
+    lp_Void_t * lp_system_stack_bytag(
+
+        lp_Stack_t       * const lpStack,
+        lp_Enum_t          const lpType,
+        lp_Char_t  const * const lpTag
+
+    );
 
     /*! \brief File string token reader
      *

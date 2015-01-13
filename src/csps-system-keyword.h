@@ -67,16 +67,19 @@
     Header - Preprocessor definitions
  */
 
-    /* Topology file keywords definition - Generic */
-    # define LP_SYSTEM_KW_END       "end"
+    /* Define topology keywords - generic */
+    # define LP_SYSTEM_END       "end"
 
-    /* Topology file keywords definition - Devices */
-    # define LP_SYSTEM_KW_DEVICE    "device"
-    # define LP_SYSTEM_KW_MODEL     "model"
-    # define LP_SYSTEM_KW_TAG       "tag"
+    /* Define topology keywords - devices */
+    # define LP_SYSTEM_DEVICE    "device"
+    # define LP_SYSTEM_NAME      "model"
+    # define LP_SYSTEM_TAG       "tag"
 
-    /* Topology file keywords definition - Parameters */
-    # define LP_SYSTEM_KW_BLOCK     "block"
+    /* Define topology keywords - modules */
+    # define LP_SYSTEM_DEVTAG    "device-tag"
+
+    /* Define topology keywords - parameters */
+    # define LP_SYSTEM_BLOCK     "block"
 
 /*
     Header - Preprocessor macros

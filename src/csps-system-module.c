@@ -49,44 +49,57 @@
 
     lp_Void_t lp_system_module_cam_mod_DSIDE(
 
-        lp_Char_t const * const lpPath,
-        FILE            * const lpStream
+        lp_Char_t  const * const lpPath,
+        lp_Stack_t       * const lpStack,
+        FILE             * const lpStream
 
     ) {
 
         /* String token variables */
-        lp_Char_t lpToken[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpToken[2][LP_STR_LEN] = { LP_STR_INI };
 
         /* Block size variables */
         lp_Size_t lpBlock = lp_Size_s( 1024 );
 
+        /* Camera descriptor pointer */
+        lp_Camera_t * lpCamera = LP_NULL;
+
+        /* Token parser */
         do {
 
             /* Read token from stream */
-            lp_system_token( lpStream, lpToken );
+            lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken, LP_SYSTEM_KW_TAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpToken );
+                lp_system_token( lpStream, lpToken[1] );
 
             } else
-            if ( strcmp( lpToken, LP_SYSTEM_KW_BLOCK ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_BLOCK ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpToken );
+                lp_system_token( lpStream, lpToken[0] );
 
                 /* Convert parameter token */
-                lpBlock = lp_Size_r( lpToken );
+                lpBlock = lp_Size_r( lpToken[0] );
 
             }
 
         /* End condition on end-keyword */
-        } while ( strcmp( lpToken, LP_SYSTEM_KW_END ) != 0 );
+        } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
-        /* Module call */
-        //lp_cam_mod_DSIDE( lpPath, lpC, lpBlock );
+        /* Search device by tag */
+        lpCamera = ( lp_Camera_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_CAM, lpToken[1] );
+
+        /* Check device search results */
+        if ( lpCamera != LP_NULL ) {
+
+            /* Module operation */
+            lp_cam_mod_DSIDE( lpPath, * lpCamera, lpBlock );
+
+        }
 
     }
 

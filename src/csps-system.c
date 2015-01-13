@@ -55,10 +55,10 @@
     ) {
 
         /* Device types stack variables */
-        lp_Enum_t lpTypes[LP_SYSTEM_DEVICE] = { lp_Enum_s( 0 ) };
+        lp_Enum_t lpTypes[LP_SYSTEM_LIMIT] = { lp_Enum_s( 0 ) };
 
         /* Device descriptors stack variables */
-        lp_Void_t * lpDescs[LP_SYSTEM_DEVICE] = { LP_NULL };
+        lp_Void_t * lpDescs[LP_SYSTEM_LIMIT] = { LP_NULL };
 
         /* Device stack index variables */
         lp_Size_t lpIndex = lp_Size_s( 0 );

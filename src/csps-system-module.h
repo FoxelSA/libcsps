@@ -62,6 +62,7 @@
  */
 
     # include "csps.h"
+    # include "csps-device.h"
     # include "csps-cam-mod-DSIDE.h"
     # include "csps-gps-mod-DSIDE.h"
     # include "csps-gps-mod-SGNQF.h"

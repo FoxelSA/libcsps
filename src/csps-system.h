@@ -75,7 +75,7 @@
     # define LP_SYSTEM_TOKEN        lp_Size_s( 16 )
 
     /* Define maximum number of devices */
-    # define LP_SYSTEM_DEVICE       lp_Size_s( 1024 )
+    //# define LP_SYSTEM_DEVICE       lp_Size_s( 1024 )
 
     /* Define invalid device */
     # define LP_SYSTEM_NODEVICE     lp_Size_s( -1 )
