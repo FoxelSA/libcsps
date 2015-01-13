@@ -47,6 +47,75 @@
     Source - CSPS topology interpreter
  */
 
+    lp_Enum_t lp_system_new(
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpFile
+
+    ) {
+
+        /* String token variables */
+        lp_Char_t lpToken[LP_STR_LEN] = LP_STR_INI;
+
+        /* Device stack variables */
+        lp_Stack_t lpStack;
+
+        /* Input stream handle variables */
+        FILE * lpStream = LP_NULL;
+
+        /* Create input stream handle */
+        if ( ( lpStream = fopen( lpFile, "r" ) ) == LP_NULL ) {
+
+            /* Return failure state */
+            return( LP_FALSE );
+
+        } else {
+
+            /* Create device stack */
+            lp_system_stack_create( & lpStack );
+
+            /* Topology file parsing */
+            while ( lp_system_token( lpStream, lpToken ) != LP_NULL ) {
+
+                /* Token analysis */
+                if ( strcmp( lpToken, LP_SYSTEM_DEVICE ) == 0 ) {
+
+                    /* Secondary token analysis */
+                    if ( strcmp( lp_system_token( lpStream, lpToken ), LP_SYSTEM_CAM ) == 0 ) {
+
+                        /* Specific device parser */
+                        lp_system_device_cam( & lpStack, lpStream );
+
+                    }
+
+                } else
+                if ( strcmp( lpToken, LP_SYSTEM_MODULE ) == 0 ) {
+
+                    /* Secondary token analysis */
+                    if ( strcmp( lp_system_token( lpStream, lpToken ), LP_DEVICE_TYPE_CAM "-" LP_CAM_DSIDE_MOD ) == 0 ) {
+
+                        /* Specific module parser */
+                        lp_system_module_cam_DSIDE( lpPath, & lpStack, lpStream );
+
+                    }
+
+                }
+                
+            }
+
+            /* Delete device stack */
+            lp_system_stack_delete( & lpStack );
+
+            /* Delete input stream handle */
+            fclose( lpStream );
+
+        }
+
+        /* Return success state */
+        return( LP_TRUE );
+
+    }
+
     lp_Void_t lp_system(
 
         lp_Char_t const * const lpPath,

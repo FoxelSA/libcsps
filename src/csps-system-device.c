@@ -55,7 +55,7 @@
     ) {
 
         /* String token variables */
-        lp_Char_t lpToken[2][LP_STR_LEN] = { LP_STR_INI };
+        lp_Char_t lpToken[3][LP_STR_LEN] = { LP_STR_INI };
 
         /* Device allocation pointer */
         lp_Camera_t * lpCamera = LP_NULL;
@@ -87,7 +87,7 @@
         if ( ( lpCamera = ( lp_Camera_t * ) lp_system_stack_push( lpStack, LP_SYSTEM_TYPE_CAM ) ) != LP_NULL ) {
 
             /* Create camera device */
-            lp_device_camera( lpToken[1], lpToken[2] );
+            * lpCamera = lp_device_camera( lpToken[1], lpToken[2] );
 
         }
 

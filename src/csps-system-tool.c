@@ -72,7 +72,7 @@
 
     }
 
-    lp_Void_t lp_system_stack_clear(
+    lp_Void_t lp_system_stack_delete(
 
         lp_Stack_t * const lpStack
 
@@ -133,7 +133,7 @@
         }
 
         /* Assign device descriptor type */
-        lpStack->stType  [lpStack->stSize] = lpType;
+        lpStack->stType[lpStack->stSize] = lpType;
 
         /* Update stack state */
         lpStack->stSize ++;

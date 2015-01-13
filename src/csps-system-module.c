@@ -47,7 +47,7 @@
     Source - DSIDE modules interface
  */
 
-    lp_Void_t lp_system_module_cam_mod_DSIDE(
+    lp_Void_t lp_system_module_cam_DSIDE(
 
         lp_Char_t  const * const lpPath,
         lp_Stack_t       * const lpStack,

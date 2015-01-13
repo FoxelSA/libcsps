@@ -76,10 +76,10 @@
     # define LP_SYSTEM_LIMIT        lp_Size_s( 1024 )
 
     /* Define device type constants */
-    # define LP_SYSTEM_TYPE_NULL    lp_Enum_s( 0 )
-    # define LP_SYSTEM_TYPE_CAM     lp_Enum_s( 1 )
-    # define LP_SYSTEM_TYPE_GPS     lp_Enum_s( 2 )
-    # define LP_SYSTEM_TYPE_IMU     lp_Enum_s( 3 )
+    # define LP_SYSTEM_TYPE_NULL    lp_Enum_s(    0 )
+    # define LP_SYSTEM_TYPE_CAM     lp_Enum_s(    1 )
+    # define LP_SYSTEM_TYPE_GPS     lp_Enum_s(    2 )
+    # define LP_SYSTEM_TYPE_IMU     lp_Enum_s(    3 )
 
 /*
     Header - Typedefs
@@ -89,7 +89,7 @@
     Header - Structures
  */
 
-    typedef struct lp_system_tool_stack_struct {
+    typedef struct lp_system_stack_struct {
 
         /* Stack state */
         lp_Size_t   stSize;
@@ -112,7 +112,7 @@
 
     );
 
-    lp_Void_t lp_system_stack_clear(
+    lp_Void_t lp_system_stack_delete(
 
         lp_Stack_t * const lpStack
 
