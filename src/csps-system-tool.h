@@ -81,6 +81,24 @@
     # define LP_SYSTEM_TYPE_GPS     lp_Enum_s(    2 )
     # define LP_SYSTEM_TYPE_IMU     lp_Enum_s(    3 )
 
+    /* Define topology keywords - generic */
+    # define LP_SYSTEM_DEVICE       "device"
+    # define LP_SYSTEM_MODULE       "module"
+    # define LP_SYSTEM_END          "end"
+
+    /* Define topology keywords - devices */
+    # define LP_SYSTEM_CAM          "cam"
+    # define LP_SYSTEM_GPS          "gps"
+    # define LP_SYSTEM_IMU          "imu"
+    # define LP_SYSTEM_NAME         "model"
+    # define LP_SYSTEM_TAG          "tag"
+
+    /* Define topology keywords - modules */
+    # define LP_SYSTEM_DEVTAG       "device-tag"
+
+    /* Define topology keywords - parameters */
+    # define LP_SYSTEM_BLOCK        "block"
+
 /*
     Header - Typedefs
  */

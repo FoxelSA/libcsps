@@ -62,7 +62,6 @@
  */
 
     # include "csps.h"
-    # include "csps-system-keyword.h"
     # include "csps-system-tool.h"
 
 /*
