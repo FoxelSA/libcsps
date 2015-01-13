@@ -70,13 +70,13 @@
         lp_Enum_t lpMode = LP_SYSTEM_MODE_MAIN;
 
         /* File handle variables */
-        FILE * lpHandle = LP_NULL;
+        FILE * lpStream = LP_NULL;
 
         /* Open file containing topology */
-        if ( ( lpHandle = fopen( lpFile, "r" ) ) != LP_NULL ) {
+        if ( ( lpStream = fopen( lpFile, "r" ) ) != LP_NULL ) {
 
             /* Read file by token */
-            while ( lp_system_token( lpHandle, lpToken[0] ) != LP_NULL ) {
+            while ( lp_system_token( lpStream, lpToken[0] ) != LP_NULL ) {
 
                 /* Check current mode */
                 if ( lpMode == LP_SYSTEM_MODE_MAIN ) {
@@ -137,10 +137,10 @@
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_CAM "-" LP_CAM_DSIDE_MOD ) == 0 ) {
 
                                 /* Search devices */
-                                lp_Size_t lpDevCAM = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_CAM, lpIndex, lpTypes, lpDescs );
+                                lp_Size_t lpDevCAM = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_CAM, lpIndex, lpTypes, lpDescs );
 
                                 /* Read parameters */
-                                lp_Size_t lpParam1 = lp_Size_r( lp_system_token( lpHandle, lpToken[2] ) );
+                                lp_Size_t lpParam1 = lp_Size_r( lp_system_token( lpStream, lpToken[2] ) );
 
                                 /* Module operation */
                                 lp_cam_mod_DSIDE( lpPath, * ( ( lp_Camera_t * ) lpDescs[lpDevCAM] ), lpParam1 );
@@ -149,10 +149,10 @@
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_GPS "-" LP_GPS_DSIDE_MOD ) == 0 ) {
 
                                 /* Search devices */
-                                lp_Size_t lpDevGPS = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_GPS, lpIndex, lpTypes, lpDescs );
+                                lp_Size_t lpDevGPS = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_GPS, lpIndex, lpTypes, lpDescs );
 
                                 /* Read parameters */
-                                lp_Size_t lpParam1 = lp_Size_r( lp_system_token( lpHandle, lpToken[2] ) );
+                                lp_Size_t lpParam1 = lp_Size_r( lp_system_token( lpStream, lpToken[2] ) );
 
                                 /* Module operation */
                                 lp_gps_mod_DSIDE( lpPath, * ( ( lp_GPS_t * ) lpDescs[lpDevGPS] ), lpParam1 );
@@ -161,7 +161,7 @@
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_DSIDE_MOD ) == 0 ) {
 
                                 /* Search devices */
-                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
+                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
 
                                 /* Module operation */
                                 lp_imu_mod_DSIDE( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ) );
@@ -170,10 +170,10 @@
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_GPS "-" LP_GPS_SGNQF_MOD ) == 0 ) {
 
                                 /* Search devices */
-                                lp_Size_t lpDevGPS = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_GPS, lpIndex, lpTypes, lpDescs );
+                                lp_Size_t lpDevGPS = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_GPS, lpIndex, lpTypes, lpDescs );
 
                                 /* Read token */
-                                lp_system_token( lpHandle, lpToken[1] );
+                                lp_system_token( lpStream, lpToken[1] );
 
                                 /* Module operation */
                                 lp_gps_mod_SGNQF( lpPath, * ( ( lp_GPS_t * ) lpDescs[lpDevGPS] ), lpToken[1] );
@@ -182,10 +182,10 @@
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_SGSFR_MOD ) == 0 ) {
 
                                 /* Search devices */
-                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
+                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
 
                                 /* Read token */
-                                lp_system_token( lpHandle, lpToken[1] );
+                                lp_system_token( lpStream, lpToken[1] );
 
                                 /* Module operation */
                                 lp_imu_mod_SGSFR( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), lpToken[1] );
@@ -194,10 +194,10 @@
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_SGNDN_MOD ) == 0 ) {
 
                                 /* Search devices */
-                                lp_Size_t lpDevice = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
+                                lp_Size_t lpDevice = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
 
                                 /* Read token */
-                                lp_system_token( lpHandle, lpToken[1] );
+                                lp_system_token( lpStream, lpToken[1] );
 
                                 /* Module operation */
                                 lp_imu_mod_SGNDN( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevice] ), lpToken[1] );
@@ -206,10 +206,10 @@
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_ISRAD_MOD ) == 0 ) {
 
                                 /* Search devices */
-                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
+                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
 
                                 /* Read token */
-                                lp_system_token( lpHandle, lpToken[1] );
+                                lp_system_token( lpStream, lpToken[1] );
 
                                 /* Module operation */
                                 lp_imu_mod_ISRAD( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), lpToken[1] );
@@ -218,11 +218,11 @@
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_IOISA_MOD ) == 0 ) {
 
                                 /* Search devices */
-                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
+                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
 
                                 /* Read token */
-                                lp_system_token( lpHandle, lpToken[1] );
-                                lp_system_token( lpHandle, lpToken[2] );
+                                lp_system_token( lpStream, lpToken[1] );
+                                lp_system_token( lpStream, lpToken[2] );
 
                                 /* Module operation */
                                 lp_imu_mod_IOISA( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), lpToken[1], lpToken[2] );
@@ -231,11 +231,11 @@
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_IFETI_MOD ) == 0 ) {
 
                                 /* Search devices */
-                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
+                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
 
                                 /* Read token */
-                                lp_system_token( lpHandle, lpToken[1] );
-                                lp_system_token( lpHandle, lpToken[2] );
+                                lp_system_token( lpStream, lpToken[1] );
+                                lp_system_token( lpStream, lpToken[2] );
 
                                 /* Module operation */
                                 lp_imu_mod_IFETI( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), lpToken[1], lpToken[2] );
@@ -244,11 +244,11 @@
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_AACEX_MOD ) == 0 ) {
 
                                 /* Search devices */
-                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
+                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
 
                                 /* Read token */
-                                lp_system_token( lpHandle, lpToken[1] );
-                                lp_system_token( lpHandle, lpToken[2] );
+                                lp_system_token( lpStream, lpToken[1] );
+                                lp_system_token( lpStream, lpToken[2] );
 
                                 /* Module operation */
                                 lp_imu_mod_AACEX( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), lpToken[1], lpToken[2] );
@@ -257,11 +257,11 @@
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_IOBMA_MOD ) == 0 ) {
 
                                 /* Search devices */
-                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
-                                lp_Size_t lpDevGPS = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_GPS, lpIndex, lpTypes, lpDescs );
+                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
+                                lp_Size_t lpDevGPS = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_GPS, lpIndex, lpTypes, lpDescs );
 
                                 /* Read token */
-                                lp_system_token( lpHandle, lpToken[1] );
+                                lp_system_token( lpStream, lpToken[1] );
 
                                 /* Module operation */
                                 lp_imu_mod_IOBMA( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), * ( ( lp_GPS_t * ) lpDescs[lpDevGPS] ), lpToken[1] );
@@ -270,10 +270,10 @@
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_IFICR_MOD ) == 0 ) {
 
                                 /* Search devices */
-                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
+                                lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
 
                                 /* Read token */
-                                lp_system_token( lpHandle, lpToken[1] );
+                                lp_system_token( lpStream, lpToken[1] );
 
                                 /* Module operation */
                                 lp_imu_mod_IFICR( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), lpToken[1] );
@@ -292,13 +292,13 @@
                                 lpDescs[lpIndex] = malloc( sizeof( lp_Camera_t ) );
 
                                 /* Initialize descriptor */
-                                * ( ( lp_Camera_t * ) lpDescs[lpIndex] ) = lp_device_camera( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_TYPE_CAM );
+                                * ( ( lp_Camera_t * ) lpDescs[lpIndex] ) = lp_device_camera( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_TYPE_CAM );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVTAGS ) == 0 ) {
 
                                 /* Update device tag */
-                                sprintf( ( ( lp_Camera_t * ) lpDescs[lpIndex] )->dvTag, "%s", lp_system_token( lpHandle, lpToken[1] ) );
+                                sprintf( ( ( lp_Camera_t * ) lpDescs[lpIndex] )->dvTag, "%s", lp_system_token( lpStream, lpToken[1] ) );
 
                             }
 
@@ -314,13 +314,13 @@
                                 lpDescs[lpIndex] = malloc( sizeof( lp_GPS_t ) );
 
                                 /* Initialize descriptor */
-                                * ( ( lp_GPS_t * ) lpDescs[lpIndex] ) = lp_device_GPS( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_TYPE_GPS );
+                                * ( ( lp_GPS_t * ) lpDescs[lpIndex] ) = lp_device_GPS( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_TYPE_GPS );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVTAGS ) == 0 ) {
 
                                 /* Update device tag */
-                                sprintf( ( ( lp_GPS_t * ) lpDescs[lpIndex] )->dvTag, "%s", lp_system_token( lpHandle, lpToken[1] ) );
+                                sprintf( ( ( lp_GPS_t * ) lpDescs[lpIndex] )->dvTag, "%s", lp_system_token( lpStream, lpToken[1] ) );
 
                             }
 
@@ -336,67 +336,67 @@
                                 lpDescs[lpIndex] = malloc( sizeof( lp_IMU_t ) );
 
                                 /* Initialize descriptor */
-                                * ( ( lp_IMU_t * ) lpDescs[lpIndex] ) = lp_device_IMU( lp_system_token( lpHandle, lpToken[1] ), LP_DEVICE_TYPE_IMU );
+                                * ( ( lp_IMU_t * ) lpDescs[lpIndex] ) = lp_device_IMU( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_TYPE_IMU );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVTAGS ) == 0 ) {
 
                                 /* Update device tag */
-                                sprintf( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvTag, "%s", lp_system_token( lpHandle, lpToken[1] ) );
+                                sprintf( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvTag, "%s", lp_system_token( lpStream, lpToken[1] ) );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVBLOC ) == 0 ) {
 
                                 /* Update device reading block size */
-                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvBlock ) );
+                                sscanf( lp_system_token( lpStream, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvBlock ) );
 
                             }  else 
                             if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVFREQ ) == 0 ) {
 
                                 /* Update device reading block size */
-                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvdfreq ) );
+                                sscanf( lp_system_token( lpStream, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvdfreq ) );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVICRX ) == 0 ) {
 
                                 /* Update device reading block size */
-                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvICRx ) );
+                                sscanf( lp_system_token( lpStream, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvICRx ) );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVICRY ) == 0 ) {
 
                                 /* Update device reading block size */
-                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvICRy ) );
+                                sscanf( lp_system_token( lpStream, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvICRy ) );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVICRZ ) == 0 ) {
 
                                 /* Update device reading block size */
-                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvICRz ) );
+                                sscanf( lp_system_token( lpStream, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvICRz ) );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVIRMX ) == 0 ) {
 
                                 /* Update device reading block size */
-                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvISRmax ) );
+                                sscanf( lp_system_token( lpStream, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvISRmax ) );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVIRMN ) == 0 ) {
 
                                 /* Update device reading block size */
-                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvISRacc ) );
+                                sscanf( lp_system_token( lpStream, lpToken[1] ), "%" lp_Size_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvISRacc ) );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVIRTG ) == 0 ) {
 
                                 /* Update device reading block size */
-                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvISRgrt ) );
+                                sscanf( lp_system_token( lpStream, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvISRgrt ) );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_SYSTEM_KW_DVIRTT ) == 0 ) {
 
                                 /* Update device reading block size */
-                                sscanf( lp_system_token( lpHandle, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvISRact ) );
+                                sscanf( lp_system_token( lpStream, lpToken[1] ), "%" lp_Real_i, & ( ( ( lp_IMU_t * ) lpDescs[lpIndex] )->dvISRact ) );
 
                             }
 
@@ -409,7 +409,7 @@
             }
 
             /* Close file */
-            fclose( lpHandle );
+            fclose( lpStream );
 
             /* Free memory allocations */
             for ( ; lpIndex >= 0 ; lpIndex -- ) free( lpDescs[lpIndex] );

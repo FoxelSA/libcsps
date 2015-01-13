@@ -36,18 +36,18 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   csps-system.h
+    /*! \file   csps-system-tool.h
      *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  CSPS library topology interpreter
+     *  CSPS library topology interpreter tool functions
      */
 
 /*
     Header - Include guard
  */
 
-    # ifndef __LP_SYSTEM_TOOLS__
-    # define __LP_SYSTEM_TOOLS__
+    # ifndef __LP_SYSTEM_TOOL__
+    # define __LP_SYSTEM_TOOL__
 
 /*
     Header - C/C++ compatibility
@@ -62,6 +62,7 @@
  */
 
     # include "csps.h"
+    # include "csps-device.h"
 
 /*
     Header - Preprocessor definitions
@@ -71,6 +72,15 @@
     Header - Preprocessor macros
  */
 
+    /* Define maximum number of devices */
+    # define LP_SYSTEM_LIMIT lp_Size_s( 1024 )
+
+    /* Define device type constants */
+    # define LP_SYSTEM_TYPE_NULL    lp_Enum_s( 0 )
+    # define LP_SYSTEM_TYPE_CAM     lp_Enum_s( 1 )
+    # define LP_SYSTEM_TYPE_GPS     lp_Enum_s( 2 )
+    # define LP_SYSTEM_TYPE_IMU     lp_Enum_s( 3 )
+
 /*
     Header - Typedefs
  */
@@ -78,6 +88,19 @@
 /*
     Header - Structures
  */
+
+    typedef struct lp_system_tool_stack_struct {
+
+        /* Stack state */
+        lp_Size_t   stSize;
+
+        /* Device type stack */
+        lp_Enum_t   stType  [LP_SYSTEM_LIMIT];
+
+        /* Device descriptor stack */
+        lp_Void_t * stDevice[LP_SYSTEM_LIMIT];
+
+    } lp_Stack_t;
 
 /*
     Header - Function prototypes

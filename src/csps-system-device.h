@@ -36,35 +36,66 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    /*! \file   csps-system-device.h
+     *  \author Nils Hamel <n.hamel@foxel.ch>
+     *
+     *  CSPS library topology interpreter device interface
+     */
 
 /*
-    Source - Includes
+    Header - Include guard
  */
 
-    # include "csps-system-tools.h"
+    # ifndef __LP_SYSTEM_DEVICE__
+    # define __LP_SYSTEM_DEVICE__
 
 /*
-    Source - File string token reader
+    Header - C/C++ compatibility
  */
 
-    lp_Char_t * lp_system_token(
+    # ifdef __cplusplus
+    extern "C" {
+    # endif
 
-        FILE      * const lpFile,
-        lp_Char_t * const lpToken
+/*
+    Header - Includes
+ */
 
-    ) {
+    # include "csps.h"
+    # include "csps-system-keyword.h"
+    # include "csps-system-tool.h"
 
-        /* Read token from file */
-        if ( fscanf( lpFile, "%s", lpToken ) == 1 ) {
+/*
+    Header - Preprocessor definitions
+ */
 
-            /* Return token pointer */
-            return( lpToken );
+/*
+    Header - Preprocessor macros
+ */
 
-        } else {
+/*
+    Header - Typedefs
+ */
 
-            /* Return null pointer */
-            return( LP_NULL );
+/*
+    Header - Structures
+ */
 
-        }
+/*
+    Header - Function prototypes
+ */
 
+/*
+    Header - C/C++ compatibility
+ */
+
+    # ifdef __cplusplus
     }
+    # endif
+
+/*
+    Header - Include guard
+ */
+
+    # endif
+

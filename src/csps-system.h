@@ -63,19 +63,9 @@
 
     # include "csps.h"
     # include "csps-device.h"
-    # include "csps-cam-mod-DSIDE.h"
-    # include "csps-gps-mod-DSIDE.h"
-    # include "csps-gps-mod-SGNQF.h"
-    # include "csps-imu-mod-AACEX.h"
-    # include "csps-imu-mod-DSIDE.h"
-    # include "csps-imu-mod-SGNDN.h"
-    # include "csps-imu-mod-SGSFR.h"
-    # include "csps-imu-mod-IFETI.h"
-    # include "csps-imu-mod-IFICR.h"
-    # include "csps-imu-mod-IOBMA.h"
-    # include "csps-imu-mod-IOISA.h"
-    # include "csps-imu-mod-ISRAD.h"
-    # include "csps-system-tools.h"
+    # include "csps-system-device.h"
+    # include "csps-system-module.h"
+    # include "csps-system-tool.h"
 
 /*
     Header - Preprocessor definitions
@@ -86,9 +76,6 @@
 
     /* Define maximum number of devices */
     # define LP_SYSTEM_DEVICE       lp_Size_s( 1024 )
-
-    /* Define maximum number of modules */
-    # define LP_SYSTEM_MODULE       lp_Size_s( 1024 )
 
     /* Define invalid device */
     # define LP_SYSTEM_NODEVICE     lp_Size_s( -1 )
