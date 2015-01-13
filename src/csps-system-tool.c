@@ -47,7 +47,7 @@
     Source - Device stack management
  */
 
-    lp_Void_t lp_system_stack_init(
+    lp_Void_t lp_system_stack_create(
 
         lp_Stack_t * const lpStack
 
@@ -139,6 +139,68 @@
         lpStack->stSize ++;
 
         /* Return create descriptor pointer */
+        return( lpReturn );
+
+    }
+
+    lp_Void_t * lp_system_stack_bytag(
+
+        lp_Stack_t       * const lpStack,
+        lp_Enum_t          const lpType,
+        lp_Char_t  const * const lpTag
+
+    ) {
+
+        /* Parsing variables */
+        lp_Size_t lpParse = lp_Size_s( 0 );
+
+        /* Returned value variables */
+        lp_Void_t * lpReturn = LP_NULL;
+
+        /* Searching loop */
+        while ( ( lpReturn == LP_NULL ) && ( lpParse < lpStack->stSize ) ) {
+
+            /* Detect device type */
+            if ( lpType == LP_SYSTEM_TYPE_CAM ) {
+
+                /* Compare tags */
+                if ( strcmp( lpTag, ( ( lp_Camera_t * ) lpStack->stDevice[lpParse] )->dvTag ) == 0 ) {
+
+                    /* Assign found pointer */
+                    lpReturn = lpStack->stDevice[lpParse];
+
+                }
+
+            } else
+            if ( lpType == LP_SYSTEM_TYPE_GPS ) {
+
+                /* Compare tags */
+                if ( strcmp( lpTag, ( ( lp_GPS_t * ) lpStack->stDevice[lpParse] )->dvTag ) == 0 ) {
+
+                    /* Assign found pointer */
+                    lpReturn = lpStack->stDevice[lpParse];
+
+                }
+
+            } else
+            if ( lpType == LP_SYSTEM_TYPE_IMU ) {
+
+                /* Compare tags */
+                if ( strcmp( lpTag, ( ( lp_IMU_t * ) lpStack->stDevice[lpParse] )->dvTag ) == 0 ) {
+
+                    /* Assign found pointer */
+                    lpReturn = lpStack->stDevice[lpParse];
+
+                }
+
+            }
+
+            /* Update search index */
+            lpParse ++;
+
+        }
+
+        /* Return found device */
         return( lpReturn );
 
     }
