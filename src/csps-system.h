@@ -75,6 +75,7 @@
     # include "csps-imu-mod-IOBMA.h"
     # include "csps-imu-mod-IOISA.h"
     # include "csps-imu-mod-ISRAD.h"
+    # include "csps-system-tools.h"
 
 /*
     Header - Preprocessor definitions
@@ -146,24 +147,6 @@
 
         lp_Char_t const * const lpPath,
         lp_Char_t const * const lpFile
-
-    );
-
-    /*! \brief File token reader
-     *
-     *  This function simply reads a token from specified file. It returns the
-     *  pointer to read token buffer.
-     * 
-     *  \param  lpFile   File from which token is read
-     *  \param  lpToken  Read token buffer
-     *
-     *  \return Returns pointer to string allocation that contains read token
-     */
-
-    lp_Char_t * lp_system_token(
-
-        FILE      * const lpFile,
-        lp_Char_t * const lpToken
 
     );
 

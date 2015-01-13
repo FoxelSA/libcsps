@@ -419,32 +419,6 @@
     }
 
 /*
-    Source - File token reader
- */
-
-    lp_Char_t * lp_system_token(
-
-        FILE      * const lpFile,
-        lp_Char_t * const lpToken
-
-    ) {
-
-        /* Read token from file */
-        if ( fscanf( lpFile, "%s", lpToken ) == 1 ) {
-
-            /* Return token pointer */
-            return( lpToken );
-
-        } else {
-
-            /* Return null pointer */
-            return( LP_NULL );
-
-        }
-
-    }
-
-/*
     Source - Device search in stack
  */
 
