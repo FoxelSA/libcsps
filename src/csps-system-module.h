@@ -129,6 +129,14 @@
 
     );
 
+    lp_Void_t lp_system_module_imu_SGSFR(
+
+        lp_Char_t  const * const lpPath,
+        lp_Stack_t       * const lpStack,
+        FILE             * const lpStream
+
+    );
+
 /*
     Header - C/C++ compatibility
  */

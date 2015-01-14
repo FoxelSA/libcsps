@@ -99,6 +99,8 @@
     /* Define topology keywords - parameters */
     # define LP_SYSTEM_BLOCK        "block"
     # define LP_SYSTEM_INPUT        "input"
+    # define LP_SYSTEM_IFREQ        "freq-in"
+    # define LP_SYSTEM_DFREQ        "freq-out"
 
 /*
     Header - Typedefs

@@ -158,6 +158,7 @@
 
     /* Define string conversion function */
     # define lp_Size_r( x )     atoll( x )
+    # define lp_Real_r( x )     atof ( x )
 
     /* Define floating point operator */
     # define lp_trunc( x )      trunc( x )

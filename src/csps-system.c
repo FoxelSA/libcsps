@@ -133,6 +133,12 @@
                         /* Specific module parser */
                         lp_system_module_gps_SGNQF( lpPath, & lpStack, lpStream );
 
+                    } else
+                    if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_SGSFR_MOD ) == 0 ) {
+
+                        /* Specific module parser */
+                        lp_system_module_imu_SGSFR( lpPath, & lpStack, lpStream );
+
                     }
 
                 }
@@ -296,7 +302,7 @@
                                 lp_system_token( lpStream, lpToken[1] );
 
                                 /* Module operation */
-                                lp_imu_mod_SGSFR( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), lpToken[1] );
+                                lp_imu_mod_SGSFR( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), lpToken[1], 1, 1 );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_SGNDN_MOD ) == 0 ) {

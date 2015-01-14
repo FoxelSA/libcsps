@@ -44,7 +44,7 @@
     # include "csps-system-module.h"
 
 /*
-    Source - DSIDE modules interface
+    Source - Extraction modules interface
  */
 
     lp_Void_t lp_system_module_cam_DSIDE(
@@ -207,7 +207,7 @@
     }
 
 /*
-    Source - GPS reciever module interface
+    Source - GPS reciever modules interface
  */
 
     lp_Void_t lp_system_module_gps_SGNQF(
@@ -257,3 +257,76 @@
 
     }
 
+/*
+    Source - IMU sensor modules interface
+ */
+
+    lp_Void_t lp_system_module_imu_SGSFR(
+
+        lp_Char_t  const * const lpPath,
+        lp_Stack_t       * const lpStack,
+        FILE             * const lpStream
+
+    ) {
+
+        /* String token variables */
+        lp_Char_t lpToken[3][LP_STR_LEN] = { LP_STR_INI };
+
+        /* Parameters variables */
+        lp_Real_t lpiFreq = lp_Real_s( 1.0 );
+        lp_Real_t lpdFreq = lp_Real_s( 1.0 );
+
+        /* Camera descriptor pointer */
+        lp_IMU_t * lpDevice = LP_NULL;
+
+        /* Token parser */
+        do {
+
+            /* Read token from stream */
+            lp_system_token( lpStream, lpToken[0] );
+
+            /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[1] );
+
+            } else
+            if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[2] );
+
+            } else
+            if ( strcmp( lpToken[0], LP_SYSTEM_IFREQ ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Interprete parameter */
+                lpiFreq = lp_Real_r( lpToken[0] );
+
+            } else
+            if ( strcmp( lpToken[0], LP_SYSTEM_DFREQ ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Interprete parameter */
+                lpdFreq = lp_Real_r( lpToken[0] );
+
+            }
+
+        /* End condition on end-keyword */
+        } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
+
+        /* Search device by tag */
+        if ( ( lpDevice = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != LP_NULL ) {
+
+            /* Module operation */
+            lp_imu_mod_SGSFR( lpPath, * lpDevice, lpToken[2], lpiFreq, lpdFreq );
+
+        }
+
+    }
+  
