@@ -103,7 +103,8 @@
     lp_Void_t lp_imu_mod_DSIDE( 
 
         lp_Char_t const * const lpPath, 
-        lp_IMU_t  const         lpIMU
+        lp_IMU_t  const         lpIMU,
+        lp_Size_t const         lpBlock
 
     );
 
@@ -118,7 +119,8 @@
     lp_Void_t lp_imu_DSIDE_ADIS16375( 
 
         lp_Char_t const * const lpPath, 
-        lp_IMU_t  const         lpIMU
+        lp_IMU_t  const         lpIMU,
+        lp_Size_t const         lpBlock
 
     );
 

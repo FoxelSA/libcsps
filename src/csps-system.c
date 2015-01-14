@@ -121,6 +121,18 @@
                         /* Specific module parser */
                         lp_system_module_gps_DSIDE( lpPath, & lpStack, lpStream );
 
+                    } else
+                    if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_DSIDE_MOD ) == 0 ) {
+
+                        /* Specific module parser */
+                        lp_system_module_imu_DSIDE( lpPath, & lpStack, lpStream );
+
+                    } else
+                    if ( strcmp( lpToken, LP_DEVICE_TYPE_GPS "-" LP_GPS_SGNQF_MOD ) == 0 ) {
+
+                        /* Specific module parser */
+                        lp_system_module_gps_SGNQF( lpPath, & lpStack, lpStream );
+
                     }
 
                 }
@@ -260,7 +272,7 @@
                                 lp_Size_t lpDevIMU = lp_system_device_by_tag( lp_system_token( lpStream, lpToken[1] ), LP_DEVICE_ID_IMU, lpIndex, lpTypes, lpDescs );
 
                                 /* Module operation */
-                                lp_imu_mod_DSIDE( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ) );
+                                lp_imu_mod_DSIDE( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), 512 );
 
                             } else
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_GPS "-" LP_GPS_SGNQF_MOD ) == 0 ) {

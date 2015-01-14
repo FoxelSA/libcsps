@@ -98,6 +98,7 @@
 
     /* Define topology keywords - parameters */
     # define LP_SYSTEM_BLOCK        "block"
+    # define LP_SYSTEM_INPUT        "input"
 
 /*
     Header - Typedefs

@@ -50,7 +50,8 @@
     lp_Void_t lp_imu_mod_DSIDE( 
 
         lp_Char_t const * const lpPath, 
-        lp_IMU_t  const         lpIMU
+        lp_IMU_t  const         lpIMU,
+        lp_Size_t const         lpBlock
 
     ) {
 
@@ -58,7 +59,7 @@
         if ( strcmp( lpIMU.dvName, LP_DEVICE_ADIS16375 ) == 0 ) {
 
             /* ADIS16375 specific process */
-            lp_imu_DSIDE_ADIS16375( lpPath, lpIMU );
+            lp_imu_DSIDE_ADIS16375( lpPath, lpIMU, lpBlock );
 
         }
 
@@ -71,7 +72,8 @@
     lp_Void_t lp_imu_DSIDE_ADIS16375( 
 
         lp_Char_t const * const lpPath, 
-        lp_IMU_t  const         lpIMU
+        lp_IMU_t  const         lpIMU,
+        lp_Size_t const         lpBlock
 
     ) {
 
@@ -135,13 +137,13 @@
         lpIMUsynf = fopen( lpIMUsynp, "wb" );
 
         /* Create streams */
-        lpIMUgrx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpIMU.dvBlock );
-        lpIMUgry = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpIMU.dvBlock );
-        lpIMUgrz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpIMU.dvBlock );
-        lpIMUacx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpIMU.dvBlock );
-        lpIMUacy = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpIMU.dvBlock );
-        lpIMUacz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpIMU.dvBlock );
-        lpIMUsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpIMU.dvBlock );
+        lpIMUgrx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpBlock );
+        lpIMUgry = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpBlock );
+        lpIMUgrz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpBlock );
+        lpIMUacx = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpBlock );
+        lpIMUacy = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpBlock );
+        lpIMUacz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpBlock );
+        lpIMUsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpBlock );
 
         /* FPGA records reading loop */
         while ( lpReading == LP_TRUE ) {
@@ -150,7 +152,7 @@
             lpIndex = lp_Size_s( 0 );
 
             /* Reading of FPGA record by block */
-            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpIMU.dvBlock ) ) {
+            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpBlock ) ) {
 
                 /* Read and verify FPGA record */
                 if ( ( lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf ) ) == LP_DEVICE_EYESIS4PI_RECLEN ) {
