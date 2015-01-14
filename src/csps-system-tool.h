@@ -105,6 +105,9 @@
     # define LP_SYSTEM_ISRA         "minimum"
     # define LP_SYSTEM_ISRGT        "trigger-gyro"
     # define LP_SYSTEM_ISRAT        "trigger-accel"
+    # define LP_SYSTEM_XANG         "x-angle"
+    # define LP_SYSTEM_YANG         "y-angle"
+    # define LP_SYSTEM_ZANG         "z-angle"
 
 /*
     Header - Typedefs

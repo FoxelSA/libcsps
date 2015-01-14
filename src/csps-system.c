@@ -157,6 +157,12 @@
                         /* Specific module parser */
                         lp_system_module_imu_IOBMA( lpPath, & lpStack, lpStream );
 
+                    } else
+                    if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_IFICR_MOD ) == 0 ) {
+
+                        /* Specific module parser */
+                        lp_system_module_imu_IFICR( lpPath, & lpStack, lpStream );
+
                     }
 
                 }
@@ -408,7 +414,7 @@
                                 lp_system_token( lpStream, lpToken[1] );
 
                                 /* Module operation */
-                                lp_imu_mod_IFICR( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), lpToken[1] );
+                                lp_imu_mod_IFICR( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), lpToken[1], 0, 0, 0 );
 
                             }
 
