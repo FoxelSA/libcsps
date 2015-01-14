@@ -112,25 +112,21 @@
         /* Returned value variables */
         lp_Void_t * lpReturn = LP_NULL;
 
-        /* Select device type */
-        if ( lpType == LP_SYSTEM_TYPE_CAM ) {
+        /* Descriptor size variables */
+        lp_Size_t lpLength = lp_Size_s( 0 );
 
-            /* Allocate descriptor memory */
-            lpReturn = ( lpStack->stDevice[lpStack->stSize] = ( lp_Void_t * ) malloc( sizeof( lp_Camera_t ) ) );
+        /* Switch on device type */
+        switch ( lpType ) {
 
-        } else
-        if ( lpType == LP_SYSTEM_TYPE_GPS ) {
-
-            /* Allocate descriptor memory */
-            lpReturn = ( lpStack->stDevice[lpStack->stSize] = ( lp_Void_t * ) malloc( sizeof( lp_GPS_t ) ) );
-
-        } else
-        if ( lpType == LP_SYSTEM_TYPE_IMU ) {
-
-            /* Allocate descriptor memory */
-            lpReturn = ( lpStack->stDevice[lpStack->stSize] = ( lp_Void_t * ) malloc( sizeof( lp_IMU_t ) ) );
+            /* Length computation */
+            case ( LP_SYSTEM_TYPE_CAM ) : { lpLength = sizeof( lp_Camera_t ); } break;
+            case ( LP_SYSTEM_TYPE_GPS ) : { lpLength = sizeof( lp_GPS_t    ); } break;
+            case ( LP_SYSTEM_TYPE_IMU ) : { lpLength = sizeof( lp_IMU_t    ); } break;
 
         }
+
+        /* Allocate descriptor memory */
+        lpReturn = ( lpStack->stDevice[lpStack->stSize] = ( lp_Void_t * ) malloc( lpLength ) );
 
         /* Assign device descriptor type */
         lpStack->stType[lpStack->stSize] = lpType;
