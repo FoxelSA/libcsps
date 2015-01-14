@@ -80,32 +80,53 @@
                 /* Token analysis */
                 if ( strcmp( lpToken, LP_SYSTEM_DEVICE ) == 0 ) {
 
+                    /* Read secondary token */
+                    lp_system_token( lpStream, lpToken );
+
                     /* Secondary token analysis */
-                    if ( strcmp( lp_system_token( lpStream, lpToken ), LP_SYSTEM_CAM ) == 0 ) {
+                    if ( strcmp( lpToken, LP_SYSTEM_CAM ) == 0 ) {
 
                         /* Specific device parser */
                         lp_system_device_cam( & lpStack, lpStream );
 
                     } else
-                    if ( strcmp( lp_system_token( lpStream, lpToken ), LP_SYSTEM_CAM ) == 0 ) {
+                    if ( strcmp( lpToken, LP_SYSTEM_GPS ) == 0 ) {
 
                         /* Specific device parser */
                         lp_system_device_gps( & lpStack, lpStream );
+
+                    } else
+                    if ( strcmp( lpToken, LP_SYSTEM_IMU ) == 0 ) {
+
+                        /* Specific device parser */
+                        lp_system_device_imu( & lpStack, lpStream );
 
                     }
 
                 } else
                 if ( strcmp( lpToken, LP_SYSTEM_MODULE ) == 0 ) {
 
+                    /* Read secondary token */
+                    lp_system_token( lpStream, lpToken );
+
                     /* Secondary token analysis */
-                    if ( strcmp( lp_system_token( lpStream, lpToken ), LP_DEVICE_TYPE_CAM "-" LP_CAM_DSIDE_MOD ) == 0 ) {
+                    if ( strcmp( lpToken, LP_DEVICE_TYPE_CAM "-" LP_CAM_DSIDE_MOD ) == 0 ) {
 
                         /* Specific module parser */
                         lp_system_module_cam_DSIDE( lpPath, & lpStack, lpStream );
 
+                    } else
+                    if ( strcmp( lpToken, LP_DEVICE_TYPE_GPS "-" LP_GPS_DSIDE_MOD ) == 0 ) {
+
+                        /* Specific module parser */
+                        lp_system_module_gps_DSIDE( lpPath, & lpStack, lpStream );
+
                     }
 
                 }
+
+                /* Clear token */
+                memset( lpToken, 0, LP_STR_LEN );
                 
             }
 

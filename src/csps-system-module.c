@@ -62,7 +62,7 @@
         lp_Size_t lpBlock = lp_Size_s( 1024 );
 
         /* Camera descriptor pointer */
-        lp_Camera_t * lpCamera = LP_NULL;
+        lp_Camera_t * lpDevice = LP_NULL;
 
         /* Token parser */
         do {
@@ -91,13 +91,63 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Search device by tag */
-        lpCamera = ( lp_Camera_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_CAM, lpToken[1] );
-
-        /* Check device search results */
-        if ( lpCamera != LP_NULL ) {
+        if ( ( lpDevice = ( lp_Camera_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_CAM, lpToken[1] ) ) != LP_NULL ) {
 
             /* Module operation */
-            lp_cam_mod_DSIDE( lpPath, * lpCamera, lpBlock );
+            lp_cam_mod_DSIDE( lpPath, * lpDevice, lpBlock );
+
+        }
+
+    }
+
+    lp_Void_t lp_system_module_gps_DSIDE(
+
+        lp_Char_t  const * const lpPath,
+        lp_Stack_t       * const lpStack,
+        FILE             * const lpStream
+
+    ) {
+
+        /* String token variables */
+        lp_Char_t lpToken[2][LP_STR_LEN] = { LP_STR_INI };
+
+        /* Block size variables */
+        lp_Size_t lpBlock = lp_Size_s( 1024 );
+
+        /* Camera descriptor pointer */
+        lp_GPS_t * lpDevice = LP_NULL;
+
+        /* Token parser */
+        do {
+
+            /* Read token from stream */
+            lp_system_token( lpStream, lpToken[0] );
+
+            /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[1] );
+
+            } else
+            if ( strcmp( lpToken[0], LP_SYSTEM_BLOCK ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Convert parameter token */
+                lpBlock = lp_Size_r( lpToken[0] );
+
+            }
+
+        /* End condition on end-keyword */
+        } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
+
+        /* Search device by tag */
+        if ( ( lpDevice = ( lp_GPS_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_GPS, lpToken[1] ) ) != LP_NULL ) {
+
+            /* Module operation */
+            lp_gps_mod_DSIDE( lpPath, * lpDevice, lpBlock );
 
         }
 
