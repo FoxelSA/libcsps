@@ -468,6 +468,56 @@
 
     }
 
+    lp_Void_t lp_system_module_imu_IOISA(
+
+        lp_Char_t  const * const lpPath,
+        lp_Stack_t       * const lpStack,
+        FILE             * const lpStream
+
+    ) {
+
+        /* String token variables */
+        lp_Char_t lpToken[4][LP_STR_LEN] = { LP_STR_INI };
+
+        /* Device and module stacking variables */
+        lp_Size_t lpStacking = lp_Size_s( 1 );
+
+        /* Camera descriptor pointer */
+        lp_IMU_t * lpDevice = LP_NULL;
+
+        /* Token parser */
+        do {
+
+            /* Read token from stream */
+            lp_system_token( lpStream, lpToken[0] );
+
+            /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[lpStacking++] );
+
+            } else
+            if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[lpStacking++] );
+
+            }
+
+        /* End condition on end-keyword */
+        } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
+
+        /* Search device by tag */
+        if ( ( lpDevice = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != LP_NULL ) {
+
+            /* Module operation */
+            lp_imu_mod_IOISA( lpPath, * lpDevice, lpToken[2], lpToken[3] );
+
+        }
+
+    }
+
     lp_Void_t lp_system_module_imu_IOBMA(
 
         lp_Char_t  const * const lpPath,
