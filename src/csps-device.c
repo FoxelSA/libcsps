@@ -111,25 +111,7 @@
             lpDevice.dvACCy = ( lp_Real_s( 0.8192 ) * lp_Real_s( 9.80665 ) ) / ( lp_Real_s( 65536000.0 ) );
             lpDevice.dvACCz = ( lp_Real_s( 0.8192 ) * lp_Real_s( 9.80665 ) ) / ( lp_Real_s( 65536000.0 ) );
 
-            /* Assign configuration - Frequency */
-            lpDevice.dvifreq = lp_Size_s( 2460 );
-            lpDevice.dvdfreq = lp_Size_s(   60 );
-
         }
-
-        /* Assign configuration - ISR configuration */
-        lpDevice.dvISRmax = lp_Size_s(  256 );
-        lpDevice.dvISRacc = lp_Size_s(   32 );
-        lpDevice.dvISRgrt = lp_Real_s( 0.05 );
-        lpDevice.dvISRact = lp_Real_s( 0.50 );
-
-        /* Assign configuration - Initial condition rotation */
-        lpDevice.dvICRx = lp_Real_s( 0.0 );
-        lpDevice.dvICRy = lp_Real_s( 0.0 );
-        lpDevice.dvICRz = lp_Real_s( 0.0 );
-
-        /* Assign configuration - Importation block size */
-        lpDevice.dvBlock = lp_Size_s( 1024 );
 
         /* Return device structure */
         return( lpDevice );
@@ -158,9 +140,6 @@
 
             /* Assign device name */
             sprintf( lpDevice.dvTag, "%s", lpTag );
-
-            /* Assign configuration - Frequency */
-            lpDevice.dvifreq = lp_Size_s( 5 );
 
         }
 

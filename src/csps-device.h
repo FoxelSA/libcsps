@@ -153,26 +153,6 @@
      *  Accelerometer factory scale factor for y component
      *  \var lp_IMU_struct::dvACCz
      *  Accelerometer factory scale factor for z component
-     *  \var lp_IMU_struct::dvISRmax
-     *  Maximum number of indexable inertial still ranges
-     *  \var lp_IMU_struct::dvISRacc
-     *  Minimum samples accumulation for dynamic mean computation
-     *  \var lp_IMU_struct::dvISRgrt
-     *  Gyroscope signal dynamic mean distance threshold
-     *  \var lp_IMU_struct::dvISRact
-     *  Acceleration signal dynamic mean distance threshold
-     *  \var lp_IMU_struct::dvICRx 
-     *  Rotation around x-axis applied on defined initial conditions
-     *  \var lp_IMU_struct::dvICRy
-     *  Rotation around y-axis applied on defined initial conditions
-     *  \var lp_IMU_struct::dvICRz 
-     *  Rotation around z-axis applied on defined initial conditions
-     *  \var lp_IMU_struct::dvifreq 
-     *  Device output sampling frequency
-     *  \var lp_IMU_struct::dvdfreq 
-     *  Output sampling reduced frequency
-     *  \var lp_IMU_struct::dvBlock 
-     *  Stores the importation block size
      */ 
 
     typedef struct lp_IMU_struct {
@@ -193,24 +173,6 @@
         lp_Real_t dvACCy;
         lp_Real_t dvACCz;
 
-        /* Inertial still ranges automatic detection */
-        lp_Size_t dvISRmax;
-        lp_Size_t dvISRacc;
-        lp_Real_t dvISRgrt;
-        lp_Real_t dvISRact;
-
-        /* Initial conditions manual rotations */
-        lp_Real_t dvICRx;
-        lp_Real_t dvICRy;
-        lp_Real_t dvICRz;
-
-        /* IMU frequencies */
-        lp_Size_t dvifreq;
-        lp_Size_t dvdfreq;
-
-        /* Size of importation block */
-        lp_Size_t dvBlock;
-
     } lp_IMU_t;
 
     /*! \struct lp_GPS_struct
@@ -225,8 +187,6 @@
      *  Stores the device tag to differentiate multiple usage of the same model
      *  \var lp_GPS_struct::dvifreq 
      *  Device output sampling frequency
-     *  \var lp_GPS_struct::dvBlock 
-     *  Stores the importation block size
      */ 
 
     typedef struct lp_GPS_struct {
@@ -236,9 +196,6 @@
 
         /* Device name */
         lp_Char_t dvTag[LP_STR_LEN];
-
-        /* GPS frequency */
-        lp_Size_t dvifreq;
 
     } lp_GPS_t;
 

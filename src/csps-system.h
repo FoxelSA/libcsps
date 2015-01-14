@@ -71,40 +71,6 @@
     Header - Preprocessor definitions
  */
 
-    /* Define maximum number of token */
-    # define LP_SYSTEM_TOKEN        lp_Size_s( 16 )
-
-    /* Define maximum number of devices */
-    //# define LP_SYSTEM_DEVICE       lp_Size_s( 1024 )
-
-    /* Define invalid device */
-    # define LP_SYSTEM_NODEVICE     lp_Size_s( -1 )
-
-    /* Define topology keywords */
-    # define LP_SYSTEM_KW_DEVICE    "device"
-    # define LP_SYSTEM_KW_MODULE    "module"
-    # define LP_SYSTEM_KW_ENDLIN    "end"
-    # define LP_SYSTEM_KW_DVTYPE    "model"
-    # define LP_SYSTEM_KW_DVTAGS    "tag"
-    # define LP_SYSTEM_KW_DVBLOC    "block"
-    # define LP_SYSTEM_KW_DVFREQ    "downsampling-frequency"
-    # define LP_SYSTEM_KW_DVICRX    "initial-conditions-x-rotation"
-    # define LP_SYSTEM_KW_DVICRY    "initial-conditions-y-rotation"
-    # define LP_SYSTEM_KW_DVICRZ    "initial-conditions-z-rotation"
-    # define LP_SYSTEM_KW_DVIRMX    "inertial-still-ranges-maximum"
-    # define LP_SYSTEM_KW_DVIRMN    "inertial-still-ranges-minimal-length"
-    # define LP_SYSTEM_KW_DVIRTG    "inertial-still-ranges-gyroscope-threshold"
-    # define LP_SYSTEM_KW_DVIRTT    "inertial-still-ranges-acceleration-threshold"
-
-
-    /* Define topology analysis modes */
-    # define LP_SYSTEM_MODE_MAIN    lp_Enum_s( 0 )
-    # define LP_SYSTEM_MODE_IDEV    lp_Enum_s( 1 )
-    # define LP_SYSTEM_MODE_XMOD    lp_Enum_s( 2 )
-    # define LP_SYSTEM_MODE_ICAM    lp_Enum_s( 3 )
-    # define LP_SYSTEM_MODE_IGPS    lp_Enum_s( 4 )
-    # define LP_SYSTEM_MODE_IIMU    lp_Enum_s( 5 )
-
 /*
     Header - Preprocessor macros
  */
@@ -130,35 +96,10 @@
      *  \param lpFile Path to the file containing the CSPS topology
      */
 
-    lp_Void_t lp_system(
+    lp_Enum_t lp_system(
 
         lp_Char_t const * const lpPath,
         lp_Char_t const * const lpFile
-
-    );
-
-    /*! \brief Device search in stack
-     * 
-     *  This function is a coprocess of topology file interpreter. It searches
-     *  in devices stack the index of device defined by the specified tag. If
-     *  the device is not found, an invalid code is returned.
-     *
-     *  \param lpTag     Tag of the device to search in stack
-     *  \param lpType    Type of the device to search
-     *  \param lpIndex   Size of the devices stack in device units
-     *  \param lpTypes   Devices type stack array
-     *  \param lpDescs   Devices descriptor stack array
-     * 
-     *  \return Return device index in the stack or invalid value
-     */
-
-    lp_Size_t lp_system_device_by_tag(
-
-        lp_Char_t const *  const lpTag,
-        lp_Enum_t const          lpType,
-        lp_Size_t                lpIndex,
-        lp_Enum_t const *  const lpTypes,
-        lp_Void_t       **       lpDescs
 
     );
 

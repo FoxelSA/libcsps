@@ -138,7 +138,7 @@
                 if ( ( lpParse - lp_Size_s( 1 ) - lpBound ) > lpAccum ) {                   
 
                     /* Verify range count maximum */
-                    if ( lpIndex < lpIMU.dvISRmax ) {
+                    if ( lpIndex < lpLimit ) {
 
                         /* Assign found range */
                         lpIMUrsn[lpIndex] = lpIMUisn[lpBound];
