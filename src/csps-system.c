@@ -169,6 +169,12 @@
                         /* Specific module parser */
                         lp_system_module_imu_IFETI( lpPath, & lpStack, lpStream );
 
+                    } else
+                    if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_AACEX_MOD ) == 0 ) {
+
+                        /* Specific module parser */
+                        lp_system_module_imu_AACEX( lpPath, & lpStack, lpStream );
+
                     }
 
                 }
