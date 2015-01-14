@@ -86,6 +86,12 @@
                         /* Specific device parser */
                         lp_system_device_cam( & lpStack, lpStream );
 
+                    } else
+                    if ( strcmp( lp_system_token( lpStream, lpToken ), LP_SYSTEM_CAM ) == 0 ) {
+
+                        /* Specific device parser */
+                        lp_system_device_gps( & lpStack, lpStream );
+
                     }
 
                 } else
