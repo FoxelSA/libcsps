@@ -377,3 +377,94 @@
 
     }
   
+    lp_Void_t lp_system_module_imu_ISRAD(
+
+        lp_Char_t  const * const lpPath,
+        lp_Stack_t       * const lpStack,
+        FILE             * const lpStream
+
+    ) {
+
+        /* String token variables */
+        lp_Char_t lpToken[3][LP_STR_LEN] = { LP_STR_INI };
+
+        /* Integer parameters variables */
+        lp_Size_t lpLimit = lp_Size_s( 256 );
+        lp_Size_t lpAccum = lp_Size_s(  32 );
+
+        /* Real parameters variables */
+        lp_Real_t lpgTrigger = lp_Real_s( 0.05 );
+        lp_Real_t lpaTrigger = lp_Real_s( 0.50 );
+
+        /* Camera descriptor pointer */
+        lp_IMU_t * lpDevice = LP_NULL;
+
+        /* Token parser */
+        do {
+
+            /* Read token from stream */
+            lp_system_token( lpStream, lpToken[0] );
+
+            /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[1] );
+
+            } else
+            if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[2] );
+
+            } else
+            if ( strcmp( lpToken[0], LP_SYSTEM_ISRL ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Interprete parameter */
+                lpLimit = lp_Size_r( lpToken[0] );
+
+            } else
+            if ( strcmp( lpToken[0], LP_SYSTEM_ISRA ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Interprete parameter */
+                lpAccum = lp_Size_r( lpToken[0] );
+
+            } else
+            if ( strcmp( lpToken[0], LP_SYSTEM_ISRGT ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Interprete parameter */
+                lpgTrigger = lp_Real_r( lpToken[0] );
+
+            } else
+            if ( strcmp( lpToken[0], LP_SYSTEM_ISRAT ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Interprete parameter */
+                lpaTrigger = lp_Real_r( lpToken[0] );
+
+            }
+
+        /* End condition on end-keyword */
+        } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
+
+        /* Search device by tag */
+        if ( ( lpDevice = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != LP_NULL ) {
+
+            /* Module operation */
+            lp_imu_mod_ISRAD( lpPath, * lpDevice, lpToken[2], lpLimit, lpAccum, lpgTrigger, lpaTrigger );
+
+        }
+
+    }
+  

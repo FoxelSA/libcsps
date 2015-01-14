@@ -101,6 +101,10 @@
     # define LP_SYSTEM_INPUT        "input"
     # define LP_SYSTEM_IFREQ        "freq-in"
     # define LP_SYSTEM_DFREQ        "freq-out"
+    # define LP_SYSTEM_ISRL         "maximum"
+    # define LP_SYSTEM_ISRA         "minimum"
+    # define LP_SYSTEM_ISRGT        "trigger-gyro"
+    # define LP_SYSTEM_ISRAT        "trigger-accel"
 
 /*
     Header - Typedefs

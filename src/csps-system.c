@@ -145,6 +145,12 @@
                         /* Specific module parser */
                         lp_system_module_imu_SGNDN( lpPath, & lpStack, lpStream );
 
+                    } else
+                    if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_ISRAD_MOD ) == 0 ) {
+
+                        /* Specific module parser */
+                        lp_system_module_imu_ISRAD( lpPath, & lpStack, lpStream );
+
                     }
 
                 }
@@ -332,7 +338,7 @@
                                 lp_system_token( lpStream, lpToken[1] );
 
                                 /* Module operation */
-                                lp_imu_mod_ISRAD( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), lpToken[1] );
+                                lp_imu_mod_ISRAD( lpPath, * ( ( lp_IMU_t * ) lpDescs[lpDevIMU] ), lpToken[1], 256, 32, 0.05, 0.50 );
 
                             } else 
                             if ( strcmp( lpToken[0], LP_DEVICE_TYPE_IMU "-" LP_IMU_IOISA_MOD ) == 0 ) {

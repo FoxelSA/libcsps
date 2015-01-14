@@ -110,7 +110,11 @@
 
         lp_Char_t const * const lpPath, 
         lp_IMU_t  const         lpIMU, 
-        lp_Char_t const * const lpIMUmod 
+        lp_Char_t const * const lpIMUmod,
+        lp_Size_t const         lpLimit,
+        lp_Size_t const         lpAccum,
+        lp_Real_t const         lpgTrigger,
+        lp_Real_t const         lpaTrigger
 
     );
 
