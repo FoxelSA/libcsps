@@ -51,7 +51,11 @@
 
         lp_Char_t const * const lpPath, 
         lp_IMU_t  const         lpIMU, 
-        lp_Char_t const * const lpIMUmod 
+        lp_Char_t const * const lpIMUmod,
+        lp_Size_t const         lpLimit,
+        lp_Size_t const         lpAccum,
+        lp_Real_t const         lpgTrigger,
+        lp_Real_t const         lpaTrigger
 
     ) {
 
@@ -101,8 +105,8 @@
         lpIMUisn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
         /* Create streams */
-        lpIMUtag = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpIMU.dvISRmax );
-        lpIMUrsn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpIMU.dvISRmax );
+        lpIMUtag = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpLimit );
+        lpIMUrsn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpLimit );
 
         /* Inertial still range automatic detection */
         for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize ; lpParse ++ ) {
@@ -121,20 +125,20 @@
             /* Apply detection condition */
             if ( ( lpParse + lp_Size_s( 1 ) == lpSize ) || (
 
-                ( abs( lpIMUgrx[lpParse] - ( lpAccumGRX / lp_Real_c( lpAccumIDX ) ) ) > lpIMU.dvISRgrt ) ||
-                ( abs( lpIMUgry[lpParse] - ( lpAccumGRY / lp_Real_c( lpAccumIDX ) ) ) > lpIMU.dvISRgrt ) ||
-                ( abs( lpIMUgrz[lpParse] - ( lpAccumGRZ / lp_Real_c( lpAccumIDX ) ) ) > lpIMU.dvISRgrt ) ||
-                ( abs( lpIMUacx[lpParse] - ( lpAccumACX / lp_Real_c( lpAccumIDX ) ) ) > lpIMU.dvISRact ) ||
-                ( abs( lpIMUacy[lpParse] - ( lpAccumACY / lp_Real_c( lpAccumIDX ) ) ) > lpIMU.dvISRact ) ||
-                ( abs( lpIMUacz[lpParse] - ( lpAccumACZ / lp_Real_c( lpAccumIDX ) ) ) > lpIMU.dvISRact )
+                ( abs( lpIMUgrx[lpParse] - ( lpAccumGRX / lp_Real_c( lpAccumIDX ) ) ) > lpgTrigger ) ||
+                ( abs( lpIMUgry[lpParse] - ( lpAccumGRY / lp_Real_c( lpAccumIDX ) ) ) > lpgTrigger ) ||
+                ( abs( lpIMUgrz[lpParse] - ( lpAccumGRZ / lp_Real_c( lpAccumIDX ) ) ) > lpgTrigger ) ||
+                ( abs( lpIMUacx[lpParse] - ( lpAccumACX / lp_Real_c( lpAccumIDX ) ) ) > lpaTrigger ) ||
+                ( abs( lpIMUacy[lpParse] - ( lpAccumACY / lp_Real_c( lpAccumIDX ) ) ) > lpaTrigger ) ||
+                ( abs( lpIMUacz[lpParse] - ( lpAccumACZ / lp_Real_c( lpAccumIDX ) ) ) > lpaTrigger )
 
             ) ) {
 
                 /* Check statistical accumulation minimum */
-                if ( ( lpParse - lp_Size_s( 1 ) - lpBound ) > lpIMU.dvISRacc ) {                   
+                if ( ( lpParse - lp_Size_s( 1 ) - lpBound ) > lpAccum ) {                   
 
                     /* Verify range count maximum */
-                    if ( lpIndex < lpIMU.dvISRmax ) {
+                    if ( lpIndex < lpLimit ) {
 
                         /* Assign found range */
                         lpIMUrsn[lpIndex] = lpIMUisn[lpBound];

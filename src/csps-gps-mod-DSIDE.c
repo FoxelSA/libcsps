@@ -50,7 +50,8 @@
     lp_Void_t lp_gps_mod_DSIDE( 
 
         lp_Char_t const * const lpPath, 
-        lp_GPS_t  const         lpGPS
+        lp_GPS_t  const         lpGPS, 
+        lp_Size_t const         lpBlock
 
     ) {
 
@@ -58,7 +59,7 @@
         if ( strcmp( lpGPS.dvName, LP_DEVICE_LS20031 ) == 0 ) {
 
             /* LS20031 specific process */
-            lp_gps_DSIDE_LS20031( lpPath, lpGPS );
+            lp_gps_DSIDE_LS20031( lpPath, lpGPS, lpBlock );
 
         }
 
@@ -71,7 +72,8 @@
     lp_Void_t lp_gps_DSIDE_LS20031( 
 
         lp_Char_t const * const lpPath, 
-        lp_GPS_t  const         lpGPS 
+        lp_GPS_t  const         lpGPS, 
+        lp_Size_t const         lpBlock
 
     ) {
 
@@ -131,11 +133,11 @@
         lpGPSsynf = fopen( lpGPSsynp, "wb" );
 
         /* Create streams */
-        lpGPSlat = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpGPS.dvBlock );
-        lpGPSlon = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpGPS.dvBlock );
-        lpGPSalt = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpGPS.dvBlock );
-        lpGPSqbf = ( lp_Time_t * ) lp_stream_create( sizeof( lp_SQBF_t ) * lpGPS.dvBlock );
-        lpGPSsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpGPS.dvBlock );
+        lpGPSlat = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpBlock );
+        lpGPSlon = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpBlock );
+        lpGPSalt = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpBlock );
+        lpGPSqbf = ( lp_Time_t * ) lp_stream_create( sizeof( lp_SQBF_t ) * lpBlock );
+        lpGPSsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpBlock );
 
         /* FPGA records reading loop */
         while ( lpReading == LP_TRUE ) {
@@ -144,7 +146,7 @@
             lpIndex = lp_Size_s( 0 );
 
             /* Reading of FPGA record by block */
-            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpGPS.dvBlock ) ) {
+            while ( ( lpReading == LP_TRUE ) && ( lpIndex < lpBlock ) ) {
 
                 /* Read and verify FPGA record */
                 if ( ( lpReaded = fread( lpRec, 1, LP_DEVICE_EYESIS4PI_RECLEN, lpDEVlogf ) ) == LP_DEVICE_EYESIS4PI_RECLEN ) {

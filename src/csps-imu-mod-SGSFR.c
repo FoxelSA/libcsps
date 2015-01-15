@@ -51,7 +51,9 @@
 
         lp_Char_t const * const lpPath, 
         lp_IMU_t  const         lpIMU, 
-        lp_Char_t const * const lpIMUmod 
+        lp_Char_t const * const lpIMUmod,
+        lp_Real_t const         lpiFreq,
+        lp_Real_t const         lpdFreq
 
     ) {
 
@@ -86,7 +88,7 @@
         lpIMUsyn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
         /* Compute downsampling reduction factor */
-        lpReduce = lpIMU.dvifreq / lpIMU.dvdfreq;
+        lpReduce = lpiFreq / lpdFreq;
 
         /* Set file size to last multiple */
         lpSize = ( lpSize / lpReduce ) * lpReduce;

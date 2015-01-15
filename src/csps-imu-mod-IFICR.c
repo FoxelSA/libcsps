@@ -51,7 +51,10 @@
 
         lp_Char_t const * const lpPath, 
         lp_IMU_t  const         lpIMU,
-        lp_Char_t const * const lpIMUmod
+        lp_Char_t const * const lpIMUmod,
+        lp_Real_t const         lpxAngle,
+        lp_Real_t const         lpyAngle,
+        lp_Real_t const         lpzAngle
 
     ) {
 
@@ -80,19 +83,19 @@
         lpIMUisn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_SYN, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
 
         /* Compute rotation around z-axis */
-        lp_rotation_zR3( lpIMU.dvICRz, lpIMUixx, lpIMUixy, lpIMUixz );
-        lp_rotation_zR3( lpIMU.dvICRz, lpIMUiyx, lpIMUiyy, lpIMUiyz );
-        lp_rotation_zR3( lpIMU.dvICRz, lpIMUizx, lpIMUizy, lpIMUizz );
+        lp_rotation_zR3( lpzAngle, lpIMUixx, lpIMUixy, lpIMUixz );
+        lp_rotation_zR3( lpzAngle, lpIMUiyx, lpIMUiyy, lpIMUiyz );
+        lp_rotation_zR3( lpzAngle, lpIMUizx, lpIMUizy, lpIMUizz );
 
         /* Compute rotation around y-axis */
-        lp_rotation_yR3( lpIMU.dvICRy, lpIMUixx, lpIMUixy, lpIMUixz );
-        lp_rotation_yR3( lpIMU.dvICRy, lpIMUiyx, lpIMUiyy, lpIMUiyz );
-        lp_rotation_yR3( lpIMU.dvICRy, lpIMUizx, lpIMUizy, lpIMUizz );
+        lp_rotation_yR3( lpyAngle, lpIMUixx, lpIMUixy, lpIMUixz );
+        lp_rotation_yR3( lpyAngle, lpIMUiyx, lpIMUiyy, lpIMUiyz );
+        lp_rotation_yR3( lpyAngle, lpIMUizx, lpIMUizy, lpIMUizz );
 
         /* Compute rotation around x-axis */
-        lp_rotation_xR3( lpIMU.dvICRx, lpIMUixx, lpIMUixy, lpIMUixz );
-        lp_rotation_xR3( lpIMU.dvICRx, lpIMUiyx, lpIMUiyy, lpIMUiyz );
-        lp_rotation_xR3( lpIMU.dvICRx, lpIMUizx, lpIMUizy, lpIMUizz );
+        lp_rotation_xR3( lpxAngle, lpIMUixx, lpIMUixy, lpIMUixz );
+        lp_rotation_xR3( lpxAngle, lpIMUiyx, lpIMUiyy, lpIMUiyz );
+        lp_rotation_xR3( lpxAngle, lpIMUizx, lpIMUizy, lpIMUizz );
 
         /* Assign second component */
         lpIMUixx[1] = lpIMUixx[0];

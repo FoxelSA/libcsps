@@ -93,32 +93,38 @@
 
     /*! \brief Device extraction switch
      *  
-     *  Switch on device-specific extractor. On the base of the device 
-     *  descriptor given as parameter, the device-specific extractor is called.
+     *  Switch on device-specific extractor. On the base of the device structure
+     *  given as parameter, the device-specific extractor is called. The block
+     *  parameter allows to specify the reading buffer size.
      *
-     *  \param lpPath   Path CSPS structure
-     *  \param lpIMU    Device descriptor
+     *  \param lpPath   Path to CSPS directory structure
+     *  \param lpIMU    Device structure
+     *  \param lpBlock  Data buffer size, in type units
      */
 
     lp_Void_t lp_imu_mod_DSIDE( 
 
         lp_Char_t const * const lpPath, 
-        lp_IMU_t  const         lpIMU
+        lp_IMU_t  const         lpIMU,
+        lp_Size_t const         lpBlock
 
     );
 
     /*! \brief ADIS16375 IMU specific extractor
      *
-     *  ADIS16375 IMU device specific extraction sub-module.
+     *  ADIS16375 IMU device specific extraction sub-module. Its prototype works
+     *  the same as the switch on device-specific extractor function.
      *
-     *  \param lpPath   Path CSPS structure
-     *  \param lpIMU    Device descriptor
+     *  \param lpPath   Path to CSPS directory structure
+     *  \param lpIMU    Device structure
+     *  \param lpBlock  Data buffer size, in type units
      */
 
     lp_Void_t lp_imu_DSIDE_ADIS16375( 
 
         lp_Char_t const * const lpPath, 
-        lp_IMU_t  const         lpIMU
+        lp_IMU_t  const         lpIMU,
+        lp_Size_t const         lpBlock
 
     );
 

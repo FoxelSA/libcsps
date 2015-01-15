@@ -95,10 +95,10 @@
      *  
      *  This module extracts absolute acceleration from IMU signal. It takes
      *  time-integrated IMU frame in order to compute absolute acceleration
-     *  vector over time.
+     *  vector over time. At this point, gravity component is not removed.
      *  
-     *  \param lpPath       Path to CSPS structure
-     *  \param lpIMU        IMU device descriptor
+     *  \param lpPath       Path to CSPS directory structure
+     *  \param lpIMU        IMU device structure
      *  \param lpIMUmodACC  Acceleration stream initiator module
      *  \param lpIMUmodFRM  Frame stream initiator module
      */

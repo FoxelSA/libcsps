@@ -164,7 +164,6 @@
      *  base of the size of the synchronization component.
      *  
      *  \param  lpPath      Path CSPS structure
-     *  \param  lpDevice    Device type
      *  \param  lpTag       Device name
      *  \param  lpModule    CSPS module to consider
      * 
@@ -184,7 +183,6 @@
      *  Reads the data contained in the specified stream component.
      *  
      *  \param lpPath   Path CSPS structure
-     *  \param lpDevice Device type
      *  \param lpTag    Device name
      *  \param lpModule CSPS module to consider
      *  \param lpSuffix Suffix of the data stored by the considered stream 
@@ -209,7 +207,6 @@
      *  Writes the memory data into the desired stream component.
      *  
      *  \param lpPath   Path CSPS structure
-     *  \param lpDevice Device type
      *  \param lpTag    Device name
      *  \param lpModule CSPS module to consider
      *  \param lpSuffix Suffix of the data stored by the considered stream

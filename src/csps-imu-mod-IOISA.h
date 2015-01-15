@@ -98,8 +98,8 @@
      *  accelerations and angular velocities on detected inertial still range to
      *  compute inertial frame initial conditions.
      *  
-     *  \param lpPath       Path to CSPS structure
-     *  \param lpIMU        IMU device descriptor
+     *  \param lpPath       Path to CSPS directory structure
+     *  \param lpIMU        IMU device structure
      *  \param lpIMUmodISD  Gyroscope and acceleration stream initiator module
      *  \param lpIMUmodTAG  Inertial still range stream initiator module
      */

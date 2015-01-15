@@ -93,32 +93,38 @@
 
     /*! \brief Device extraction switch
      *  
-     *  Switch on device-specific extractor. On the base of the device 
-     *  descriptor given as parameter, the device-specific extractor is called.
+     *  Switch on device-specific extractor. On the base of the device structure
+     *  given as parameter, the device-specific extractor is called. The block
+     *  parameter allows to specify the reading buffer size.
      *
-     *  \param lpPath   Path CSPS structure
-     *  \param lpCAM    Device descriptor
+     *  \param lpPath   Path to CSPS directory structure
+     *  \param lpCAM    Device structure
+     *  \param lpBlock  Data buffer size, in type units
      */
 
     lp_Void_t lp_cam_mod_DSIDE(
 
         lp_Char_t   const * const lpPath, 
-        lp_Camera_t const         lpCAM 
+        lp_Camera_t const         lpCAM,
+        lp_Size_t   const         lpBlock
 
     );
 
     /*! \brief Eyesis4Pi specific initial extractor
      *
-     *  Eyesis4Pi device-specific extraction sub-module.
+     *  Eyesis4Pi device-specific extraction sub-module. Its prototype works the
+     *  same as the switch on device-specific extractor function.
      *
-     *  \param lpPath   Path CSPS structure
-     *  \param lpCAM    Device descriptor
+     *  \param lpPath   Path to CSPS directory structure
+     *  \param lpCAM    Device structure
+     *  \param lpBlock  Data buffer size, in type units
      */
 
     lp_Void_t lp_cam_DSIDE_EYESIS4PI( 
 
         lp_Char_t   const * const lpPath, 
-        lp_Camera_t const         lpCAM 
+        lp_Camera_t const         lpCAM,
+        lp_Size_t   const         lpBlock
 
     );
 

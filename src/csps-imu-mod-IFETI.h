@@ -96,10 +96,13 @@
 
     /*! \brief IMU frame explicit time-integration
      *  
-     *  Integrate the IMU frame over time using explicit numerical schemes.
+     *  Integrate the IMU frame over time using a simple explicit numerical 
+     *  schemes. The numerical scheme has to variants, one peforming integration
+     *  according to time flow and the other against time flow. This is made so
+     *  because position in time of initial conditions is not known a priori.
      *  
-     *  \param lpPath       Path to CSPS structure
-     *  \param lpIMU        IMU device descriptor
+     *  \param lpPath       Path to CSPS directory structure
+     *  \param lpIMU        IMU device structure
      *  \param lpIMUmodGYR  Gyroscope stream initiator module
      *  \param lpIMUmodFRM  Frame stream initiator module
      */

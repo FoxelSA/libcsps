@@ -94,23 +94,37 @@
     /*! \brief IMU Inertial still range automatic detection
      *  
      *  This function detects the largest intertial still range based on the
-     *  accelerations and angular velocities. The device descriptor provides
-     *  thresholds that are considered to determine still range on the overall
-     *  device trajectory.
+     *  accelerations and angular velocities. The threshold values are specified
+     *  through the trigger parameters. The minimum of inertial measures that
+     *  are able to trigger a still range detection is also provided through
+     *  parameters.
      *
-     *  The function impose also a maximum of detectable still range. This
-     *  maximum value can be set using the device descriptor.
+     *  Moreover, the first still range definition stored in the output stream
+     *  corresponds to the longest detected still range. This longest still
+     *  range is then stored twice in the output stream.
+     *
+     *  The function impose also a maximum of detectable still ranges. This
+     *  maximum value is provided as parameter.
      *  
-     *  \param lpPath   Path to CSPS structure
-     *  \param lpIMU    IMU device descriptor
-     *  \param lpIMUmod Gyroscope and acceleration stream initiator module
+     *  \param lpPath       Path to CSPS directory structure
+     *  \param lpIMU        IMU device structure
+     *  \param lpIMUmod     Gyroscope and acceleration stream initiator module
+     *  \param lpLimit      Maximum number of detectable still range
+     *  \param lpAccum      Minimum number of inertial measure able to trigger a
+     *                      still range detection
+     *  \param lpaTrigger   Trigger threshold for acceleration measures
+     *  \param lpgTrigger   Trigger threshold for gyroscopic measures
      */
 
     lp_Void_t lp_imu_mod_ISRAD( 
 
         lp_Char_t const * const lpPath, 
         lp_IMU_t  const         lpIMU, 
-        lp_Char_t const * const lpIMUmod 
+        lp_Char_t const * const lpIMUmod,
+        lp_Size_t const         lpLimit,
+        lp_Size_t const         lpAccum,
+        lp_Real_t const         lpgTrigger,
+        lp_Real_t const         lpaTrigger
 
     );
 

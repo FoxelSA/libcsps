@@ -94,32 +94,38 @@
 
     /*! \brief Device extraction switch
      *  
-     *  Switch on device-specific extractor. On the base of the device 
-     *  descriptor given as parameter, the device-specific extractor is called.
+     *  Switch on device-specific extractor. On the base of the device structure
+     *  given as parameter, the device-specific extractor is called. The block
+     *  parameter allows to specify the reading buffer size.
      *
-     *  \param lpPath   Path CSPS structure
-     *  \param lpGPS    Device descriptor
+     *  \param lpPath   Path to CSPS directory structure
+     *  \param lpGPS    Device structure
+     *  \param lpBlock  Data buffer size, in type units
      */
 
     lp_Void_t lp_gps_mod_DSIDE( 
 
         lp_Char_t const * const lpPath, 
-        lp_GPS_t  const         lpGPS
+        lp_GPS_t  const         lpGPS, 
+        lp_Size_t const         lpBlock
 
     );
 
     /*! \brief LS20031 GPS reciever specific initial extractor
      *
-     *  LS20031 GPS device specific extraction sub-module.
+     *  LS20031 GPS reciever specific extraction sub-module. Its prototype works
+     *  the same as the switch on device-specific extractor function.
      *
-     *  \param lpPath   Path CSPS structure
-     *  \param lpGPS    Device descriptor
+     *  \param lpPath   Path to CSPS directory structure
+     *  \param lpGPS    Device structure
+     *  \param lpBlock  Data buffer size, in type units
      */
 
     lp_Void_t lp_gps_DSIDE_LS20031( 
 
         lp_Char_t const * const lpPath, 
-        lp_GPS_t  const         lpGPS 
+        lp_GPS_t  const         lpGPS, 
+        lp_Size_t const         lpBlock 
 
     );
 

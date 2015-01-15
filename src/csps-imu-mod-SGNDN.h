@@ -94,15 +94,15 @@
 
     /*! \brief IMU signal denosing
      *  
-     *  Denoise the signals coming from the IMU device. The denoising algorithm
-     *  is applied on both accelerations and angular velocities using the same 
-     *  algorithm.
+     *  This module is dedicated to signals coming from the IMU device denoising. 
+     *  The denoising algorithm is applied on both accelerations and angular 
+     *  velocities using the same algorithm.
      *  
-     *  The implemented algorithm is actually the total variation with iterative 
-     *  clipping.
+     *  The implemented denoising algorithm is actually the total variation with
+     *  iterative clipping.
      *  
-     *  \param lpPath   Path to CSPS structure
-     *  \param lpIMU    IMU device descriptor
+     *  \param lpPath   Path to CSPS directory structure
+     *  \param lpIMU    IMU device structure
      *  \param lpIMUmod Gyroscope and acceleration stream initiator module
      */
 

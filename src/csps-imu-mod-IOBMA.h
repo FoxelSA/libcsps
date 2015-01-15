@@ -95,12 +95,13 @@
      *
      *  This function computes initial conditions on inertial frame based on the
      *  assumption that z axis of the IMU is aligned against the gravity vector
-     *  and that the x axis follows the direction of motion of the IMU coupled
-     *  with the GPS reciever.
+     *  and that the x axis of the IMU sensor follows the direction of motion.
+     *  The GPS measures are used to align the x axis of the IMU sensor to the
+     *  direction of travel.
      *    
-     *  \param lpPath   Path to CSPS structure
-     *  \param lpIMU    IMU device descriptor
-     *  \param lpGPS    GPS device descriptor
+     *  \param lpPath   Path to CSPS directory structure
+     *  \param lpIMU    IMU device structure
+     *  \param lpGPS    GPS device structure
      *  \param lpGPSmod Geographic positions streams initiator module
      */
 
