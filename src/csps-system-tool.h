@@ -117,6 +117,20 @@
     Header - Structures
  */
 
+    /*! \struct lp_system_stack_struct
+     *  \brief Device structures stack
+     *
+     *  This structure is used to store the device structure that are engaged in
+     *  the CSPS process by the provided CSPS topology.
+     *
+     *  \var lp_system_stack_struct:stSize 
+     *  Number of device structure stored in the stack
+     *  \var lp_system_stack_struct::stType 
+     *  Array that stores the type of device structures stored in the stack
+     *  \var lp_system_stack_struct::stDevice
+     *  Array that stores pointers to device structures stored in the stack 
+     */ 
+
     typedef struct lp_system_stack_struct {
 
         /* Stack state */
@@ -134,11 +148,28 @@
     Header - Function prototypes
  */
 
+    /*! \brief Device structures stack management
+     *
+     *  This function is called to initialize stack structure. It has to be
+     *  called befor any use of the stack.
+     *
+     *  \param lpStack  Pointer to device structures stack structure
+     */
+
     lp_Void_t lp_system_stack_create(
 
         lp_Stack_t * const lpStack
 
     );
+
+    /*! \brief Device structures stack management
+     * 
+     *  This function deletes the information about device structure and empty
+     *  the stack structure. This function has to be called after stack usage
+     *  in order to avoid memory leak.
+     *
+     *  \param lpStack  Pointer to device structures stack structure
+     */
 
     lp_Void_t lp_system_stack_delete(
 
@@ -146,12 +177,37 @@
 
     );
 
+    /*! \brief Device structures stack management
+     * 
+     *  This function is used to push a device structure in the stack. The stack
+     *  size is updated and the pushed device structure is allocated according
+     *  to its type. The stack allocation is then usable.
+     *
+     *  \param  lpStack Pointer to device structures stack structure
+     *  \param  lpType  Type of the device structure to push
+     *
+     *  \return Returns pointer to the pushed device structrue
+     */
+
     lp_Void_t * lp_system_stack_push(
 
         lp_Stack_t * const lpStack,
         lp_Enum_t    const lpType
 
     );
+
+    /*! \brief Device structures stack management
+     * 
+     *  This function allows to get index in the stack of the device referenced
+     *  by its tag. If the provided tag has no match in the stack, a null pointer
+     *  is returned. Otherwise, the pointer to the found device structure is
+     *  returned.
+     *
+     *  \param  lpStack Pointer to device structures stack structure
+     *  \param  lpType  Type of the device structure to push
+     *  \parma  lpTag   Tag of the device to search
+     *
+     *  \return Returns a pointer to the found device structure
 
     lp_Void_t * lp_system_stack_bytag(
 
@@ -161,10 +217,12 @@
 
     );
 
-    /*! \brief File string token reader
+    /*! \brief String token from file
      *
-     *  This function simply reads a string token from specified file. It 
-     *  returns the pointer to read token char buffer.
+     *  This function simply reads a string token from specified open file. It 
+     *  returns the pointer to read token char buffer. Token is read at current
+     *  position in file which is updated after reading. If no token have been
+     *  read, LP_FALSE is returned.
      * 
      *  \param  lpFile   File from which token is read
      *  \param  lpToken  Read string token char buffer

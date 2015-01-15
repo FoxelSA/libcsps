@@ -44,7 +44,7 @@
     # include "csps-system-tool.h"
 
 /*
-    Source - Device stack management
+    Source - Device structures stack management
  */
 
     lp_Void_t lp_system_stack_create(
@@ -202,7 +202,7 @@
     }
 
 /*
-    Source - File string token reader
+    Source - String token from file
  */
 
     lp_Char_t * lp_system_token(
