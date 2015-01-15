@@ -95,12 +95,15 @@
     /*! \brief Inertial frame initial conditions rotation
      *  
      *  This function consider the inertial frame initial conditions provdied as
-     *  input and apply the three rotation around z, y, x axis, in this order, on
-     *  the initial conditions, using angle provided by the device descriptor.
+     *  input and apply the three rotation around z, y and x axis, in this order,
+     *  on the initial conditions using angles provided as parameters.
      * 
-     *  \param lpPath   Path to CSPS structure
-     *  \param lpIMU    IMU device descriptor
+     *  \param lpPath   Path to CSPS directory structure
+     *  \param lpIMU    IMU device structure
      *  \param lpIMUmod Inertial frame initial conditions initiator module
+     *  \param lpxAngle Rotation angle, in radian, around x-axis
+     *  \param lpyAngle Rotation angle, in radian, around y-axis
+     *  \param lpzAngle Rotation angle, in radian, around z-axis
      */
 
     lp_Void_t lp_imu_mod_IFICR(

@@ -185,8 +185,6 @@
      *  Stores the device name
      *  \var lp_GPS_struct::dvTag 
      *  Stores the device tag to differentiate multiple usage of the same model
-     *  \var lp_GPS_struct::dvifreq 
-     *  Device output sampling frequency
      */ 
 
     typedef struct lp_GPS_struct {

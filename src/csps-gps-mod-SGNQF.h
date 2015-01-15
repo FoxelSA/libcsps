@@ -94,11 +94,12 @@
 
     /*! \brief GPS signal quality filtering
      *  
-     *  This module removes GPS measures on the base of the GPS signal quality.
-     *  The output stream contains only measures that have a satisfying quality.
+     *  This module removes GPS measures on the basis of the GPS signal quality.
+     *  The output stream contains only measures that have a satisfying quality
+     *  according to filtering based on measure fix, HDOP and satelite count.
      *  
-     *  \param lpPath   Path CSPS structure
-     *  \param lpGPS    GPS device descriptor
+     *  \param lpPath   Path to CSPS directory structure
+     *  \param lpGPS    GPS device structure
      *  \param lpGPSmod Geographic and signal quality stream initiator module
      */
 

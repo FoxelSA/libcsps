@@ -93,13 +93,15 @@
 
     /*! \brief IMU signals frequency reduction
      *  
-     *  This function reduces the sampling frequency of the accelerations and 
-     *  gyroscopic velocities sensor signal. The reduction of frequency is 
-     *  performed using mean value on accumulated signal samples.
+     *  This function reduces the sampling frequency of the signals coming from
+     *  the IMU sensor. The reduction of frequency is performed using mean value
+     *  on accumulated signal samples.
      *  
-     *  \param lpPath   Path to CSPS structure
-     *  \param lpIMU    IMU device descriptor
+     *  \param lpPath   Path to CSPS directory structure
+     *  \param lpIMU    IMU device structure
      *  \param lpIMUmod Gyroscope and acceleration stream initiator module
+     *  \param lpiFreq  Input signal sampling frequency
+     *  \param lpdFreq  Output signal sampling frequency
      */
 
     lp_Void_t lp_imu_mod_SGSFR( 
