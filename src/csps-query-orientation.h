@@ -243,6 +243,22 @@
 
     );
 
+    /*! \brief CSPS query - Orientation - Method
+     *
+     *  This method allows to retrieve orientation using matrix formalisme to
+     *  specify the linear transformation.
+     *
+     *  \param lpOrient Pointer to query structure
+     *  \param lpMatrix Static three by three array in which matrix is returned
+     */
+
+    lp_Void_t lp_query_orientation_matrix(
+
+        lp_Orient_t const *  const lpOrient,
+        lp_Real_t                  lpMatrix[3][3]
+
+    );
+
     /*! \brief CSPS query - Orientation - Query
      *  
      *  This function perform a query on orientation based on the provided query

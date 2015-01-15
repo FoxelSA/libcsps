@@ -160,6 +160,26 @@
 
     }
 
+    lp_Void_t lp_query_orientation_matrix(
+
+        lp_Orient_t const *  const lpOrient,
+        lp_Real_t                  lpMatrix[3][3]
+
+    ) {
+
+        /* Assign matrix coefficients */
+        lpMatrix[0][0] = lpOrient->qrfxx;
+        lpMatrix[1][0] = lpOrient->qrfxy;
+        lpMatrix[2][0] = lpOrient->qrfxz;
+        lpMatrix[0][1] = lpOrient->qrfyx;
+        lpMatrix[1][1] = lpOrient->qrfyy;
+        lpMatrix[2][1] = lpOrient->qrfyz;
+        lpMatrix[0][2] = lpOrient->qrfzx;
+        lpMatrix[1][2] = lpOrient->qrfzy;
+        lpMatrix[2][2] = lpOrient->qrfzz;
+
+    }
+
 /*
     Source - CSPS query - Orientation - Query
  */
