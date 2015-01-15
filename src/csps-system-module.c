@@ -58,6 +58,9 @@
         /* String token variables */
         lp_Char_t lpToken[2][LP_STR_LEN] = { LP_STR_INI };
 
+        /* Device and module stacking variables */
+        lp_Size_t lpStacking = lp_Size_s( 1 );
+
         /* Block size variables */
         lp_Size_t lpBlock = lp_Size_s( 1024 );
 
@@ -74,7 +77,7 @@
             if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpToken[1] );
+                lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
             if ( strcmp( lpToken[0], LP_SYSTEM_BLOCK ) == 0 ) {
@@ -111,6 +114,9 @@
         /* String token variables */
         lp_Char_t lpToken[2][LP_STR_LEN] = { LP_STR_INI };
 
+        /* Device and module stacking variables */
+        lp_Size_t lpStacking = lp_Size_s( 1 );
+
         /* Block size variables */
         lp_Size_t lpBlock = lp_Size_s( 1024 );
 
@@ -127,7 +133,7 @@
             if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpToken[1] );
+                lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
             if ( strcmp( lpToken[0], LP_SYSTEM_BLOCK ) == 0 ) {
@@ -164,6 +170,9 @@
         /* String token variables */
         lp_Char_t lpToken[2][LP_STR_LEN] = { LP_STR_INI };
 
+        /* Device and module stacking variables */
+        lp_Size_t lpStacking = lp_Size_s( 1 );
+
         /* Block size variables */
         lp_Size_t lpBlock = lp_Size_s( 1024 );
 
@@ -180,7 +189,7 @@
             if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpToken[1] );
+                lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
             if ( strcmp( lpToken[0], LP_SYSTEM_BLOCK ) == 0 ) {
@@ -221,6 +230,9 @@
         /* String token variables */
         lp_Char_t lpToken[3][LP_STR_LEN] = { LP_STR_INI };
 
+        /* Device and module stacking variables */
+        lp_Size_t lpStacking = lp_Size_s( 1 );
+
         /* Camera descriptor pointer */
         lp_GPS_t * lpDevice = LP_NULL;
 
@@ -234,13 +246,13 @@
             if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpToken[1] );
+                lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
             if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpToken[2] );
+                lp_system_token( lpStream, lpToken[lpStacking++] );
 
             }
 
@@ -272,6 +284,9 @@
         /* String token variables */
         lp_Char_t lpToken[3][LP_STR_LEN] = { LP_STR_INI };
 
+        /* Device and module stacking variables */
+        lp_Size_t lpStacking = lp_Size_s( 1 );
+
         /* Parameters variables */
         lp_Real_t lpiFreq = lp_Real_s( 1.0 );
         lp_Real_t lpdFreq = lp_Real_s( 1.0 );
@@ -289,13 +304,13 @@
             if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpToken[1] );
+                lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
             if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpToken[2] );
+                lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
             if ( strcmp( lpToken[0], LP_SYSTEM_IFREQ ) == 0 ) {
@@ -341,6 +356,9 @@
         /* String token variables */
         lp_Char_t lpToken[3][LP_STR_LEN] = { LP_STR_INI };
 
+        /* Device and module stacking variables */
+        lp_Size_t lpStacking = lp_Size_s( 1 );
+
         /* Camera descriptor pointer */
         lp_IMU_t * lpDevice = LP_NULL;
 
@@ -354,13 +372,13 @@
             if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpToken[1] );
+                lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
             if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpToken[2] );
+                lp_system_token( lpStream, lpToken[lpStacking++] );
 
             }
 
@@ -388,6 +406,9 @@
         /* String token variables */
         lp_Char_t lpToken[3][LP_STR_LEN] = { LP_STR_INI };
 
+        /* Device and module stacking variables */
+        lp_Size_t lpStacking = lp_Size_s( 1 );
+
         /* Integer parameters variables */
         lp_Size_t lpLimit = lp_Size_s( 256 );
         lp_Size_t lpAccum = lp_Size_s(  32 );
@@ -409,13 +430,13 @@
             if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpToken[1] );
+                lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
             if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
 
                 /* Read parameter token */
-                lp_system_token( lpStream, lpToken[2] );
+                lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
             if ( strcmp( lpToken[0], LP_SYSTEM_ISRL ) == 0 ) {
@@ -583,7 +604,7 @@
     ) {
 
         /* String token variables */
-        lp_Char_t lpToken[4][LP_STR_LEN] = { LP_STR_INI };
+        lp_Char_t lpToken[3][LP_STR_LEN] = { LP_STR_INI };
 
         /* Device and module stacking variables */
         lp_Size_t lpStacking = lp_Size_s( 1 );
