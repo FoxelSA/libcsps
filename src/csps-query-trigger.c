@@ -47,7 +47,7 @@
     Source - CSPS query - Trigger - Handle
  */
 
-    lp_Trigger_t lp_query_trigger_read(
+    lp_Trigger_t lp_query_trigger_create(
 
         lp_Char_t const * const lpPath,
         lp_Char_t const * const lpTag,

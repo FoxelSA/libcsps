@@ -47,7 +47,7 @@
     Source - CSPS query - Orientation - Handle
  */
 
-    lp_Orient_t lp_query_orientation_read(
+    lp_Orient_t lp_query_orientation_create(
 
         lp_Char_t const * const lpPath,
         lp_Char_t const * const lpTag,

@@ -151,7 +151,7 @@
      *  \return Created query on position structure
      */
 
-    lp_Geopos_t lp_query_position_read(
+    lp_Geopos_t lp_query_position_create(
 
         lp_Char_t const * const lpPath,
         lp_Char_t const * const lpTag,
