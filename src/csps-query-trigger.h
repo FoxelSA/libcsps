@@ -96,6 +96,10 @@
      *
      *  \var lp_Query_Trigger_struct::qrStatus
      *  Query status. If LP_FALSE, the query has failed, LP_TRUE otherwise
+     *  \var lp_Query_Trigger_struct::qrMaster
+     *  Camera trigger timestamp
+     *  \var lp_Query_Trigger_struct::qrSynch
+     *  Synchronization timestamp associated with master timestamp
      *  \var lp_Query_Trigger_struct::qrSize
      *  Size, in bytes, of streams
      *  \var lp_Query_Trigger_struct::qrStrmTag
@@ -108,6 +112,10 @@
 
         /* Query status */
         lp_Enum_t   qrStatus;
+
+        /* Synchronization vector */
+        lp_Time_t   qrMaster;
+        lp_Time_t   qrSynch;
 
         /* Streams size */
         lp_Size_t   qrSize;
@@ -167,6 +175,23 @@
     lp_Size_t lp_query_trigger_size(
 
         lp_Trigger_t const * const lpTrigger
+
+    );
+
+    /*! \brief CSPS query - Trigger - Query
+     *
+     *  This function allows to query both master and synchronization timestamps
+     *  based on their offset in the reference stream data loaded in the query
+     *  structure.
+     *
+     *  \param lpTrigger Pointer to query structure
+     *  \param lpOffset  Offset in stream data of the queried values
+     */
+
+    lp_Void_t lp_query_trigger(
+
+        lp_Trigger_t * const lpTrigger,
+        lp_Size_t      const lpOffset
 
     );
 

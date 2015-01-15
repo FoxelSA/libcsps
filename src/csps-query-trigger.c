@@ -64,6 +64,10 @@
             /* Setting query status */
             LP_FALSE,
 
+            /* Initialize data fields */
+            lp_Time_s( 0 ),
+            lp_Time_s( 0 ),
+
             /* Setting stream size */
             lpSize, 
 
@@ -114,4 +118,30 @@
 /*
     Source - CSPS query - Trigger - Query
  */
+
+    lp_Void_t lp_query_trigger(
+
+        lp_Trigger_t * const lpTrigger,
+        lp_Size_t      const lpOffset
+
+    ) {
+
+        /* Check query offset range */
+        if ( ( lpOffset >= 0 ) || ( lpOffset < lpTrigger->qrSize ) ) {
+
+            /* Assign timestamp associated to offset */
+            lpTrigger->qrMaster = ( lpTrigger->qrStrmTag )[lpOffset];
+            lpTrigger->qrSynch  = ( lpTrigger->qrStrmSyn )[lpOffset];
+
+            /* Update query status */
+            lpTrigger->qrStatus = LP_TRUE;
+
+        } else {
+
+            /* Update query status */
+            lpTrigger->qrStatus = LP_FALSE;
+
+        }
+
+    }
 
