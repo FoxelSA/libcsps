@@ -96,23 +96,23 @@
         lp_Char_t lpIMUsynp[LP_STR_LEN] = LP_STR_INI;
 
         /* Stream file variables */
-        lp_File_t lpDEVlogf = LP_NULL;
-        lp_File_t lpIMUgrxf = LP_NULL;
-        lp_File_t lpIMUgryf = LP_NULL;
-        lp_File_t lpIMUgrzf = LP_NULL;
-        lp_File_t lpIMUacxf = LP_NULL;
-        lp_File_t lpIMUacyf = LP_NULL;
-        lp_File_t lpIMUaczf = LP_NULL;
-        lp_File_t lpIMUsynf = LP_NULL;
+        lp_File_t lpDEVlogf = NULL;
+        lp_File_t lpIMUgrxf = NULL;
+        lp_File_t lpIMUgryf = NULL;
+        lp_File_t lpIMUgrzf = NULL;
+        lp_File_t lpIMUacxf = NULL;
+        lp_File_t lpIMUacyf = NULL;
+        lp_File_t lpIMUaczf = NULL;
+        lp_File_t lpIMUsynf = NULL;
 
         /* Stream memory variables */
-        lp_Real_t * lpIMUgrx = LP_NULL;
-        lp_Real_t * lpIMUgry = LP_NULL;
-        lp_Real_t * lpIMUgrz = LP_NULL;
-        lp_Real_t * lpIMUacx = LP_NULL;
-        lp_Real_t * lpIMUacy = LP_NULL;
-        lp_Real_t * lpIMUacz = LP_NULL;
-        lp_Time_t * lpIMUsyn = LP_NULL;
+        lp_Real_t * lpIMUgrx = NULL;
+        lp_Real_t * lpIMUgry = NULL;
+        lp_Real_t * lpIMUgrz = NULL;
+        lp_Real_t * lpIMUacx = NULL;
+        lp_Real_t * lpIMUacy = NULL;
+        lp_Real_t * lpIMUacz = NULL;
+        lp_Time_t * lpIMUsyn = NULL;
 
         /* Build device log file paths */
         lp_path_dside( lpPath, LP_DEVICE_ADIS16375, LP_DEVICE_ADIS16375_LOG, lpDEVlogp );

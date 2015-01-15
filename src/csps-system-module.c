@@ -65,7 +65,7 @@
         lp_Size_t lpBlock = lp_Size_s( 1024 );
 
         /* Camera descriptor pointer */
-        lp_Camera_t * lpCamera = LP_NULL;
+        lp_Camera_t * lpCamera = NULL;
 
         /* Token parser */
         do {
@@ -94,7 +94,7 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Search device by tag */
-        if ( ( lpCamera = ( lp_Camera_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_CAM, lpToken[1] ) ) != LP_NULL ) {
+        if ( ( lpCamera = ( lp_Camera_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_CAM, lpToken[1] ) ) != NULL ) {
 
             /* Module operation */
             lp_cam_mod_DSIDE( lpPath, * lpCamera, lpBlock );
@@ -121,7 +121,7 @@
         lp_Size_t lpBlock = lp_Size_s( 1024 );
 
         /* Camera descriptor pointer */
-        lp_GPS_t * lpGPS = LP_NULL;
+        lp_GPS_t * lpGPS = NULL;
 
         /* Token parser */
         do {
@@ -150,7 +150,7 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Search device by tag */
-        if ( ( lpGPS = ( lp_GPS_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_GPS, lpToken[1] ) ) != LP_NULL ) {
+        if ( ( lpGPS = ( lp_GPS_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_GPS, lpToken[1] ) ) != NULL ) {
 
             /* Module operation */
             lp_gps_mod_DSIDE( lpPath, * lpGPS, lpBlock );
@@ -177,7 +177,7 @@
         lp_Size_t lpBlock = lp_Size_s( 1024 );
 
         /* Camera descriptor pointer */
-        lp_IMU_t * lpIMU = LP_NULL;
+        lp_IMU_t * lpIMU = NULL;
 
         /* Token parser */
         do {
@@ -206,7 +206,7 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Search device by tag */
-        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != LP_NULL ) {
+        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation */
             lp_imu_mod_DSIDE( lpPath, * lpIMU, lpBlock );
@@ -234,7 +234,7 @@
         lp_Size_t lpStacking = lp_Size_s( 1 );
 
         /* Camera descriptor pointer */
-        lp_GPS_t * lpGPS = LP_NULL;
+        lp_GPS_t * lpGPS = NULL;
 
         /* Token parser */
         do {
@@ -260,7 +260,7 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Search device by tag */
-        if ( ( lpGPS = ( lp_GPS_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_GPS, lpToken[1] ) ) != LP_NULL ) {
+        if ( ( lpGPS = ( lp_GPS_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_GPS, lpToken[1] ) ) != NULL ) {
 
             /* Module operation */
             lp_gps_mod_SGNQF( lpPath, * lpGPS, lpToken[2] );
@@ -292,7 +292,7 @@
         lp_Real_t lpdFreq = lp_Real_s( 1.0 );
 
         /* Camera descriptor pointer */
-        lp_IMU_t * lpIMU = LP_NULL;
+        lp_IMU_t * lpIMU = NULL;
 
         /* Token parser */
         do {
@@ -336,7 +336,7 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Search device by tag */
-        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != LP_NULL ) {
+        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation */
             lp_imu_mod_SGSFR( lpPath, * lpIMU, lpToken[2], lpiFreq, lpdFreq );
@@ -360,7 +360,7 @@
         lp_Size_t lpStacking = lp_Size_s( 1 );
 
         /* Camera descriptor pointer */
-        lp_IMU_t * lpIMU = LP_NULL;
+        lp_IMU_t * lpIMU = NULL;
 
         /* Token parser */
         do {
@@ -386,7 +386,7 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Search device by tag */
-        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != LP_NULL ) {
+        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation */
             lp_imu_mod_SGNDN( lpPath, * lpIMU, lpToken[2] );
@@ -418,7 +418,7 @@
         lp_Real_t lpaTrigger = lp_Real_s( 0.50 );
 
         /* Camera descriptor pointer */
-        lp_IMU_t * lpIMU = LP_NULL;
+        lp_IMU_t * lpIMU = NULL;
 
         /* Token parser */
         do {
@@ -480,7 +480,7 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Search device by tag */
-        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != LP_NULL ) {
+        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation */
             lp_imu_mod_ISRAD( lpPath, * lpIMU, lpToken[2], lpLimit, lpAccum, lpgTrigger, lpaTrigger );
@@ -504,7 +504,7 @@
         lp_Size_t lpStacking = lp_Size_s( 1 );
 
         /* Camera descriptor pointer */
-        lp_IMU_t * lpIMU = LP_NULL;
+        lp_IMU_t * lpIMU = NULL;
 
         /* Token parser */
         do {
@@ -530,7 +530,7 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Search device by tag */
-        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != LP_NULL ) {
+        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation */
             lp_imu_mod_IOISA( lpPath, * lpIMU, lpToken[2], lpToken[3] );
@@ -554,8 +554,8 @@
         lp_Size_t lpStacking = lp_Size_s( 1 );
 
         /* Camera descriptor pointer */
-        lp_IMU_t * lpIMU = LP_NULL;
-        lp_GPS_t * lpGPS = LP_NULL;
+        lp_IMU_t * lpIMU = NULL;
+        lp_GPS_t * lpGPS = NULL;
 
         /* Token parser */
         do {
@@ -581,8 +581,8 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Search device by tag */
-        if ( ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != LP_NULL ) && 
-             ( ( lpGPS = ( lp_GPS_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_GPS, lpToken[2] ) ) != LP_NULL ) ) {
+        if ( ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) && 
+             ( ( lpGPS = ( lp_GPS_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_GPS, lpToken[2] ) ) != NULL ) ) {
 
             /* Module operation */
             lp_imu_mod_IOBMA( lpPath, * lpIMU, * lpGPS, lpToken[3] );
@@ -611,7 +611,7 @@
         lp_Real_t lpzAngle = lp_Real_s( 0.0 );
 
         /* Camera descriptor pointer */
-        lp_IMU_t * lpIMU = LP_NULL;
+        lp_IMU_t * lpIMU = NULL;
 
         /* Token parser */
         do {
@@ -664,7 +664,7 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Search device by tag */
-        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != LP_NULL ) {
+        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation */
             lp_imu_mod_IFICR( lpPath, * lpIMU, lpToken[2], lpxAngle, lpyAngle, lpzAngle );
@@ -688,7 +688,7 @@
         lp_Size_t lpStacking = lp_Size_s( 1 );
 
         /* Camera descriptor pointer */
-        lp_IMU_t * lpIMU = LP_NULL;
+        lp_IMU_t * lpIMU = NULL;
 
         /* Token parser */
         do {
@@ -714,7 +714,7 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Search device by tag */
-        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != LP_NULL ) {
+        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation */
             lp_imu_mod_IFETI( lpPath, * lpIMU, lpToken[2], lpToken[3] );
@@ -738,7 +738,7 @@
         lp_Size_t lpStacking = lp_Size_s( 1 );
 
         /* Camera descriptor pointer */
-        lp_IMU_t * lpIMU = LP_NULL;
+        lp_IMU_t * lpIMU = NULL;
 
         /* Token parser */
         do {
@@ -764,7 +764,7 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Search device by tag */
-        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != LP_NULL ) {
+        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation */
             lp_imu_mod_AACEX( lpPath, * lpIMU, lpToken[2], lpToken[3] );

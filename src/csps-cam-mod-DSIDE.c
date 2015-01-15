@@ -96,13 +96,13 @@
         lp_Char_t lpDEVsynp[LP_STR_LEN] = LP_STR_INI;
 
         /* Stream file variables */
-        lp_File_t lpDEVlogf = LP_NULL;
-        lp_File_t lpDEVmasf = LP_NULL;
-        lp_File_t lpDEVsynf = LP_NULL;
+        lp_File_t lpDEVlogf = NULL;
+        lp_File_t lpDEVmasf = NULL;
+        lp_File_t lpDEVsynf = NULL;
 
         /* Stream memory variables */
-        lp_Time_t * lpDEVmas = LP_NULL;
-        lp_Time_t * lpDEVsyn = LP_NULL;
+        lp_Time_t * lpDEVmas = NULL;
+        lp_Time_t * lpDEVsyn = NULL;
 
         /* Build device log file paths */
         lp_path_dside( lpPath, LP_DEVICE_EYESIS4PI, LP_DEVICE_EYESIS4PI_LOG, lpDEVlogp );

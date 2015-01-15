@@ -63,11 +63,11 @@
         lp_Size_t lpSize = lp_Size_s( 0 );
 
         /* Stream memory variables */
-        lp_Real_t * lpGPSlat = LP_NULL;
-        lp_Real_t * lpGPSlon = LP_NULL;
-        lp_Real_t * lpGPSalt = LP_NULL;
-        lp_Time_t * lpGPSsyn = LP_NULL;
-        lp_Time_t * lpGPSqbf = LP_NULL;
+        lp_Real_t * lpGPSlat = NULL;
+        lp_Real_t * lpGPSlon = NULL;
+        lp_Real_t * lpGPSalt = NULL;
+        lp_Time_t * lpGPSsyn = NULL;
+        lp_Time_t * lpGPSqbf = NULL;
 
         /* Obtain stream size */
         lpSize = lp_stream_size( lpPath, lpGPS.dvTag, lpGPSmod );

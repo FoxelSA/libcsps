@@ -100,19 +100,19 @@
         lp_Char_t lpGPSsynp[LP_STR_LEN] = LP_STR_INI;
 
         /* Stream file variables */
-        lp_File_t lpDEVlogf = LP_NULL;
-        lp_File_t lpGPSlatf = LP_NULL;
-        lp_File_t lpGPSlonf = LP_NULL;
-        lp_File_t lpGPSaltf = LP_NULL;
-        lp_File_t lpGPSqbff = LP_NULL;
-        lp_File_t lpGPSsynf = LP_NULL;
+        lp_File_t lpDEVlogf = NULL;
+        lp_File_t lpGPSlatf = NULL;
+        lp_File_t lpGPSlonf = NULL;
+        lp_File_t lpGPSaltf = NULL;
+        lp_File_t lpGPSqbff = NULL;
+        lp_File_t lpGPSsynf = NULL;
 
         /* Stream memory variables */
-        lp_Real_t * lpGPSlat = LP_NULL;
-        lp_Real_t * lpGPSlon = LP_NULL;
-        lp_Real_t * lpGPSalt = LP_NULL;
-        lp_SQBF_t * lpGPSqbf = LP_NULL;
-        lp_Time_t * lpGPSsyn = LP_NULL;
+        lp_Real_t * lpGPSlat = NULL;
+        lp_Real_t * lpGPSlon = NULL;
+        lp_Real_t * lpGPSalt = NULL;
+        lp_SQBF_t * lpGPSqbf = NULL;
+        lp_Time_t * lpGPSsyn = NULL;
 
         /* Build device log file paths */
         lp_path_dside( lpPath, LP_DEVICE_LS20031, LP_DEVICE_LS20031_LOG, lpDEVlogp );
@@ -164,7 +164,7 @@
                             if ( lp_nmea_gga_validate( lpSentence ) == LP_TRUE ) {
 
                                 /* Decompose NMEA GGA sentence */
-                                lp_nmea_gga( lpSentence, LP_NULL,
+                                lp_nmea_gga( lpSentence, NULL,
 
                                     /* Sending data buffers to sentence decomposer */
                                     lpGPSlat + lpIndex,

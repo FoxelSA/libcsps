@@ -61,10 +61,10 @@
         lp_Stack_t lpStack;
 
         /* Input stream handle variables */
-        FILE * lpStream = LP_NULL;
+        FILE * lpStream = NULL;
 
         /* Create input stream handle */
-        if ( ( lpStream = fopen( lpFile, "r" ) ) == LP_NULL ) {
+        if ( ( lpStream = fopen( lpFile, "r" ) ) == NULL ) {
 
             /* Return failure state */
             return( LP_FALSE );
@@ -75,7 +75,7 @@
             lp_system_stack_create( & lpStack );
 
             /* Topology file parsing */
-            while ( lp_system_token( lpStream, lpToken ) != LP_NULL ) {
+            while ( lp_system_token( lpStream, lpToken ) != NULL ) {
 
                 /* Token analysis */
                 if ( strcmp( lpToken, LP_SYSTEM_DEVICE ) == 0 ) {

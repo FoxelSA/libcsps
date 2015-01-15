@@ -117,9 +117,6 @@
     /* Define default initializer */
     # define LP_STR_INI         { '\0' }
 
-    /* Define default pointer initializer */
-    # define LP_NULL            NULL
-
     /* Declare mathematical constants */
     # define LP_PI              lp_Real_s( 3.14159265358979323846264338327950 )
     # define LP_PI2             lp_Real_s( 6.28318530717958647692528676655901 )
@@ -169,7 +166,6 @@
     /* Define mathematic operator */
     # define LP_MAX( x, y )     ( ( x > y ) ? x : y )
     # define LP_MIN( x, y )     ( ( x < y ) ? x : y )
-    # define LP_RNG( x, y, z )  LP_MAX( LP_MIN( x, z ), y )
 
     /* Define mathematical function */
     # define LP_ATN(x,y)        ( ( x >= 0 ) ? ( ( y >= 0 ) ? atan( y / x ) : LP_PI2 + atan( y / x ) ) : LP_PI + atan( y / x ) )

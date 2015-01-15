@@ -59,16 +59,16 @@
     ) {
 
         /* Stream memory variables */
-        lp_Real_t * lpIMUixx = LP_NULL;
-        lp_Real_t * lpIMUixy = LP_NULL;
-        lp_Real_t * lpIMUixz = LP_NULL;
-        lp_Real_t * lpIMUiyx = LP_NULL;
-        lp_Real_t * lpIMUiyy = LP_NULL;
-        lp_Real_t * lpIMUiyz = LP_NULL;
-        lp_Real_t * lpIMUizx = LP_NULL;
-        lp_Real_t * lpIMUizy = LP_NULL;
-        lp_Real_t * lpIMUizz = LP_NULL;
-        lp_Time_t * lpIMUisn = LP_NULL;
+        lp_Real_t * lpIMUixx = NULL;
+        lp_Real_t * lpIMUixy = NULL;
+        lp_Real_t * lpIMUixz = NULL;
+        lp_Real_t * lpIMUiyx = NULL;
+        lp_Real_t * lpIMUiyy = NULL;
+        lp_Real_t * lpIMUiyz = NULL;
+        lp_Real_t * lpIMUizx = NULL;
+        lp_Real_t * lpIMUizy = NULL;
+        lp_Real_t * lpIMUizz = NULL;
+        lp_Time_t * lpIMUisn = NULL;
 
         /* Read streams */
         lpIMUixx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmod, LP_STREAM_CPN_IXX, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );

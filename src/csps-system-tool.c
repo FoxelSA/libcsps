@@ -63,7 +63,7 @@
         for ( lpParse = lp_Size_s( 0 ); lpParse < LP_SYSTEM_LIMIT; lpParse ++ ) {
 
             /* Initialize descriptor pointer */
-            lpStack->stDevice[lpParse] = LP_NULL;
+            lpStack->stDevice[lpParse] = NULL;
 
             /* Initialize device type */
             lpStack->stType[lpParse] = LP_SYSTEM_TYPE_NULL;
@@ -85,13 +85,13 @@
         for ( lpParse = lp_Size_s( 0 ); lpParse < lpStack->stSize; lpParse ++ ) {
 
             /* Check descriptor state */
-            if ( lpStack->stDevice != LP_NULL ) {
+            if ( lpStack->stDevice != NULL ) {
 
                 /* Unallocate descriptor memory */
                 free( lpStack->stDevice[lpParse] );
 
                 /* Invalidate descriptor pointer */
-                lpStack->stDevice[lpParse] = LP_NULL;
+                lpStack->stDevice[lpParse] = NULL;
 
             }
 
@@ -110,7 +110,7 @@
     ) {
 
         /* Returned value variables */
-        lp_Void_t * lpReturn = LP_NULL;
+        lp_Void_t * lpReturn = NULL;
 
         /* Descriptor size variables */
         lp_Size_t lpLength = lp_Size_s( 0 );
@@ -151,10 +151,10 @@
         lp_Size_t lpParse = lp_Size_s( 0 );
 
         /* Returned value variables */
-        lp_Void_t * lpReturn = LP_NULL;
+        lp_Void_t * lpReturn = NULL;
 
         /* Searching loop */
-        while ( ( lpReturn == LP_NULL ) && ( lpParse < lpStack->stSize ) ) {
+        while ( ( lpReturn == NULL ) && ( lpParse < lpStack->stSize ) ) {
 
             /* Detect device type */
             if ( lpType == LP_SYSTEM_TYPE_CAM ) {
@@ -221,7 +221,7 @@
         } else {
 
             /* Return null pointer */
-            return( LP_NULL );
+            return( NULL );
 
         }
 

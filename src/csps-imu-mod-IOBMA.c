@@ -74,20 +74,20 @@
         lp_Real_t lpDiffnrm = lp_Real_s( 0.0 );
 
         /* Stream memory variables */
-        lp_Real_t * lpGPSlat = LP_NULL;
-        lp_Real_t * lpGPSlon = LP_NULL;
-        lp_Real_t * lpGPSalt = LP_NULL;
-        lp_Time_t * lpGPSsyn = LP_NULL;
-        lp_Real_t * lpIMUixx = LP_NULL;
-        lp_Real_t * lpIMUixy = LP_NULL;
-        lp_Real_t * lpIMUixz = LP_NULL;
-        lp_Real_t * lpIMUiyx = LP_NULL;
-        lp_Real_t * lpIMUiyy = LP_NULL;
-        lp_Real_t * lpIMUiyz = LP_NULL;
-        lp_Real_t * lpIMUizx = LP_NULL;
-        lp_Real_t * lpIMUizy = LP_NULL;
-        lp_Real_t * lpIMUizz = LP_NULL;
-        lp_Time_t * lpIMUisn = LP_NULL;
+        lp_Real_t * lpGPSlat = NULL;
+        lp_Real_t * lpGPSlon = NULL;
+        lp_Real_t * lpGPSalt = NULL;
+        lp_Time_t * lpGPSsyn = NULL;
+        lp_Real_t * lpIMUixx = NULL;
+        lp_Real_t * lpIMUixy = NULL;
+        lp_Real_t * lpIMUixz = NULL;
+        lp_Real_t * lpIMUiyx = NULL;
+        lp_Real_t * lpIMUiyy = NULL;
+        lp_Real_t * lpIMUiyz = NULL;
+        lp_Real_t * lpIMUizx = NULL;
+        lp_Real_t * lpIMUizy = NULL;
+        lp_Real_t * lpIMUizz = NULL;
+        lp_Time_t * lpIMUisn = NULL;
 
         /* Obtain stream size */
         lpSize = lp_stream_size( lpPath, lpGPS.dvTag, lpGPSmod );

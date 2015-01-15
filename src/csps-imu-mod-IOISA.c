@@ -79,24 +79,24 @@
         lp_Real_t lpACCgrn = lp_Real_s( 0.0 );
 
         /* Stream memory variables */
-        lp_Real_t * lpIMUacx = LP_NULL;
-        lp_Real_t * lpIMUacy = LP_NULL;
-        lp_Real_t * lpIMUacz = LP_NULL;
-        lp_Real_t * lpIMUgrx = LP_NULL;
-        lp_Real_t * lpIMUgry = LP_NULL;
-        lp_Real_t * lpIMUgrz = LP_NULL;
-        lp_Real_t * lpIMUixx = LP_NULL;
-        lp_Real_t * lpIMUixy = LP_NULL;
-        lp_Real_t * lpIMUixz = LP_NULL;
-        lp_Real_t * lpIMUiyx = LP_NULL;
-        lp_Real_t * lpIMUiyy = LP_NULL;
-        lp_Real_t * lpIMUiyz = LP_NULL;
-        lp_Real_t * lpIMUizx = LP_NULL;
-        lp_Real_t * lpIMUizy = LP_NULL;
-        lp_Real_t * lpIMUizz = LP_NULL;
-        lp_Time_t * lpIMUisn = LP_NULL;
-        lp_Time_t * lpIMUtag = LP_NULL;
-        lp_Time_t * lpIMUrsn = LP_NULL;
+        lp_Real_t * lpIMUacx = NULL;
+        lp_Real_t * lpIMUacy = NULL;
+        lp_Real_t * lpIMUacz = NULL;
+        lp_Real_t * lpIMUgrx = NULL;
+        lp_Real_t * lpIMUgry = NULL;
+        lp_Real_t * lpIMUgrz = NULL;
+        lp_Real_t * lpIMUixx = NULL;
+        lp_Real_t * lpIMUixy = NULL;
+        lp_Real_t * lpIMUixz = NULL;
+        lp_Real_t * lpIMUiyx = NULL;
+        lp_Real_t * lpIMUiyy = NULL;
+        lp_Real_t * lpIMUiyz = NULL;
+        lp_Real_t * lpIMUizx = NULL;
+        lp_Real_t * lpIMUizy = NULL;
+        lp_Real_t * lpIMUizz = NULL;
+        lp_Time_t * lpIMUisn = NULL;
+        lp_Time_t * lpIMUtag = NULL;
+        lp_Time_t * lpIMUrsn = NULL;
 
         /* Matrix variables */
         lp_Real_t lpMatrix[3][3] = { 

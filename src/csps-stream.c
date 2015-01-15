@@ -68,10 +68,10 @@
     ) {
 
         /* Verify memory allocation and memory unallocate */
-        if ( lpStream != LP_NULL ) free( lpStream );
+        if ( lpStream != NULL ) free( lpStream );
 
         /* Return invalid pointer */
-        return( LP_NULL );
+        return( NULL );
 
     }
 
@@ -89,7 +89,7 @@
     ) {
 
         /* Stream handle variables */
-        lp_File_t lpStreamf = LP_NULL;
+        lp_File_t lpStreamf = NULL;
 
         /* Stream size variables */
         lp_Size_t lpSize = lp_Size_s( 0 );
@@ -132,10 +132,10 @@
     ) {
 
         /* Stream handle variables */
-        lp_File_t lpStreamf = LP_NULL;
+        lp_File_t lpStreamf = NULL;
 
         /* Stream buffer variables */
-        lp_Void_t * lpStream = LP_NULL;
+        lp_Void_t * lpStream = NULL;
 
         /* Stream path variables */
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
@@ -176,7 +176,7 @@
     ) {
 
         /* Stream handle variables */
-        lp_File_t lpStreamf = LP_NULL;
+        lp_File_t lpStreamf = NULL;
 
         /* Stream path variables */
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
