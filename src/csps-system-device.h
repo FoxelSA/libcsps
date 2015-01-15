@@ -91,9 +91,9 @@
      *  push the device in the topology device structures stack.
      *
      *  The topology file provided as parameter has to be already openned and
-     *  its position has to point token comming just after the 'device'
-     *  keyword. The function update the file position to position just after
-     *  'end' keyword at device section end.
+     *  its position has to point token comming just after the 'device' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at device section end.
      *
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
@@ -113,9 +113,9 @@
      *  push the device in the topology device structures stack.
      *
      *  The topology file provided as parameter has to be already openned and
-     *  its position has to point token comming just after the 'device'
-     *  keyword. The function update the file position to position just after
-     *  'end' keyword at device section end.
+     *  its position has to point token comming just after the 'device' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at device section end.
      *
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
@@ -135,9 +135,9 @@
      *  push the device in the topology device structures stack.
      *
      *  The topology file provided as parameter has to be already openned and
-     *  its position has to point token comming just after the 'device'
-     *  keyword. The function update the file position to position just after
-     *  'end' keyword at device section end.
+     *  its position has to point token comming just after the 'device' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at device section end.
      *
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle

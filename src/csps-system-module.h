@@ -97,6 +97,21 @@
     Header - Function prototypes
  */
 
+    /*! \brief Extraction modules interface
+     * 
+     *  This function is the topology parser specific camera extraction module
+     *  interface. Its role is to read the module section in the topology file
+     *  in order to trigger module execution.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'module' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at module section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
+
     lp_Void_t lp_system_module_cam_DSIDE(
 
         lp_Char_t  const * const lpPath,
@@ -104,6 +119,21 @@
         FILE             * const lpStream
 
     );
+
+    /*! \brief Extraction modules interface
+     * 
+     *  This function is the topology parser specific GPS extraction module
+     *  interface. Its role is to read the module section in the topology file
+     *  in order to trigger module execution.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'module' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at module section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
 
     lp_Void_t lp_system_module_gps_DSIDE(
 
@@ -113,6 +143,21 @@
 
     );
 
+    /*! \brief Extraction modules interface
+     * 
+     *  This function is the topology parser specific IMU extraction module
+     *  interface. Its role is to read the module section in the topology file
+     *  in order to trigger module execution.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'module' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at module section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
+
     lp_Void_t lp_system_module_imu_DSIDE(
 
         lp_Char_t  const * const lpPath,
@@ -120,6 +165,21 @@
         FILE             * const lpStream
 
     );
+
+    /*! \brief GPS reciever modules interface
+     * 
+     *  This function is the topology parser specific gps-mod-SGNQF module
+     *  interface. Its role is to read the module section in the topology file
+     *  in order to trigger module execution.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'module' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at module section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
 
     lp_Void_t lp_system_module_gps_SGNQF(
 
@@ -129,6 +189,21 @@
 
     );
 
+    /*! \brief IMU sensor modules interface
+     * 
+     *  This function is the topology parser specific imu-mod-SGSFR module
+     *  interface. Its role is to read the module section in the topology file
+     *  in order to trigger module execution.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'module' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at module section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
+
     lp_Void_t lp_system_module_imu_SGSFR(
 
         lp_Char_t  const * const lpPath,
@@ -136,6 +211,21 @@
         FILE             * const lpStream
 
     );
+
+    /*! \brief IMU sensor modules interface
+     * 
+     *  This function is the topology parser specific imu-mod-SGNDN module
+     *  interface. Its role is to read the module section in the topology file
+     *  in order to trigger module execution.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'module' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at module section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
 
     lp_Void_t lp_system_module_imu_SGNDN(
 
@@ -145,6 +235,21 @@
 
     );
 
+    /*! \brief IMU sensor modules interface
+     * 
+     *  This function is the topology parser specific imu-mod-ISRAD module
+     *  interface. Its role is to read the module section in the topology file
+     *  in order to trigger module execution.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'module' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at module section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
+
     lp_Void_t lp_system_module_imu_ISRAD(
 
         lp_Char_t  const * const lpPath,
@@ -152,6 +257,21 @@
         FILE             * const lpStream
 
     );
+
+    /*! \brief IMU sensor modules interface
+     * 
+     *  This function is the topology parser specific imu-mod-IOISA module
+     *  interface. Its role is to read the module section in the topology file
+     *  in order to trigger module execution.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'module' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at module section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
 
     lp_Void_t lp_system_module_imu_IOISA(
 
@@ -161,6 +281,21 @@
 
     );
 
+    /*! \brief IMU sensor modules interface
+     * 
+     *  This function is the topology parser specific imu-mod-IOBMA module
+     *  interface. Its role is to read the module section in the topology file
+     *  in order to trigger module execution.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'module' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at module section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
+
     lp_Void_t lp_system_module_imu_IOBMA(
 
         lp_Char_t  const * const lpPath,
@@ -168,6 +303,21 @@
         FILE             * const lpStream
 
     );
+
+    /*! \brief IMU sensor modules interface
+     * 
+     *  This function is the topology parser specific imu-mod-IFICR module
+     *  interface. Its role is to read the module section in the topology file
+     *  in order to trigger module execution.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'module' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at module section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
 
     lp_Void_t lp_system_module_imu_IFICR(
 
@@ -177,6 +327,21 @@
 
     );
 
+    /*! \brief IMU sensor modules interface
+     * 
+     *  This function is the topology parser specific imu-mod-IFETI module
+     *  interface. Its role is to read the module section in the topology file
+     *  in order to trigger module execution.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'module' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at module section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
+
     lp_Void_t lp_system_module_imu_IFETI(
 
         lp_Char_t  const * const lpPath,
@@ -184,6 +349,21 @@
         FILE             * const lpStream
 
     );
+
+    /*! \brief IMU sensor modules interface
+     * 
+     *  This function is the topology parser specific imu-mod-AACEX module
+     *  interface. Its role is to read the module section in the topology file
+     *  in order to trigger module execution.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'module' keyword.
+     *  The function update the file position to position just after 'end'
+     *  keyword at module section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
 
     lp_Void_t lp_system_module_imu_AACEX(
 

@@ -208,6 +208,7 @@
      *  \parma  lpTag   Tag of the device to search
      *
      *  \return Returns a pointer to the found device structure
+     */
 
     lp_Void_t * lp_system_stack_bytag(
 
