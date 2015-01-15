@@ -58,7 +58,7 @@
         lp_Char_t lpToken[3][LP_STR_LEN] = { LP_STR_INI };
 
         /* Device allocation pointer */
-        lp_Camera_t * lpDevice = LP_NULL;
+        lp_Camera_t * lpCamera = LP_NULL;
 
         /* Token parser */
         do {
@@ -84,10 +84,10 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Push device on stack */
-        if ( ( lpDevice = ( lp_Camera_t * ) lp_system_stack_push( lpStack, LP_SYSTEM_TYPE_CAM ) ) != LP_NULL ) {
+        if ( ( lpCamera = ( lp_Camera_t * ) lp_system_stack_push( lpStack, LP_SYSTEM_TYPE_CAM ) ) != LP_NULL ) {
 
             /* Create camera device */
-            * lpDevice = lp_device_camera( lpToken[1], lpToken[2] );
+            * lpCamera = lp_device_camera( lpToken[1], lpToken[2] );
 
         }
 
@@ -108,7 +108,7 @@
         lp_Char_t lpToken[3][LP_STR_LEN] = { LP_STR_INI };
 
         /* Device allocation pointer */
-        lp_GPS_t * lpDevice = LP_NULL;
+        lp_GPS_t * lpGPS = LP_NULL;
 
         /* Token parser */
         do {
@@ -134,10 +134,10 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Push device on stack */
-        if ( ( lpDevice = ( lp_GPS_t * ) lp_system_stack_push( lpStack, LP_SYSTEM_TYPE_GPS ) ) != LP_NULL ) {
+        if ( ( lpGPS = ( lp_GPS_t * ) lp_system_stack_push( lpStack, LP_SYSTEM_TYPE_GPS ) ) != LP_NULL ) {
 
             /* Create camera device */
-            * lpDevice = lp_device_GPS( lpToken[1], lpToken[2] );
+            * lpGPS = lp_device_GPS( lpToken[1], lpToken[2] );
 
         }
 
@@ -158,7 +158,7 @@
         lp_Char_t lpToken[3][LP_STR_LEN] = { LP_STR_INI };
 
         /* Device allocation pointer */
-        lp_IMU_t * lpDevice = LP_NULL;
+        lp_IMU_t * lpIMU = LP_NULL;
 
         /* Token parser */
         do {
@@ -184,10 +184,10 @@
         } while ( strcmp( lpToken[0], LP_SYSTEM_END ) != 0 );
 
         /* Push device on stack */
-        if ( ( lpDevice = ( lp_IMU_t * ) lp_system_stack_push( lpStack, LP_SYSTEM_TYPE_IMU ) ) != LP_NULL ) {
+        if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_push( lpStack, LP_SYSTEM_TYPE_IMU ) ) != LP_NULL ) {
 
             /* Create camera device */
-            * lpDevice = lp_device_IMU( lpToken[1], lpToken[2] );
+            * lpIMU = lp_device_IMU( lpToken[1], lpToken[2] );
 
         }
 
