@@ -36,18 +36,18 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   csps-device.h
+    /*! \file   csps-device-gps.h
      *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  CSPS device descriptors
+     *  CSPS GPS device management
      */
 
 /*
     Header - Include guard
  */
 
-    # ifndef __LP_DEVICE__
-    # define __LP_DEVICE__
+    # ifndef __LP_DEVICE_GPS__
+    # define __LP_DEVICE_GPS__
 
 /*
     Header - C/C++ compatibility
@@ -62,23 +62,14 @@
  */
 
     # include "csps.h"
-    # include "csps-device-camera.h"
-    # include "csps-device-gps.h"
-    # include "csps-device-imu.h"
 
 /*
     Header - Preprocessor definitions
  */
 
-    /* Define device type indexes */
-    # define LP_DEVICE_ID_CAM       lp_Enum_s( 1 )
-    # define LP_DEVICE_ID_GPS       lp_Enum_s( 2 )
-    # define LP_DEVICE_ID_IMU       lp_Enum_s( 3 )
-
-    /* Define device types */
-    # define LP_DEVICE_TYPE_CAM     "cam"
-    # define LP_DEVICE_TYPE_GPS     "gps"
-    # define LP_DEVICE_TYPE_IMU     "imu"
+    /* Define GPS device */
+    # define LP_DEVICE_LS20031      "LS20031"
+    # define LP_DEVICE_LS20031_LOG  "LOG-FPGA"
 
 /*
     Header - Preprocessor macros
@@ -92,9 +83,49 @@
     Header - Structures
  */
 
+    /*! \struct lp_GPS_struct
+     *  \brief GPS device structure
+     *
+     *  The structure stores the description of a GPS device engaged in the
+     *  CSPS.
+     *
+     *  \var lp_GPS_struct::dvName 
+     *  Stores the device model name
+     *  \var lp_GPS_struct::dvTag 
+     *  Stores the device tag name
+     */ 
+
+    typedef struct lp_GPS_struct {
+
+        /* Device model name */
+        lp_Char_t dvName[LP_STR_LEN];
+
+        /* Device name */
+        lp_Char_t dvTag[LP_STR_LEN];
+
+    } lp_GPS_t;
+
 /*
     Header - Function prototypes
  */
+
+    /*! \brief GPS device structure creator
+     * 
+     *  This function creates GPS device structure. It consider device model to
+     *  assign its specific configuration.
+     *
+     * \param   lpName  GPS device model name
+     * \param   lpTag   GPS device tag name
+     *
+     * \returns Returns created GPS device structure
+     */
+
+    lp_GPS_t lp_device_GPS( 
+
+        lp_Char_t const * const lpName, 
+        lp_Char_t const * const lpTag 
+
+    );
 
 /*
     Header - C/C++ compatibility

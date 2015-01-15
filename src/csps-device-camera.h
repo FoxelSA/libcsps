@@ -36,18 +36,18 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   csps-device.h
+    /*! \file   csps-device-camera.h
      *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  CSPS device descriptors
+     *  CSPS camera device management
      */
 
 /*
     Header - Include guard
  */
 
-    # ifndef __LP_DEVICE__
-    # define __LP_DEVICE__
+    # ifndef __LP_DEVICE_CAMERA__
+    # define __LP_DEVICE_CAMERA__
 
 /*
     Header - C/C++ compatibility
@@ -62,23 +62,21 @@
  */
 
     # include "csps.h"
-    # include "csps-device-camera.h"
-    # include "csps-device-gps.h"
-    # include "csps-device-imu.h"
 
 /*
     Header - Preprocessor definitions
  */
 
-    /* Define device type indexes */
-    # define LP_DEVICE_ID_CAM       lp_Enum_s( 1 )
-    # define LP_DEVICE_ID_GPS       lp_Enum_s( 2 )
-    # define LP_DEVICE_ID_IMU       lp_Enum_s( 3 )
+    /* Define camera device */
+    # define LP_DEVICE_EYESIS4PI            "EYESIS4PI"
+    # define LP_DEVICE_EYESIS4PI_LOG        "E4P-LOG-FPGA"
+    # define LP_DEVICE_NC353L369IMUGPS      "NC353L-369-IMU-GPS"
 
-    /* Define device types */
-    # define LP_DEVICE_TYPE_CAM     "cam"
-    # define LP_DEVICE_TYPE_GPS     "gps"
-    # define LP_DEVICE_TYPE_IMU     "imu"
+    /* Define Eyesis4pi specific constants */
+    # define LP_DEVICE_EYESIS4PI_RECLEN     lp_Size_s( 64 )
+    # define LP_DEVICE_EYESIS4PI_IMUEVT     lp_Enum_s(  0 )
+    # define LP_DEVICE_EYESIS4PI_GPSEVT     lp_Enum_s(  1 )
+    # define LP_DEVICE_EYESIS4PI_MASEVT     lp_Enum_s(  2 )
 
 /*
     Header - Preprocessor macros
@@ -92,9 +90,49 @@
     Header - Structures
  */
 
+    /*! \struct lp_Camera_struct
+     *  \brief Camera device structure
+     *
+     *  The structure stores the description of a camera device engaged in the
+     *  CSPS processing.
+     *
+     *  \var lp_Camera_struct::dvName 
+     *  Stores the device model name
+     *  \var lp_Camera_struct::dvTag 
+     *  Stores the device tag name
+     */ 
+
+    typedef struct lp_Camera_struct {
+
+        /* Device model name */
+        lp_Char_t dvName[LP_STR_LEN];
+
+        /* Device name */
+        lp_Char_t dvTag[LP_STR_LEN];
+
+    } lp_Camera_t;
+
 /*
     Header - Function prototypes
  */
+
+    /*! \brief Camera device structure creator
+     * 
+     *  This function creates camera device structure. It consider device model
+     *  to assign its specific configuration.
+     *
+     * \param   lpName  Camera device model name
+     * \param   lpTag   Camera device tag name
+     *
+     * \returns Returns created camera device structure
+     */
+
+    lp_Camera_t lp_device_camera( 
+
+        lp_Char_t const * const lpName, 
+        lp_Char_t const * const lpTag
+
+    );
 
 /*
     Header - C/C++ compatibility

@@ -36,77 +36,40 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   csps-device.h
-     *  \author Nils Hamel <n.hamel@foxel.ch>
-     *
-     *  CSPS device descriptors
-     */
 
 /*
-    Header - Include guard
+    Source - Includes
  */
 
-    # ifndef __LP_DEVICE__
-    # define __LP_DEVICE__
-
-/*
-    Header - C/C++ compatibility
- */
-
-    # ifdef __cplusplus
-    extern "C" {
-    # endif
-
-/*
-    Header - Includes
- */
-
-    # include "csps.h"
-    # include "csps-device-camera.h"
     # include "csps-device-gps.h"
-    # include "csps-device-imu.h"
 
 /*
-    Header - Preprocessor definitions
+    Source - GPS device structure creator
  */
 
-    /* Define device type indexes */
-    # define LP_DEVICE_ID_CAM       lp_Enum_s( 1 )
-    # define LP_DEVICE_ID_GPS       lp_Enum_s( 2 )
-    # define LP_DEVICE_ID_IMU       lp_Enum_s( 3 )
+    lp_GPS_t lp_device_GPS( 
 
-    /* Define device types */
-    # define LP_DEVICE_TYPE_CAM     "cam"
-    # define LP_DEVICE_TYPE_GPS     "gps"
-    # define LP_DEVICE_TYPE_IMU     "imu"
+        lp_Char_t const * const lpName, 
+        lp_Char_t const * const lpTag 
 
-/*
-    Header - Preprocessor macros
- */
+    ) {
 
-/*
-    Header - Typedefs
- */
+        /* GPS device structure */
+        lp_GPS_t lpDevice;
 
-/*
-    Header - Structures
- */
+        /* Detect type of GPS */
+        if ( strcmp( lpName, LP_DEVICE_LS20031 ) == 0 ) {
 
-/*
-    Header - Function prototypes
- */
+            /* Assign device model name */
+            sprintf( lpDevice.dvName, "%s", LP_DEVICE_LS20031 );
 
-/*
-    Header - C/C++ compatibility
- */
+            /* Assign device name */
+            sprintf( lpDevice.dvTag, "%s", lpTag );
 
-    # ifdef __cplusplus
+        }
+
+        /* Return device structure */
+        return( lpDevice );
+
     }
-    # endif
-
-/*
-    Header - Include guard
- */
-
-    # endif
 

@@ -41,45 +41,10 @@
     Source - Includes
  */
 
-    # include "csps-device.h"
+    # include "csps-device-imu.h"
 
 /*
-    Source - CAM device descriptor initializer
- */
-
-    lp_Camera_t lp_device_camera( 
-
-        lp_Char_t const * const lpName, 
-        lp_Char_t const * const lpTag
-
-    ) {
-
-        /* CAM device structure */
-        lp_Camera_t lpDevice;
-
-        /* Detect type of camera */
-        if ( 
-
-            ( strcmp( lpName, LP_DEVICE_EYESIS4PI       ) == 0 ) ||
-            ( strcmp( lpName, LP_DEVICE_NC353L369IMUGPS ) == 0 )
-
-        ) {
-
-            /* Assign device model name */
-            sprintf( lpDevice.dvName, "%s", LP_DEVICE_EYESIS4PI );
-
-            /* Assign device name */
-            sprintf( lpDevice.dvTag, "%s", lpTag );
-
-        }
-
-        /* Return device structure */
-        return( lpDevice );
-
-    }
-
-/*
-    Source - IMU device descriptor initializer
+    Source - IMU device structure creator
  */
 
     lp_IMU_t lp_device_IMU( 
@@ -110,36 +75,6 @@
             lpDevice.dvACCx = ( lp_Real_s( 0.8192 ) * lp_Real_s( 9.80665 ) ) / ( lp_Real_s( 65536000.0 ) );
             lpDevice.dvACCy = ( lp_Real_s( 0.8192 ) * lp_Real_s( 9.80665 ) ) / ( lp_Real_s( 65536000.0 ) );
             lpDevice.dvACCz = ( lp_Real_s( 0.8192 ) * lp_Real_s( 9.80665 ) ) / ( lp_Real_s( 65536000.0 ) );
-
-        }
-
-        /* Return device structure */
-        return( lpDevice );
-
-    }
-
-/*
-    Source - GPS device descriptor initializer
- */
-
-    lp_GPS_t lp_device_GPS( 
-
-        lp_Char_t const * const lpName, 
-        lp_Char_t const * const lpTag 
-
-    ) {
-
-        /* GPS device structure */
-        lp_GPS_t lpDevice;
-
-        /* Detect type of GPS */
-        if ( strcmp( lpName, LP_DEVICE_LS20031 ) == 0 ) {
-
-            /* Assign device model name */
-            sprintf( lpDevice.dvName, "%s", LP_DEVICE_LS20031 );
-
-            /* Assign device name */
-            sprintf( lpDevice.dvTag, "%s", lpTag );
 
         }
 

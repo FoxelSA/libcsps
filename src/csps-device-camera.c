@@ -36,77 +36,41 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   csps-device.h
-     *  \author Nils Hamel <n.hamel@foxel.ch>
-     *
-     *  CSPS device descriptors
-     */
 
 /*
-    Header - Include guard
+    Source - Includes
  */
 
-    # ifndef __LP_DEVICE__
-    # define __LP_DEVICE__
-
-/*
-    Header - C/C++ compatibility
- */
-
-    # ifdef __cplusplus
-    extern "C" {
-    # endif
-
-/*
-    Header - Includes
- */
-
-    # include "csps.h"
     # include "csps-device-camera.h"
-    # include "csps-device-gps.h"
-    # include "csps-device-imu.h"
 
 /*
-    Header - Preprocessor definitions
+    Source - Camera device structure creator
  */
 
-    /* Define device type indexes */
-    # define LP_DEVICE_ID_CAM       lp_Enum_s( 1 )
-    # define LP_DEVICE_ID_GPS       lp_Enum_s( 2 )
-    # define LP_DEVICE_ID_IMU       lp_Enum_s( 3 )
+    lp_Camera_t lp_device_camera( 
 
-    /* Define device types */
-    # define LP_DEVICE_TYPE_CAM     "cam"
-    # define LP_DEVICE_TYPE_GPS     "gps"
-    # define LP_DEVICE_TYPE_IMU     "imu"
+        lp_Char_t const * const lpName, 
+        lp_Char_t const * const lpTag
 
-/*
-    Header - Preprocessor macros
- */
+    ) {
 
-/*
-    Header - Typedefs
- */
+        /* CAM device structure */
+        lp_Camera_t lpDevice;
 
-/*
-    Header - Structures
- */
+        /* Detect type of camera */
+        if ( ( strcmp( lpName, LP_DEVICE_EYESIS4PI       ) == 0 ) ||
+             ( strcmp( lpName, LP_DEVICE_NC353L369IMUGPS ) == 0 ) ) {
 
-/*
-    Header - Function prototypes
- */
+            /* Assign device model name */
+            sprintf( lpDevice.dvName, "%s", LP_DEVICE_EYESIS4PI );
 
-/*
-    Header - C/C++ compatibility
- */
+            /* Assign device name */
+            sprintf( lpDevice.dvTag, "%s", lpTag );
 
-    # ifdef __cplusplus
+        }
+
+        /* Return device structure */
+        return( lpDevice );
+
     }
-    # endif
-
-/*
-    Header - Include guard
- */
-
-    # endif
 
