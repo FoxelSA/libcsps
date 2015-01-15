@@ -74,7 +74,7 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
@@ -130,7 +130,7 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
@@ -186,7 +186,7 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
@@ -243,13 +243,13 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
-            if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_MINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
@@ -301,13 +301,13 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
-            if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_MINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
@@ -369,13 +369,13 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
-            if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_MINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
@@ -427,13 +427,13 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
-            if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_MINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
@@ -513,13 +513,13 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
-            if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_MINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
@@ -564,13 +564,13 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
-            if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_MINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
@@ -620,13 +620,13 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
-            if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_MINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
@@ -697,13 +697,13 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
-            if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_MINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
@@ -747,13 +747,13 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
-            if ( strcmp( lpToken[0], LP_SYSTEM_DEVTAG ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );
 
             } else
-            if ( strcmp( lpToken[0], LP_SYSTEM_INPUT ) == 0 ) {
+            if ( strcmp( lpToken[0], LP_SYSTEM_MINPUT ) == 0 ) {
 
                 /* Read parameter token */
                 lp_system_token( lpStream, lpToken[lpStacking++] );

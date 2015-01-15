@@ -93,12 +93,10 @@
     # define LP_SYSTEM_NAME         "model"
     # define LP_SYSTEM_TAG          "tag"
 
-    /* Define topology keywords - modules */
-    # define LP_SYSTEM_DEVTAG       "device-tag"
-
     /* Define topology keywords - parameters */
+    # define LP_SYSTEM_DINPUT       LP_SYSTEM_DEVICE
+    # define LP_SYSTEM_MINPUT       LP_SYSTEM_MODULE
     # define LP_SYSTEM_BLOCK        "block"
-    # define LP_SYSTEM_INPUT        "input"
     # define LP_SYSTEM_IFREQ        "freq-in"
     # define LP_SYSTEM_DFREQ        "freq-out"
     # define LP_SYSTEM_ISRL         "maximum"
