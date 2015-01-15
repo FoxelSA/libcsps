@@ -123,7 +123,7 @@
      *  This structure is used to store the device structure that are engaged in
      *  the CSPS process by the provided CSPS topology.
      *
-     *  \var lp_system_stack_struct:stSize 
+     *  \var lp_system_stack_struct::stSize 
      *  Number of device structure stored in the stack
      *  \var lp_system_stack_struct::stType 
      *  Array that stores the type of device structures stored in the stack
@@ -205,7 +205,7 @@
      *
      *  \param  lpStack Pointer to device structures stack structure
      *  \param  lpType  Type of the device structure to push
-     *  \parma  lpTag   Tag of the device to search
+     *  \param  lpTag   Tag of the device to search
      *
      *  \return Returns a pointer to the found device structure
      */

@@ -108,6 +108,7 @@
      *  The function update the file position to position just after 'end'
      *  keyword at module section end.
      *
+     *  \param lpPath   Path to CSPS directory structure
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
      */
@@ -131,6 +132,7 @@
      *  The function update the file position to position just after 'end'
      *  keyword at module section end.
      *
+     *  \param lpPath   Path to CSPS directory structure
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
      */
@@ -154,6 +156,7 @@
      *  The function update the file position to position just after 'end'
      *  keyword at module section end.
      *
+     *  \param lpPath   Path to CSPS directory structure
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
      */
@@ -177,6 +180,7 @@
      *  The function update the file position to position just after 'end'
      *  keyword at module section end.
      *
+     *  \param lpPath   Path to CSPS directory structure
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
      */
@@ -200,6 +204,7 @@
      *  The function update the file position to position just after 'end'
      *  keyword at module section end.
      *
+     *  \param lpPath   Path to CSPS directory structure
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
      */
@@ -223,6 +228,7 @@
      *  The function update the file position to position just after 'end'
      *  keyword at module section end.
      *
+     *  \param lpPath   Path to CSPS directory structure
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
      */
@@ -246,6 +252,7 @@
      *  The function update the file position to position just after 'end'
      *  keyword at module section end.
      *
+     *  \param lpPath   Path to CSPS directory structure
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
      */
@@ -269,6 +276,7 @@
      *  The function update the file position to position just after 'end'
      *  keyword at module section end.
      *
+     *  \param lpPath   Path to CSPS directory structure
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
      */
@@ -292,6 +300,7 @@
      *  The function update the file position to position just after 'end'
      *  keyword at module section end.
      *
+     *  \param lpPath   Path to CSPS directory structure
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
      */
@@ -315,6 +324,7 @@
      *  The function update the file position to position just after 'end'
      *  keyword at module section end.
      *
+     *  \param lpPath   Path to CSPS directory structure
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
      */
@@ -338,6 +348,7 @@
      *  The function update the file position to position just after 'end'
      *  keyword at module section end.
      *
+     *  \param lpPath   Path to CSPS directory structure
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
      */
@@ -361,6 +372,7 @@
      *  The function update the file position to position just after 'end'
      *  keyword at module section end.
      *
+     *  \param lpPath   Path to CSPS directory structure
      *  \param lpStack  Pointer to device structures stack
      *  \param lpStream Topology file handle
      */
