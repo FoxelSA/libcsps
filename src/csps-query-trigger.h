@@ -95,7 +95,7 @@
      *  (camera triggers, GPS measures, IMU measures ...).
      *
      *  \var lp_Query_Trigger_struct::qrStatus
-     *  Query status. If LP_FALSE, the query has failed
+     *  Query status. If LP_FALSE, the query has failed, LP_TRUE otherwise
      *  \var lp_Query_Trigger_struct::qrSize
      *  Size, in bytes, of streams
      *  \var lp_Query_Trigger_struct::qrStrmTag
@@ -123,13 +123,13 @@
  */
 
 
-    /*! \brief CSPS query - Trigger - Initialization
+    /*! \brief CSPS query - Trigger - Handle
      *
      *  This function creates the query on camera trigger structure neeeded to
      *  perform queries on processed.
      *
-     *  \param  lpPath Path CSPS structure
-     *  \param  lpTag Device name
+     *  \param  lpPath   Path to CSPS directory structure
+     *  \param  lpTag    Device tag name
      *  \param  lpModule Reference stream
      *
      *  \return Created query on camera trigger structure
@@ -143,7 +143,7 @@
 
     );
 
-    /*! \brief CSPS query - Trigger - Deletion
+    /*! \brief CSPS query - Trigger - Handle
      * 
      *  This function deletes the query on camera trigger structure.
      *
@@ -158,7 +158,7 @@
 
     /*! \brief CSPS query - Trigger - Method
      *
-     *  This method allows to get the size, in bytes, of the camera trigger
+     *  This method allows to get the size, in type units, of the camera trigger
      *  imported streams.
      *
      *  \param lpTrigger Pointer to query structure

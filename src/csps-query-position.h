@@ -91,11 +91,11 @@
     /*! \struct lp_Query_Position_struct
      *  \brief WGS84 position query structure
      *  
-     *  This structure is used to obtain a position according to WGS84 standard
-     *  stored in a physical stream.
+     *  This structure is used to query a position according to WGS84 standard
+     *  stored in a physical stream, typically coming from a GPS reciever.
      *  
      *  \var lp_Query_Position_struct::qrStatus
-     *  Query status. If LP_FALSE, the query has failed
+     *  Query status. If LP_FALSE, the query has failed, LP_TRUE otherwise
      *  \var lp_Query_Position_struct::qrLatitude
      *  Latitude in degrees
      *  \var lp_Query_Position_struct::qrLongitude
@@ -139,14 +139,14 @@
     Header - Function prototypes
  */
 
-    /*! \brief CSPS query - Position - Initialization
+    /*! \brief CSPS query - Position - Handle
      *
      *  This function creates the query on position structure needed to perform
      *  queries on processed data.
      * 
-     *  \param lpPath   Path CSPS structure
-     *  \param lpTag    Device name
-     *  \param lpModule Reference stream
+     *  \param lpPath   Path to CSPS directory structure
+     *  \param lpTag    Device tag name
+     *  \param lpModule Query reference stream
      *
      *  \return Created query on position structure
      */
@@ -159,7 +159,7 @@
 
     );
 
-    /*! \brief CSPS query - Position - Deletion
+    /*! \brief CSPS query - Position - Handle
      *  
      *  This function deletes the query on position structure.
      *
@@ -169,28 +169,6 @@
     lp_Void_t lp_query_position_delete( 
 
         lp_Geopos_t * const lpGeopos 
-
-    );
-
-    /*! \brief CSPS query - Position
-     *
-     *  This function performs a query on position based on the provided query
-     *  structure and the provided timestamp. The structure has to be already
-     *  initialized according to query necessities.
-     *
-     *  If the query fails, the qrStatus fields of the structure is set to
-     *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
-     *  structure fields.
-     *
-     *  \param lpGeopos     Pointer to query structure
-     *  \param lpTimestamp  Timestamp of the position
-     *
-     */
-
-    lp_Void_t lp_query_position(
-
-        lp_Geopos_t       * const lpGeopos,
-        lp_Time_t   const         lpTimestamp
 
     );
 
@@ -210,8 +188,8 @@
 
     /*! \brief CSPS query - Position - Method
      *
-     *  This method allows to get the size, in bytes, of the position imported
-     *  streams.
+     *  This method allows to get the size, in type units, of the position
+     *  imported streams.
      *
      *  \param lpGeopos Pointer to query structure
      */
@@ -219,6 +197,28 @@
     lp_Size_t lp_query_position_size( 
 
         lp_Geopos_t const * const lpGeopos
+
+    );
+
+    /*! \brief CSPS query - Position - Query
+     *
+     *  This function performs a query on position based on the provided query
+     *  structure and the provided timestamp. The structure has to be already
+     *  initialized according to query necessities.
+     *
+     *  If the query fails, the qrStatus fields of the structure is set to
+     *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
+     *  structure fields.
+     *
+     *  \param lpGeopos     Pointer to query structure
+     *  \param lpTimestamp  Timestamp of the position
+     *
+     */
+
+    lp_Void_t lp_query_position(
+
+        lp_Geopos_t       * const lpGeopos,
+        lp_Time_t   const         lpTimestamp
 
     );
 

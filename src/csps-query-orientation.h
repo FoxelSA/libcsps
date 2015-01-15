@@ -97,11 +97,12 @@
     /*! \struct lp_Query_Orientation_struct
      *  \brief Orientation query structure
      *  
-     *  This structure is used to obtain orientation of the frame attached to
-     *  the device assembly stored in three physical streams.
+     *  This structure is used for query orientation of the frame attached to
+     *  the device assembly stored in three physical streams, typically coming
+     *  from an IMU sensor.
      *  
      *  \var lp_Query_Orientation_struct::qrStatus
-     *  Query status. If LP_FALSE, the query has failed
+     *  Query status. If LP_FALSE, the query has failed, LP_TRUE otherwise
      *  \var lp_Query_Orientation_struct::qrfxx
      *  X-component of the x-frame vector
      *  \var lp_Query_Orientation_struct::qrfxy
@@ -181,14 +182,14 @@
     Header - Function prototypes
  */
 
-    /*! \brief CSPS query - Orientation
+    /*! \brief CSPS query - Orientation - Handle
      *
      *  This function creates the query on orientation structure needed to
      *  perform queries on processed data.
      * 
-     *  \param lpPath   Path CSPS structure
-     *  \param lpTag    Device name
-     *  \param lpModule Reference stream
+     *  \param lpPath   Path to CSPS directory structure
+     *  \param lpTag    Device tag name
+     *  \param lpModule Query reference stream
      *
      *  \return Created query on orientation structure
      */
@@ -201,7 +202,7 @@
 
     );
 
-    /*! \brief CSPS query - Orientation
+    /*! \brief CSPS query - Orientation - Handle
      *  
      *  This function deletes the query on orientation structure.
      *
@@ -211,27 +212,6 @@
     lp_Void_t lp_query_orientation_delete(
 
         lp_Orient_t * const lpOrient
-
-    );
-
-    /*! \brief CSPS query - Orientation
-     *  
-     *  This function perform a query on orientation based on the provided query
-     *  structure and the provided timestamp. The structure has to be already
-     *  initialized according to query necessities.
-     *
-     *  If the query fails, the qrStatus fields of the structure is set to
-     *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
-     *  decriptor fields.
-     *
-     *  \param lpOrient     Pointer to query structure
-     *  \param lpTimestamp  Timestamp of the position
-     */
-
-    lp_Void_t lp_query_orientation(
-
-        lp_Orient_t       * const lpOrient,
-        lp_Time_t   const         lpTimestamp
 
     );
 
@@ -251,8 +231,8 @@
 
     /*! \brief CSPS query - Orientation - Method
      *
-     *  This method allows to get the size, in bytes, of the orientation imported
-     *  streams.
+     *  This method allows to get the size, in type units, of the orientation
+     *  imported streams.
      *
      *  \param lpOrient Pointer to query structure
      */
@@ -260,6 +240,27 @@
     lp_Size_t lp_query_orientation_size( 
 
         lp_Orient_t const * const lpOrient
+
+    );
+
+    /*! \brief CSPS query - Orientation - Query
+     *  
+     *  This function perform a query on orientation based on the provided query
+     *  structure and the provided timestamp. The structure has to be already
+     *  initialized according to query necessities.
+     *
+     *  If the query fails, the qrStatus fields of the structure is set to
+     *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
+     *  structure fields.
+     *
+     *  \param lpOrient     Pointer to query structure
+     *  \param lpTimestamp  Timestamp of the position
+     */
+
+    lp_Void_t lp_query_orientation(
+
+        lp_Orient_t       * const lpOrient,
+        lp_Time_t   const         lpTimestamp
 
     );
 
