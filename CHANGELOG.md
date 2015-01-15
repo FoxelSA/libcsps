@@ -2,6 +2,7 @@
 
 ### Beta 0.3 (master)
 
+- `Revised` : Topology parser revision
 - `Revised` : Internal stream name access
 - `Added` : Camera trigger query interface
 
