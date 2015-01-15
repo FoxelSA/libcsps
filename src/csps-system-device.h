@@ -84,6 +84,21 @@
     Header - Function prototypes
  */
 
+    /*! \brief Camera devices interface
+     * 
+     *  This function is the topology parser specific camera device interface.
+     *  Its role is to read the device section in the topology file in order to
+     *  push the device in the topology device structures stack.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'device'
+     *  keyword. The function update the file position to position just after
+     *  'end' keyword at device section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
+
     lp_Void_t lp_system_device_cam(
 
         lp_Stack_t * const lpStack,
@@ -91,12 +106,42 @@
 
     );
 
+    /*! \brief GPS recievers interface
+     * 
+     *  This function is the topology parser specific GPS device interface. Its
+     *  role is to read the device section in the topology file in order to
+     *  push the device in the topology device structures stack.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'device'
+     *  keyword. The function update the file position to position just after
+     *  'end' keyword at device section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
+
     lp_Void_t lp_system_device_gps(
 
         lp_Stack_t * const lpStack,
         FILE       * const lpStream
 
     );
+
+    /*! \brief IMU sensor interface
+     * 
+     *  This function is the topology parser specific IMU device interface. Its
+     *  role is to read the device section in the topology file in order to
+     *  push the device in the topology device structures stack.
+     *
+     *  The topology file provided as parameter has to be already openned and
+     *  its position has to point token comming just after the 'device'
+     *  keyword. The function update the file position to position just after
+     *  'end' keyword at device section end.
+     *
+     *  \param lpStack  Pointer to device structures stack
+     *  \param lpStream Topology file handle
+     */
 
     lp_Void_t lp_system_device_imu(
 
