@@ -166,6 +166,20 @@
 
     /*! \brief CSPS query - Trigger - Method
      *
+     *  This function allows to get value of the query status stored in the
+     *  query structure.
+     *
+     *  \param lpTrigger Pointer to query structure
+     */
+
+    lp_Size_t lp_query_trigger_status(
+
+        lp_Trigger_t const * const lpTrigger
+
+    );
+
+    /*! \brief CSPS query - Trigger - Method
+     *
      *  This method allows to get the size, in type units, of the camera trigger
      *  imported streams.
      *
@@ -180,6 +194,22 @@
 
     /*! \brief CSPS query - Trigger - Query
      *
+     *  This function allows to query synchronization timestamp that correspond
+     *  to the provided master timestamp.
+     *
+     *  \param lpTrigger Pointer to query structure
+     *  \param lpMaster  Master timestamp
+     */
+
+    lp_Void_t lp_query_trigger_bymaster(
+
+        lp_Trigger_t * const lpTrigger,
+        lp_Time_t      const lpMaster
+
+    );
+
+    /*! \brief CSPS query - Trigger - Query
+     *
      *  This function allows to query both master and synchronization timestamps
      *  based on their offset in the reference stream data loaded in the query
      *  structure.
@@ -188,10 +218,10 @@
      *  \param lpOffset  Offset in stream data of the queried values
      */
 
-    lp_Void_t lp_query_trigger(
+    lp_Void_t lp_query_trigger_byindex(
 
         lp_Trigger_t * const lpTrigger,
-        lp_Size_t      const lpOffset
+        lp_Size_t      const lpIndex
 
     );
 

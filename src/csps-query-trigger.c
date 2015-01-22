@@ -104,6 +104,17 @@
     Source - CSPS query - Trigger - Method
  */
 
+    lp_Size_t lp_query_trigger_status(
+
+        lp_Trigger_t const * const lpTrigger
+
+    ) {
+
+        /* Return query structure status */
+        return( lpTrigger->qrStatus );
+
+    }
+
     lp_Size_t lp_query_trigger_size(
 
         lp_Trigger_t const * const lpTrigger
@@ -119,19 +130,61 @@
     Source - CSPS query - Trigger - Query
  */
 
-    lp_Void_t lp_query_trigger(
+    lp_Void_t lp_query_trigger_bymaster(
 
         lp_Trigger_t * const lpTrigger,
-        lp_Size_t      const lpOffset
+        lp_Time_t      const lpMaster
+
+    ) {
+
+        /* Array index variables */
+        lp_Size_t lpIndex = lp_Size_s( 0 );
+
+        /* Master timestamp index search */
+        lpIndex = lp_timestamp_search( lpMaster, lpTrigger->qrStrmTag, lpTrigger->qrSize );
+
+        /* Search result verification */
+        if ( lpIndex != LP_TIMESTAMP_FAULT ) {
+
+            /* Strict match verification */
+            if ( lp_timestamp_eq( lpMaster, ( lpTrigger->qrStrmTag )[lpIndex] ) == LP_TRUE ) {
+
+                /* Assign time-link between master and synchronization */
+                lpTrigger->qrMaster = ( lpTrigger->qrStrmTag )[lpIndex];
+                lpTrigger->qrSynch  = ( lpTrigger->qrStrmSyn )[lpIndex];
+
+                /* Update query status */
+                lpTrigger->qrStatus = LP_TRUE;
+
+            } else {
+
+                /* Update query status */
+                lpTrigger->qrStatus = LP_FALSE;
+
+            }
+
+        } else {
+
+            /* Update query status */
+            lpTrigger->qrStatus = LP_FALSE;
+
+        }
+
+    }
+
+    lp_Void_t lp_query_trigger_byindex(
+
+        lp_Trigger_t * const lpTrigger,
+        lp_Size_t      const lpIndex
 
     ) {
 
         /* Check query offset range */
-        if ( ( lpOffset >= 0 ) || ( lpOffset < lpTrigger->qrSize ) ) {
+        if ( ( lpIndex >= 0 ) || ( lpIndex < lpTrigger->qrSize ) ) {
 
             /* Assign timestamp associated to offset */
-            lpTrigger->qrMaster = ( lpTrigger->qrStrmTag )[lpOffset];
-            lpTrigger->qrSynch  = ( lpTrigger->qrStrmSyn )[lpOffset];
+            lpTrigger->qrMaster = ( lpTrigger->qrStrmTag )[lpIndex];
+            lpTrigger->qrSynch  = ( lpTrigger->qrStrmSyn )[lpIndex];
 
             /* Update query status */
             lpTrigger->qrStatus = LP_TRUE;
