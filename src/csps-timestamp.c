@@ -184,6 +184,82 @@
 
     }
 
+    lp_Size_t lp_timestamp_search( 
+
+        lp_Time_t const         lpTime, 
+        lp_Time_t const * const lpBuffer, 
+        lp_Size_t const         lpSize
+
+    ) {
+
+        /* Dichotomous search variables */
+        lp_Size_t lplbnd = lp_Size_s( 0 );
+        lp_Size_t lpvbnd = lp_Size_s( 0 );
+        lp_Size_t lphbnd = lpSize - lp_Size_s( 1 );
+
+        /* Returned index variables */
+        lp_Size_t lpIndex = LP_TIMESTAMP_FAULT;
+
+        /* Remove boundary case */
+        if ( lpBuffer[lpSize - 1] == lpTime ) {
+
+            /* Assign found index */
+            lpIndex = lpSize - lp_Size_s( 1 );
+
+        } else {
+
+            /* Secure dichotomous search */
+            while ( lpIndex == LP_TIMESTAMP_FAULT ) {
+
+                /* Compute virtual boundary */
+                lpvbnd = ( lphbnd + lplbnd ) >> 1;
+
+                /* Secure case study */
+                if ( lp_timestamp_eq( lpBuffer[lpvbnd], lpTime ) == LP_TRUE ) {
+
+                    /* Assign found index */
+                    lpIndex = lpvbnd;
+
+                } else
+                if ( lp_timestamp_eq( lpBuffer[lphbnd], lpTime ) == LP_TRUE ) {
+
+                    /* Assign found index */
+                    lpIndex = lphbnd;
+
+                } else {
+
+                    /* Update search range */
+                    if ( lp_timestamp_ge( lpTime, lpBuffer[lpvbnd] ) == LP_TRUE ) {
+
+                        /* Update search boundary */
+                        lplbnd = lpvbnd;
+
+                    } else {
+
+                        /* Update search boundary */
+                        lphbnd = lpvbnd;
+
+                    }
+
+                    /* Secure end-of-search detection */
+                    if ( ( lphbnd - lplbnd ) <= lp_Size_s( 1 ) ) {
+
+                        /* Assign found index */
+                        lpIndex = lplbnd;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        /* Return found index */
+        return( lpIndex );
+
+    }
+
 /*
     Source - Timestamp comparison
  */

@@ -193,6 +193,14 @@
 
     );
 
+    lp_Size_t lp_timestamp_search( 
+
+        lp_Time_t const         lpTime, 
+        lp_Time_t const * const lpBuffer, 
+        lp_Size_t const         lpSize
+
+    );
+
     /*! \brief Timestamp arithmetic - Equality
      *  
      *  Verify timestamps equality.
