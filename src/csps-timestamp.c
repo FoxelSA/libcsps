@@ -200,13 +200,8 @@
         /* Returned index variables */
         lp_Size_t lpIndex = LP_TIMESTAMP_FAULT;
 
-        /* Remove boundary case */
-        if ( lpBuffer[lpSize - 1] == lpTime ) {
-
-            /* Assign found index */
-            lpIndex = lpSize - lp_Size_s( 1 );
-
-        } else {
+        /* Search domain consitency verification */
+        if ( ( lp_timestamp_ge( lpTime, lpBuffer[0] ) == LP_TRUE ) && ( lp_timestamp_ge( lpBuffer[lpSize - 1], lpTime ) == LP_TRUE ) ) {
 
             /* Secure dichotomous search */
             while ( lpIndex == LP_TIMESTAMP_FAULT ) {
@@ -215,6 +210,12 @@
                 lpvbnd = ( lphbnd + lplbnd ) >> 1;
 
                 /* Secure case study */
+                if ( lp_timestamp_eq( lpBuffer[lplbnd], lpTime ) == LP_TRUE ) {
+
+                    /* Assign found index */
+                    lpIndex = lpvbnd;
+
+                } else
                 if ( lp_timestamp_eq( lpBuffer[lpvbnd], lpTime ) == LP_TRUE ) {
 
                     /* Assign found index */
