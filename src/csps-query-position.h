@@ -203,8 +203,8 @@
     /*! \brief CSPS query - Position - Query
      *
      *  This function performs a query on position based on the provided query
-     *  structure and the provided timestamp. The structure has to be already
-     *  initialized according to query necessities.
+     *  structure and the provided synchronization timestamp. The structure has
+     *  to be already initialized according to query necessities.
      *
      *  If the query fails, the qrStatus fields of the structure is set to
      *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the

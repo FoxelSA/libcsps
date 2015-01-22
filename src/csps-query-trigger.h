@@ -195,7 +195,12 @@
     /*! \brief CSPS query - Trigger - Query
      *
      *  This function allows to query synchronization timestamp that correspond
-     *  to the provided master timestamp.
+     *  to the provided master timestamp. The structure has to be already
+     *  initialized according to query necessities.
+     *
+     *  If the query fails, the qrStatus fields of the structure is set to
+     *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
+     *  structure fields.
      *
      *  \param lpTrigger Pointer to query structure
      *  \param lpMaster  Master timestamp
@@ -212,7 +217,12 @@
      *
      *  This function allows to query both master and synchronization timestamps
      *  based on their offset in the reference stream data loaded in the query
-     *  structure.
+     *  structure. The structure has to be already initialized according to
+     *  query necessities.
+     *
+     *  If the query fails, the qrStatus fields of the structure is set to
+     *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
+     *  structure fields.
      *
      *  \param lpTrigger Pointer to query structure
      *  \param lpOffset  Offset in stream data of the queried values
