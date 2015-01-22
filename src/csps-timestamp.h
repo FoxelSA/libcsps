@@ -193,6 +193,24 @@
 
     );
 
+    /*! \brief Timestamp search
+     *
+     *  This function expects an array of timestamps in growing order. A extra
+     *  timestamp is also expected. The function searches the array index that
+     *  is equal to the extra timestamp. If no equality is found, the function
+     *  always answer the index in array storing the greater timestamp below
+     *  the extra timestamp.
+     *
+     *  If the timestamp is out of the timestamps array, the function return
+     *  the LP_TIMESTAMP_FAULT value.
+     *
+     *  \param  lpTime      Reference timestamp
+     *  \param  lpBuffer    Pointer to timestamps array
+     *  \param  lpSize      Size, in type units, of the timestamps array
+     *
+     *  \return Returns the array index that satisfay the search constraint
+     */
+
     lp_Size_t lp_timestamp_search( 
 
         lp_Time_t const         lpTime, 
