@@ -120,17 +120,16 @@
         while ( ( lpParse < lpStill->qrSize ) && ( lpStill->qrStill == LP_FALSE ) ) {
 
             /* Range detection */
-            if ( 
-
-                ( lp_timestamp_ge( lpTime, lpStill->qrStrmSyn[lpParse] ) == LP_TRUE ) &&
-                ( lp_timestamp_ge( lpStill->qrStrmTag[lpParse], lpTime ) == LP_TRUE )
-
-            ) {
+            if ( ( lp_timestamp_ge( lpTime, lpStill->qrStrmSyn[lpParse] ) == LP_TRUE ) &&
+                 ( lp_timestamp_ge( lpStill->qrStrmTag[lpParse], lpTime ) == LP_TRUE ) ) {
 
                 /* Update detection flag */
                 lpStill->qrStill = LP_TRUE;
 
             }
+
+            /* Update parsing index */
+            lpParse ++;
 
         }
 
