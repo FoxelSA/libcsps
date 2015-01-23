@@ -65,6 +65,7 @@
     # include "csps-query-orientation.h"
     # include "csps-query-position.h"
     # include "csps-query-trigger.h"
+    # include "csps-query-still.h"
 
 /*
     Header - Preprocessor definitions
