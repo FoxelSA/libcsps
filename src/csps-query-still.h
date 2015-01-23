@@ -36,7 +36,7 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   csps-query-trigger.h
+    /*! \file   csps-query-still.h
      *  \author Nils Hamel <n.hamel@foxel.ch>
      *
      *  CSPS trigger query interface
@@ -123,6 +123,27 @@
 /*
     Header - Function prototypes
  */
+
+    lp_Still_t lp_query_still_create(
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpTag,
+        lp_Char_t const * const lpModule
+
+    );
+
+    lp_Void_t lp_query_still_delete(
+
+        lp_Still_t * const lpStill
+
+    );
+
+    lp_Void_t lp_query_still( 
+
+        lp_Still_t * const lpStill, 
+        lp_Time_t    const lpTime
+
+    );
 
 /*
     Header - C/C++ compatibility
