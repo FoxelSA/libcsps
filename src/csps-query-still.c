@@ -113,6 +113,9 @@
         /* Parsing variables */
         lp_Size_t lpParse = lp_Size_s( 1 );
 
+        /* Reset query structure */
+        lpStill->qrStill = LP_FALSE;
+
         /* Parsing detected still range */
         while ( ( lpParse < lpStill->qrSize ) && ( lpStill->qrStill == LP_FALSE ) ) {
 
