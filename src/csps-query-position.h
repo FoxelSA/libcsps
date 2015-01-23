@@ -102,6 +102,8 @@
      *  Longitude in degrees
      *  \var lp_Query_Position_struct::qrAltitude
      *  Altitude in meters above mean see level
+     *  \var lp_Query_Position_struct::qrWeak
+     *  Flag that indicates weak interpolation reliability
      *  \var lp_Query_Position_struct::qrSize
      *  Size, in bytes, of streams
      *  \var lp_Query_Position_struct::qrStrmLat
@@ -123,6 +125,9 @@
         lp_Real_t   qrLatitude;
         lp_Real_t   qrLongitude;
         lp_Real_t   qrAltitude;
+
+        /* Weak flag */
+        lp_Enum_t   qrWeak;
 
         /* Streams size */
         lp_Size_t   qrSize;

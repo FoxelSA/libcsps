@@ -69,6 +69,9 @@
             lp_Real_s( 0.0 ),
             lp_Real_s( 0.0 ),
 
+            /* Setting reliability flag */
+            LP_FALSE,
+
             /* Setting stream size */
             lpSize,
 
@@ -158,6 +161,7 @@
 
         /* Interpolation time variables */
         lp_Real_t lpDT1TI = lp_Real_s( 0.0 );
+        lp_Real_t lpDTIT2 = lp_Real_s( 0.0 );
         lp_Real_t lpDT1T2 = lp_Real_s( 0.0 );
         lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
         lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
@@ -176,6 +180,7 @@
 
                 /* Compute time interpolation variable */
                 lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGeopos->qrStrmSyn[lpSample1] ) );
+                lpDTIT2 = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGeopos->qrStrmSyn[lpSample2] ) );
 
                 /* Compute time interpolation sample */
                 lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmSyn[lpSample2], lpGeopos->qrStrmSyn[lpSample1] ) );
@@ -208,6 +213,19 @@
                     ( lpGeopos->qrStrmAlt[lpSample3] - lpGeopos->qrStrmAlt[lpSample1] ) / lpDT1T3
 
                 );
+
+                /* Weak reliability detection */
+                if ( ( lpDT1TI > lp_Real_s( 1.0 ) ) || ( lpDTIT2 > lp_Real_s( 1.0 ) ) ) {
+
+                    /* Update reliability flag */
+                    lpGeopos->qrWeak = LP_TRUE;
+
+                } else {
+
+                    /* Update reliability flag */
+                    lpGeopos->qrWeak = LP_FALSE;
+
+                }
 
                 /* Update query status */
                 lpGeopos->qrStatus = LP_TRUE;
