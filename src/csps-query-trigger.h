@@ -89,7 +89,7 @@
     /*! \struct lp_Query_Trigger_struct
      *  \brief Camera trigger query structure
      *
-     *  This structure is used to stored necessary informations that synchronize
+     *  This structure is use to stored necessary informations that synchronize
      *  camera trigger timestamps, used by some devices to name the camera 
      *  images, with the synchronization clock used as link between devices
      *  (camera triggers, GPS measures, IMU measures ...).
