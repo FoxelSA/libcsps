@@ -215,7 +215,7 @@
                 );
 
                 /* Weak reliability detection */
-                if ( ( lpDT1TI > lp_Real_s( 1.0 ) ) || ( lpDTIT2 > lp_Real_s( 1.0 ) ) ) {
+                if ( ( lpDT1TI > lp_Real_s( 2.0 ) ) || ( lpDTIT2 > lp_Real_s( 2.0 ) ) ) {
 
                     /* Update reliability flag */
                     lpGeopos->qrWeak = LP_TRUE;
