@@ -2,6 +2,8 @@
 
 ### Beta 0.3 (master)
 
+- `Added` : Query interface for inertial motion
+- `Added` : Query interface for camera trigger
 - `Revised` : Topology parser revision
 - `Revised` : Internal stream name access
 - `Added` : Camera trigger query interface
