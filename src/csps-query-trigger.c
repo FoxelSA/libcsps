@@ -56,26 +56,33 @@
     ) {
 
         /* Stream size variables */
-        lp_Size_t lpSize = lp_stream_size( lpPath, lpTag, lpModule );
+        lp_Size_t lpSize = lp_Size_s( 0 );
 
         /* Returned structure variables */
-        lp_Trigger_t lpTrigger = { 
+        lp_Trigger_t lpTrigger;
 
-            /* Setting query status */
-            LP_FALSE,
+        /* Initialize structure status */
+        lpTrigger.qrState  = LP_FALSE;
+        lpTrigger.qrStatus = LP_FALSE;
 
-            /* Initialize data fields */
-            lp_Time_s( 0 ),
-            lp_Time_s( 0 ),
+        /* Initialize query fields */
+        lpTrigger.qrMaster = lp_Time_s( 0 );
+        lpTrigger.qrSynch  = lp_Time_s( 0 );
 
-            /* Setting stream size */
-            lpSize, 
+        /* Retrieve stream size */
+        lpTrigger.qrSize = lp_stream_size( lpPath, lpTag, lpModule );
 
-            /* Streams data importation */
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize )
+        /* Streams component importation */
+        lpTrigger.qrStrmTag = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize );
+        lpTrigger.qrStrmSyn = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
-        };
+        /* Verify structure state */
+        if ( ( lpTrigger.qrStrmTag == NULL ) || ( lpTrigger.qrStrmSyn == NULL ) ) {
+
+            /* Delete structure */
+            lp_query_trigger_delete( & lpTrigger );
+
+        }
 
         /* Return structure */
         return( lpTrigger );
@@ -88,13 +95,14 @@
 
     ) {
 
-        /* Reset query status */
+        /* Reset structure status */
+        lpTrigger->qrState  = LP_FALSE;
         lpTrigger->qrStatus = LP_FALSE;
 
         /* Reset stream size */
         lpTrigger->qrSize = lp_Size_s( 0 );
 
-        /* Unallocate streams */
+        /* Unallocate stream components */
         lpTrigger->qrStrmTag = lp_stream_delete( lpTrigger->qrStrmTag );
         lpTrigger->qrStrmSyn = lp_stream_delete( lpTrigger->qrStrmSyn );
 
@@ -104,13 +112,25 @@
     Source - CSPS query - Trigger - Method
  */
 
-    lp_Size_t lp_query_trigger_status(
+    lp_Enum_t lp_query_trigger_state(
 
         lp_Trigger_t const * const lpTrigger
 
     ) {
 
-        /* Return query structure status */
+        /* Return structure state */
+        return( lpTrigger->qrState );
+
+    }
+
+
+    lp_Enum_t lp_query_trigger_status(
+
+        lp_Trigger_t const * const lpTrigger
+
+    ) {
+
+        /* Return structure status */
         return( lpTrigger->qrStatus );
 
     }
@@ -121,7 +141,7 @@
 
     ) {
 
-        /* Return imported streams size */
+        /* Return stream size */
         return( lpTrigger->qrSize );
 
     }
@@ -149,7 +169,7 @@
             /* Strict match verification */
             if ( lp_timestamp_eq( lpMaster, ( lpTrigger->qrStrmTag )[lpIndex] ) == LP_TRUE ) {
 
-                /* Assign time-link between master and synchronization */
+                /* Assign query fields */
                 lpTrigger->qrMaster = ( lpTrigger->qrStrmTag )[lpIndex];
                 lpTrigger->qrSynch  = ( lpTrigger->qrStrmSyn )[lpIndex];
 
@@ -179,10 +199,10 @@
 
     ) {
 
-        /* Check query offset range */
+        /* Check query range */
         if ( ( lpIndex >= 0 ) || ( lpIndex < lpTrigger->qrSize ) ) {
 
-            /* Assign timestamp associated to offset */
+            /* Assign query fields */
             lpTrigger->qrMaster = ( lpTrigger->qrStrmTag )[lpIndex];
             lpTrigger->qrSynch  = ( lpTrigger->qrStrmSyn )[lpIndex];
 

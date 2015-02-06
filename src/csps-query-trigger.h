@@ -74,10 +74,6 @@
     Header - Preprocessor macros
  */
 
-    /* Trigger query structure pointers access */
-    # define lp_query_trigger_tag( lpStruct )       ( lpStruct.qrStrmTag )
-    # define lp_query_trigger_syn( lpStruct )       ( lpStruct.qrStrmSyn )
-
 /*
     Header - Typedefs
  */
@@ -95,6 +91,8 @@
      *  (camera triggers, GPS measures, IMU measures ...).
      *
      *  \var lp_Query_Trigger_struct::qrStatus
+     *  Structure state. If LP_FALSE, the structure cannot be used
+     *  \var lp_Query_Trigger_struct::qrStatus
      *  Query status. If LP_FALSE, the query has failed, LP_TRUE otherwise
      *  \var lp_Query_Trigger_struct::qrMaster
      *  Camera trigger timestamp
@@ -110,17 +108,18 @@
 
     typedef struct lp_Query_Trigger_struct {
 
-        /* Query status */
+        /* Structure status */
+        lp_Enum_t   qrState;
         lp_Enum_t   qrStatus;
 
-        /* Synchronization vector */
+        /* Query fields */
         lp_Time_t   qrMaster;
         lp_Time_t   qrSynch;
 
         /* Streams size */
         lp_Size_t   qrSize;
 
-        /* Streams data */
+        /* Streams components */
         lp_Time_t * qrStrmTag;
         lp_Time_t * qrStrmSyn;
 
@@ -164,6 +163,12 @@
 
     );
 
+    lp_Enum_t lp_query_trigger_state(
+
+        lp_Trigger_t const * const lpTrigger
+
+    );
+
     /*! \brief CSPS query - Trigger - Method
      *
      *  This function allows to get value of the query status stored in the
@@ -172,7 +177,7 @@
      *  \param lpTrigger Pointer to query structure
      */
 
-    lp_Size_t lp_query_trigger_status(
+    lp_Enum_t lp_query_trigger_status(
 
         lp_Trigger_t const * const lpTrigger
 
