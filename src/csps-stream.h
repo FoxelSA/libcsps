@@ -169,7 +169,7 @@
      *  by the synchronization component, which is always lp_Time_t. If the
      *  provided switches point no existing stream, the function returns zero.
      *  
-     *  \param  lpPath      Path CSPS structure
+     *  \param  lpPath      Path to CSPS structure
      *  \param  lpTag       CSPS-tag of device
      *  \param  lpModule    CSPS-name of module
      * 
@@ -187,16 +187,19 @@
 
     /*! \brief Stream component data reader
      *  
-     *  Reads the data contained in the specified stream component.
+     *  Reads the content of the component pointed byte the provided suffix of
+     *  the stream pointed by the provided switches. The size parameter has to
+     *  be in bytes. If the stream component is not found or if the function
+     *  is only able to read a number of bytes below the provided size a null
+     *  pointer is returned.
      *  
-     *  \param lpPath   Path CSPS structure
-     *  \param lpTag    Device name
-     *  \param lpModule CSPS module to consider
-     *  \param lpSuffix Suffix of the data stored by the considered stream 
-     *                  component
-     *  \param lpSize   Size of the considered stream component
+     *  \param  lpPath  Path to CSPS structure
+     *  \param lpTag    CSPS-tag of device
+     *  \param lpModule CSPS-name of module
+     *  \param lpSuffix Stream component suffix
+     *  \param lpSize   Stream component size, in bytes
      *
-     *  \return Returns a void pointer to the data
+     *  \return Returns the pointer to the component content memory buffer
      */
 
     lp_Void_t * lp_stream_read(

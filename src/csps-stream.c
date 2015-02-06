@@ -142,20 +142,33 @@
         /* Stream path variables */
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
-        /* Build stream path */
-        lp_path_stream( lpPath, lpTag, lpModule, lpSuffix, lpStreamp );
+        /* Verify provided stream size */
+        if ( lpSize > 0 ) {
 
-        /* Allocate buffer memory */
-        lpStream = malloc( lpSize );
+            /* Build stream path */
+            lp_path_stream( lpPath, lpTag, lpModule, lpSuffix, lpStreamp );
 
-        /* Open stream file */
-        lpStreamf = fopen( lpStreamp, "rb" );
+            /* Allocate buffer memory */
+            lpStream = malloc( lpSize );
 
-        /* Read stream file */
-        if ( fread( lpStream, 1, lpSize, lpStreamf ) ) {}
+            /* Open stream file */
+            lpStreamf = fopen( lpStreamp, "rb" );
 
-        /* Close stream file */
-        fclose( lpStreamf );
+            /* Read stream file */
+            if ( fread( lpStream, 1, lpSize, lpStreamf ) != lpSize ) {
+
+                /* Unallocte buffer memory */
+                free( lpStream );
+
+                /* Invalidate pointer */
+                lpStream = NULL;
+
+            }
+
+            /* Close stream file */
+            fclose( lpStreamf );
+
+        }
 
         /* Return stream buffer */
         return( lpStream );
