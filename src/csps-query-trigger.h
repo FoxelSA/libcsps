@@ -85,25 +85,24 @@
     /*! \struct lp_Query_Trigger_struct
      *  \brief Camera trigger query structure
      *
-     *  This structure is use to stored necessary informations that synchronize
-     *  camera trigger timestamps, used by some devices to name the camera 
-     *  images, with the synchronization clock used as link between devices
-     *  (camera triggers, GPS measures, IMU measures ...).
+     *  This structure is used to perform queries on camera trigger timestamps
+     *  synchronization. Its results consist in two timestamps that links
+     *  camera triggers to other devices triggers.
      *
      *  \var lp_Query_Trigger_struct::qrStatus
      *  Structure state. If LP_FALSE, the structure cannot be used
      *  \var lp_Query_Trigger_struct::qrStatus
-     *  Query status. If LP_FALSE, the query has failed, LP_TRUE otherwise
+     *  Query status. If LP_FALSE, the query failed
      *  \var lp_Query_Trigger_struct::qrMaster
      *  Camera trigger timestamp
      *  \var lp_Query_Trigger_struct::qrSynch
-     *  Synchronization timestamp associated with master timestamp
+     *  Synchronization timestamp
      *  \var lp_Query_Trigger_struct::qrSize
-     *  Size, in bytes, of streams
+     *  Size, in type units, of stream
      *  \var lp_Query_Trigger_struct::qrStrmTag
-     *  Camera trigger timestamp stream data
+     *  Stream component for trigger
      *  \var lp_Query_Trigger_struct::qrStrmSyn
-     *  Synchronization stream data
+     *  Stream component for synchronization
      */
 
     typedef struct lp_Query_Trigger_struct {
@@ -132,14 +131,15 @@
 
     /*! \brief CSPS query - Trigger - Handle
      *
-     *  This function creates the query on camera trigger structure neeeded to
-     *  perform queries on processed.
+     *  Creates and initialize the query structure on the base of the provided
+     *  switches. This structure can then be used to perform queries. Before
+     *  any query, the structure initialization have to be checked.
      *
-     *  \param  lpPath   Path to CSPS directory structure
-     *  \param  lpTag    Device tag name
-     *  \param  lpModule Reference stream
+     *  \param  lpPath   Path to CSPS structure
+     *  \param  lpTag    CSPS-tag of device
+     *  \param  lpModule CSPS-name of module
      *
-     *  \return Created query on camera trigger structure
+     *  \return Created query structure
      */
 
     lp_Trigger_t lp_query_trigger_create(
@@ -152,7 +152,8 @@
 
     /*! \brief CSPS query - Trigger - Handle
      * 
-     *  This function deletes the query on camera trigger structure.
+     *  Deletes the query structure and unallocates the stream components
+     *  memory buffer. It also clears the structure state and status.
      *
      *  \param lpTrigger Pointer to query structure
      */
@@ -163,6 +164,13 @@
 
     );
 
+    /*! \brief CSPS query - Trigger - Method
+     *
+     *  Returns the state of the query structure.
+     *
+     *  \param lpTrigger Pointer to query structure
+     */
+
     lp_Enum_t lp_query_trigger_state(
 
         lp_Trigger_t const * const lpTrigger
@@ -171,8 +179,7 @@
 
     /*! \brief CSPS query - Trigger - Method
      *
-     *  This function allows to get value of the query status stored in the
-     *  query structure.
+     *  Returns the status of the query structure.
      *
      *  \param lpTrigger Pointer to query structure
      */
@@ -185,8 +192,7 @@
 
     /*! \brief CSPS query - Trigger - Method
      *
-     *  This method allows to get the size, in type units, of the camera trigger
-     *  imported streams.
+     *  Returns the stream size stored in the query structure.
      *
      *  \param lpTrigger Pointer to query structure
      */
@@ -199,13 +205,12 @@
 
     /*! \brief CSPS query - Trigger - Query
      *
-     *  This function allows to query synchronization timestamp that correspond
-     *  to the provided master timestamp. The structure has to be already
-     *  initialized according to query necessities.
+     *  This function allows to query the synchronization timestamp associated
+     *  with the provided master timestamp. The query structure has to be
+     *  already initialized.
      *
      *  If the query fails, the qrStatus fields of the structure is set to
-     *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
-     *  structure fields.
+     *  LP_FALSE, LP_TRUE otherwise.
      *
      *  \param lpTrigger Pointer to query structure
      *  \param lpMaster  Master timestamp
@@ -220,17 +225,15 @@
 
     /*! \brief CSPS query - Trigger - Query
      *
-     *  This function allows to query both master and synchronization timestamps
-     *  based on their offset in the reference stream data loaded in the query
-     *  structure. The structure has to be already initialized according to
-     *  query necessities.
+     *  This function allows to query associated master and synchronization
+     *  timestamps based on their offset in the stream. The query structure
+     *  has to be already initialized.
      *
      *  If the query fails, the qrStatus fields of the structure is set to
-     *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
-     *  structure fields.
+     *  LP_FALSE, LP_TRUE otherwise.
      *
      *  \param lpTrigger Pointer to query structure
-     *  \param lpOffset  Offset in stream data of the queried values
+     *  \param lpIndex   Offset in stream data of the queried values
      */
 
     lp_Void_t lp_query_trigger_byindex(

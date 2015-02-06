@@ -160,14 +160,55 @@
         /* Array index variables */
         lp_Size_t lpIndex = lp_Size_s( 0 );
 
-        /* Master timestamp index search */
-        lpIndex = lp_timestamp_search( lpMaster, lpTrigger->qrStrmTag, lpTrigger->qrSize );
+        /* Check query structure state */
+        if ( lpTrigger->qrState == LP_TRUE ) {
 
-        /* Search result verification */
-        if ( lpIndex != LP_TIMESTAMP_FAULT ) {
+            /* Master timestamp index search */
+            lpIndex = lp_timestamp_search( lpMaster, lpTrigger->qrStrmTag, lpTrigger->qrSize );
 
-            /* Strict match verification */
-            if ( lp_timestamp_eq( lpMaster, ( lpTrigger->qrStrmTag )[lpIndex] ) == LP_TRUE ) {
+            /* Search result verification */
+            if ( lpIndex != LP_TIMESTAMP_FAULT ) {
+
+                /* Strict match verification */
+                if ( lp_timestamp_eq( lpMaster, ( lpTrigger->qrStrmTag )[lpIndex] ) == LP_TRUE ) {
+
+                    /* Assign query fields */
+                    lpTrigger->qrMaster = ( lpTrigger->qrStrmTag )[lpIndex];
+                    lpTrigger->qrSynch  = ( lpTrigger->qrStrmSyn )[lpIndex];
+
+                    /* Update query status */
+                    lpTrigger->qrStatus = LP_TRUE;
+
+                } else {
+
+                    /* Update query status */
+                    lpTrigger->qrStatus = LP_FALSE;
+
+                }
+
+            } else {
+
+                /* Update query status */
+                lpTrigger->qrStatus = LP_FALSE;
+
+            }
+
+        }
+
+    }
+
+    lp_Void_t lp_query_trigger_byindex(
+
+        lp_Trigger_t * const lpTrigger,
+        lp_Size_t      const lpIndex
+
+    ) {
+
+        /* Check query structure state */
+        if ( lpTrigger->qrState == LP_TRUE ) {
+
+            /* Check query range */
+            if ( ( lpIndex >= 0 ) || ( lpIndex < lpTrigger->qrSize ) ) {
 
                 /* Assign query fields */
                 lpTrigger->qrMaster = ( lpTrigger->qrStrmTag )[lpIndex];
@@ -182,37 +223,6 @@
                 lpTrigger->qrStatus = LP_FALSE;
 
             }
-
-        } else {
-
-            /* Update query status */
-            lpTrigger->qrStatus = LP_FALSE;
-
-        }
-
-    }
-
-    lp_Void_t lp_query_trigger_byindex(
-
-        lp_Trigger_t * const lpTrigger,
-        lp_Size_t      const lpIndex
-
-    ) {
-
-        /* Check query range */
-        if ( ( lpIndex >= 0 ) || ( lpIndex < lpTrigger->qrSize ) ) {
-
-            /* Assign query fields */
-            lpTrigger->qrMaster = ( lpTrigger->qrStrmTag )[lpIndex];
-            lpTrigger->qrSynch  = ( lpTrigger->qrStrmSyn )[lpIndex];
-
-            /* Update query status */
-            lpTrigger->qrStatus = LP_TRUE;
-
-        } else {
-
-            /* Update query status */
-            lpTrigger->qrStatus = LP_FALSE;
 
         }
 
