@@ -120,7 +120,7 @@
     }
 
 /*
-    Source - Stream reader
+    Source - Stream input/output function
  */
 
     lp_Void_t * lp_stream_read(
@@ -145,7 +145,7 @@
         /* Verify provided stream size */
         if ( lpSize > 0 ) {
 
-            /* Build stream path */
+            /* Build stream component path */
             lp_path_stream( lpPath, lpTag, lpModule, lpSuffix, lpStreamp );
 
             /* Allocate buffer memory */
@@ -175,11 +175,7 @@
 
     }
 
-/*
-    Source - Stream writer
- */
-
-    lp_Void_t lp_stream_write(
+    lp_Size_t lp_stream_write(
 
         lp_Char_t const * const lpPath,
         lp_Char_t const * const lpTag,
@@ -190,23 +186,36 @@
 
     ) {
 
+        /* Exported size variables */
+        lp_Size_t lpWritten = lp_Size_s( 0 );
+
         /* Stream handle variables */
         lp_File_t lpStreamf = NULL;
 
         /* Stream path variables */
         lp_Char_t lpStreamp[LP_STR_LEN] = LP_STR_INI;
 
-        /* Build stream path variables */
-        lp_path_stream( lpPath, lpTag, lpModule, lpSuffix, lpStreamp );
+        /* Verify provided stream size */
+        if ( lpSize > 0 ) {
 
-        /* Open stream file */
-        lpStreamf = fopen( lpStreamp, "wb" );
+            /* Build stream component path variables */
+            lp_path_stream( lpPath, lpTag, lpModule, lpSuffix, lpStreamp );
 
-        /* Read stream file */
-        fwrite( lpStream, 1, lpSize, lpStreamf );
+            /* Open stream file */
+            if ( ( lpStreamf = fopen( lpStreamp, "wb" ) ) != NULL ) {
 
-        /* Close stream file */
-        fclose( lpStreamf );
+                /* Write stream file */
+                lpWritten = fwrite( lpStream, 1, lpSize, lpStreamf );
+
+                /* Close stream file */
+                fclose( lpStreamf );
+
+            }
+
+        }
+
+        /* Return exported size */
+        return( lpWritten );
 
     }
 

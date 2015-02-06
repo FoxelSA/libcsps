@@ -70,47 +70,47 @@
  */
 
     /* Define stream component - Tags */
-    # define LP_STREAM_CPN_TAG      "tag"
+    # define LP_STREAM_CPN_TAG  "tag"
 
     /* Define stream component - GPS measure */
-    # define LP_STREAM_CPN_LAT      "lat"
-    # define LP_STREAM_CPN_LON      "lon"
-    # define LP_STREAM_CPN_ALT      "alt"
+    # define LP_STREAM_CPN_LAT  "lat"
+    # define LP_STREAM_CPN_LON  "lon"
+    # define LP_STREAM_CPN_ALT  "alt"
 
     /* Define stream component - Acceleration */
-    # define LP_STREAM_CPN_ACX      "acx"
-    # define LP_STREAM_CPN_ACY      "acy"
-    # define LP_STREAM_CPN_ACZ      "acz"
+    # define LP_STREAM_CPN_ACX  "acx"
+    # define LP_STREAM_CPN_ACY  "acy"
+    # define LP_STREAM_CPN_ACZ  "acz"
 
     /* Define stream component - Gyroscope */
-    # define LP_STREAM_CPN_GRX      "grx"
-    # define LP_STREAM_CPN_GRY      "gry"
-    # define LP_STREAM_CPN_GRZ      "grz"
+    # define LP_STREAM_CPN_GRX  "grx"
+    # define LP_STREAM_CPN_GRY  "gry"
+    # define LP_STREAM_CPN_GRZ  "grz"
 
     /* Define stream component - Frame */
-    # define LP_STREAM_CPN_FXX      "fxx"
-    # define LP_STREAM_CPN_FXY      "fxy"
-    # define LP_STREAM_CPN_FXZ      "fxz"
-    # define LP_STREAM_CPN_FYX      "fyx"
-    # define LP_STREAM_CPN_FYY      "fyy"
-    # define LP_STREAM_CPN_FYZ      "fyz"
-    # define LP_STREAM_CPN_FZX      "fzx"
-    # define LP_STREAM_CPN_FZY      "fzy"
-    # define LP_STREAM_CPN_FZZ      "fzz"
+    # define LP_STREAM_CPN_FXX  "fxx"
+    # define LP_STREAM_CPN_FXY  "fxy"
+    # define LP_STREAM_CPN_FXZ  "fxz"
+    # define LP_STREAM_CPN_FYX  "fyx"
+    # define LP_STREAM_CPN_FYY  "fyy"
+    # define LP_STREAM_CPN_FYZ  "fyz"
+    # define LP_STREAM_CPN_FZX  "fzx"
+    # define LP_STREAM_CPN_FZY  "fzy"
+    # define LP_STREAM_CPN_FZZ  "fzz"
 
     /* Define stream component - Initial condition */
-    # define LP_STREAM_CPN_IXX      "ixx"
-    # define LP_STREAM_CPN_IXY      "ixy"
-    # define LP_STREAM_CPN_IXZ      "ixz"
-    # define LP_STREAM_CPN_IYX      "iyx"
-    # define LP_STREAM_CPN_IYY      "iyy"
-    # define LP_STREAM_CPN_IYZ      "iyz"
-    # define LP_STREAM_CPN_IZX      "izx"
-    # define LP_STREAM_CPN_IZY      "izy"
-    # define LP_STREAM_CPN_IZZ      "izz"
+    # define LP_STREAM_CPN_IXX  "ixx"
+    # define LP_STREAM_CPN_IXY  "ixy"
+    # define LP_STREAM_CPN_IXZ  "ixz"
+    # define LP_STREAM_CPN_IYX  "iyx"
+    # define LP_STREAM_CPN_IYY  "iyy"
+    # define LP_STREAM_CPN_IYZ  "iyz"
+    # define LP_STREAM_CPN_IZX  "izx"
+    # define LP_STREAM_CPN_IZY  "izy"
+    # define LP_STREAM_CPN_IZZ  "izz"
 
     /* Define stream component - Synchronization */
-    # define LP_STREAM_CPN_SYN      "syn"
+    # define LP_STREAM_CPN_SYN  "syn"
 
 /*
     Header - Preprocessor macros
@@ -128,7 +128,7 @@
     Header - Function prototypes
  */
 
-    /*! \brief Stream basic manipulation
+    /*! \brief Stream basic management
      *  
      *  Create a stream component memory allocation based on the provided size
      *  parameter given in bytes. A null pointer is returned if allocation of
@@ -161,7 +161,7 @@
 
     );
 
-    /*! \brief Stream component size extractor
+    /*! \brief Stream size
      *  
      *  Returns the size of the stream pointed by the provided switches. The
      *  size extraction is based on the considered stream synchronization
@@ -185,15 +185,15 @@
 
     );
 
-    /*! \brief Stream component data reader
+    /*! \brief Stream input/output function
      *  
-     *  Reads the content of the component pointed byte the provided suffix of
+     *  Reads the content of the component pointed by the provided suffix of
      *  the stream pointed by the provided switches. The size parameter has to
      *  be in bytes. If the stream component is not found or if the function
      *  is only able to read a number of bytes below the provided size a null
      *  pointer is returned.
      *  
-     *  \param  lpPath  Path to CSPS structure
+     *  \param lpPath   Path to CSPS structure
      *  \param lpTag    CSPS-tag of device
      *  \param lpModule CSPS-name of module
      *  \param lpSuffix Stream component suffix
@@ -212,20 +212,23 @@
 
     );
 
-    /*! \brief Stream component data writer
+    /*! \brief Stream input/output function
      *  
-     *  Writes the memory data into the desired stream component.
+     *  Writes the memory content of the component pointed by the provided
+     *  suffix of the stream pointed by the provided switches. The size has to
+     *  be given in bytes.
      *  
-     *  \param lpPath   Path CSPS structure
-     *  \param lpTag    Device name
-     *  \param lpModule CSPS module to consider
-     *  \param lpSuffix Suffix of the data stored by the considered stream
-     *                  component
-     *  \param lpStream Void pointer to the memory data
-     *  \param lpSize   Size, in bytes, of the memory data
+     *  \param  lpPath   Path to CSPS structure
+     *  \param  lpTag    CSPS-tag of device
+     *  \param  lpModule CSPS-name of module
+     *  \param  lpSuffix Stream component suffix
+     *  \param  lpStream Pointer to component memory buffer
+     *  \param  lpSize   Stream component size, in bytes
+     *
+     *  \return Returns the number of successfully exported bytes
      */
 
-    lp_Void_t lp_stream_write(
+    lp_Size_t lp_stream_write(
 
         lp_Char_t const * const lpPath,
         lp_Char_t const * const lpTag,
