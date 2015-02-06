@@ -53,7 +53,7 @@
 
     ) {
 
-        /* Create stream buffer */
+        /* Create stream buffer memory allocation */
         lp_Void_t * lpStream = malloc( lpSize );
 
         /* Return pointer */
@@ -67,10 +67,10 @@
 
     ) {
 
-        /* Verify memory allocation and memory unallocate */
+        /* Verify pointer and unallocate memory */
         if ( lpStream != NULL ) free( lpStream );
 
-        /* Return invalid pointer */
+        /* Return null pointer */
         return( NULL );
 
     }
@@ -101,16 +101,18 @@
         lp_path_stream( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, lpStreamp );
 
         /* Open stream file */
-        lpStreamf = fopen( lpStreamp, "rb" );
+        if ( ( lpStreamf = fopen( lpStreamp, "rb" ) ) != NULL ) {
 
-        /* Set pointer to EOF */
-        fseek( lpStreamf, 0L, SEEK_END );
+            /* Set pointer to EOF */
+            fseek( lpStreamf, 0L, SEEK_END );
 
-        /* Read pointer value */
-        lpSize = ftell( lpStreamf ) / sizeof( lp_Time_t );
+            /* Read pointer value */
+            lpSize = ftell( lpStreamf ) / sizeof( lp_Time_t );
 
-        /* Close stream file */
-        fclose( lpStreamf );
+            /* Close stream file */
+            fclose( lpStreamf );
+
+        }
 
         /* Return stream buffer */
         return( lpSize );

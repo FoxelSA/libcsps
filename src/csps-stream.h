@@ -130,9 +130,11 @@
 
     /*! \brief Stream basic manipulation
      *  
-     *  Create a stream component memory allocation.
+     *  Create a stream component memory allocation based on the provided size
+     *  parameter given in bytes. A null pointer is returned if allocation of
+     *  memory failed.
      * 
-     *  \param  lpSize  Size, in bytes, of the component to create
+     *  \param  lpSize  Size, in bytes, of the stream component to create
      *  
      *  \return Returns pointer to the allocated memory
      */
@@ -145,11 +147,12 @@
 
     /*! \brief Stream basic manipulation
      *  
-     *  Delete a stream component memory allocation.
+     *  Delete a stream component memory allocation based on the provided
+     *  pointer. If a null pointer is given, the function does nothing.
      * 
-     *  \param  lpStream Pointer to stream component to unallocate
+     *  \param  lpStream Pointer to stream component to delete
      *  
-     *  \return Returns always an invalid pointer (NULL)
+     *  \return Returns always an null pointer
      */
 
     lp_Void_t * lp_stream_delete(
@@ -160,14 +163,18 @@
 
     /*! \brief Stream component size extractor
      *  
-     *  Extract the size, in type units, of the desired stream component on the
-     *  base of the size of the synchronization component.
+     *  Returns the size of the stream pointed by the provided switches. The
+     *  size extraction is based on the considered stream synchronization
+     *  component. Moreover, the size is returned in terms of the type stored
+     *  by the synchronization component, which is always lp_Time_t. If the
+     *  provided switches point no existing stream, the function returns zero.
      *  
      *  \param  lpPath      Path CSPS structure
-     *  \param  lpTag       Device name
-     *  \param  lpModule    CSPS module to consider
+     *  \param  lpTag       CSPS-tag of device
+     *  \param  lpModule    CSPS-name of module
      * 
-     *  \return Returns the size of the stream in type units
+     *  \return Returns the size of the stream in synchronization component
+     *          type units
      */
 
     lp_Size_t lp_stream_size(
