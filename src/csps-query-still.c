@@ -55,26 +55,31 @@
 
     ) {
 
-        /* Stream size variables */
-        lp_Size_t lpSize = lp_stream_size( lpPath, lpTag, lpModule );
-
         /* Returned structure variables */
-        lp_Still_t lpStill = { 
+        lp_Still_t lpStill; 
 
-            /* Setting query status */
-            LP_FALSE,
+        /* Initialize structure status */
+        lpStill.qrState  = LP_FALSE;
+        lpStill.qrStatus = LP_FALSE;        
 
-            /* Setting range detection */
-            LP_FALSE,
+        /* Initialize query fields */
+        lpStill.qrStill = LP_FALSE;
 
-            /* Setting stream size */
-            lpSize, 
+        /* Retrieve stream size */
+        lpStill.qrSize = lp_stream_size( lpPath, lpTag, lpModule );
 
-            /* Streams data importation */
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize )
+        /* Streams component importation */
+        lpStill.qrStrmTag = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpStill.qrSize );
+        lpStill.qrStrmSyn = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpStill.qrSize );
 
-        };
+        /* Verify structure state */
+        if ( ( lpStill.qrStrmTag == NULL ) || ( lpStill.qrStrmSyn == NULL ) ) {
+
+            /* Delete structure */
+            lp_query_still_delete( & lpStill );
+
+        }
+        
 
         /* Return structure */
         return( lpStill );
@@ -87,20 +92,58 @@
 
     ) {
 
-        /* Reset query status */
+        /* Reset structure status */
+        lpStill->qrState  = LP_FALSE;
         lpStill->qrStatus = LP_FALSE;
 
         /* Reset stream size */
         lpStill->qrSize = lp_Size_s( 0 );
 
-        /* Unallocate streams */
+        /* Unallocate stream components */
         lpStill->qrStrmTag = lp_stream_delete( lpStill->qrStrmTag );
         lpStill->qrStrmSyn = lp_stream_delete( lpStill->qrStrmSyn );
 
     }
 
 /*
-    Source - CSPS query - Trigger - Query
+    Source - CSPS query - Still - Method
+ */
+
+    lp_Enum_t lp_query_still_state(
+
+        lp_Still_t const * const lpStill
+
+    ) {
+
+        /* Return structure state */
+        return( lpStill->qrState );
+
+    }
+
+    lp_Enum_t lp_query_still_status(
+
+        lp_Still_t const * const lpStill
+
+    ) {
+
+        /* Return structure status */
+        return( lpStill->qrStatus );
+
+    }
+
+    lp_Size_t lp_query_still_size(
+
+        lp_Still_t const * const lpStill
+
+    ) {
+
+        /* Return stream size */
+        return( lpStill->qrSize );
+
+    }
+
+/*
+    Source - CSPS query - Still - Query
  */
 
     lp_Void_t lp_query_still( 
@@ -113,23 +156,40 @@
         /* Parsing variables */
         lp_Size_t lpParse = lp_Size_s( 1 );
 
-        /* Reset query structure */
-        lpStill->qrStill = LP_FALSE;
+        /* Check query structure state */
+        if ( lpStill->qrState == LP_TRUE ) {
 
-        /* Parsing detected still range */
-        while ( ( lpParse < lpStill->qrSize ) && ( lpStill->qrStill == LP_FALSE ) ) {
+            /* Reset query structure */
+            lpStill->qrStill = LP_FALSE;
 
-            /* Range detection */
-            if ( ( lp_timestamp_ge( lpTime, lpStill->qrStrmSyn[lpParse] ) == LP_TRUE ) &&
-                 ( lp_timestamp_ge( lpStill->qrStrmTag[lpParse], lpTime ) == LP_TRUE ) ) {
+            /* Parsing detected still range */
+            while ( ( lpParse < lpStill->qrSize ) && ( lpStill->qrStill == LP_FALSE ) ) {
 
-                /* Update detection flag */
-                lpStill->qrStill = LP_TRUE;
+                /* Range detection */
+                if ( 
+
+                    ( lp_timestamp_ge( lpTime, lpStill->qrStrmSyn[lpParse] ) == LP_TRUE )
+                &&  ( lp_timestamp_ge( lpStill->qrStrmTag[lpParse], lpTime ) == LP_TRUE )
+
+                ) {
+
+                    /* Update detection flag */
+                    lpStill->qrStill = LP_TRUE;
+
+                }
+
+                /* Update parsing index */
+                lpParse ++;
 
             }
 
-            /* Update parsing index */
-            lpParse ++;
+            /* Update query status */
+            lpStill->qrStatus = LP_TRUE;
+
+        } else {
+
+            /* Update query status */
+            lpStill->qrStatus = LP_FALSE;
 
         }
 

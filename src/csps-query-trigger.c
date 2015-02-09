@@ -55,9 +55,6 @@
 
     ) {
 
-        /* Stream size variables */
-        lp_Size_t lpSize = lp_Size_s( 0 );
-
         /* Returned structure variables */
         lp_Trigger_t lpTrigger;
 
@@ -73,8 +70,8 @@
         lpTrigger.qrSize = lp_stream_size( lpPath, lpTag, lpModule );
 
         /* Streams component importation */
-        lpTrigger.qrStrmTag = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize );
-        lpTrigger.qrStrmSyn = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+        lpTrigger.qrStrmTag = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpTrigger.qrSize );
+        lpTrigger.qrStrmSyn = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpTrigger.qrSize );
 
         /* Verify structure state */
         if ( ( lpTrigger.qrStrmTag == NULL ) || ( lpTrigger.qrStrmSyn == NULL ) ) {
@@ -192,6 +189,11 @@
                 lpTrigger->qrStatus = LP_FALSE;
 
             }
+
+        } else {
+
+            /* Update query status */
+            lpTrigger->qrStatus = LP_FALSE;
 
         }
 

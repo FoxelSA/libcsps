@@ -153,7 +153,7 @@
     /*! \brief CSPS query - Trigger - Handle
      * 
      *  Deletes the query structure and unallocates the stream components
-     *  memory buffer. It also clears the structure state and status.
+     *  memory buffers. It also clears the structure state and status.
      *
      *  \param lpTrigger Pointer to query structure
      */
@@ -168,7 +168,9 @@
      *
      *  Returns the state of the query structure.
      *
-     *  \param lpTrigger Pointer to query structure
+     *  \param  lpTrigger Pointer to query structure
+     *
+     *  \return Returns LP_TRUE if query structure is correctly initialized
      */
 
     lp_Enum_t lp_query_trigger_state(
@@ -181,7 +183,9 @@
      *
      *  Returns the status of the query structure.
      *
-     *  \param lpTrigger Pointer to query structure
+     *  \param  lpTrigger Pointer to query structure
+     *
+     *  \return Returns LP_TRUE if query succeed
      */
 
     lp_Enum_t lp_query_trigger_status(
@@ -194,7 +198,9 @@
      *
      *  Returns the stream size stored in the query structure.
      *
-     *  \param lpTrigger Pointer to query structure
+     *  \param  lpTrigger Pointer to query structure
+     *
+     *  \return Returns the size, in type units, of the imported stream
      */
 
     lp_Size_t lp_query_trigger_size(
@@ -209,7 +215,7 @@
      *  with the provided master timestamp. The query structure has to be
      *  already initialized.
      *
-     *  If the query fails, the qrStatus fields of the structure is set to
+     *  If the query fails, the qrStatus field of the structure is set to
      *  LP_FALSE, LP_TRUE otherwise.
      *
      *  \param lpTrigger Pointer to query structure
@@ -229,7 +235,7 @@
      *  timestamps based on their offset in the stream. The query structure
      *  has to be already initialized.
      *
-     *  If the query fails, the qrStatus fields of the structure is set to
+     *  If the query fails, the qrStatus field of the structure is set to
      *  LP_FALSE, LP_TRUE otherwise.
      *
      *  \param lpTrigger Pointer to query structure
