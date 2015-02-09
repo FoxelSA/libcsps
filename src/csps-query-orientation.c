@@ -54,43 +54,67 @@
         lp_Char_t const * const lpModule
 
     ) {
+        /* Returned structure variables */
+        lp_Orient_t lpOrient;
 
-        /* Stream size variables */
-        lp_Size_t lpSize = lp_stream_size( lpPath, lpTag, lpModule );
+        /* Initialize structure status */
+        lpOrient.qrState  = LP_FALSE;
+        lpOrient.qrStatus = LP_FALSE;  
+        
+        /* Initialize query fields */
+        lpOrient.qrfxx = lp_Real_s( 0.0 );
+        lpOrient.qrfxy = lp_Real_s( 0.0 );
+        lpOrient.qrfxz = lp_Real_s( 0.0 );
+        lpOrient.qrfyx = lp_Real_s( 0.0 );
+        lpOrient.qrfyy = lp_Real_s( 0.0 );
+        lpOrient.qrfyz = lp_Real_s( 0.0 );
+        lpOrient.qrfzx = lp_Real_s( 0.0 );
+        lpOrient.qrfzy = lp_Real_s( 0.0 );
+        lpOrient.qrfzz = lp_Real_s( 0.0 );
 
-        /* Returned structure */
-        lp_Orient_t lpOrient = {
+        /* Initialize query complements */
+        lpOrient.qrWeak = lp_Enum_s( 0 );
 
-            /* Setting query status */
-            LP_FALSE,
+        /* Retrieve stream size */
+        lpOrient.qrSize = lp_stream_size( lpPath, lpTag, lpModule );
 
-            /* Initialize data fields */
-            lp_Real_s( 0.0 ),
-            lp_Real_s( 0.0 ),
-            lp_Real_s( 0.0 ),
-            lp_Real_s( 0.0 ),
-            lp_Real_s( 0.0 ),
-            lp_Real_s( 0.0 ),
-            lp_Real_s( 0.0 ),
-            lp_Real_s( 0.0 ),
-            lp_Real_s( 0.0 ),
+        /* Streams component importation */
+        lpOrient.qrStrmfxx = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FXX, sizeof( lp_Real_t ) * lpOrient.qrSize );
+        lpOrient.qrStrmfxy = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FXY, sizeof( lp_Real_t ) * lpOrient.qrSize );
+        lpOrient.qrStrmfxz = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FXZ, sizeof( lp_Real_t ) * lpOrient.qrSize );
+        lpOrient.qrStrmfyx = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FYX, sizeof( lp_Real_t ) * lpOrient.qrSize );
+        lpOrient.qrStrmfyy = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FYY, sizeof( lp_Real_t ) * lpOrient.qrSize );
+        lpOrient.qrStrmfyz = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FYZ, sizeof( lp_Real_t ) * lpOrient.qrSize );
+        lpOrient.qrStrmfzx = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FZX, sizeof( lp_Real_t ) * lpOrient.qrSize );
+        lpOrient.qrStrmfzy = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FZY, sizeof( lp_Real_t ) * lpOrient.qrSize );
+        lpOrient.qrStrmfzz = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FZZ, sizeof( lp_Real_t ) * lpOrient.qrSize );
+        lpOrient.qrStrmSyn = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpOrient.qrSize );
 
-            /* Setting stream size */
-            lpSize,
+        /* Verify structure state */
+        if ( 
 
-            /* Streams data importation */
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FXX, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FXY, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FXZ, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FYX, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FYY, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FYZ, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FZX, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FZY, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_FZZ, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize )
+            ( lpOrient.qrStrmfxx == NULL ) || 
+            ( lpOrient.qrStrmfxy == NULL ) || 
+            ( lpOrient.qrStrmfxz == NULL ) || 
+            ( lpOrient.qrStrmfyx == NULL ) || 
+            ( lpOrient.qrStrmfyy == NULL ) || 
+            ( lpOrient.qrStrmfyz == NULL ) || 
+            ( lpOrient.qrStrmfzx == NULL ) || 
+            ( lpOrient.qrStrmfzy == NULL ) || 
+            ( lpOrient.qrStrmfzz == NULL ) || 
+            ( lpOrient.qrStrmSyn == NULL )
 
-        };
+        ) {
+
+            /* Delete structure */
+            lp_query_orientation_delete( & lpOrient );
+
+        } else {
+
+            /* Update structure state */
+            lpOrient.qrState = LP_TRUE;
+
+        }        
 
         /* Return position structure */
         return( lpOrient );
@@ -103,24 +127,14 @@
 
     ) {
 
-        /* Reset query status */
+        /* Reset structure status */
+        lpOrient->qrState  = LP_FALSE;
         lpOrient->qrStatus = LP_FALSE;
-
-        /* Reset data field */
-        lpOrient->qrfxx = lp_Real_s( 0.0 );
-        lpOrient->qrfxy = lp_Real_s( 0.0 );
-        lpOrient->qrfxz = lp_Real_s( 0.0 );
-        lpOrient->qrfyx = lp_Real_s( 0.0 );
-        lpOrient->qrfyy = lp_Real_s( 0.0 );
-        lpOrient->qrfyz = lp_Real_s( 0.0 );
-        lpOrient->qrfzx = lp_Real_s( 0.0 );
-        lpOrient->qrfzy = lp_Real_s( 0.0 );
-        lpOrient->qrfzz = lp_Real_s( 0.0 );
 
         /* Reset stream size */
         lpOrient->qrSize = lp_Size_s( 0 );
 
-        /* Unallocate streams */
+        /* Unallocate stream components */
         lpOrient->qrStrmfxx = lp_stream_delete( lpOrient->qrStrmfxx );
         lpOrient->qrStrmfxy = lp_stream_delete( lpOrient->qrStrmfxy );
         lpOrient->qrStrmfxz = lp_stream_delete( lpOrient->qrStrmfxz );
@@ -137,6 +151,17 @@
 /*
     Source - CSPS query - Orientation - Method
  */
+
+    lp_Enum_t lp_query_orientation_state(
+
+        lp_Orient_t const * const lpOrient
+
+    ) {
+
+        /* Return query structure status */
+        return( lpOrient->qrState );
+
+    }
 
     lp_Enum_t lp_query_orientation_status(
 
@@ -187,7 +212,7 @@
     lp_Void_t lp_query_orientation(
 
         lp_Orient_t       * const lpOrient,
-        lp_Time_t   const         lpTimestamp
+        lp_Time_t   const         lpTime
 
     ) {
 
@@ -206,109 +231,119 @@
         lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
         lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
 
-        /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
-        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpOrient->qrStrmSyn, lpOrient->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
+        /* Check query structure state */
+        if ( lpOrient->qrState == LP_TRUE ) {
 
-            /* Cubic interpolation derivative range necessities */
-            if ( ( lpParse >= lp_Size_s( 1 ) ) && ( lpParse < ( lpOrient->qrSize - lp_Size_s( 2 ) ) ) ) {
+            /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
+            if ( ( lpParse = lp_timestamp_index( lpTime, lpOrient->qrStrmSyn, lpOrient->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
 
-                /* Compute quantity interpolation sampling nodes */
-                lpSample0 = lpParse - 1;
-                lpSample1 = lpParse;
-                lpSample2 = lpParse + 1;
-                lpSample3 = lpParse + 2;
+                /* Cubic interpolation derivative range necessities */
+                if ( ( lpParse >= lp_Size_s( 1 ) ) && ( lpParse < ( lpOrient->qrSize - lp_Size_s( 2 ) ) ) ) {
 
-                /* Compute time interpolation variable */
-                lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpOrient->qrStrmSyn[lpSample1] ) );
+                    /* Compute quantity interpolation sampling nodes */
+                    lpSample0 = lpParse - 1;
+                    lpSample1 = lpParse;
+                    lpSample2 = lpParse + 1;
+                    lpSample3 = lpParse + 2;
 
-                /* Compute time interpolation sample */
-                lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpOrient->qrStrmSyn[lpSample2], lpOrient->qrStrmSyn[lpSample1] ) );
-                lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpOrient->qrStrmSyn[lpSample2], lpOrient->qrStrmSyn[lpSample0] ) );
-                lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpOrient->qrStrmSyn[lpSample3], lpOrient->qrStrmSyn[lpSample1] ) );
+                    /* Compute time interpolation variable */
+                    lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTime, lpOrient->qrStrmSyn[lpSample1] ) );
 
-                /* Compute interpolation values - Frame x-component x-vector */
-                lpOrient->qrfxx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfxx[lpSample1], lpOrient->qrStrmfxx[lpSample2],
+                    /* Compute time interpolation sample */
+                    lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpOrient->qrStrmSyn[lpSample2], lpOrient->qrStrmSyn[lpSample1] ) );
+                    lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpOrient->qrStrmSyn[lpSample2], lpOrient->qrStrmSyn[lpSample0] ) );
+                    lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpOrient->qrStrmSyn[lpSample3], lpOrient->qrStrmSyn[lpSample1] ) );
 
-                    /* Standard derivatives */
-                    ( lpOrient->qrStrmfxx[lpSample2] - lpOrient->qrStrmfxx[lpSample0] ) / lpDT0T2,
-                    ( lpOrient->qrStrmfxx[lpSample3] - lpOrient->qrStrmfxx[lpSample1] ) / lpDT1T3
+                    /* Compute interpolation values - Frame x-component x-vector */
+                    lpOrient->qrfxx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfxx[lpSample1], lpOrient->qrStrmfxx[lpSample2],
 
-                );
+                        /* Standard derivatives */
+                        ( lpOrient->qrStrmfxx[lpSample2] - lpOrient->qrStrmfxx[lpSample0] ) / lpDT0T2,
+                        ( lpOrient->qrStrmfxx[lpSample3] - lpOrient->qrStrmfxx[lpSample1] ) / lpDT1T3
 
-                /* Compute interpolation values - Frame y-component x-vector */
-                lpOrient->qrfxy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfxy[lpSample1], lpOrient->qrStrmfxy[lpSample2],
+                    );
 
-                    /* Standard derivatives */
-                    ( lpOrient->qrStrmfxy[lpSample2] - lpOrient->qrStrmfxy[lpSample0] ) / lpDT0T2,
-                    ( lpOrient->qrStrmfxy[lpSample3] - lpOrient->qrStrmfxy[lpSample1] ) / lpDT1T3
+                    /* Compute interpolation values - Frame y-component x-vector */
+                    lpOrient->qrfxy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfxy[lpSample1], lpOrient->qrStrmfxy[lpSample2],
 
-                );
+                        /* Standard derivatives */
+                        ( lpOrient->qrStrmfxy[lpSample2] - lpOrient->qrStrmfxy[lpSample0] ) / lpDT0T2,
+                        ( lpOrient->qrStrmfxy[lpSample3] - lpOrient->qrStrmfxy[lpSample1] ) / lpDT1T3
 
-                /* Compute interpolation values - Frame z-component x-vector */
-                lpOrient->qrfxz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfxz[lpSample1], lpOrient->qrStrmfxz[lpSample2],
+                    );
 
-                    /* Standard derivatives */
-                    ( lpOrient->qrStrmfxz[lpSample2] - lpOrient->qrStrmfxz[lpSample0] ) / lpDT0T2,
-                    ( lpOrient->qrStrmfxz[lpSample3] - lpOrient->qrStrmfxz[lpSample1] ) / lpDT1T3
+                    /* Compute interpolation values - Frame z-component x-vector */
+                    lpOrient->qrfxz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfxz[lpSample1], lpOrient->qrStrmfxz[lpSample2],
 
-                );
+                        /* Standard derivatives */
+                        ( lpOrient->qrStrmfxz[lpSample2] - lpOrient->qrStrmfxz[lpSample0] ) / lpDT0T2,
+                        ( lpOrient->qrStrmfxz[lpSample3] - lpOrient->qrStrmfxz[lpSample1] ) / lpDT1T3
 
-                /* Compute interpolation values - Frame x-component y-vector */
-                lpOrient->qrfyx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfyx[lpSample1], lpOrient->qrStrmfyx[lpSample2],
+                    );
 
-                    /* Standard derivatives */
-                    ( lpOrient->qrStrmfyx[lpSample2] - lpOrient->qrStrmfyx[lpSample0] ) / lpDT0T2,
-                    ( lpOrient->qrStrmfyx[lpSample3] - lpOrient->qrStrmfyx[lpSample1] ) / lpDT1T3
+                    /* Compute interpolation values - Frame x-component y-vector */
+                    lpOrient->qrfyx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfyx[lpSample1], lpOrient->qrStrmfyx[lpSample2],
 
-                );
+                        /* Standard derivatives */
+                        ( lpOrient->qrStrmfyx[lpSample2] - lpOrient->qrStrmfyx[lpSample0] ) / lpDT0T2,
+                        ( lpOrient->qrStrmfyx[lpSample3] - lpOrient->qrStrmfyx[lpSample1] ) / lpDT1T3
 
-                /* Compute interpolation values - Frame y-component y-vector */
-                lpOrient->qrfyy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfyy[lpSample1], lpOrient->qrStrmfyy[lpSample2],
+                    );
 
-                    /* Standard derivatives */
-                    ( lpOrient->qrStrmfyy[lpSample2] - lpOrient->qrStrmfyy[lpSample0] ) / lpDT0T2,
-                    ( lpOrient->qrStrmfyy[lpSample3] - lpOrient->qrStrmfyy[lpSample1] ) / lpDT1T3
+                    /* Compute interpolation values - Frame y-component y-vector */
+                    lpOrient->qrfyy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfyy[lpSample1], lpOrient->qrStrmfyy[lpSample2],
 
-                );
+                        /* Standard derivatives */
+                        ( lpOrient->qrStrmfyy[lpSample2] - lpOrient->qrStrmfyy[lpSample0] ) / lpDT0T2,
+                        ( lpOrient->qrStrmfyy[lpSample3] - lpOrient->qrStrmfyy[lpSample1] ) / lpDT1T3
 
-                /* Compute interpolation values - Frame z-component y-vector */
-                lpOrient->qrfyz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfyz[lpSample1], lpOrient->qrStrmfyz[lpSample2],
+                    );
 
-                    /* Standard derivatives */
-                    ( lpOrient->qrStrmfyz[lpSample2] - lpOrient->qrStrmfyz[lpSample0] ) / lpDT0T2,
-                    ( lpOrient->qrStrmfyz[lpSample3] - lpOrient->qrStrmfyz[lpSample1] ) / lpDT1T3
+                    /* Compute interpolation values - Frame z-component y-vector */
+                    lpOrient->qrfyz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfyz[lpSample1], lpOrient->qrStrmfyz[lpSample2],
 
-                );
+                        /* Standard derivatives */
+                        ( lpOrient->qrStrmfyz[lpSample2] - lpOrient->qrStrmfyz[lpSample0] ) / lpDT0T2,
+                        ( lpOrient->qrStrmfyz[lpSample3] - lpOrient->qrStrmfyz[lpSample1] ) / lpDT1T3
 
-                /* Compute interpolation values - Frame x-component z-vector */
-                lpOrient->qrfzx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfzx[lpSample1], lpOrient->qrStrmfzx[lpSample2],
+                    );
 
-                    /* Standard derivatives */
-                    ( lpOrient->qrStrmfzx[lpSample2] - lpOrient->qrStrmfzx[lpSample0] ) / lpDT0T2,
-                    ( lpOrient->qrStrmfzx[lpSample3] - lpOrient->qrStrmfzx[lpSample1] ) / lpDT1T3
+                    /* Compute interpolation values - Frame x-component z-vector */
+                    lpOrient->qrfzx = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfzx[lpSample1], lpOrient->qrStrmfzx[lpSample2],
 
-                );
+                        /* Standard derivatives */
+                        ( lpOrient->qrStrmfzx[lpSample2] - lpOrient->qrStrmfzx[lpSample0] ) / lpDT0T2,
+                        ( lpOrient->qrStrmfzx[lpSample3] - lpOrient->qrStrmfzx[lpSample1] ) / lpDT1T3
 
-                /* Compute interpolation values - Frame y-component z-vector */
-                lpOrient->qrfzy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfzy[lpSample1], lpOrient->qrStrmfzy[lpSample2],
+                    );
 
-                    /* Standard derivatives */
-                    ( lpOrient->qrStrmfzy[lpSample2] - lpOrient->qrStrmfzy[lpSample0] ) / lpDT0T2,
-                    ( lpOrient->qrStrmfzy[lpSample3] - lpOrient->qrStrmfzy[lpSample1] ) / lpDT1T3
+                    /* Compute interpolation values - Frame y-component z-vector */
+                    lpOrient->qrfzy = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfzy[lpSample1], lpOrient->qrStrmfzy[lpSample2],
 
-                );
+                        /* Standard derivatives */
+                        ( lpOrient->qrStrmfzy[lpSample2] - lpOrient->qrStrmfzy[lpSample0] ) / lpDT0T2,
+                        ( lpOrient->qrStrmfzy[lpSample3] - lpOrient->qrStrmfzy[lpSample1] ) / lpDT1T3
 
-                /* Compute interpolation values - Frame z-component z-vector */
-                lpOrient->qrfzz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfzz[lpSample1], lpOrient->qrStrmfzz[lpSample2],
+                    );
 
-                    /* Standard derivatives */
-                    ( lpOrient->qrStrmfzz[lpSample2] - lpOrient->qrStrmfzz[lpSample0] ) / lpDT0T2,
-                    ( lpOrient->qrStrmfzz[lpSample3] - lpOrient->qrStrmfzz[lpSample1] ) / lpDT1T3
+                    /* Compute interpolation values - Frame z-component z-vector */
+                    lpOrient->qrfzz = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpOrient->qrStrmfzz[lpSample1], lpOrient->qrStrmfzz[lpSample2],
 
-                );
+                        /* Standard derivatives */
+                        ( lpOrient->qrStrmfzz[lpSample2] - lpOrient->qrStrmfzz[lpSample0] ) / lpDT0T2,
+                        ( lpOrient->qrStrmfzz[lpSample3] - lpOrient->qrStrmfzz[lpSample1] ) / lpDT1T3
 
-                /* Update query status */
-                lpOrient->qrStatus = LP_TRUE;
+                    );
+
+                    /* Update query status */
+                    lpOrient->qrStatus = LP_TRUE;
+
+                } else {
+
+                    /* Update query status */
+                    lpOrient->qrStatus = LP_FALSE;
+
+                }
 
             } else {
 

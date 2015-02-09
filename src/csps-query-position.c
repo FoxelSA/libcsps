@@ -63,9 +63,9 @@
         lpPosition.qrStatus = LP_FALSE;    
 
         /* Initialize query fields */
-        lpPosition.qrLatitude  = LP_FALSE;
-        lpPosition.qrLongitude = LP_FALSE;
-        lpPosition.qrAltitude  = LP_FALSE;
+        lpPosition.qrLatitude  = lp_Real_s( 0.0 );
+        lpPosition.qrLongitude = lp_Real_s( 0.0 );
+        lpPosition.qrAltitude  = lp_Real_s( 0.0 );
 
         /* Initialize query complements */
         lpPosition.qrWeak = lp_Enum_s( 0 );
@@ -80,7 +80,14 @@
         lpPosition.qrStrmSyn = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpPosition.qrSize );
 
         /* Verify structure state */
-        if ( ( lpPosition.qrStrmLat == NULL ) || ( lpPosition.qrStrmLon == NULL ) || ( lpPosition.qrStrmAlt == NULL ) || ( lpPosition.qrStrmSyn == NULL ) ) {
+        if ( 
+
+            ( lpPosition.qrStrmLat == NULL ) || 
+            ( lpPosition.qrStrmLon == NULL ) ||
+            ( lpPosition.qrStrmAlt == NULL ) ||
+            ( lpPosition.qrStrmSyn == NULL )
+
+        ) {
 
             /* Delete structure */
             lp_query_position_delete( & lpPosition );
