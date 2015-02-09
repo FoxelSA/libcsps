@@ -74,18 +74,6 @@
     Header - Preprocessor macros
  */
 
-    /* Orientation query structure pointers access */
-    # define lp_query_orientation_fxx( lpStruct )   ( lpStruct.qrStrmfxx )
-    # define lp_query_orientation_fxy( lpStruct )   ( lpStruct.qrStrmfxy )
-    # define lp_query_orientation_fxz( lpStruct )   ( lpStruct.qrStrmfxz )
-    # define lp_query_orientation_fyx( lpStruct )   ( lpStruct.qrStrmfyx )
-    # define lp_query_orientation_fyy( lpStruct )   ( lpStruct.qrStrmfyy )
-    # define lp_query_orientation_fyz( lpStruct )   ( lpStruct.qrStrmfyz )
-    # define lp_query_orientation_fzx( lpStruct )   ( lpStruct.qrStrmfzx )
-    # define lp_query_orientation_fzy( lpStruct )   ( lpStruct.qrStrmfzy )
-    # define lp_query_orientation_fzz( lpStruct )   ( lpStruct.qrStrmfzz )
-    # define lp_query_orientation_syn( lpStruct )   ( lpStruct.qrStrmSyn )
-
 /*
     Header - Typedefs
  */
@@ -102,7 +90,9 @@
      *  from an IMU sensor.
      *  
      *  \var lp_Query_Orientation_struct::qrStatus
-     *  Query status. If LP_FALSE, the query has failed, LP_TRUE otherwise
+     *  Structure state. If LP_FALSE, the structure cannot be used
+     *  \var lp_Query_Orientation_struct::qrStatus
+     *  Query status. If LP_FALSE, the query failed
      *  \var lp_Query_Orientation_struct::qrfxx
      *  X-component of the x-frame vector
      *  \var lp_Query_Orientation_struct::qrfxy
@@ -121,36 +111,39 @@
      *  Y-component of the z-frame vector
      *  \var lp_Query_Orientation_struct::qrfzz
      *  Z-component of the z-frame vector
+     *  \var lp_Query_Orientation_struct::qrWeak
+     *  ...
      *  \var lp_Query_Orientation_struct::qrSize
      *  Size, in bytes, of streams
      *  \var lp_Query_Orientation_struct::qrStrmfxx
-     *  X-component of x-vector frame stream data
+     *  Stream component for X-component of x-vector frame
      *  \var lp_Query_Orientation_struct::qrStrmfxy
-     *  Y-component of x-vector frame stream data
+     *  Stream component for Y-component of x-vector frame
      *  \var lp_Query_Orientation_struct::qrStrmfxz
-     *  Z-component of x-vector frame stream data
+     *  Stream component for Z-component of x-vector frame
      *  \var lp_Query_Orientation_struct::qrStrmfyx
-     *  X-component of y-vector frame stream data
+     *  Stream component for X-component of y-vector frame
      *  \var lp_Query_Orientation_struct::qrStrmfyy
-     *  Y-component of y-vector frame stream data
+     *  Stream component for Y-component of y-vector frame
      *  \var lp_Query_Orientation_struct::qrStrmfyz
-     *  Z-component of y-vector frame stream data
+     *  Stream component for Z-component of y-vector frame
      *  \var lp_Query_Orientation_struct::qrStrmfzx
-     *  X-component of z-vector frame stream data
+     *  Stream component for X-component of z-vector frame
      *  \var lp_Query_Orientation_struct::qrStrmfzy
-     *  Y-component of z-vector frame stream data
+     *  Stream component for Y-component of z-vector frame
      *  \var lp_Query_Orientation_struct::qrStrmfzz
-     *  Z-component of z-vector frame stream data
+     *  Stream component for Z-component of z-vector frame
      *  \var lp_Query_Orientation_struct::qrStrmSyn
-     *  Synchronization stream data
+     *  Stream component for synchronization
      */
 
     typedef struct lp_Query_Orientation_struct {
 
         /* Query status */
+        lp_Enum_t qrState;
         lp_Enum_t qrStatus;
 
-        /* Orientation matrix */
+        /* Query fields */
         lp_Real_t qrfxx;
         lp_Real_t qrfxy;
         lp_Real_t qrfxz;
@@ -161,10 +154,13 @@
         lp_Real_t qrfzy;
         lp_Real_t qrfzz;
 
-        /* Streams size */
+        /* Extrapolation weakness */
+        lp_Enum_t   qrWeak;
+
+        /* Stream size */
         lp_Size_t   qrSize;
 
-        /* Streams data */
+        /* Stream components */
         lp_Real_t * qrStrmfxx;
         lp_Real_t * qrStrmfxy;
         lp_Real_t * qrStrmfxz;

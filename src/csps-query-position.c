@@ -47,7 +47,7 @@
     Source - CSPS query - Position - Handle
  */
 
-    lp_Geopos_t lp_query_position_create(
+    lp_Position_t lp_query_position_create(
 
         lp_Char_t const * const lpPath,
         lp_Char_t const * const lpTag,
@@ -55,61 +55,66 @@
 
     ) {
 
-        /* Stream size variables */
-        lp_Size_t lpSize = lp_stream_size( lpPath, lpTag, lpModule );
-
         /* Returned structure variables */
-        lp_Geopos_t lpGeopos = {
+        lp_Position_t lpPosition;
 
-            /* Setting query status */
-            LP_FALSE,
+        /* Initialize structure status */
+        lpPosition.qrState  = LP_FALSE;
+        lpPosition.qrStatus = LP_FALSE;    
 
-            /* Initialize data fields */
-            lp_Real_s( 0.0 ),
-            lp_Real_s( 0.0 ),
-            lp_Real_s( 0.0 ),
+        /* Initialize query fields */
+        lpPosition.qrLatitude  = LP_FALSE;
+        lpPosition.qrLongitude = LP_FALSE;
+        lpPosition.qrAltitude  = LP_FALSE;
 
-            /* Setting reliability flag */
-            LP_FALSE,
+        /* Initialize query complements */
+        lpPosition.qrWeak = lp_Enum_s( 0 );
 
-            /* Setting stream size */
-            lpSize,
+        /* Retrieve stream size */
+        lpPosition.qrSize = lp_stream_size( lpPath, lpTag, lpModule );
 
-            /* Streams data importation */
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpSize ),
-            lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize )
+        /* Streams component importation */
+        lpPosition.qrStrmLat = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpPosition.qrSize );
+        lpPosition.qrStrmLon = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpPosition.qrSize );
+        lpPosition.qrStrmAlt = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpPosition.qrSize );
+        lpPosition.qrStrmSyn = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpPosition.qrSize );
 
-        };
+        /* Verify structure state */
+        if ( ( lpPosition.qrStrmLat == NULL ) || ( lpPosition.qrStrmLon == NULL ) || ( lpPosition.qrStrmAlt == NULL ) || ( lpPosition.qrStrmSyn == NULL ) ) {
+
+            /* Delete structure */
+            lp_query_position_delete( & lpPosition );
+
+        } else {
+
+            /* Update structure state */
+            lpPosition.qrState = LP_TRUE;
+
+        }
 
         /* Return structure */
-        return( lpGeopos );
+        return( lpPosition );
 
     }
 
     lp_Void_t lp_query_position_delete( 
 
-        lp_Geopos_t * const lpGeopos 
+        lp_Position_t * const lpPosition 
 
     ) {
 
-        /* Reset query status */
-        lpGeopos->qrStatus = LP_FALSE;
-
-        /* Reset data field */
-        lpGeopos->qrLatitude  = lp_Real_s( 0.0 );
-        lpGeopos->qrLongitude = lp_Real_s( 0.0 );
-        lpGeopos->qrAltitude  = lp_Real_s( 0.0 );
+        /* Reset structure status */
+        lpPosition->qrState  = LP_FALSE;
+        lpPosition->qrStatus = LP_FALSE;
 
         /* Reset stream size */
-        lpGeopos->qrSize = lp_Size_s( 0 );
+        lpPosition->qrSize = lp_Size_s( 0 );
 
-        /* Unallocate streams */
-        lpGeopos->qrStrmLat = lp_stream_delete( lpGeopos->qrStrmLat );
-        lpGeopos->qrStrmLon = lp_stream_delete( lpGeopos->qrStrmLon );
-        lpGeopos->qrStrmAlt = lp_stream_delete( lpGeopos->qrStrmAlt );
-        lpGeopos->qrStrmSyn = lp_stream_delete( lpGeopos->qrStrmSyn );
+        /* Unallocate stream components */
+        lpPosition->qrStrmLat = lp_stream_delete( lpPosition->qrStrmLat );
+        lpPosition->qrStrmLon = lp_stream_delete( lpPosition->qrStrmLon );
+        lpPosition->qrStrmAlt = lp_stream_delete( lpPosition->qrStrmAlt );
+        lpPosition->qrStrmSyn = lp_stream_delete( lpPosition->qrStrmSyn );
 
     }
 
@@ -117,25 +122,36 @@
     Source - CSPS query - Position - Method
  */
 
-    lp_Enum_t lp_query_position_status(
+    lp_Enum_t lp_query_position_state(
 
-        lp_Geopos_t const * const lpGeopos
+        lp_Position_t const * const lpPosition
 
     ) {
 
         /* Return query structure status */
-        return( lpGeopos->qrStatus );
+        return( lpPosition->qrState );
+
+    }
+
+    lp_Enum_t lp_query_position_status(
+
+        lp_Position_t const * const lpPosition
+
+    ) {
+
+        /* Return query structure status */
+        return( lpPosition->qrStatus );
 
     }
 
     lp_Size_t lp_query_position_size( 
 
-        lp_Geopos_t const * const lpGeopos
+        lp_Position_t const * const lpPosition
 
     ) {
 
         /* Return imported streams size */
-        return( lpGeopos->qrSize );
+        return( lpPosition->qrSize );
 
     }
 
@@ -145,8 +161,8 @@
 
     lp_Void_t lp_query_position(
 
-        lp_Geopos_t       * const lpGeopos,
-        lp_Time_t   const         lpTimestamp
+        lp_Position_t       * const lpPosition,
+        lp_Time_t   const         lpTime
 
     ) {
 
@@ -166,81 +182,91 @@
         lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
         lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
 
-        /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
-        if ( ( lpParse = lp_timestamp_index( lpTimestamp, lpGeopos->qrStrmSyn, lpGeopos->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
+        /* Check query structure state */
+        if ( lpPosition->qrState == LP_TRUE ) {
 
-            /* Cubic interpolation derivative range necessities */
-            if ( ( lpParse >= lp_Size_s( 1 ) ) && ( lpParse < ( lpGeopos->qrSize - lp_Size_s( 2 ) ) ) ) {
+            /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
+            if ( ( lpParse = lp_timestamp_index( lpTime, lpPosition->qrStrmSyn, lpPosition->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
 
-                /* Compute quantity interpolation sampling nodes */
-                lpSample0 = lpParse - 1;
-                lpSample1 = lpParse;
-                lpSample2 = lpParse + 1;
-                lpSample3 = lpParse + 2;
+                /* Cubic interpolation derivative range necessities */
+                if ( ( lpParse >= lp_Size_s( 1 ) ) && ( lpParse < ( lpPosition->qrSize - lp_Size_s( 2 ) ) ) ) {
 
-                /* Compute time interpolation variable */
-                lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGeopos->qrStrmSyn[lpSample1] ) );
-                lpDTIT2 = lp_timestamp_float( lp_timestamp_diff( lpTimestamp, lpGeopos->qrStrmSyn[lpSample2] ) );
+                    /* Compute quantity interpolation sampling nodes */
+                    lpSample0 = lpParse - 1;
+                    lpSample1 = lpParse;
+                    lpSample2 = lpParse + 1;
+                    lpSample3 = lpParse + 2;
 
-                /* Compute time interpolation sample */
-                lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmSyn[lpSample2], lpGeopos->qrStrmSyn[lpSample1] ) );
-                lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmSyn[lpSample2], lpGeopos->qrStrmSyn[lpSample0] ) );
-                lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpGeopos->qrStrmSyn[lpSample3], lpGeopos->qrStrmSyn[lpSample1] ) );
+                    /* Compute time interpolation variable */
+                    lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTime, lpPosition->qrStrmSyn[lpSample1] ) );
+                    lpDTIT2 = lp_timestamp_float( lp_timestamp_diff( lpTime, lpPosition->qrStrmSyn[lpSample2] ) );
 
-                /* Compute interpolation values - Latitude */
-                lpGeopos->qrLatitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmLat[lpSample1], lpGeopos->qrStrmLat[lpSample2],
+                    /* Compute time interpolation sample */
+                    lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpPosition->qrStrmSyn[lpSample2], lpPosition->qrStrmSyn[lpSample1] ) );
+                    lpDT0T2 = lp_timestamp_float( lp_timestamp_diff( lpPosition->qrStrmSyn[lpSample2], lpPosition->qrStrmSyn[lpSample0] ) );
+                    lpDT1T3 = lp_timestamp_float( lp_timestamp_diff( lpPosition->qrStrmSyn[lpSample3], lpPosition->qrStrmSyn[lpSample1] ) );
 
-                    /* Standard derivatives */
-                    ( lpGeopos->qrStrmLat[lpSample2] - lpGeopos->qrStrmLat[lpSample0] ) / lpDT0T2,
-                    ( lpGeopos->qrStrmLat[lpSample3] - lpGeopos->qrStrmLat[lpSample1] ) / lpDT1T3
+                    /* Compute interpolation values - Latitude */
+                    lpPosition->qrLatitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpPosition->qrStrmLat[lpSample1], lpPosition->qrStrmLat[lpSample2],
 
-                );
+                        /* Standard derivatives */
+                        ( lpPosition->qrStrmLat[lpSample2] - lpPosition->qrStrmLat[lpSample0] ) / lpDT0T2,
+                        ( lpPosition->qrStrmLat[lpSample3] - lpPosition->qrStrmLat[lpSample1] ) / lpDT1T3
 
-                /* Compute interpolation values - Longitude */
-                lpGeopos->qrLongitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmLon[lpSample1], lpGeopos->qrStrmLon[lpSample2],
+                    );
 
-                    /* Standard derivatives */
-                    ( lpGeopos->qrStrmLon[lpSample2] - lpGeopos->qrStrmLon[lpSample0] ) / lpDT0T2,
-                    ( lpGeopos->qrStrmLon[lpSample3] - lpGeopos->qrStrmLon[lpSample1] ) / lpDT1T3
+                    /* Compute interpolation values - Longitude */
+                    lpPosition->qrLongitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpPosition->qrStrmLon[lpSample1], lpPosition->qrStrmLon[lpSample2],
 
-                );
+                        /* Standard derivatives */
+                        ( lpPosition->qrStrmLon[lpSample2] - lpPosition->qrStrmLon[lpSample0] ) / lpDT0T2,
+                        ( lpPosition->qrStrmLon[lpSample3] - lpPosition->qrStrmLon[lpSample1] ) / lpDT1T3
 
-                /* Compute interpolation values - Altitude */
-                lpGeopos->qrAltitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpGeopos->qrStrmAlt[lpSample1], lpGeopos->qrStrmAlt[lpSample2],
+                    );
 
-                    /* Standard derivatives */
-                    ( lpGeopos->qrStrmAlt[lpSample2] - lpGeopos->qrStrmAlt[lpSample0] ) / lpDT0T2,
-                    ( lpGeopos->qrStrmAlt[lpSample3] - lpGeopos->qrStrmAlt[lpSample1] ) / lpDT1T3
+                    /* Compute interpolation values - Altitude */
+                    lpPosition->qrAltitude = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpPosition->qrStrmAlt[lpSample1], lpPosition->qrStrmAlt[lpSample2],
 
-                );
+                        /* Standard derivatives */
+                        ( lpPosition->qrStrmAlt[lpSample2] - lpPosition->qrStrmAlt[lpSample0] ) / lpDT0T2,
+                        ( lpPosition->qrStrmAlt[lpSample3] - lpPosition->qrStrmAlt[lpSample1] ) / lpDT1T3
 
-                /* Weak reliability detection */
-                if ( ( lpDT1TI > lp_Real_s( 2.0 ) ) || ( lpDTIT2 > lp_Real_s( 2.0 ) ) ) {
+                    );
 
-                    /* Update reliability flag */
-                    lpGeopos->qrWeak = LP_TRUE;
+                    /* Weak reliability detection */
+                    if ( ( lpDT1TI > lp_Real_s( 2.0 ) ) || ( lpDTIT2 > lp_Real_s( 2.0 ) ) ) {
+
+                        /* Update reliability flag */
+                        lpPosition->qrWeak = LP_TRUE;
+
+                    } else {
+
+                        /* Update reliability flag */
+                        lpPosition->qrWeak = LP_FALSE;
+
+                    }
+
+                    /* Update query status */
+                    lpPosition->qrStatus = LP_TRUE;
 
                 } else {
 
-                    /* Update reliability flag */
-                    lpGeopos->qrWeak = LP_FALSE;
+                    /* Update query status */
+                    lpPosition->qrStatus = LP_FALSE;
 
                 }
-
-                /* Update query status */
-                lpGeopos->qrStatus = LP_TRUE;
 
             } else {
 
                 /* Update query status */
-                lpGeopos->qrStatus = LP_FALSE;
+                lpPosition->qrStatus = LP_FALSE;
 
             }
 
         } else {
 
             /* Update query status */
-            lpGeopos->qrStatus = LP_FALSE;
+            lpPosition->qrStatus = LP_FALSE;
 
         }
 

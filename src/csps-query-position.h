@@ -74,12 +74,6 @@
     Header - Preprocessor macros
  */
 
-    /* Position query structure pointers access */
-    # define lp_query_position_lat( lpStruct )      ( lpStruct.qrStrmLat )
-    # define lp_query_position_lon( lpStruct )      ( lpStruct.qrStrmLon )
-    # define lp_query_position_alt( lpStruct )      ( lpStruct.qrStrmAlt )
-    # define lp_query_position_syn( lpStruct )      ( lpStruct.qrStrmSyn )
-
 /*
     Header - Typedefs
  */
@@ -89,56 +83,59 @@
  */
 
     /*! \struct lp_Query_Position_struct
-     *  \brief WGS84 position query structure
+     *  \brief Ellipsoidal coordinates query structure
      *  
-     *  This structure is used to query a position according to WGS84 standard
-     *  stored in a physical stream, typically coming from a GPS reciever.
+     *  This structure is used to query a position on earth expressed in an
+     *  ellipsoidal coordinates system.
      *  
      *  \var lp_Query_Position_struct::qrStatus
-     *  Query status. If LP_FALSE, the query has failed, LP_TRUE otherwise
+     *  Structure state. If LP_FALSE, the structure cannot be used
+     *  \var lp_Query_Position_struct::qrStatus
+     *  Query status. If LP_FALSE, the query failed
      *  \var lp_Query_Position_struct::qrLatitude
-     *  Latitude in degrees
+     *  Latitude in decimal degrees
      *  \var lp_Query_Position_struct::qrLongitude
-     *  Longitude in degrees
+     *  Longitude in decimal degrees
      *  \var lp_Query_Position_struct::qrAltitude
      *  Altitude in meters above mean see level
      *  \var lp_Query_Position_struct::qrWeak
-     *  Flag that indicates weak interpolation reliability
+     *  ...
      *  \var lp_Query_Position_struct::qrSize
-     *  Size, in bytes, of streams
+     *  Size, in type units, of stream
      *  \var lp_Query_Position_struct::qrStrmLat
-     *  Latitude stream data
+     *  Stream component for latitude
      *  \var lp_Query_Position_struct::qrStrmLon
-     *  Longitude stream data
+     *  Stream component for longitude
      *  \var lp_Query_Position_struct::qrStrmAlt
-     *  Altitude stream data
+     *  Stream component for altitude
      *  \var lp_Query_Position_struct::qrStrmSyn
-     *  Synchronization stream data
+     *  Stream component for synchronization
      */
 
     typedef struct lp_Query_Position_struct {
 
         /* Query status */
+        lp_Enum_t   qrState;
         lp_Enum_t   qrStatus;
 
-        /* Position vector */
+        /* Query fields */
         lp_Real_t   qrLatitude;
         lp_Real_t   qrLongitude;
         lp_Real_t   qrAltitude;
 
-        /* Weak flag */
+        /* Extrapolation weakness */
         lp_Enum_t   qrWeak;
 
-        /* Streams size */
+        /* Stream size */
         lp_Size_t   qrSize;
 
-        /* Streams data */
+        /* Stream components */
         lp_Real_t * qrStrmLat;
         lp_Real_t * qrStrmLon;
         lp_Real_t * qrStrmAlt;
         lp_Time_t * qrStrmSyn;
 
-    } lp_Geopos_t;
+    } lp_Position_t;
 
 /*
     Header - Function prototypes
@@ -146,17 +143,18 @@
 
     /*! \brief CSPS query - Position - Handle
      *
-     *  This function creates the query on position structure needed to perform
-     *  queries on processed data.
-     * 
-     *  \param lpPath   Path to CSPS directory structure
-     *  \param lpTag    Device tag name
-     *  \param lpModule Query reference stream
+     *  Creates and initialize the query structure on the base of the provided
+     *  switches. This structure can then be used to perform queries. Before
+     *  any query, the structure initialization have to be checked.
      *
-     *  \return Created query on position structure
+     *  \param  lpPath   Path to CSPS structure
+     *  \param  lpTag    CSPS-tag of device
+     *  \param  lpModule CSPS-name of module
+     *
+     *  \return Created query structure
      */
 
-    lp_Geopos_t lp_query_position_create(
+    lp_Position_t lp_query_position_create(
 
         lp_Char_t const * const lpPath,
         lp_Char_t const * const lpTag,
@@ -165,65 +163,81 @@
     );
 
     /*! \brief CSPS query - Position - Handle
-     *  
-     *  This function deletes the query on position structure.
+     * 
+     *  Deletes the query structure and unallocates the stream components
+     *  memory buffers. It also clears the structure state and status.
      *
-     *  \param lpGeopos Pointer to query structure
+     *  \param lpPosition Pointer to query structure
      */
 
     lp_Void_t lp_query_position_delete( 
 
-        lp_Geopos_t * const lpGeopos 
+        lp_Position_t * const lpPosition 
 
     );
 
     /*! \brief CSPS query - Position - Method
      *
-     *  This function allows to get value of the query status stored in the
-     *  query structure.
+     *  Returns the state of the query structure.
      *
-     *  \param lpGeopos Pointer to query structure
+     *  \param  lpPosition Pointer to query structure
+     *
+     *  \return Returns LP_TRUE if query structure is correctly initialized
+     */
+
+    lp_Enum_t lp_query_position_state(
+
+        lp_Position_t const * const lpPosition
+
+    );
+
+    /*! \brief CSPS query - Position - Method
+     *
+     *  Returns the status of the query structure.
+     *
+     *  \param  lpPosition Pointer to query structure
+     *
+     *  \return Returns LP_TRUE if query succeed
      */
 
     lp_Enum_t lp_query_position_status(
 
-        lp_Geopos_t const * const lpGeopos
+        lp_Position_t const * const lpPosition
 
     );
 
     /*! \brief CSPS query - Position - Method
      *
-     *  This method allows to get the size, in type units, of the position
-     *  imported streams.
+     *  Returns the stream size stored in the query structure.
      *
-     *  \param lpGeopos Pointer to query structure
+     *  \param  lpPosition Pointer to query structure
+     *
+     *  \return Returns the size, in type units, of the imported stream
      */
 
     lp_Size_t lp_query_position_size( 
 
-        lp_Geopos_t const * const lpGeopos
+        lp_Position_t const * const lpPosition
 
     );
 
     /*! \brief CSPS query - Position - Query
      *
-     *  This function performs a query on position based on the provided query
-     *  structure and the provided synchronization timestamp. The structure has
-     *  to be already initialized according to query necessities.
+     *  This function performs a query on ellipsoidal position based on the
+     *  provided synchronization timestamp. The query structure has to be 
+     *  already initialized.
      *
-     *  If the query fails, the qrStatus fields of the structure is set to
-     *  LP_FALSE, LP_TRUE otherwise. The query results are stored in the
-     *  structure fields.
+     *  If the query fails, the qrStatus field of the structure is set to
+     *  LP_FALSE, LP_TRUE otherwise.
      *
-     *  \param lpGeopos     Pointer to query structure
-     *  \param lpTimestamp  Timestamp of the position
-     *
+     *  \param lpPosition Pointer to query structure
+     *  \param lpTime     Timestamp of the position
      */
 
     lp_Void_t lp_query_position(
 
-        lp_Geopos_t       * const lpGeopos,
-        lp_Time_t   const         lpTimestamp
+        lp_Position_t       * const lpPosition,
+        lp_Time_t   const         lpTime
 
     );
 

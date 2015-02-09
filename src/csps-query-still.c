@@ -78,9 +78,13 @@
             /* Delete structure */
             lp_query_still_delete( & lpStill );
 
+        } else {
+
+            /* Update structure state */
+            lpStill.qrState = LP_TRUE;
+
         }
         
-
         /* Return structure */
         return( lpStill );
 

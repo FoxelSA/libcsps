@@ -79,6 +79,11 @@
             /* Delete structure */
             lp_query_trigger_delete( & lpTrigger );
 
+        } else {
+
+            /* Update structure state */
+            lpTrigger.qrState = LP_TRUE;
+
         }
 
         /* Return structure */

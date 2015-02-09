@@ -87,9 +87,9 @@
     /*! \struct lp_Query_Still_struct
      *  \brief Still capture query structure
      *
-     *  This structure is use to perform queries on detected still ranges. The
-     *  results consists in a boolean value that indicates if the provided
-     *  timestamp is in a still range.
+     *  This structure is used to perform queries on automatically detected
+     *  still ranges. The results consist in a boolean value that indicates if
+     *  the provided timestamp is in a still range.
      *
      *  \var lp_Query_Still_struct::qrStatus
      *  Structure state. If LP_FALSE, the structure cannot be used
@@ -114,10 +114,10 @@
         /* Query fields */
         lp_Enum_t   qrStill;
 
-        /* Streams size */
+        /* Stream size */
         lp_Size_t   qrSize;
 
-        /* Streams components */
+        /* Stream components */
         lp_Time_t * qrStrmTag;
         lp_Time_t * qrStrmSyn;
 

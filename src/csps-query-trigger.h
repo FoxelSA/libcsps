@@ -115,10 +115,10 @@
         lp_Time_t   qrMaster;
         lp_Time_t   qrSynch;
 
-        /* Streams size */
+        /* Stream size */
         lp_Size_t   qrSize;
 
-        /* Streams components */
+        /* Stream components */
         lp_Time_t * qrStrmTag;
         lp_Time_t * qrStrmSyn;
 
