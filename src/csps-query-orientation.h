@@ -111,7 +111,7 @@
      *  \var lp_Query_Orientation_struct::qrfzz
      *  Z-component of the z-frame vector
      *  \var lp_Query_Orientation_struct::qrWeak
-     *  ...
+     *  Interpolation parameter distance to nearest physical measure
      *  \var lp_Query_Orientation_struct::qrSize
      *  Size, in bytes, of streams
      *  \var lp_Query_Orientation_struct::qrStrmfxx
@@ -139,22 +139,22 @@
     typedef struct lp_Query_Orientation_struct {
 
         /* Query status */
-        lp_Enum_t qrState;
-        lp_Enum_t qrStatus;
+        lp_Enum_t   qrState;
+        lp_Enum_t   qrStatus;
 
         /* Query fields */
-        lp_Real_t qrfxx;
-        lp_Real_t qrfxy;
-        lp_Real_t qrfxz;
-        lp_Real_t qrfyx;
-        lp_Real_t qrfyy;
-        lp_Real_t qrfyz;
-        lp_Real_t qrfzx;
-        lp_Real_t qrfzy;
-        lp_Real_t qrfzz;
+        lp_Real_t   qrfxx;
+        lp_Real_t   qrfxy;
+        lp_Real_t   qrfxz;
+        lp_Real_t   qrfyx;
+        lp_Real_t   qrfyy;
+        lp_Real_t   qrfyz;
+        lp_Real_t   qrfzx;
+        lp_Real_t   qrfzy;
+        lp_Real_t   qrfzz;
 
         /* Extrapolation weakness */
-        lp_Enum_t   qrWeak;
+        lp_Real_t   qrWeak;
 
         /* Stream size */
         lp_Size_t   qrSize;

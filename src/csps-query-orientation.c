@@ -227,6 +227,7 @@
 
         /* Interpolation time variables */
         lp_Real_t lpDT1TI = lp_Real_s( 0.0 );
+        lp_Real_t lpDTIT2 = lp_Real_s( 0.0 );
         lp_Real_t lpDT1T2 = lp_Real_s( 0.0 );
         lp_Real_t lpDT0T2 = lp_Real_s( 0.0 );
         lp_Real_t lpDT1T3 = lp_Real_s( 0.0 );
@@ -248,6 +249,7 @@
 
                     /* Compute time interpolation variable */
                     lpDT1TI = lp_timestamp_float( lp_timestamp_diff( lpTime, lpOrient->qrStrmSyn[lpSample1] ) );
+                    lpDTIT2 = lp_timestamp_float( lp_timestamp_diff( lpTime, lpOrient->qrStrmSyn[lpSample2] ) );
 
                     /* Compute time interpolation sample */
                     lpDT1T2 = lp_timestamp_float( lp_timestamp_diff( lpOrient->qrStrmSyn[lpSample2], lpOrient->qrStrmSyn[lpSample1] ) );
@@ -334,6 +336,9 @@
                         ( lpOrient->qrStrmfzz[lpSample3] - lpOrient->qrStrmfzz[lpSample1] ) / lpDT1T3
 
                     );
+
+                    /* Assign exptrapolation weakness */
+                    lpOrient->qrWeak = ( lpDT1TI > lpDTIT2 ) ? lpDTIT2 : lpDT1TI;
 
                     /* Update query status */
                     lpOrient->qrStatus = LP_TRUE;

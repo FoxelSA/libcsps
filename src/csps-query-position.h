@@ -99,7 +99,7 @@
      *  \var lp_Query_Position_struct::qrAltitude
      *  Altitude in meters above mean see level
      *  \var lp_Query_Position_struct::qrWeak
-     *  ...
+     *  Interpolation parameter distance to nearest physical measure
      *  \var lp_Query_Position_struct::qrSize
      *  Size, in type units, of stream
      *  \var lp_Query_Position_struct::qrStrmLat
@@ -124,7 +124,7 @@
         lp_Real_t   qrAltitude;
 
         /* Extrapolation weakness */
-        lp_Enum_t   qrWeak;
+        lp_Real_t   qrWeak;
 
         /* Stream size */
         lp_Size_t   qrSize;

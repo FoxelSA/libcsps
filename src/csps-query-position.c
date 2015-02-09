@@ -240,18 +240,8 @@
 
                     );
 
-                    /* Weak reliability detection */
-                    if ( ( lpDT1TI > lp_Real_s( 2.0 ) ) || ( lpDTIT2 > lp_Real_s( 2.0 ) ) ) {
-
-                        /* Update reliability flag */
-                        lpPosition->qrWeak = LP_TRUE;
-
-                    } else {
-
-                        /* Update reliability flag */
-                        lpPosition->qrWeak = LP_FALSE;
-
-                    }
+                    /* Assign exptrapolation weakness */
+                    lpPosition->qrWeak = ( lpDT1TI > lpDTIT2 ) ? lpDTIT2 : lpDT1TI;
 
                     /* Update query status */
                     lpPosition->qrStatus = LP_TRUE;
