@@ -193,7 +193,7 @@
         if ( lpPosition->qrState == LP_TRUE ) {
 
             /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
-            if ( ( lpParse = lp_timestamp_index( lpTime, lpPosition->qrStrmSyn, lpPosition->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
+            if ( ( lpParse = lp_timestamp_search( lpTime, lpPosition->qrStrmSyn, lpPosition->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
 
                 /* Cubic interpolation derivative range necessities */
                 if ( ( lpParse >= lp_Size_s( 1 ) ) && ( lpParse < ( lpPosition->qrSize - lp_Size_s( 2 ) ) ) ) {
