@@ -86,8 +86,7 @@
      *  \brief Camera trigger query structure
      *
      *  This structure is used to perform queries on camera trigger timestamps
-     *  synchronization. Its results consist in two timestamps that links
-     *  camera triggers to other devices triggers.
+     *  synchronization.
      *
      *  \var lp_Query_Trigger_struct::qrStatus
      *  Structure state. If LP_FALSE, the structure cannot be used

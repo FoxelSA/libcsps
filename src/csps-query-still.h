@@ -39,7 +39,7 @@
     /*! \file   csps-query-still.h
      *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  CSPS trigger query interface
+     *  CSPS still query interface
      */
 
 /*
@@ -88,8 +88,7 @@
      *  \brief Still capture query structure
      *
      *  This structure is used to perform queries on automatically detected
-     *  still ranges. The results consist in a boolean value that indicates if
-     *  the provided timestamp is in a still range.
+     *  still ranges.
      *
      *  \var lp_Query_Still_struct::qrStatus
      *  Structure state. If LP_FALSE, the structure cannot be used
