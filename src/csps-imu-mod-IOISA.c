@@ -135,8 +135,8 @@
         lpIMUisn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
         /* Obtain still range corresponding index */
-        lpISRdwi = lp_timestamp_index( lpISRdwt, lpIMUisn, lpSize );
-        lpISRupi = lp_timestamp_index( lpISRupt, lpIMUisn, lpSize );
+        lpISRdwi = lp_timestamp_search( lpISRdwt, lpIMUisn, lpSize );
+        lpISRupi = lp_timestamp_search( lpISRupt, lpIMUisn, lpSize );
 
         /* Quantities accumulation */
         for ( lpParse = lpISRdwi ; lpParse <= lpISRupi ; lpParse ++ ) {

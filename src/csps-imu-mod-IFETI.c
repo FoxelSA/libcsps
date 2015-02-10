@@ -140,7 +140,7 @@
         } else {
 
             /* Dichotomous search of timestamp */
-            lpISRdwi = lp_timestamp_index( lpIMUisn[0], lpIMUgsn, lpSize );
+            lpISRdwi = lp_timestamp_search( lpIMUisn[0], lpIMUgsn, lpSize );
 
         }
 
@@ -158,7 +158,7 @@
         } else {
 
             /* Dichotomous search of timestamp */
-            lpISRupi = lp_timestamp_index( lpIMUisn[1], lpIMUgsn, lpSize );
+            lpISRupi = lp_timestamp_search( lpIMUisn[1], lpIMUgsn, lpSize );
 
         }
 

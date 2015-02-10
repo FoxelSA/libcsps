@@ -167,32 +167,6 @@
 
     );
 
-    /*! \brief Timestamp index dichotomous search
-     *  
-     *  On the base of a given reference timestamp and a growing timestamps
-     *  array, the function searches the array index of the equal or nearest 
-     *  lower array timestamp based on the reference timestamp using dichotomous
-     *  search.
-     *  
-     *  When the refrence timestamp is out of the array range, a range fault
-     *  code is returned by the function (LP_TIMESTAMP_FAULT).
-     *  
-     *  \param  lpT         Reference timestamp
-     *  \param  lpBuffer    Pointer to growing timestamps array
-     *  \param  lpSize      Size of the growing timestamps array, in array type
-     *                      units
-     *
-     *  \return Returns the index value or a range fault code
-     */
-
-    lp_Size_t lp_timestamp_index( 
-
-        lp_Time_t const         lpT, 
-        lp_Time_t const * const lpBuffer, 
-        lp_Size_t const         lpSize
-
-    );
-
     /*! \brief Timestamp search
      *
      *  This function expects an array of timestamps in growing order. A extra
