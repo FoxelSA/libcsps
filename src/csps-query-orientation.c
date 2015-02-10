@@ -236,7 +236,7 @@
         if ( lpOrient->qrState == LP_TRUE ) {
 
             /* Obtains index of nearest lower or equal timestamp stored in synchronization array */
-            if ( ( lpParse = lp_timestamp_index( lpTime, lpOrient->qrStrmSyn, lpOrient->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
+            if ( ( lpParse = lp_timestamp_search( lpTime, lpOrient->qrStrmSyn, lpOrient->qrSize ) ) != LP_TIMESTAMP_FAULT ) {
 
                 /* Cubic interpolation derivative range necessities */
                 if ( ( lpParse >= lp_Size_s( 1 ) ) && ( lpParse < ( lpOrient->qrSize - lp_Size_s( 2 ) ) ) ) {
