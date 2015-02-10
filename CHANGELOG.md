@@ -2,10 +2,14 @@
 
 ### Beta 0.3 (master)
 
-- `Added` : Query interface for inertial motion
-- `Added` : Query interface for camera trigger
+- `Added` : Methods for query structure information access
+- `Revised` : Position query interface improvement
+- `Revised` : Orientation query interface improvement
+- `Revised` : Timestamp dichotomous search algorithm
+- `Added` : Query interface for still ranges
+- `Added` : Query interface for camera triggers
 - `Revised` : Topology parser revision
-- `Revised` : Internal stream name access
+- `Revised` : Internal stream name revision
 - `Added` : Camera trigger query interface
 
 ### Release 0.2 (January 9, 2015)
