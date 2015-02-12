@@ -2,6 +2,7 @@
 
 ### Beta 0.3 (master)
 
+- `Added` : Simple error management on streams
 - `Added` : Methods for query structure information access
 - `Revised` : Position query interface improvement
 - `Revised` : Orientation query interface improvement
