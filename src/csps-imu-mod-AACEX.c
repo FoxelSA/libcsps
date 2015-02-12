@@ -82,74 +82,83 @@
         lp_Real_t * lpIMUaaz = NULL;
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpIMU.dvTag, lpIMUmodACC );
+        if ( ( lpSize = lp_stream_size( lpPath, lpIMU.dvTag, lpIMUmodACC ) ) > lp_Size_s( 0 ) ) {
 
-        /* Read streams */
-        lpIMUacx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodACC, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
-        lpIMUacy = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodACC, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
-        lpIMUacz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodACC, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
-        lpIMUasn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodACC, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
-        lpIMUfxx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FXX, sizeof( lp_Real_t ) * lpSize );
-        lpIMUfxy = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FXY, sizeof( lp_Real_t ) * lpSize );
-        lpIMUfxz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FXZ, sizeof( lp_Real_t ) * lpSize );
-        lpIMUfyx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FYX, sizeof( lp_Real_t ) * lpSize );
-        lpIMUfyy = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FYY, sizeof( lp_Real_t ) * lpSize );
-        lpIMUfyz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FYZ, sizeof( lp_Real_t ) * lpSize );
-        lpIMUfzx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FZX, sizeof( lp_Real_t ) * lpSize );
-        lpIMUfzy = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FZY, sizeof( lp_Real_t ) * lpSize );
-        lpIMUfzz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FZZ, sizeof( lp_Real_t ) * lpSize );
-        lpIMUfsn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+            /* Read streams */
+            lpIMUacx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodACC, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
+            lpIMUacy = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodACC, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
+            lpIMUacz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodACC, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
+            lpIMUasn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodACC, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
-        /* Create streams */
-        lpIMUaax = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
-        lpIMUaay = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
-        lpIMUaaz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
-        lpIMUfsn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpSize );
+            /* Verify stream size */
+            if ( lp_stream_size( lpPath, lpIMU.dvTag, lpIMUmodFRM ) == lpSize ) {
 
-        /* Gravity-less acceleration extraction */
-        for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize ; lpParse ++ ) {
+                /* Read streams */
+                lpIMUfxx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FXX, sizeof( lp_Real_t ) * lpSize );
+                lpIMUfxy = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FXY, sizeof( lp_Real_t ) * lpSize );
+                lpIMUfxz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FXZ, sizeof( lp_Real_t ) * lpSize );
+                lpIMUfyx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FYX, sizeof( lp_Real_t ) * lpSize );
+                lpIMUfyy = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FYY, sizeof( lp_Real_t ) * lpSize );
+                lpIMUfyz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FYZ, sizeof( lp_Real_t ) * lpSize );
+                lpIMUfzx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FZX, sizeof( lp_Real_t ) * lpSize );
+                lpIMUfzy = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FZY, sizeof( lp_Real_t ) * lpSize );
+                lpIMUfzz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_FZZ, sizeof( lp_Real_t ) * lpSize );
+                lpIMUfsn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodFRM, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
-            /* Gravity-less acceleration x-component */
-            lpIMUaax[lpParse] = lpIMUacx[lpParse] * lpIMUfxx[lpParse] +
-                                lpIMUacy[lpParse] * lpIMUfyx[lpParse] +
-                                lpIMUacz[lpParse] * lpIMUfzx[lpParse];
+                /* Create streams */
+                lpIMUaax = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+                lpIMUaay = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+                lpIMUaaz = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpSize );
+                lpIMUfsn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpSize );
 
-            /* Gravity-less acceleration y-component */
-            lpIMUaay[lpParse] = lpIMUacx[lpParse] * lpIMUfxy[lpParse] +
-                                lpIMUacy[lpParse] * lpIMUfyy[lpParse] +
-                                lpIMUacz[lpParse] * lpIMUfzy[lpParse];
+                /* Gravity-less acceleration extraction */
+                for ( lpParse = lp_Size_s( 0 ) ; lpParse < lpSize ; lpParse ++ ) {
 
-            /* Gravity-less acceleration z-component */
-            lpIMUaaz[lpParse] = lpIMUacx[lpParse] * lpIMUfxz[lpParse] +
-                                lpIMUacy[lpParse] * lpIMUfyz[lpParse] +
-                                lpIMUacz[lpParse] * lpIMUfzz[lpParse];
+                    /* Gravity-less acceleration x-component */
+                    lpIMUaax[lpParse] = lpIMUacx[lpParse] * lpIMUfxx[lpParse] +
+                                        lpIMUacy[lpParse] * lpIMUfyx[lpParse] +
+                                        lpIMUacz[lpParse] * lpIMUfzx[lpParse];
+
+                    /* Gravity-less acceleration y-component */
+                    lpIMUaay[lpParse] = lpIMUacx[lpParse] * lpIMUfxy[lpParse] +
+                                        lpIMUacy[lpParse] * lpIMUfyy[lpParse] +
+                                        lpIMUacz[lpParse] * lpIMUfzy[lpParse];
+
+                    /* Gravity-less acceleration z-component */
+                    lpIMUaaz[lpParse] = lpIMUacx[lpParse] * lpIMUfxz[lpParse] +
+                                        lpIMUacy[lpParse] * lpIMUfyz[lpParse] +
+                                        lpIMUacz[lpParse] * lpIMUfzz[lpParse];
+
+                }
+
+                /* Write streams */
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_AACEX_MOD, LP_STREAM_CPN_ACX, lpIMUaax, sizeof( lp_Real_t ) * lpSize );
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_AACEX_MOD, LP_STREAM_CPN_ACY, lpIMUaay, sizeof( lp_Real_t ) * lpSize );
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_AACEX_MOD, LP_STREAM_CPN_ACZ, lpIMUaaz, sizeof( lp_Real_t ) * lpSize );
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_AACEX_MOD, LP_STREAM_CPN_SYN, lpIMUasn, sizeof( lp_Time_t ) * lpSize );
+
+                /* Unallocate streams */
+                lpIMUacx = lp_stream_delete( lpIMUacx );
+                lpIMUacy = lp_stream_delete( lpIMUacy );
+                lpIMUacz = lp_stream_delete( lpIMUacz );
+                lpIMUasn = lp_stream_delete( lpIMUasn );
+                lpIMUfxx = lp_stream_delete( lpIMUfxx );
+                lpIMUfxy = lp_stream_delete( lpIMUfxy );
+                lpIMUfxz = lp_stream_delete( lpIMUfxz );
+                lpIMUfyx = lp_stream_delete( lpIMUfyx );
+                lpIMUfyy = lp_stream_delete( lpIMUfyy );
+                lpIMUfyz = lp_stream_delete( lpIMUfyz );
+                lpIMUfzx = lp_stream_delete( lpIMUfzx );
+                lpIMUfzy = lp_stream_delete( lpIMUfzy );
+                lpIMUfzz = lp_stream_delete( lpIMUfzz );
+                lpIMUfsn = lp_stream_delete( lpIMUfsn );
+                lpIMUaax = lp_stream_delete( lpIMUaax );
+                lpIMUaay = lp_stream_delete( lpIMUaay );
+                lpIMUaaz = lp_stream_delete( lpIMUaaz );
+
+            }
 
         }
-
-        /* Write streams */
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_AACEX_MOD, LP_STREAM_CPN_ACX, lpIMUaax, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_AACEX_MOD, LP_STREAM_CPN_ACY, lpIMUaay, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_AACEX_MOD, LP_STREAM_CPN_ACZ, lpIMUaaz, sizeof( lp_Real_t ) * lpSize );
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_AACEX_MOD, LP_STREAM_CPN_SYN, lpIMUasn, sizeof( lp_Time_t ) * lpSize );
-
-        /* Unallocate streams */
-        lpIMUacx = lp_stream_delete( lpIMUacx );
-        lpIMUacy = lp_stream_delete( lpIMUacy );
-        lpIMUacz = lp_stream_delete( lpIMUacz );
-        lpIMUasn = lp_stream_delete( lpIMUasn );
-        lpIMUfxx = lp_stream_delete( lpIMUfxx );
-        lpIMUfxy = lp_stream_delete( lpIMUfxy );
-        lpIMUfxz = lp_stream_delete( lpIMUfxz );
-        lpIMUfyx = lp_stream_delete( lpIMUfyx );
-        lpIMUfyy = lp_stream_delete( lpIMUfyy );
-        lpIMUfyz = lp_stream_delete( lpIMUfyz );
-        lpIMUfzx = lp_stream_delete( lpIMUfzx );
-        lpIMUfzy = lp_stream_delete( lpIMUfzy );
-        lpIMUfzz = lp_stream_delete( lpIMUfzz );
-        lpIMUfsn = lp_stream_delete( lpIMUfsn );
-        lpIMUaax = lp_stream_delete( lpIMUaax );
-        lpIMUaay = lp_stream_delete( lpIMUaay );
-        lpIMUaaz = lp_stream_delete( lpIMUaaz );
 
     }
 

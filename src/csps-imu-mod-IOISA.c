@@ -108,155 +108,159 @@
         };
 
         /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpIMU.dvTag, lpIMUmodISD );
+        if ( ( lpSize = lp_stream_size( lpPath, lpIMU.dvTag, lpIMUmodISD ) ) > lp_Size_s( 0 ) ) {
 
-        /* Read streams */
-        lpIMUtag = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodTAG, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize );
-        lpIMUrsn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodTAG, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+            /* Read streams */
+            lpIMUtag = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodTAG, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize );
+            lpIMUrsn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodTAG, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
-        /* Extract inertial still range boundaries */
-        lpISRdwt = lpIMUrsn[0];
-        lpISRupt = lpIMUtag[0];
+            /* Extract inertial still range boundaries */
+            lpISRdwt = lpIMUrsn[0];
+            lpISRupt = lpIMUtag[0];
 
-        /* Unallocate streams */
-        lpIMUtag = lp_stream_delete( lpIMUtag );
-        lpIMUrsn = lp_stream_delete( lpIMUrsn );
+            /* Unallocate streams */
+            lpIMUtag = lp_stream_delete( lpIMUtag );
+            lpIMUrsn = lp_stream_delete( lpIMUrsn );
 
-        /* Obtain stream size */
-        lpSize = lp_stream_size( lpPath, lpIMU.dvTag, lpIMUmodISD );
+            /* Obtain stream size */
+            if ( ( lpSize = lp_stream_size( lpPath, lpIMU.dvTag, lpIMUmodISD ) ) > lp_Size_s( 0 ) ) {
 
-        /* Read streams */
-        lpIMUacx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
-        lpIMUacy = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
-        lpIMUacz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
-        lpIMUgrx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
-        lpIMUgry = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
-        lpIMUgrz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
-        lpIMUisn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
+                /* Read streams */
+                lpIMUacx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_ACX, sizeof( lp_Real_t ) * lpSize );
+                lpIMUacy = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_ACY, sizeof( lp_Real_t ) * lpSize );
+                lpIMUacz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_ACZ, sizeof( lp_Real_t ) * lpSize );
+                lpIMUgrx = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_GRX, sizeof( lp_Real_t ) * lpSize );
+                lpIMUgry = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_GRY, sizeof( lp_Real_t ) * lpSize );
+                lpIMUgrz = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_GRZ, sizeof( lp_Real_t ) * lpSize );
+                lpIMUisn = lp_stream_read( lpPath, lpIMU.dvTag, lpIMUmodISD, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
-        /* Obtain still range corresponding index */
-        lpISRdwi = lp_timestamp_search( lpISRdwt, lpIMUisn, lpSize );
-        lpISRupi = lp_timestamp_search( lpISRupt, lpIMUisn, lpSize );
+                /* Obtain still range corresponding index */
+                lpISRdwi = lp_timestamp_search( lpISRdwt, lpIMUisn, lpSize );
+                lpISRupi = lp_timestamp_search( lpISRupt, lpIMUisn, lpSize );
 
-        /* Quantities accumulation */
-        for ( lpParse = lpISRdwi ; lpParse <= lpISRupi ; lpParse ++ ) {
+                /* Quantities accumulation */
+                for ( lpParse = lpISRdwi ; lpParse <= lpISRupi ; lpParse ++ ) {
 
-            /* Accelerometer signals accumulation */
-            lpACCacx += lpIMUacx[lpParse];
-            lpACCacy += lpIMUacy[lpParse];
-            lpACCacz += lpIMUacz[lpParse];
+                    /* Accelerometer signals accumulation */
+                    lpACCacx += lpIMUacx[lpParse];
+                    lpACCacy += lpIMUacy[lpParse];
+                    lpACCacz += lpIMUacz[lpParse];
 
-            /* Gyroscope signals accumulation */
-            lpACCgrx += lpIMUgrx[lpParse];
-            lpACCgry += lpIMUgry[lpParse];
-            lpACCgrz += lpIMUgrz[lpParse];
+                    /* Gyroscope signals accumulation */
+                    lpACCgrx += lpIMUgrx[lpParse];
+                    lpACCgry += lpIMUgry[lpParse];
+                    lpACCgrz += lpIMUgrz[lpParse];
+
+                }
+
+                /* Accelerometer average computation */
+                lpACCacx /= ( lpISRupi - lpISRdwi + lp_Size_s( 1 ) );
+                lpACCacy /= ( lpISRupi - lpISRdwi + lp_Size_s( 1 ) );
+                lpACCacz /= ( lpISRupi - lpISRdwi + lp_Size_s( 1 ) );
+
+                /* Compute acceleration norm */
+                lpACCacn = sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy + lpACCacz * lpACCacz );
+
+                /* Normalize mean acceleration */
+                lpACCacx /= lpACCacn;
+                lpACCacy /= lpACCacn;
+                lpACCacz /= lpACCacn;
+
+                /* Gyroscope average computation */
+                lpACCgrx /= ( lpISRupi - lpISRdwi + lp_Size_s( 1 ) );
+                lpACCgry /= ( lpISRupi - lpISRdwi + lp_Size_s( 1 ) );
+                lpACCgrz /= ( lpISRupi - lpISRdwi + lp_Size_s( 1 ) );
+
+                /* Compute angular velocity norm */
+                lpACCgrn = sqrt( lpACCgrx * lpACCgrx + lpACCgry * lpACCgry + lpACCgrz * lpACCgrz );
+
+                /* Normalize mean angular velocity */
+                lpACCgrx /= lpACCgrn;
+                lpACCgry /= lpACCgrn;
+                lpACCgrz /= lpACCgrn;
+
+                /* Unallocate streams */
+                lpIMUacx = lp_stream_delete( lpIMUacx );
+                lpIMUacy = lp_stream_delete( lpIMUacy );
+                lpIMUacz = lp_stream_delete( lpIMUacz );
+                lpIMUgrx = lp_stream_delete( lpIMUgrx );
+                lpIMUgry = lp_stream_delete( lpIMUgry );
+                lpIMUgrz = lp_stream_delete( lpIMUgrz );
+                lpIMUisn = lp_stream_delete( lpIMUisn );
+
+                /* Create streams */
+                lpIMUixx = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lpIMUixy = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lpIMUixz = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lpIMUiyx = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lpIMUiyy = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lpIMUiyz = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lpIMUizx = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lpIMUizy = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lpIMUizz = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lpIMUisn = lp_stream_create( sizeof( lp_Time_t ) * lp_Size_s( 2 ) );
+
+                /* Compute rotation matrix - Rotate inertial frame z-vector on counter-gravity mean */
+                lp_rotation_matrix_2vR3( lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 1.0 ), lpACCacx, lpACCacy, lpACCacz, lpMatrix );
+
+                /* Counter-gravity aligned frame */
+                lpIMUixx[0] = lpMatrix[0][0]; lpIMUixy[0] = lpMatrix[1][0]; lpIMUixz[0] = lpMatrix[2][0];
+                lpIMUiyx[0] = lpMatrix[0][1]; lpIMUiyy[0] = lpMatrix[1][1]; lpIMUiyz[0] = lpMatrix[2][1];
+                lpIMUizx[0] = lpMatrix[0][2]; lpIMUizy[0] = lpMatrix[1][2]; lpIMUizz[0] = lpMatrix[2][2];
+
+                /* Compute gyroscope mean in counter-gravity aligned frame */
+                lp_rotation_iR3( lpMatrix, & ( lpACCgrx ), & ( lpACCgry ), & ( lpACCgrz ) );
+
+                /* Compute rotation matrix around z-vector of counter-gravity aligned frame */
+                lp_rotation_matrix_vaR3( lpIMUizx[0], lpIMUizy[0], lpIMUizz[0], LP_ATN( lpACCgrx, lpACCgry ) - LP_PI * 0.5, lpMatrix );
+
+                /* Rotation around z-axis of counter-gravity aligned frame */
+                lp_rotation_mR3( lpMatrix, & ( lpIMUixx[0] ), & ( lpIMUixy[0] ), & ( lpIMUixz[0] ) );
+                lp_rotation_mR3( lpMatrix, & ( lpIMUiyx[0] ), & ( lpIMUiyy[0] ), & ( lpIMUiyz[0] ) );
+                lp_rotation_mR3( lpMatrix, & ( lpIMUizx[0] ), & ( lpIMUizy[0] ), & ( lpIMUizz[0] ) );
+
+                /* Assign second components */
+                lpIMUixx[1] = lpIMUixx[0];
+                lpIMUixy[1] = lpIMUixy[0];
+                lpIMUixz[1] = lpIMUixz[0];
+                lpIMUiyx[1] = lpIMUiyx[0];
+                lpIMUiyy[1] = lpIMUiyy[0];
+                lpIMUiyz[1] = lpIMUiyz[0];
+                lpIMUizx[1] = lpIMUizx[0];
+                lpIMUizy[1] = lpIMUizy[0];
+                lpIMUizz[1] = lpIMUizz[0];
+
+                /* Assign initial condition timestamps */
+                lpIMUisn[0] = lpISRdwt;
+                lpIMUisn[1] = lpISRupt;
+
+                /* Write streams */
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IXX, lpIMUixx, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IXY, lpIMUixy, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IXZ, lpIMUixz, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IYX, lpIMUiyx, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IYY, lpIMUiyy, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IYZ, lpIMUiyz, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IZX, lpIMUizx, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IZY, lpIMUizy, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IZZ, lpIMUizz, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
+                lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_SYN, lpIMUisn, sizeof( lp_Time_t ) * lp_Size_s( 2 ) );
+
+                /* Unallocate streams */
+                lpIMUixx = lp_stream_delete( lpIMUixx );
+                lpIMUixy = lp_stream_delete( lpIMUixy );
+                lpIMUixz = lp_stream_delete( lpIMUixz );
+                lpIMUiyx = lp_stream_delete( lpIMUiyx );
+                lpIMUiyy = lp_stream_delete( lpIMUiyy );
+                lpIMUiyz = lp_stream_delete( lpIMUiyz );
+                lpIMUizx = lp_stream_delete( lpIMUizx );
+                lpIMUizy = lp_stream_delete( lpIMUizy );
+                lpIMUizz = lp_stream_delete( lpIMUizz );
+                lpIMUisn = lp_stream_delete( lpIMUisn );
+
+            }
 
         }
-
-        /* Accelerometer average computation */
-        lpACCacx /= ( lpISRupi - lpISRdwi + lp_Size_s( 1 ) );
-        lpACCacy /= ( lpISRupi - lpISRdwi + lp_Size_s( 1 ) );
-        lpACCacz /= ( lpISRupi - lpISRdwi + lp_Size_s( 1 ) );
-
-        /* Compute acceleration norm */
-        lpACCacn = sqrt( lpACCacx * lpACCacx + lpACCacy * lpACCacy + lpACCacz * lpACCacz );
-
-        /* Normalize mean acceleration */
-        lpACCacx /= lpACCacn;
-        lpACCacy /= lpACCacn;
-        lpACCacz /= lpACCacn;
-
-        /* Gyroscope average computation */
-        lpACCgrx /= ( lpISRupi - lpISRdwi + lp_Size_s( 1 ) );
-        lpACCgry /= ( lpISRupi - lpISRdwi + lp_Size_s( 1 ) );
-        lpACCgrz /= ( lpISRupi - lpISRdwi + lp_Size_s( 1 ) );
-
-        /* Compute angular velocity norm */
-        lpACCgrn = sqrt( lpACCgrx * lpACCgrx + lpACCgry * lpACCgry + lpACCgrz * lpACCgrz );
-
-        /* Normalize mean angular velocity */
-        lpACCgrx /= lpACCgrn;
-        lpACCgry /= lpACCgrn;
-        lpACCgrz /= lpACCgrn;
-
-        /* Unallocate streams */
-        lpIMUacx = lp_stream_delete( lpIMUacx );
-        lpIMUacy = lp_stream_delete( lpIMUacy );
-        lpIMUacz = lp_stream_delete( lpIMUacz );
-        lpIMUgrx = lp_stream_delete( lpIMUgrx );
-        lpIMUgry = lp_stream_delete( lpIMUgry );
-        lpIMUgrz = lp_stream_delete( lpIMUgrz );
-        lpIMUisn = lp_stream_delete( lpIMUisn );
-
-        /* Create streams */
-        lpIMUixx = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lpIMUixy = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lpIMUixz = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lpIMUiyx = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lpIMUiyy = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lpIMUiyz = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lpIMUizx = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lpIMUizy = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lpIMUizz = lp_stream_create( sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lpIMUisn = lp_stream_create( sizeof( lp_Time_t ) * lp_Size_s( 2 ) );
-
-        /* Compute rotation matrix - Rotate inertial frame z-vector on counter-gravity mean */
-        lp_rotation_matrix_2vR3( lp_Real_s( 0.0 ), lp_Real_s( 0.0 ), lp_Real_s( 1.0 ), lpACCacx, lpACCacy, lpACCacz, lpMatrix );
-
-        /* Counter-gravity aligned frame */
-        lpIMUixx[0] = lpMatrix[0][0]; lpIMUixy[0] = lpMatrix[1][0]; lpIMUixz[0] = lpMatrix[2][0];
-        lpIMUiyx[0] = lpMatrix[0][1]; lpIMUiyy[0] = lpMatrix[1][1]; lpIMUiyz[0] = lpMatrix[2][1];
-        lpIMUizx[0] = lpMatrix[0][2]; lpIMUizy[0] = lpMatrix[1][2]; lpIMUizz[0] = lpMatrix[2][2];
-
-        /* Compute gyroscope mean in counter-gravity aligned frame */
-        lp_rotation_iR3( lpMatrix, & ( lpACCgrx ), & ( lpACCgry ), & ( lpACCgrz ) );
-
-        /* Compute rotation matrix around z-vector of counter-gravity aligned frame */
-        lp_rotation_matrix_vaR3( lpIMUizx[0], lpIMUizy[0], lpIMUizz[0], LP_ATN( lpACCgrx, lpACCgry ) - LP_PI * 0.5, lpMatrix );
-
-        /* Rotation around z-axis of counter-gravity aligned frame */
-        lp_rotation_mR3( lpMatrix, & ( lpIMUixx[0] ), & ( lpIMUixy[0] ), & ( lpIMUixz[0] ) );
-        lp_rotation_mR3( lpMatrix, & ( lpIMUiyx[0] ), & ( lpIMUiyy[0] ), & ( lpIMUiyz[0] ) );
-        lp_rotation_mR3( lpMatrix, & ( lpIMUizx[0] ), & ( lpIMUizy[0] ), & ( lpIMUizz[0] ) );
-
-        /* Assign second components */
-        lpIMUixx[1] = lpIMUixx[0];
-        lpIMUixy[1] = lpIMUixy[0];
-        lpIMUixz[1] = lpIMUixz[0];
-        lpIMUiyx[1] = lpIMUiyx[0];
-        lpIMUiyy[1] = lpIMUiyy[0];
-        lpIMUiyz[1] = lpIMUiyz[0];
-        lpIMUizx[1] = lpIMUizx[0];
-        lpIMUizy[1] = lpIMUizy[0];
-        lpIMUizz[1] = lpIMUizz[0];
-
-        /* Assign initial condition timestamps */
-        lpIMUisn[0] = lpISRdwt;
-        lpIMUisn[1] = lpISRupt;
-
-        /* Write streams */
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IXX, lpIMUixx, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IXY, lpIMUixy, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IXZ, lpIMUixz, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IYX, lpIMUiyx, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IYY, lpIMUiyy, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IYZ, lpIMUiyz, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IZX, lpIMUizx, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IZY, lpIMUizy, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_IZZ, lpIMUizz, sizeof( lp_Real_t ) * lp_Size_s( 2 ) );
-        lp_stream_write( lpPath, lpIMU.dvTag, LP_IMU_IOISA_MOD, LP_STREAM_CPN_SYN, lpIMUisn, sizeof( lp_Time_t ) * lp_Size_s( 2 ) );
-
-        /* Unallocate streams */
-        lpIMUixx = lp_stream_delete( lpIMUixx );
-        lpIMUixy = lp_stream_delete( lpIMUixy );
-        lpIMUixz = lp_stream_delete( lpIMUixz );
-        lpIMUiyx = lp_stream_delete( lpIMUiyx );
-        lpIMUiyy = lp_stream_delete( lpIMUiyy );
-        lpIMUiyz = lp_stream_delete( lpIMUiyz );
-        lpIMUizx = lp_stream_delete( lpIMUizx );
-        lpIMUizy = lp_stream_delete( lpIMUizy );
-        lpIMUizz = lp_stream_delete( lpIMUizz );
-        lpIMUisn = lp_stream_delete( lpIMUisn );
 
     }
 
