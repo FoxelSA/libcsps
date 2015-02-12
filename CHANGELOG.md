@@ -1,6 +1,6 @@
 ## Changelog
 
-### Beta 0.3 (master)
+### Release 0.3 (February 12, 2015)
 
 - `Added` : Simple error management on streams
 - `Added` : Methods for query structure information access
