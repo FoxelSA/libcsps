@@ -199,8 +199,6 @@
 
                 }
 
-                fprintf( stderr, "STOP\n" );
-
                 /* Frame explicit time-integration - Prograde segment */
                 for ( lpParse = lpISRupi + lp_Size_s( 1 ) ; lpParse < lpSize ; lpParse ++ ) {
 
