@@ -84,6 +84,7 @@
     /* Define topology keywords - generic */
     # define LP_SYSTEM_DEVICE       "device"
     # define LP_SYSTEM_MODULE       "module"
+    # define LP_SYSTEM_ORIGIN       "origin"
     # define LP_SYSTEM_END          "end"
 
     /* Define topology keywords - devices */

@@ -183,6 +183,11 @@
 
                     }
 
+                } else {
+
+                    /* Search end token */
+                    while ( strcmp( lp_system_token( lpStream, lpToken ), LP_SYSTEM_END ) != 0 );
+
                 }
 
                 /* Clear token */

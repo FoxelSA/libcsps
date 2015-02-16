@@ -44,12 +44,31 @@
     # include "csps-path.h"
 
 /*
-    Source - General DSIDE path builder
+    Source - General topology path
  */
 
-    lp_Void_t lp_path_dside(
+    lp_Char_t * lp_path_topology( 
 
-        lp_Char_t const * const lpBase,
+        lp_Char_t const * const lpRoot, 
+        lp_Char_t       * const lpPath
+
+    ) {
+
+        /* Compose standard topology file path */
+        sprintf( lpPath, "%s/topology", lpRoot );
+
+        /* Return pointer to built path */
+        return( lpPath );
+
+    }
+
+/*
+    Source - General DSIDE path
+ */
+
+    lp_Char_t * lp_path_dside(
+
+        lp_Char_t const * const lpRoot,
         lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpLogs,
         lp_Char_t       * const lpPath
@@ -62,8 +81,8 @@
             /* Select logs */
             if ( strcmp( lpLogs, LP_DEVICE_EYESIS4PI_LOG ) == 0 ) {
 
-                /* Build path */
-                sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpBase );
+                /* Compose dside log path */
+                sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpRoot );
 
             }
 
@@ -72,8 +91,8 @@
             /* Select logs */
             if ( strcmp( lpLogs, LP_DEVICE_ADIS16375_LOG ) == 0 ) {
 
-                /* Build path */
-                sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpBase );
+                /* Compose dside log path */
+                sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpRoot );
 
             }
 
@@ -82,31 +101,37 @@
             /* Select logs */
             if ( strcmp( lpLogs, LP_DEVICE_LS20031_LOG ) == 0 ) {
 
-                /* Build path */
-                sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpBase );
+                /* Compose dside log path */
+                sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpRoot );
 
             }
 
         }
 
+        /* Return pointer to built path */
+        return( lpPath );
+
     }
 
 /*
-    Source - General stream path builder
+    Source - General stream path
  */
 
-    lp_Void_t lp_path_stream( 
+    lp_Char_t * lp_path_stream( 
 
-        lp_Char_t const * const lpBase,
+        lp_Char_t const * const lpRoot,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule,
-        lp_Char_t const * const lpType,
+        lp_Char_t const * const lpComponent,
         lp_Char_t       * const lpPath
 
     ) {
 
-        /* Build path */
-        sprintf( lpPath, "%s/" LP_PATH_STREAMS "/csps-stream-%s-%s-%s.bin", lpBase, lpTag, lpModule, lpType );
+        /* Compose stream component path */
+        sprintf( lpPath, "%s/" LP_PATH_STREAMS "/csps-stream-%s-%s-%s.bin", lpRoot, lpTag, lpModule, lpComponent );
+
+        /* Return pointer to built path */
+        return( lpPath );
 
     }
 

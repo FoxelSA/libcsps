@@ -90,43 +90,65 @@
     Header - Function prototypes
  */
 
-    /*! \brief CSPS devices path builder
+    /*! \brief General topology path
+     *
+     *  Builds standard path for topology file in CSPS directory structure and
+     *  returns it in provided string.
+     *
+     *  \param  lpRoot Path to CSPS directory structure
+     *  \param  lpPath Pointer to built path string
+     *
+     *  \return Returns pointer to built path
+     */
+
+    lp_Char_t * lp_path_topology( 
+
+        lp_Char_t const * const lpRoot, 
+        lp_Char_t       * const lpPath
+
+    );
+
+    /*! \brief CSPS devices path
      *  
      *  Build standard path for DSIDE module logs and returns it in char array.
      *  
-     *  \param lpBase   Path CSPS structure
-     *  \param lpDevice Device name
-     *  \param lpLogs   Logs to consider
-     *  \param lpPath   Pointer to string that recieve path
+     *  \param  lpBase   Path to CSPS directory structure
+     *  \param  lpDevice Device CSPS-tag
+     *  \param  lpLogs   Logs to consider
+     *  \param  lpPath   Pointer to string that recieve path
+     *
+     *  \return Returns pointer to built path
      */
 
-    lp_Void_t lp_path_dside(
+    lp_Char_t * lp_path_dside(
 
-        lp_Char_t const * const lpBase,
+        lp_Char_t const * const lpRoot,
         lp_Char_t const * const lpDevice,
         lp_Char_t const * const lpLogs,
         lp_Char_t       * const lpPath
 
     );
 
-    /*! \brief CSPS streams path builder
+    /*! \brief CSPS streams path
      *  
      *  Build standard path for module streams components and returns it in char
      *  array.
      *  
-     *  \param lpBase   Path CSPS structure
-     *  \param lpTag    Device specific name
-     *  \param lpModule Modulde name
-     *  \param lpType   Component data type
-     *  \param lpPath   Pointer to string that recieve path
+     *  \param  lpBase      Path to CSPS directory structure
+     *  \param  lpTag       Device CSPS-tag
+     *  \param  lpModule    Modulde CSPS-name
+     *  \param  lpComponent Stream component tag
+     *  \param  lpPath      Pointer to string that recieve path
+     *
+     *  \return Returns pointer to built path
      */
 
-    lp_Void_t lp_path_stream( 
+    lp_Char_t * lp_path_stream( 
 
-        lp_Char_t const * const lpBase,
+        lp_Char_t const * const lpRoot,
         lp_Char_t const * const lpTag,
         lp_Char_t const * const lpModule,
-        lp_Char_t const * const lpType,
+        lp_Char_t const * const lpComponent,
         lp_Char_t       * const lpPath
 
     );
