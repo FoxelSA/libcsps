@@ -108,6 +108,12 @@
     # define LP_SYSTEM_YANG         "y-angle"
     # define LP_SYSTEM_ZANG         "z-angle"
 
+    /* Defines topology origin directive */
+    # define LP_SYSTEM_TRIGGER      "trigger"
+    # define LP_SYSTEM_ORIENTATION  "orientation"
+    # define LP_SYSTEM_POSITION     "position"
+    # define LP_SYSTEM_STILL        "still"
+
 /*
     Header - Typedefs
  */

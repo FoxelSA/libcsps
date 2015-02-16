@@ -208,3 +208,68 @@
 
     }
 
+/*
+    Source - CSPS topology origin detection
+ */
+
+    lp_Enum_t lp_system_origin( 
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpOrigin,
+        lp_Char_t       * const lpDevice,
+        lp_Char_t       * const lpModule
+
+    ) {
+
+        /* String token variables */
+        lp_Char_t lpToken[LP_STR_LEN] = { '\0' };
+
+        /* Topology file variables */
+        lp_Char_t lpTopo[LP_STR_LEN] = { '\0' };
+
+        /* Returned variables */
+        lp_Enum_t lpReturn = LP_FALSE;
+
+        /* Stream variables */
+        FILE * lpStream = NULL;
+
+        /* Create input stream */
+        if ( ( lpStream = fopen( lp_path_topology( lpPath, lpTopo ), "r" ) ) != NULL ) {
+
+            /* Parsing topology file */
+            while ( ( lp_system_token( lpStream, lpToken ) != NULL ) && ( lpReturn == LP_FALSE ) ) {
+
+                /* Detect origin directive */
+                if ( strcmp( lpToken, LP_SYSTEM_ORIGIN ) == 0 ) {
+
+                    /* Detect origin directive type */
+                    if ( strcmp( lp_system_token( lpStream, lpToken ), lpOrigin ) == 0 ) {
+
+                        /* Read origin device and module */
+                        lp_system_token( lpStream, lpDevice );
+                        lp_system_token( lpStream, lpModule );
+
+                        /* Verify origin directive consistency */
+                        if ( strcmp( lp_system_token( lpStream, lpToken ), LP_SYSTEM_END ) == 0 ) {
+
+                            /* Update status */
+                            lpReturn = LP_TRUE;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            /* Close input stream */
+            fclose( lpStream );
+
+        }
+
+        /* Return status */
+        return( lpReturn );
+
+    }
+

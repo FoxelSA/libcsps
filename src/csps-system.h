@@ -105,6 +105,15 @@
 
     );
 
+    lp_Enum_t lp_system_origin( 
+
+        lp_Char_t const * const lpPath,
+        lp_Char_t const * const lpOrigin,
+        lp_Char_t       * const lpDevice,
+        lp_Char_t       * const lpModule
+
+    );
+
 /*
     Header - C/C++ compatibility
  */
