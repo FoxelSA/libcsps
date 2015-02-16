@@ -105,6 +105,21 @@
 
     );
 
+    /*! \brief CSPS origin directive parser
+     *
+     *  This function parses the topology file to retrieve device CSPS-tag and
+     *  module CSPS-name that are declared in the origin directive. This parser
+     *  allows to retrieve those switches to simplify client softwares stream
+     *  access using certified information written in the topology file.
+     *
+     *  \param  lpPath   Path to CSPS directory structure
+     *  \param  lpOrigin Origin directive type
+     *  \param  lpDevice Returned device CSPS-tag string
+     *  \param  lpModule Returned module CSPS-name string
+     *
+     *  \return Returns query status : LP_TRUE on success, LP_FALSE otherwise
+     */
+
     lp_Enum_t lp_system_origin( 
 
         lp_Char_t const * const lpPath,

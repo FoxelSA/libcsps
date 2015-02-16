@@ -44,7 +44,7 @@
     # include "csps-system.h"
 
 /*
-    Source - CSPS topology interpreter
+    Source - CSPS topology parser
  */
 
     lp_Enum_t lp_system(
@@ -209,7 +209,7 @@
     }
 
 /*
-    Source - CSPS topology origin detection
+    Source - CSPS origin directive parser
  */
 
     lp_Enum_t lp_system_origin( 
