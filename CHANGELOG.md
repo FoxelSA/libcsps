@@ -2,6 +2,7 @@
 
 ### Beta 0.4
 
+- `Revised` : Improving main topology parser for topology directive addition
 - `Revised` : Incomming logs-files path method for more Elphel hardware
 - `Added` : Topology file path building method
 
