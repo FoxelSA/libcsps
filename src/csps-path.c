@@ -81,9 +81,19 @@
             /* Select logs */
             if ( strcmp( lpLogs, LP_DEVICE_EYESIS4PI_LOG ) == 0 ) {
 
-                /* Compose dside log path */
+                /* Compose incomming log path */
                 sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpRoot );
 
+            }
+
+        } else if ( strcmp( lpDevice, LP_DEVICE_NC353L369IMUGPS ) == 0 ) {
+
+            /* Select logs */
+            if ( strcmp( lpLogs, LP_DEVICE_NC353L369IMUGPS_LOG ) == 0 ) {
+
+                /* Compose incomming log path */
+                sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpRoot );
+            
             }
 
         } else if ( strcmp( lpDevice, LP_DEVICE_ADIS16375 ) == 0 ) {
@@ -91,7 +101,7 @@
             /* Select logs */
             if ( strcmp( lpLogs, LP_DEVICE_ADIS16375_LOG ) == 0 ) {
 
-                /* Compose dside log path */
+                /* Compose incomming log path */
                 sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpRoot );
 
             }
@@ -101,7 +111,7 @@
             /* Select logs */
             if ( strcmp( lpLogs, LP_DEVICE_LS20031_LOG ) == 0 ) {
 
-                /* Compose dside log path */
+                /* Compose incomming log path */
                 sprintf( lpPath, "%s/" LP_PATH_DEVICES "/eyesis4pi/fpga-log.bin", lpRoot );
 
             }

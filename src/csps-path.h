@@ -110,7 +110,9 @@
 
     /*! \brief CSPS devices path
      *  
-     *  Build standard path for DSIDE module logs and returns it in char array.
+     *  Builds standard path for device incomming logs and returns it in the
+     *  provided string. The path building is based on camera model and the
+     *  desired log.
      *  
      *  \param  lpBase   Path to CSPS directory structure
      *  \param  lpDevice Device CSPS-tag
@@ -131,8 +133,8 @@
 
     /*! \brief CSPS streams path
      *  
-     *  Build standard path for module streams components and returns it in char
-     *  array.
+     *  Builds standard path for stream component and returns it in the provided
+     *  string.
      *  
      *  \param  lpBase      Path to CSPS directory structure
      *  \param  lpTag       Device CSPS-tag

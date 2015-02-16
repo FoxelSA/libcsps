@@ -69,8 +69,9 @@
 
     /* Define camera device */
     # define LP_DEVICE_EYESIS4PI            "EYESIS4PI"
-    # define LP_DEVICE_EYESIS4PI_LOG        "E4P-LOG-FPGA"
+    # define LP_DEVICE_EYESIS4PI_LOG        "LOG-FPGA"
     # define LP_DEVICE_NC353L369IMUGPS      "NC353L-369-IMU-GPS"
+    # define LP_DEVICE_NC353L369IMUGPS_LOG  LP_DEVICE_EYESIS4PI_LOG
 
     /* Define Eyesis4pi specific constants */
     # define LP_DEVICE_EYESIS4PI_RECLEN     lp_Size_s( 64 )

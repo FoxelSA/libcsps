@@ -1,5 +1,10 @@
 ## Changelog
 
+### Beta 0.4
+
+- `Revised` : Incomming logs-files path method for more Elphel hardware
+- `Added` : Topology file path building method
+
 ### Release 0.3 (February 12, 2015)
 
 - `Added` : Simple error management on streams
