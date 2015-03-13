@@ -49,13 +49,15 @@
 
     lp_Enum_t lp_system(
 
-        lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpFile
+        lp_Char_t const * const lpPath
 
     ) {
 
         /* String token variables */
         lp_Char_t lpToken[LP_STR_LEN] = LP_STR_INI;
+
+        /* Topology file variables */
+        lp_Char_t lpTopo[LP_STR_LEN] = { '\0' };
 
         /* Device stack variables */
         lp_Stack_t lpStack;
@@ -64,7 +66,7 @@
         FILE * lpStream = NULL;
 
         /* Create input stream handle */
-        if ( ( lpStream = fopen( lpFile, "r" ) ) == NULL ) {
+        if ( ( lpStream = fopen( lp_path_topology( lpPath, lpTopo ), "r" ) ) == NULL ) {
 
             /* Return failure state */
             return( LP_FALSE );
@@ -100,6 +102,11 @@
 
                         /* Specific device parser */
                         lp_system_device_imu( & lpStack, lpStream );
+
+                    } else {
+
+                        /* Search end token */
+                        while ( strcmp( lp_system_token( lpStream, lpToken ), LP_SYSTEM_END ) != 0 );
 
                     }
 
@@ -180,6 +187,11 @@
 
                         /* Specific module parser */
                         lp_system_module_imu_AACEX( lpPath, & lpStack, lpStream );
+
+                    } else {
+
+                        /* Search end token */
+                        while ( strcmp( lp_system_token( lpStream, lpToken ), LP_SYSTEM_END ) != 0 );
 
                     }
 

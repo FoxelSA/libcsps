@@ -47,6 +47,24 @@
     Source - CSPS query - Still - Handle
  */
 
+    lp_Still_t lp_query_still_origin(
+
+        lp_Char_t const * const lpPath
+
+    ) {
+
+        /* Device and module switch variables */
+        lp_Char_t lpDevice[LP_STR_LEN] = { '\0' };
+        lp_Char_t lpModule[LP_STR_LEN] = { '\0' };
+
+        /* Retrieve device and module switch through origin directive */
+        lp_system_origin( lpPath, LP_SYSTEM_STILL, lpDevice, lpModule );
+
+        /* Create and return orientation query structure */
+        return( lp_query_still_create( lpPath, lpDevice, lpModule ) );
+
+    }
+
     lp_Still_t lp_query_still_create(
 
         lp_Char_t const * const lpPath,
