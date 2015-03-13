@@ -128,6 +128,19 @@
     Header - Function prototypes
  */
 
+    /*! \brief CSPS query - Trigger - Handle
+     *
+     *  This function is a front-end to lp_query_trigger_create function that
+     *  takes advantage of the origin directive introduced in topology. It 
+     *  retrieves the module and device name and tag declared as camera-trigger
+     *  origin in the topology in order to call lp_query_trigger_create. It then
+     *  returns the created query structure on camera-trigger.
+     *
+     *  \param  lpPath Path to CSPS structure
+     *
+     *  \return Created query structure
+     */
+
     lp_Trigger_t lp_query_trigger_origin(
 
         lp_Char_t const * const lpPath
