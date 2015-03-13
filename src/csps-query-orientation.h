@@ -63,6 +63,7 @@
 
     # include "csps.h"
     # include "csps-stream.h"
+    # include "csps-system.h"
     # include "csps-timestamp.h"
     # include "inter-all.h"
 
@@ -176,6 +177,15 @@
 /*
     Header - Function prototypes
  */
+
+    /*! \brief CSPS query - Orientation - Handle
+     */
+
+    lp_Orient_t lp_query_orientation_origin(
+
+        lp_Char_t const * const lpPath
+
+    );
 
     /*! \brief CSPS query - Orientation - Handle
      *
