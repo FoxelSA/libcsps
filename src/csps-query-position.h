@@ -63,6 +63,7 @@
 
     # include "csps.h"
     # include "csps-stream.h"
+    # include "csps-system.h"
     # include "csps-timestamp.h"
     # include "inter-all.h"
 
@@ -140,6 +141,12 @@
 /*
     Header - Function prototypes
  */
+
+    lp_Position_t lp_query_position_origin(
+
+        lp_Char_t const * const lpPath
+
+    );
 
     /*! \brief CSPS query - Position - Handle
      *
