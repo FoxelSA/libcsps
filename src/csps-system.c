@@ -49,7 +49,8 @@
 
     lp_Enum_t lp_system(
 
-        lp_Char_t const * const lpPath
+        lp_Char_t const * const lpPath,
+        lp_Size_t         const lpLevel
 
     ) {
 
@@ -120,73 +121,73 @@
                     if ( strcmp( lpToken, LP_DEVICE_TYPE_CAM "-" LP_CAM_DSIDE_MOD ) == 0 ) {
 
                         /* Specific module parser */
-                        lp_system_module_cam_DSIDE( lpPath, & lpStack, lpStream );
+                        lp_system_module_cam_DSIDE( lpPath, & lpStack, lpLevel, lpStream );
 
                     } else
                     if ( strcmp( lpToken, LP_DEVICE_TYPE_GPS "-" LP_GPS_DSIDE_MOD ) == 0 ) {
 
                         /* Specific module parser */
-                        lp_system_module_gps_DSIDE( lpPath, & lpStack, lpStream );
+                        lp_system_module_gps_DSIDE( lpPath, & lpStack, lpLevel, lpStream );
 
                     } else
                     if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_DSIDE_MOD ) == 0 ) {
 
                         /* Specific module parser */
-                        lp_system_module_imu_DSIDE( lpPath, & lpStack, lpStream );
+                        lp_system_module_imu_DSIDE( lpPath, & lpStack, lpLevel, lpStream );
 
                     } else
                     if ( strcmp( lpToken, LP_DEVICE_TYPE_GPS "-" LP_GPS_SGNQF_MOD ) == 0 ) {
 
                         /* Specific module parser */
-                        lp_system_module_gps_SGNQF( lpPath, & lpStack, lpStream );
+                        lp_system_module_gps_SGNQF( lpPath, & lpStack, lpLevel, lpStream );
 
                     } else
                     if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_SGSFR_MOD ) == 0 ) {
 
                         /* Specific module parser */
-                        lp_system_module_imu_SGSFR( lpPath, & lpStack, lpStream );
+                        lp_system_module_imu_SGSFR( lpPath, & lpStack, lpLevel, lpStream );
 
                     } else
                     if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_SGNDN_MOD ) == 0 ) {
 
                         /* Specific module parser */
-                        lp_system_module_imu_SGNDN( lpPath, & lpStack, lpStream );
+                        lp_system_module_imu_SGNDN( lpPath, & lpStack, lpLevel, lpStream );
 
                     } else
                     if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_ISRAD_MOD ) == 0 ) {
 
                         /* Specific module parser */
-                        lp_system_module_imu_ISRAD( lpPath, & lpStack, lpStream );
+                        lp_system_module_imu_ISRAD( lpPath, & lpStack, lpLevel, lpStream );
 
                     } else
                     if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_IOISA_MOD ) == 0 ) {
 
                         /* Specific module parser */
-                        lp_system_module_imu_IOISA( lpPath, & lpStack, lpStream );
+                        lp_system_module_imu_IOISA( lpPath, & lpStack, lpLevel, lpStream );
 
                     } else
                     if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_IOBMA_MOD ) == 0 ) {
 
                         /* Specific module parser */
-                        lp_system_module_imu_IOBMA( lpPath, & lpStack, lpStream );
+                        lp_system_module_imu_IOBMA( lpPath, & lpStack, lpLevel, lpStream );
 
                     } else
                     if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_IFICR_MOD ) == 0 ) {
 
                         /* Specific module parser */
-                        lp_system_module_imu_IFICR( lpPath, & lpStack, lpStream );
+                        lp_system_module_imu_IFICR( lpPath, & lpStack, lpLevel, lpStream );
 
                     } else
                     if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_IFETI_MOD ) == 0 ) {
 
                         /* Specific module parser */
-                        lp_system_module_imu_IFETI( lpPath, & lpStack, lpStream );
+                        lp_system_module_imu_IFETI( lpPath, & lpStack, lpLevel, lpStream );
 
                     } else
                     if ( strcmp( lpToken, LP_DEVICE_TYPE_IMU "-" LP_IMU_AACEX_MOD ) == 0 ) {
 
                         /* Specific module parser */
-                        lp_system_module_imu_AACEX( lpPath, & lpStack, lpStream );
+                        lp_system_module_imu_AACEX( lpPath, & lpStack, lpLevel, lpStream );
 
                     } else {
 

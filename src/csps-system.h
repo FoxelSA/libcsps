@@ -103,7 +103,8 @@
 
     lp_Enum_t lp_system(
 
-        lp_Char_t const * const lpPath
+        lp_Char_t const * const lpPath,
+        lp_Size_t         const lpLevel
 
     );
 

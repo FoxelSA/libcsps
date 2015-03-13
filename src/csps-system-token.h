@@ -97,6 +97,7 @@
     /* Define topology keywords - parameters */
     # define LP_SYSTEM_DINPUT       LP_SYSTEM_DEVICE
     # define LP_SYSTEM_MINPUT       LP_SYSTEM_MODULE
+    # define LP_SYSTEM_LEVEL        "level"
     # define LP_SYSTEM_BLOCK        "block"
     # define LP_SYSTEM_IFREQ        "freq-in"
     # define LP_SYSTEM_DFREQ        "freq-out"

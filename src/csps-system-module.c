@@ -51,6 +51,7 @@
 
         lp_Char_t  const * const lpPath,
         lp_Stack_t       * const lpStack,
+        lp_Size_t          const lpLevel,
         FILE             * const lpStream
 
     ) {
@@ -64,6 +65,9 @@
         /* Block size variables */
         lp_Size_t lpBlock = lp_Size_s( 1024 );
 
+        /* Execution level variables */
+        lp_Size_t lprLevel = lp_Size_s( 1 );
+
         /* Camera descriptor pointer */
         lp_Camera_t * lpCamera = NULL;
 
@@ -74,6 +78,15 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_LEVEL ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Convert parameter token */
+                lprLevel = lp_Size_r( lpToken[0] );
+
+            } else
             if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
@@ -96,8 +109,8 @@
         /* Search device by tag */
         if ( ( lpCamera = ( lp_Camera_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_CAM, lpToken[1] ) ) != NULL ) {
 
-            /* Module operation */
-            lp_cam_mod_DSIDE( lpPath, * lpCamera, lpBlock );
+            /* Module operation according to execution level */
+            if ( lprLevel >= lpLevel ) lp_cam_mod_DSIDE( lpPath, * lpCamera, lpBlock );
 
         }
 
@@ -107,6 +120,7 @@
 
         lp_Char_t  const * const lpPath,
         lp_Stack_t       * const lpStack,
+        lp_Size_t          const lpLevel,
         FILE             * const lpStream
 
     ) {
@@ -120,6 +134,9 @@
         /* Block size variables */
         lp_Size_t lpBlock = lp_Size_s( 1024 );
 
+        /* Execution level variables */
+        lp_Size_t lprLevel = lp_Size_s( 1 );
+
         /* Camera descriptor pointer */
         lp_GPS_t * lpGPS = NULL;
 
@@ -130,6 +147,15 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_LEVEL ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Convert parameter token */
+                lprLevel = lp_Size_r( lpToken[0] );
+
+            } else
             if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
@@ -152,8 +178,8 @@
         /* Search device by tag */
         if ( ( lpGPS = ( lp_GPS_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_GPS, lpToken[1] ) ) != NULL ) {
 
-            /* Module operation */
-            lp_gps_mod_DSIDE( lpPath, * lpGPS, lpBlock );
+            /* Module operation according to execution level */
+            if ( lprLevel >= lpLevel ) lp_gps_mod_DSIDE( lpPath, * lpGPS, lpBlock );
 
         }
 
@@ -163,6 +189,7 @@
 
         lp_Char_t  const * const lpPath,
         lp_Stack_t       * const lpStack,
+        lp_Size_t          const lpLevel,
         FILE             * const lpStream
 
     ) {
@@ -176,6 +203,9 @@
         /* Block size variables */
         lp_Size_t lpBlock = lp_Size_s( 1024 );
 
+        /* Execution level variables */
+        lp_Size_t lprLevel = lp_Size_s( 1 );
+
         /* Camera descriptor pointer */
         lp_IMU_t * lpIMU = NULL;
 
@@ -186,6 +216,15 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_LEVEL ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Convert parameter token */
+                lprLevel = lp_Size_r( lpToken[0] );
+
+            } else
             if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
@@ -208,8 +247,8 @@
         /* Search device by tag */
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
-            /* Module operation */
-            lp_imu_mod_DSIDE( lpPath, * lpIMU, lpBlock );
+            /* Module operation according to execution level */
+            if ( lprLevel >= lpLevel ) lp_imu_mod_DSIDE( lpPath, * lpIMU, lpBlock );
 
         }
 
@@ -223,6 +262,7 @@
 
         lp_Char_t  const * const lpPath,
         lp_Stack_t       * const lpStack,
+        lp_Size_t          const lpLevel,
         FILE             * const lpStream
 
     ) {
@@ -232,6 +272,9 @@
 
         /* Device and module stacking variables */
         lp_Size_t lpStacking = lp_Size_s( 1 );
+
+        /* Execution level variables */
+        lp_Size_t lprLevel = lp_Size_s( 1 );
 
         /* Camera descriptor pointer */
         lp_GPS_t * lpGPS = NULL;
@@ -243,6 +286,15 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_LEVEL ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Convert parameter token */
+                lprLevel = lp_Size_r( lpToken[0] );
+
+            } else
             if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
@@ -262,8 +314,8 @@
         /* Search device by tag */
         if ( ( lpGPS = ( lp_GPS_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_GPS, lpToken[1] ) ) != NULL ) {
 
-            /* Module operation */
-            lp_gps_mod_SGNQF( lpPath, * lpGPS, lpToken[2] );
+            /* Module operation according to execution level */
+            if ( lprLevel >= lpLevel ) lp_gps_mod_SGNQF( lpPath, * lpGPS, lpToken[2] );
 
         }
 
@@ -277,6 +329,7 @@
 
         lp_Char_t  const * const lpPath,
         lp_Stack_t       * const lpStack,
+        lp_Size_t          const lpLevel,
         FILE             * const lpStream
 
     ) {
@@ -291,6 +344,9 @@
         lp_Real_t lpiFreq = lp_Real_s( 1.0 );
         lp_Real_t lpdFreq = lp_Real_s( 1.0 );
 
+        /* Execution level variables */
+        lp_Size_t lprLevel = lp_Size_s( 1 );
+
         /* Camera descriptor pointer */
         lp_IMU_t * lpIMU = NULL;
 
@@ -301,6 +357,15 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_LEVEL ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Convert parameter token */
+                lprLevel = lp_Size_r( lpToken[0] );
+
+            } else
             if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
@@ -338,8 +403,8 @@
         /* Search device by tag */
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
-            /* Module operation */
-            lp_imu_mod_SGSFR( lpPath, * lpIMU, lpToken[2], lpiFreq, lpdFreq );
+            /* Module operation according to execution level */
+            if ( lprLevel >= lpLevel ) lp_imu_mod_SGSFR( lpPath, * lpIMU, lpToken[2], lpiFreq, lpdFreq );
 
         }
 
@@ -349,6 +414,7 @@
 
         lp_Char_t  const * const lpPath,
         lp_Stack_t       * const lpStack,
+        lp_Size_t          const lpLevel,
         FILE             * const lpStream
 
     ) {
@@ -358,6 +424,9 @@
 
         /* Device and module stacking variables */
         lp_Size_t lpStacking = lp_Size_s( 1 );
+
+        /* Execution level variables */
+        lp_Size_t lprLevel = lp_Size_s( 1 );
 
         /* Camera descriptor pointer */
         lp_IMU_t * lpIMU = NULL;
@@ -369,6 +438,15 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_LEVEL ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Convert parameter token */
+                lprLevel = lp_Size_r( lpToken[0] );
+
+            } else
             if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
@@ -388,8 +466,8 @@
         /* Search device by tag */
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
-            /* Module operation */
-            lp_imu_mod_SGNDN( lpPath, * lpIMU, lpToken[2] );
+            /* Module operation according to execution level */
+            if ( lprLevel >= lpLevel ) lp_imu_mod_SGNDN( lpPath, * lpIMU, lpToken[2] );
 
         }
 
@@ -399,6 +477,7 @@
 
         lp_Char_t  const * const lpPath,
         lp_Stack_t       * const lpStack,
+        lp_Size_t          const lpLevel,
         FILE             * const lpStream
 
     ) {
@@ -417,6 +496,9 @@
         lp_Real_t lpgTrigger = lp_Real_s( 0.05 );
         lp_Real_t lpaTrigger = lp_Real_s( 0.50 );
 
+        /* Execution level variables */
+        lp_Size_t lprLevel = lp_Size_s( 1 );
+
         /* Camera descriptor pointer */
         lp_IMU_t * lpIMU = NULL;
 
@@ -427,6 +509,15 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_LEVEL ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Convert parameter token */
+                lprLevel = lp_Size_r( lpToken[0] );
+
+            } else
             if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
@@ -482,8 +573,8 @@
         /* Search device by tag */
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
-            /* Module operation */
-            lp_imu_mod_ISRAD( lpPath, * lpIMU, lpToken[2], lpLimit, lpAccum, lpgTrigger, lpaTrigger );
+            /* Module operation according to execution level */
+            if ( lprLevel >= lpLevel ) lp_imu_mod_ISRAD( lpPath, * lpIMU, lpToken[2], lpLimit, lpAccum, lpgTrigger, lpaTrigger );
 
         }
 
@@ -493,6 +584,7 @@
 
         lp_Char_t  const * const lpPath,
         lp_Stack_t       * const lpStack,
+        lp_Size_t          const lpLevel,
         FILE             * const lpStream
 
     ) {
@@ -502,6 +594,9 @@
 
         /* Device and module stacking variables */
         lp_Size_t lpStacking = lp_Size_s( 1 );
+
+        /* Execution level variables */
+        lp_Size_t lprLevel = lp_Size_s( 1 );
 
         /* Camera descriptor pointer */
         lp_IMU_t * lpIMU = NULL;
@@ -513,6 +608,15 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_LEVEL ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Convert parameter token */
+                lprLevel = lp_Size_r( lpToken[0] );
+
+            } else
             if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
@@ -532,8 +636,8 @@
         /* Search device by tag */
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
-            /* Module operation */
-            lp_imu_mod_IOISA( lpPath, * lpIMU, lpToken[2], lpToken[3] );
+            /* Module operation according to execution level */
+            if ( lprLevel >= lpLevel ) lp_imu_mod_IOISA( lpPath, * lpIMU, lpToken[2], lpToken[3] );
 
         }
 
@@ -543,6 +647,7 @@
 
         lp_Char_t  const * const lpPath,
         lp_Stack_t       * const lpStack,
+        lp_Size_t          const lpLevel,
         FILE             * const lpStream
 
     ) {
@@ -552,6 +657,9 @@
 
         /* Device and module stacking variables */
         lp_Size_t lpStacking = lp_Size_s( 1 );
+
+        /* Execution level variables */
+        lp_Size_t lprLevel = lp_Size_s( 1 );
 
         /* Camera descriptor pointer */
         lp_IMU_t * lpIMU = NULL;
@@ -564,6 +672,15 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_LEVEL ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Convert parameter token */
+                lprLevel = lp_Size_r( lpToken[0] );
+
+            } else
             if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
@@ -584,8 +701,8 @@
         if ( ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) && 
              ( ( lpGPS = ( lp_GPS_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_GPS, lpToken[2] ) ) != NULL ) ) {
 
-            /* Module operation */
-            lp_imu_mod_IOBMA( lpPath, * lpIMU, * lpGPS, lpToken[3] );
+            /* Module operation according to execution level */
+            if ( lprLevel >= lpLevel ) lp_imu_mod_IOBMA( lpPath, * lpIMU, * lpGPS, lpToken[3] );
 
         }
 
@@ -595,6 +712,7 @@
 
         lp_Char_t  const * const lpPath,
         lp_Stack_t       * const lpStack,
+        lp_Size_t          const lpLevel,
         FILE             * const lpStream
 
     ) {
@@ -610,6 +728,9 @@
         lp_Real_t lpyAngle = lp_Real_s( 0.0 );
         lp_Real_t lpzAngle = lp_Real_s( 0.0 );
 
+        /* Execution level variables */
+        lp_Size_t lprLevel = lp_Size_s( 1 );
+
         /* Camera descriptor pointer */
         lp_IMU_t * lpIMU = NULL;
 
@@ -620,6 +741,15 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_LEVEL ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Convert parameter token */
+                lprLevel = lp_Size_r( lpToken[0] );
+
+            } else
             if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
@@ -666,8 +796,8 @@
         /* Search device by tag */
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
-            /* Module operation */
-            lp_imu_mod_IFICR( lpPath, * lpIMU, lpToken[2], lpxAngle, lpyAngle, lpzAngle );
+            /* Module operation according to execution level */
+            if ( lprLevel >= lpLevel ) lp_imu_mod_IFICR( lpPath, * lpIMU, lpToken[2], lpxAngle, lpyAngle, lpzAngle );
 
         }
 
@@ -677,6 +807,7 @@
 
         lp_Char_t  const * const lpPath,
         lp_Stack_t       * const lpStack,
+        lp_Size_t          const lpLevel,
         FILE             * const lpStream
 
     ) {
@@ -686,6 +817,9 @@
 
         /* Device and module stacking variables */
         lp_Size_t lpStacking = lp_Size_s( 1 );
+
+        /* Execution level variables */
+        lp_Size_t lprLevel = lp_Size_s( 1 );
 
         /* Camera descriptor pointer */
         lp_IMU_t * lpIMU = NULL;
@@ -697,6 +831,15 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_LEVEL ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Convert parameter token */
+                lprLevel = lp_Size_r( lpToken[0] );
+
+            } else
             if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
@@ -716,8 +859,8 @@
         /* Search device by tag */
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
-            /* Module operation */
-            lp_imu_mod_IFETI( lpPath, * lpIMU, lpToken[2], lpToken[3] );
+            /* Module operation according to execution level */
+            if ( lprLevel >= lpLevel ) lp_imu_mod_IFETI( lpPath, * lpIMU, lpToken[2], lpToken[3] );
 
         }
 
@@ -727,6 +870,7 @@
 
         lp_Char_t  const * const lpPath,
         lp_Stack_t       * const lpStack,
+        lp_Size_t          const lpLevel,
         FILE             * const lpStream
 
     ) {
@@ -736,6 +880,9 @@
 
         /* Device and module stacking variables */
         lp_Size_t lpStacking = lp_Size_s( 1 );
+
+        /* Execution level variables */
+        lp_Size_t lprLevel = lp_Size_s( 1 );
 
         /* Camera descriptor pointer */
         lp_IMU_t * lpIMU = NULL;
@@ -747,6 +894,15 @@
             lp_system_token( lpStream, lpToken[0] );
 
             /* String token analysis */
+            if ( strcmp( lpToken[0], LP_SYSTEM_LEVEL ) == 0 ) {
+
+                /* Read parameter token */
+                lp_system_token( lpStream, lpToken[0] );
+
+                /* Convert parameter token */
+                lprLevel = lp_Size_r( lpToken[0] );
+
+            } else
             if ( strcmp( lpToken[0], LP_SYSTEM_DINPUT ) == 0 ) {
 
                 /* Read parameter token */
@@ -766,8 +922,8 @@
         /* Search device by tag */
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
-            /* Module operation */
-            lp_imu_mod_AACEX( lpPath, * lpIMU, lpToken[2], lpToken[3] );
+            /* Module operation according to execution level */
+            if ( lprLevel >= lpLevel ) lp_imu_mod_AACEX( lpPath, * lpIMU, lpToken[2], lpToken[3] );
 
         }
 
