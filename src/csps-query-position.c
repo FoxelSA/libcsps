@@ -187,7 +187,7 @@
     lp_Void_t lp_query_position(
 
         lp_Position_t       * const lpPosition,
-        lp_Time_t   const         lpTime
+        lp_Time_t     const         lpTime
 
     ) {
 
