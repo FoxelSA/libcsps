@@ -103,6 +103,11 @@
                         /* Specific device parser */
                         lp_system_device_imu( & lpStack, lpStream );
 
+                    } else {
+
+                        /* Search end token */
+                        while ( strcmp( lp_system_token( lpStream, lpToken ), LP_SYSTEM_END ) != 0 );
+
                     }
 
                 } else
@@ -182,6 +187,11 @@
 
                         /* Specific module parser */
                         lp_system_module_imu_AACEX( lpPath, & lpStack, lpStream );
+
+                    } else {
+
+                        /* Search end token */
+                        while ( strcmp( lp_system_token( lpStream, lpToken ), LP_SYSTEM_END ) != 0 );
 
                     }
 
