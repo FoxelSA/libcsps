@@ -90,18 +90,20 @@
     /*! \brief CSPS topology interpreter
      *
      *  This function is the main library topology parser. Its role is to read
-     *  provided topology file in order to create device structures stack and
-     *  to call the CSPS module in the desired way. This function is then the
-     *  main interface between CSPS process and the client softwares.
+     *  the topology file in order to create device structures stack and to call 
+     *  the CSPS module in the desired way.
+     *
+     *  The provided path has to point a correctly formatted directory structure
+     *  according to CSPS standards.
      *
      *  \param lpPath Path to CSPS directory structure
-     *  \param lpFile Path to topology file
+     *
+     *  \return Returns topology parsing status
      */
 
     lp_Enum_t lp_system(
 
-        lp_Char_t const * const lpPath,
-        lp_Char_t const * const lpFile
+        lp_Char_t const * const lpPath
 
     );
 
