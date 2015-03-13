@@ -96,7 +96,8 @@
      *  The provided path has to point a correctly formatted directory structure
      *  according to CSPS standards.
      *
-     *  \param lpPath Path to CSPS directory structure
+     *  \param  lpPath  Path to CSPS directory structure
+     *  \param  lpLevel Execution level
      *
      *  \return Returns topology parsing status
      */
