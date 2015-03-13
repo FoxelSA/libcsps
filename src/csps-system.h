@@ -96,6 +96,11 @@
      *  The provided path has to point a correctly formatted directory structure
      *  according to CSPS standards.
      *
+     *  The provided execution level is used to define if a given module engaged
+     *  through the topology has to be called. This allows to specify sequences
+     *  of topology that are executed at different time within the same topology
+     *  file.
+     *
      *  \param  lpPath  Path to CSPS directory structure
      *  \param  lpLevel Execution level
      *
