@@ -179,6 +179,16 @@
  */
 
     /*! \brief CSPS query - Orientation - Handle
+     *
+     *  This function is a front-end to lp_query_orientation_create function 
+     *  that takes advantage of the origin directive introduced in topology. It 
+     *  retrieves the module and device name and tag declared as orientation 
+     *  origin in the topology in order to call lp_query_orientation_create. It
+     *  then returns the created query structure on orientation.
+     *
+     *  \param  lpPath Path to CSPS structure
+     *
+     *  \return Created query structure
      */
 
     lp_Orient_t lp_query_orientation_origin(
