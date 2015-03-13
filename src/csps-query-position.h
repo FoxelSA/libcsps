@@ -147,8 +147,8 @@
      *  This function is a front-end to lp_query_position_create function that
      *  takes advantage of the origin directive introduced in topology. It 
      *  retrieves the module and device name and tag declared as position origin 
-     *  in the topology in order to call lp_query_orientation_create. It then
-     *  returns the created query structure on orientation.
+     *  in the topology in order to call lp_query_position_create. It then
+     *  returns the created query structure on position.
      *
      *  \param  lpPath Path to CSPS structure
      *
