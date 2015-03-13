@@ -2,9 +2,11 @@
 
 ### Beta 0.4
 
-- `Added` : Query on origin directive to simplify result access
-- `Revised` : Improving main topology parser for topology directive addition
-- `Revised` : Incomming logs-files path method for more Elphel hardware
+- `Revised` : Improvement of topology parser safety
+- `Added` : Query structures creation simplification through **origin** directives
+- `Added` : Query on **origin** directive to simplify result access
+- `Revised` : Improvement of topology parser for topology directive addition
+- `Revised` : Improvement of logs-files path method for more Elphel hardware
 - `Added` : Topology file path building method
 
 ### Release 0.3 (February 12, 2015)
