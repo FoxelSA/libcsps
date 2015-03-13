@@ -110,7 +110,7 @@
         if ( ( lpCamera = ( lp_Camera_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_CAM, lpToken[1] ) ) != NULL ) {
 
             /* Module operation according to execution level */
-            if ( lprLevel >= lpLevel ) lp_cam_mod_DSIDE( lpPath, * lpCamera, lpBlock );
+            if ( lprLevel <= lpLevel ) lp_cam_mod_DSIDE( lpPath, * lpCamera, lpBlock );
 
         }
 
@@ -179,7 +179,7 @@
         if ( ( lpGPS = ( lp_GPS_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_GPS, lpToken[1] ) ) != NULL ) {
 
             /* Module operation according to execution level */
-            if ( lprLevel >= lpLevel ) lp_gps_mod_DSIDE( lpPath, * lpGPS, lpBlock );
+            if ( lprLevel <= lpLevel ) lp_gps_mod_DSIDE( lpPath, * lpGPS, lpBlock );
 
         }
 
@@ -248,7 +248,7 @@
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation according to execution level */
-            if ( lprLevel >= lpLevel ) lp_imu_mod_DSIDE( lpPath, * lpIMU, lpBlock );
+            if ( lprLevel <= lpLevel ) lp_imu_mod_DSIDE( lpPath, * lpIMU, lpBlock );
 
         }
 
@@ -315,7 +315,7 @@
         if ( ( lpGPS = ( lp_GPS_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_GPS, lpToken[1] ) ) != NULL ) {
 
             /* Module operation according to execution level */
-            if ( lprLevel >= lpLevel ) lp_gps_mod_SGNQF( lpPath, * lpGPS, lpToken[2] );
+            if ( lprLevel <= lpLevel ) lp_gps_mod_SGNQF( lpPath, * lpGPS, lpToken[2] );
 
         }
 
@@ -404,7 +404,7 @@
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation according to execution level */
-            if ( lprLevel >= lpLevel ) lp_imu_mod_SGSFR( lpPath, * lpIMU, lpToken[2], lpiFreq, lpdFreq );
+            if ( lprLevel <= lpLevel ) lp_imu_mod_SGSFR( lpPath, * lpIMU, lpToken[2], lpiFreq, lpdFreq );
 
         }
 
@@ -467,7 +467,7 @@
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation according to execution level */
-            if ( lprLevel >= lpLevel ) lp_imu_mod_SGNDN( lpPath, * lpIMU, lpToken[2] );
+            if ( lprLevel <= lpLevel ) lp_imu_mod_SGNDN( lpPath, * lpIMU, lpToken[2] );
 
         }
 
@@ -574,7 +574,7 @@
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation according to execution level */
-            if ( lprLevel >= lpLevel ) lp_imu_mod_ISRAD( lpPath, * lpIMU, lpToken[2], lpLimit, lpAccum, lpgTrigger, lpaTrigger );
+            if ( lprLevel <= lpLevel ) lp_imu_mod_ISRAD( lpPath, * lpIMU, lpToken[2], lpLimit, lpAccum, lpgTrigger, lpaTrigger );
 
         }
 
@@ -637,7 +637,7 @@
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation according to execution level */
-            if ( lprLevel >= lpLevel ) lp_imu_mod_IOISA( lpPath, * lpIMU, lpToken[2], lpToken[3] );
+            if ( lprLevel <= lpLevel ) lp_imu_mod_IOISA( lpPath, * lpIMU, lpToken[2], lpToken[3] );
 
         }
 
@@ -702,7 +702,7 @@
              ( ( lpGPS = ( lp_GPS_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_GPS, lpToken[2] ) ) != NULL ) ) {
 
             /* Module operation according to execution level */
-            if ( lprLevel >= lpLevel ) lp_imu_mod_IOBMA( lpPath, * lpIMU, * lpGPS, lpToken[3] );
+            if ( lprLevel <= lpLevel ) lp_imu_mod_IOBMA( lpPath, * lpIMU, * lpGPS, lpToken[3] );
 
         }
 
@@ -797,7 +797,7 @@
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation according to execution level */
-            if ( lprLevel >= lpLevel ) lp_imu_mod_IFICR( lpPath, * lpIMU, lpToken[2], lpxAngle, lpyAngle, lpzAngle );
+            if ( lprLevel <= lpLevel ) lp_imu_mod_IFICR( lpPath, * lpIMU, lpToken[2], lpxAngle, lpyAngle, lpzAngle );
 
         }
 
@@ -860,7 +860,7 @@
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation according to execution level */
-            if ( lprLevel >= lpLevel ) lp_imu_mod_IFETI( lpPath, * lpIMU, lpToken[2], lpToken[3] );
+            if ( lprLevel <= lpLevel ) lp_imu_mod_IFETI( lpPath, * lpIMU, lpToken[2], lpToken[3] );
 
         }
 
@@ -923,7 +923,7 @@
         if ( ( lpIMU = ( lp_IMU_t * ) lp_system_stack_bytag( lpStack, LP_SYSTEM_TYPE_IMU, lpToken[1] ) ) != NULL ) {
 
             /* Module operation according to execution level */
-            if ( lprLevel >= lpLevel ) lp_imu_mod_AACEX( lpPath, * lpIMU, lpToken[2], lpToken[3] );
+            if ( lprLevel <= lpLevel ) lp_imu_mod_AACEX( lpPath, * lpIMU, lpToken[2], lpToken[3] );
 
         }
 
