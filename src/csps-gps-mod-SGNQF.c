@@ -66,6 +66,7 @@
         lp_Real_t * lpGPSlat = NULL;
         lp_Real_t * lpGPSlon = NULL;
         lp_Real_t * lpGPSalt = NULL;
+        lp_Real_t * lpGPSgdh = NULL;
         lp_Time_t * lpGPSsyn = NULL;
         lp_Time_t * lpGPSqbf = NULL;
 
@@ -76,6 +77,7 @@
             lpGPSlat = lp_stream_read( lpPath, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpSize );
             lpGPSlon = lp_stream_read( lpPath, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpSize );
             lpGPSalt = lp_stream_read( lpPath, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpSize );
+            lpGPSgdh = lp_stream_read( lpPath, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_GDH, sizeof( lp_Real_t ) * lpSize );
             lpGPSqbf = lp_stream_read( lpPath, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_TAG, sizeof( lp_Time_t ) * lpSize );
             lpGPSsyn = lp_stream_read( lpPath, lpGPS.dvTag, lpGPSmod, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpSize );
 
@@ -89,6 +91,7 @@
                     lpGPSlat[lpIndex] = lpGPSlat[lpParse];
                     lpGPSlon[lpIndex] = lpGPSlon[lpParse];
                     lpGPSalt[lpIndex] = lpGPSalt[lpParse];
+                    lpGPSgdh[lpIndex] = lpGPSgdh[lpParse];
                     lpGPSsyn[lpIndex] = lpGPSsyn[lpParse];
                     lpGPSqbf[lpIndex] = lpGPSqbf[lpParse];
 
@@ -103,6 +106,7 @@
             lp_stream_write( lpPath, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_LAT, lpGPSlat, sizeof( lp_Real_t ) * lpIndex );
             lp_stream_write( lpPath, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_LON, lpGPSlon, sizeof( lp_Real_t ) * lpIndex );
             lp_stream_write( lpPath, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_ALT, lpGPSalt, sizeof( lp_Real_t ) * lpIndex );
+            lp_stream_write( lpPath, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_GDH, lpGPSgdh, sizeof( lp_Real_t ) * lpIndex );
             lp_stream_write( lpPath, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_TAG, lpGPSqbf, sizeof( lp_Time_t ) * lpIndex );
             lp_stream_write( lpPath, lpGPS.dvTag, LP_GPS_SGNQF_MOD, LP_STREAM_CPN_SYN, lpGPSsyn, sizeof( lp_Time_t ) * lpIndex );
 
@@ -110,6 +114,7 @@
             lpGPSlat = lp_stream_delete( lpGPSlat );
             lpGPSlon = lp_stream_delete( lpGPSlon );
             lpGPSalt = lp_stream_delete( lpGPSalt );
+            lpGPSgdh = lp_stream_delete( lpGPSgdh );
             lpGPSsyn = lp_stream_delete( lpGPSsyn );
             lpGPSqbf = lp_stream_delete( lpGPSqbf );
 
