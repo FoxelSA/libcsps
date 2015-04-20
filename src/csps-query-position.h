@@ -99,6 +99,8 @@
      *  Longitude in decimal degrees
      *  \var lp_Query_Position_struct::qrAltitude
      *  Altitude in meters above mean see level
+     *  \var lp_Query_Position_struct::qrGeoid
+     *  Geoid height in meters above WGS84 ellipsoid
      *  \var lp_Query_Position_struct::qrWeak
      *  Interpolation parameter distance to nearest physical measure
      *  \var lp_Query_Position_struct::qrSize
@@ -109,6 +111,8 @@
      *  Stream component for longitude
      *  \var lp_Query_Position_struct::qrStrmAlt
      *  Stream component for altitude
+     *  \var lp_Query_Position_struct::qrStrmGdh
+     *  Stream component for geoid height
      *  \var lp_Query_Position_struct::qrStrmSyn
      *  Stream component for synchronization
      */
@@ -123,6 +127,7 @@
         lp_Real_t   qrLatitude;
         lp_Real_t   qrLongitude;
         lp_Real_t   qrAltitude;
+        lp_Real_t   qrGeoid;
 
         /* Extrapolation weakness */
         lp_Real_t   qrWeak;
@@ -134,6 +139,7 @@
         lp_Real_t * qrStrmLat;
         lp_Real_t * qrStrmLon;
         lp_Real_t * qrStrmAlt;
+        lp_Real_t * qrStrmGdh;
         lp_Time_t * qrStrmSyn;
 
     } lp_Position_t;
@@ -257,7 +263,7 @@
     lp_Void_t lp_query_position(
 
         lp_Position_t       * const lpPosition,
-        lp_Time_t   const         lpTime
+        lp_Time_t     const         lpTime
 
     );
 

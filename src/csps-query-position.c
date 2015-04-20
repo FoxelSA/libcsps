@@ -84,6 +84,7 @@
         lpPosition.qrLatitude  = lp_Real_s( 0.0 );
         lpPosition.qrLongitude = lp_Real_s( 0.0 );
         lpPosition.qrAltitude  = lp_Real_s( 0.0 );
+        lpPosition.qrGeoid     = lp_Real_s( 0.0 );
 
         /* Initialize query complements */
         lpPosition.qrWeak = lp_Enum_s( 0 );
@@ -95,6 +96,7 @@
         lpPosition.qrStrmLat = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_LAT, sizeof( lp_Real_t ) * lpPosition.qrSize );
         lpPosition.qrStrmLon = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_LON, sizeof( lp_Real_t ) * lpPosition.qrSize );
         lpPosition.qrStrmAlt = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_ALT, sizeof( lp_Real_t ) * lpPosition.qrSize );
+        lpPosition.qrStrmGdh = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_GDH, sizeof( lp_Real_t ) * lpPosition.qrSize );
         lpPosition.qrStrmSyn = lp_stream_read( lpPath, lpTag, lpModule, LP_STREAM_CPN_SYN, sizeof( lp_Time_t ) * lpPosition.qrSize );
 
         /* Verify structure state */
@@ -103,6 +105,7 @@
             ( lpPosition.qrStrmLat == NULL ) || 
             ( lpPosition.qrStrmLon == NULL ) ||
             ( lpPosition.qrStrmAlt == NULL ) ||
+            ( lpPosition.qrStrmGdh == NULL ) ||
             ( lpPosition.qrStrmSyn == NULL )
 
         ) {
@@ -139,6 +142,7 @@
         lpPosition->qrStrmLat = lp_stream_delete( lpPosition->qrStrmLat );
         lpPosition->qrStrmLon = lp_stream_delete( lpPosition->qrStrmLon );
         lpPosition->qrStrmAlt = lp_stream_delete( lpPosition->qrStrmAlt );
+        lpPosition->qrStrmGdh = lp_stream_delete( lpPosition->qrStrmGdh );
         lpPosition->qrStrmSyn = lp_stream_delete( lpPosition->qrStrmSyn );
 
     }
@@ -255,6 +259,15 @@
                         /* Standard derivatives */
                         ( lpPosition->qrStrmAlt[lpSample2] - lpPosition->qrStrmAlt[lpSample0] ) / lpDT0T2,
                         ( lpPosition->qrStrmAlt[lpSample3] - lpPosition->qrStrmAlt[lpSample1] ) / lpDT1T3
+
+                    );
+
+                    /* Compute interpolation values - Altitude */
+                    lpPosition->qrGeoid = li_cubic( LI_CUBIC_FLAG_SET, lpDT1TI, lp_Real_s( 0.0 ), lpDT1T2, lpPosition->qrStrmGdh[lpSample1], lpPosition->qrStrmGdh[lpSample2],
+
+                        /* Standard derivatives */
+                        ( lpPosition->qrStrmGdh[lpSample2] - lpPosition->qrStrmGdh[lpSample0] ) / lpDT0T2,
+                        ( lpPosition->qrStrmGdh[lpSample3] - lpPosition->qrStrmGdh[lpSample1] ) / lpDT1T3
 
                     );
 
