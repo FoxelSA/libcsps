@@ -181,8 +181,6 @@
 
                                 );
 
-                                fprintf( stderr, "%s - %lf %lf\n", lpSentence, * ( lpGPSalt + lpIndex ), * ( lpGPSgdh + lpIndex ) );
-
                                 /* Retrieve FPGA timestamp */
                                 lpGPSsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
 
