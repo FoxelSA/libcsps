@@ -54,6 +54,7 @@
         lp_Real_t       * const lpLat,
         lp_Real_t       * const lpLon,
         lp_Real_t       * const lpAlt,
+        lp_Real_t       * const lpGdh,
         lp_SQBF_t       * const lpQBF
 
     ) {
@@ -180,6 +181,13 @@
 
                         /* Verify return buffer and assign */
                         if ( lpAlt != NULL ) { sscanf( lpSentence + lpIndex + lp_Size_s( 1 ), "%" lp_Real_i, lpAlt ); }
+
+                    } break;
+
+                    case ( lp_Size_s( 10 ) ) : {
+
+                        /* Verify return buffer and assign */
+                        if ( lpGdh != NULL ) { sscanf( lpSentence + lpIndex + lp_Size_s( 1 ), "%" lp_Real_i, lpGdh ); }
 
                     } break;
 

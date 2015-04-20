@@ -76,6 +76,7 @@
     # define LP_STREAM_CPN_LAT  "lat"
     # define LP_STREAM_CPN_LON  "lon"
     # define LP_STREAM_CPN_ALT  "alt"
+    # define LP_STREAM_CPN_GDH  "gdh"
 
     /* Define stream component - Acceleration */
     # define LP_STREAM_CPN_ACX  "acx"

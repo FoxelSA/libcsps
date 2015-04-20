@@ -96,6 +96,7 @@
         lp_Char_t lpGPSlatp[LP_STR_LEN] = LP_STR_INI;
         lp_Char_t lpGPSlonp[LP_STR_LEN] = LP_STR_INI;
         lp_Char_t lpGPSaltp[LP_STR_LEN] = LP_STR_INI;
+        lp_Char_t lpGPSgdhp[LP_STR_LEN] = LP_STR_INI;
         lp_Char_t lpGPSqbfp[LP_STR_LEN] = LP_STR_INI;
         lp_Char_t lpGPSsynp[LP_STR_LEN] = LP_STR_INI;
 
@@ -104,6 +105,7 @@
         lp_File_t lpGPSlatf = NULL;
         lp_File_t lpGPSlonf = NULL;
         lp_File_t lpGPSaltf = NULL;
+        lp_File_t lpGPSgdhf = NULL;
         lp_File_t lpGPSqbff = NULL;
         lp_File_t lpGPSsynf = NULL;
 
@@ -111,6 +113,7 @@
         lp_Real_t * lpGPSlat = NULL;
         lp_Real_t * lpGPSlon = NULL;
         lp_Real_t * lpGPSalt = NULL;
+        lp_Real_t * lpGPSgdh = NULL;
         lp_SQBF_t * lpGPSqbf = NULL;
         lp_Time_t * lpGPSsyn = NULL;
 
@@ -121,6 +124,7 @@
         lp_path_stream( lpPath, lpGPS.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LAT, lpGPSlatp );
         lp_path_stream( lpPath, lpGPS.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_LON, lpGPSlonp );
         lp_path_stream( lpPath, lpGPS.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_ALT, lpGPSaltp );
+        lp_path_stream( lpPath, lpGPS.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_GDH, lpGPSgdhp );
         lp_path_stream( lpPath, lpGPS.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_TAG, lpGPSqbfp );
         lp_path_stream( lpPath, lpGPS.dvTag, LP_GPS_DSIDE_MOD, LP_STREAM_CPN_SYN, lpGPSsynp );
 
@@ -129,6 +133,7 @@
         lpGPSlatf = fopen( lpGPSlatp, "wb" );
         lpGPSlonf = fopen( lpGPSlonp, "wb" );
         lpGPSaltf = fopen( lpGPSaltp, "wb" );
+        lpGPSgdhf = fopen( lpGPSgdhp, "wb" );
         lpGPSqbff = fopen( lpGPSqbfp, "wb" );
         lpGPSsynf = fopen( lpGPSsynp, "wb" );
 
@@ -136,6 +141,7 @@
         lpGPSlat = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpBlock );
         lpGPSlon = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpBlock );
         lpGPSalt = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpBlock );
+        lpGPSgdh = ( lp_Real_t * ) lp_stream_create( sizeof( lp_Real_t ) * lpBlock );
         lpGPSqbf = ( lp_Time_t * ) lp_stream_create( sizeof( lp_SQBF_t ) * lpBlock );
         lpGPSsyn = ( lp_Time_t * ) lp_stream_create( sizeof( lp_Time_t ) * lpBlock );
 
@@ -170,9 +176,12 @@
                                     lpGPSlat + lpIndex,
                                     lpGPSlon + lpIndex,
                                     lpGPSalt + lpIndex,
+                                    lpGPSgdh + lpIndex,
                                     lpGPSqbf + lpIndex
 
                                 );
+
+                                fprintf( stderr, "%s - %lf %lf\n", lpSentence, * ( lpGPSalt + lpIndex ), * ( lpGPSgdh + lpIndex ) );
 
                                 /* Retrieve FPGA timestamp */
                                 lpGPSsyn[lpIndex] = lp_timestamp( ( lp_Void_t * ) lpRec );
@@ -202,6 +211,7 @@
                 fwrite( lpGPSlat, sizeof( lp_Real_t ) * lpIndex, 1, lpGPSlatf );
                 fwrite( lpGPSlon, sizeof( lp_Real_t ) * lpIndex, 1, lpGPSlonf );
                 fwrite( lpGPSalt, sizeof( lp_Real_t ) * lpIndex, 1, lpGPSaltf );
+                fwrite( lpGPSgdh, sizeof( lp_Real_t ) * lpIndex, 1, lpGPSgdhf );
                 fwrite( lpGPSqbf, sizeof( lp_SQBF_t ) * lpIndex, 1, lpGPSqbff );
                 fwrite( lpGPSsyn, sizeof( lp_Time_t ) * lpIndex, 1, lpGPSsynf );
 
@@ -214,6 +224,7 @@
         fclose( lpGPSlatf );
         fclose( lpGPSlonf );
         fclose( lpGPSaltf );
+        fclose( lpGPSgdhf );
         fclose( lpGPSqbff );
         fclose( lpGPSsynf );
 
@@ -221,6 +232,7 @@
         lpGPSlat = lp_stream_delete( lpGPSlat );
         lpGPSlon = lp_stream_delete( lpGPSlon );
         lpGPSalt = lp_stream_delete( lpGPSalt );
+        lpGPSalt = lp_stream_delete( lpGPSgdh );
         lpGPSqbf = lp_stream_delete( lpGPSqbf );
         lpGPSsyn = lp_stream_delete( lpGPSsyn );
 

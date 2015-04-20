@@ -117,6 +117,8 @@
      *  \param lpLon        Longitude, in degrees, output parameter
      *  \param lpAlt        Altitude, in meters above mean see level, output
      *                      parameter
+     *  \param lpGdh        Height of geoid, in meters above WGS84 ellipsoid,
+     *                      output paramater
      *  \param lpQBF        Quality buffer output parameter
      */
 
@@ -127,6 +129,7 @@
         lp_Real_t       * const lpLat,
         lp_Real_t       * const lpLon,
         lp_Real_t       * const lpAlt,
+        lp_Real_t       * const lpGdh,
         lp_SQBF_t       * const lpQBF
 
     );
